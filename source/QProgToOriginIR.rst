@@ -2,7 +2,7 @@
 =======================
 ----
 
-通过该功能模块，你可以解析通过QPanda2构建的量子程序，将其中包含的量子比特信息以及量子逻辑门操作信息提取出来，得到按固定格式存储的OriginIR指令集。
+通过该功能模块，你可以解析通过QPanda2构建的量子程序，将其中包含的量子比特信息以及量子逻辑门操作信息提取出来，得到按固定格式存储的OriginIR。
 
 .. _本源量子计算云平台官网: https://qcode.qubitonline.cn/QCode/index.html
 
@@ -11,9 +11,6 @@
 OriginIR介绍
 >>>>>>>>>>>>>>>>>
 ----
-
-OriginIR是本源量子推出的量子指令集,是一种运行在量子计算机上的一组基本指令，它可以直接控制量子计算机的运行。
-OriginIR是从一个很低级的层次直接描述量子程序、量子算法，它的地位类似于经典计算机中的硬件描述语言或者汇编语言。
 
 OriginIR是基于QPanda的量子程序中间表示，对QPanda各种特性的支持有非常重要的作用。OriginIR不仅可以表示绝大部分量子逻辑门类型，表示针对量子线路的dagger操作，为量子线路添加控制比特，还可以支持QPanda独有的Qif、QWhile，可以实现量子程序内嵌经典程序。
 
@@ -63,7 +60,7 @@ QPanda2提供了OriginIR转换工具接口 ``to_originir`` 该接口使用非常
 >>>>>>>>>>>>>>
 ----
 
-下面的例程通过简单的接口调用演示了量子程序转化OriginIR指令集的过程
+下面的例程通过简单的接口调用演示了量子程序转化OriginIR的过程
 
     .. code-block:: python
 
@@ -94,7 +91,7 @@ QPanda2提供了OriginIR转换工具接口 ``to_originir`` 该接口使用非常
 
  - 然后调用 ``CreateEmptyQProg`` 构建量子程序
 
- - 最后调用接口 ``to_originir`` 输出OriginIR指令集并用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用接口 ``to_originir`` 输出OriginIR字符串，并用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
