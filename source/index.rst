@@ -48,6 +48,7 @@ QPanda 2由本源量子软件团队开发和维护。自2018年起，QPanda 2依
     QGateCounter
     QProgClockCycle
     QProgStored
+    OriginIRToQProg
 
 量子程序转换
 -------------
@@ -56,7 +57,7 @@ QPanda 2由本源量子软件团队开发和维护。自2018年起，QPanda 2依
     :maxdepth: 2
     
     QProgToQASM
-    QProgToQRunes
+    QProgToOriginIR
     QProgToQuil
 
 算法组件
