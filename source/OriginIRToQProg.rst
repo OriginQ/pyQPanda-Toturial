@@ -57,6 +57,28 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
 
  - 最后调用 ``to_originir`` 接口，把量子程序转为OriginIR指令集，通过比较输入的OriginIR指令集和转换生成的OriginIR指令集是否相同，判断OriginIR指令集是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
 
-    
+运行结果如下：
+
+    .. code-block:: c
+
+        QINIT 4
+        CREG 4
+        DAGGER
+        X q[1]
+        X q[2]
+        CONTROL q[1],q[2]
+        RY q[0],(1.047198)
+        ENCONTROL
+        ENDDAGGER
+        MEASURE q[0],c[0]
+        QIF c[0]
+        H q[1]
+        ELSE
+        H q[2]
+        RZ q[2],(2.356194)
+        CU q[2],q[3],(3.141593,4.712389,-1.570796,1.570796)
+        CNOT q[2],q[1]
+        ENDQIF
+        
  .. note:: 对于暂不支持的操作类型，可能会在OriginIR转化成量子程序的过程中发生错误。
 
