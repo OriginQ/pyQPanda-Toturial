@@ -16,7 +16,7 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
 >>>>>>>
 ----
 
-接下来通过简单的接口调用演示了OriginIR指令集转化量子程序的过程
+接下来通过简单的接口调用演示了OriginIR转化量子程序的过程
 
     .. code-block:: python
     
@@ -52,13 +52,13 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
 
 
 具体步骤如下:
- - 首先编写OriginIR指令集，并将其保存到指定文件中
+ - 首先编写OriginIR，并将其保存到指定文件中
  
  - 接着在主程序中用 ``init_quantum_machine`` 初始化一个量子虚拟机对象，用于管理后续一系列行为
 
- - 然后调用 ``originir_to_qprog`` 接口将OriginIR指令集转换为量子程序
+ - 然后调用 ``originir_to_qprog`` 接口将OriginIR转换为量子程序
 
- - 最后调用 ``to_originir`` 接口，把量子程序转为OriginIR指令集，通过比较输入的OriginIR指令集和转换生成的OriginIR指令集是否相同，判断OriginIR指令集是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用 ``to_originir`` 接口，把量子程序转为OriginIR，通过比较输入和生成的OriginIR是否相同，判断OriginIR是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
