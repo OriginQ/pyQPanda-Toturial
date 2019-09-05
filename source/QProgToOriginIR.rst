@@ -13,10 +13,9 @@ OriginIR介绍
 ----
 
 OriginIR是本源量子推出的量子指令集,是一种运行在量子计算机上的一组基本指令，它可以直接控制量子计算机的运行。
-OriginIR可以从一个很低级的层次直接描述量子程序、量子算法，它的地位类似于经典计算机中的硬件描述语言或者汇编语言。
+OriginIR是从一个很低级的层次直接描述量子程序、量子算法，它的地位类似于经典计算机中的硬件描述语言或者汇编语言。
 
-特别要提到的是，OriginIR的设计目的是为了直接操纵量子计算机的动作，在一个OriginIR程序中，只包含了量子计算机一次执行所需要进行的动作。
-也就是说，这一组指令集不包含任何逻辑判断。语言所不具备的变量系统，都将以更高层次的量子语言去封装。
+OriginIR是基于QPanda的量子程序中间表示，对QPanda各种特性的支持有非常重要的作用。OriginIR不仅可以表示绝大部分量子逻辑门类型，表示针对量子线路的dagger操作，为量子线路添加控制比特，还可以支持QPanda独有的Qif、QWhile，可以实现量子程序内嵌经典程序。
 
 OriginIR的语法十分直接，基本采用了“指令+参数列表”的设计方法，一个简单的量子程序的例子如下所示:
 
@@ -58,7 +57,7 @@ OriginIR语句中部分关键词作用如下：
 
 关于OriginIR更多详细信息的介绍、使用与体验请参考 `本源量子计算云平台官网`_
 
-QPanda2提供了OriginIR转换工具接口 ``to_OriginIR`` 该接口使用非常简单，具体可参考下方示例程序。
+QPanda2提供了OriginIR转换工具接口 ``to_originir`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
 >>>>>>>>>>>>>>
@@ -75,8 +74,8 @@ QPanda2提供了OriginIR转换工具接口 ``to_OriginIR`` 该接口使用非常
             qlist = machine.qAlloc_many(4)
             clist = machine.cAlloc_many(4)
             
-            prog = QProg()
-            prog_cir = QCircuit()
+            prog = CreateEmptyQProg()
+            prog_cir = CreateEmptyCircuit()
             prog_cir.insert(Y(qlist[2])).insert(H(qlist[2])).insert(CNOT(qlist[0],qlist[1]))
             qwhile = CreateWhileProg(clist[1], prog_cir)
             
@@ -93,7 +92,7 @@ QPanda2提供了OriginIR转换工具接口 ``to_OriginIR`` 该接口使用非常
 
  - 接着用 ``qAlloc_many`` 和 ``cAlloc_many`` 初始化量子比特与经典寄存器数目
 
- - 然后调用 ``QProg`` 构建量子程序
+ - 然后调用 ``CreateEmptyQProg`` 构建量子程序
 
  - 最后调用接口 ``to_originir`` 输出OriginIR指令集并用 ``destroy_quantum_machine`` 释放系统资源
 
