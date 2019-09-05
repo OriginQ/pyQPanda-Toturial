@@ -15,12 +15,14 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
 实例
 >>>>>>>
 ----
+
 接下来通过简单的接口调用演示了OriginIR指令集转化量子程序的过程
 
     .. code-block:: python
     
         if __name__=="__main__":
             machine = init_quantum_machine(QMachineType.CPU)
+            
             f = open('testfile.txt', mode='w',encoding='utf-8')  
             f.write("""QINIT 4
                 CREG 4
@@ -42,6 +44,7 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
                 """)
         
             f.close()
+            
             prog_trans = originir_to_qprog("testfile.txt", machine)
             print(to_originir(prog_trans,machine))
 
