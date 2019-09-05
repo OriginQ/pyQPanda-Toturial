@@ -48,7 +48,6 @@ QPanda 2由本源量子软件团队开发和维护。自2018年起，QPanda 2依
     QGateCounter
     QProgClockCycle
     QProgStored
-    QCircuitInfo
 
 量子程序转换
 -------------
