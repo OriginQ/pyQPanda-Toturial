@@ -4,8 +4,6 @@ OriginIR转化为量子程序
 
 通过该功能模块，你可以解析OriginIR文本文件，将其中的量子逻辑门操作信息提取出来，得到QPanda 2内部可操作的量子程序。
 
-.. _本源量子计算云平台官网: https://qcode.qubitonline.cn/QCode/index.html
-
 .. _OriginIR介绍: https://qpanda-toturial.readthedocs.io/zh/latest/QProgToOriginIR.html#id2
 
 OriginIR
@@ -13,8 +11,6 @@ OriginIR
 ----
 
 OriginIR的书写格式规范与例程可以参考量子程序转化OriginIR模块中的 `OriginIR介绍`_
-
-关于OriginIR更多详细信息的介绍、使用与体验请参考 `本源量子计算云平台官网`_
 
 QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接口使用非常简单，具体可参考下方示例程序。
 
