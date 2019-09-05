@@ -60,7 +60,7 @@ is_match_topology：判断量子逻辑门是否符合量子比特拓扑结构。
 
 从以上示例可以看出，list有5个量子比特，量子比特拓扑图如下：
 
-.. figure:: ./images/My_Qubits.png
+.. figure:: ./images/ibmq_ourense.png
    :alt:
 
 CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量子比特是相连的，所以得到的结果为true。
@@ -189,3 +189,4 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
     qgate = pq.H(q[1]))
     result = pq.is_supported_qgate_type(qgate);
 
+.. note:: 用户可通过如下链接地址获取默认配置文件 QPandaConfig.xml, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。默认配置文件获取地址：https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.xml
