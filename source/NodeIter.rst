@@ -28,6 +28,54 @@ NodeIter，是PyPanda对外提供的QProg程序遍历迭代器，我们可以通
 
     type = iter.get_node_type()
     
+通过迭代器构造QProg
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.PROG_NODE == type:
+        prog = pq.QProg(iter)
+
+通过迭代器构造量子线路QCircuit
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.CIRCUIT_NODE == type:
+        cir = pq.QCircuit(iter)
+        
+通过迭代器构造QGate
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.GATE_NODE == type:
+        gate = pq.QGate(iter)
+        
+通过迭代器构造QIfProg
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.QIF_START_NODE == type:
+        if_prog = pq.QIfProg(iter)
+        
+通过迭代器构造QWhileProg
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.WHILE_START_NODE == type:
+        while_prog = pq.QWhileProg(iter)
+        
+通过迭代器构造QMeasure
+
+::
+
+    type = iter.get_node_type()
+    if pq.NodeType.MEASURE_GATE == type:
+        measure_gate = pq.QMeasure(iter)
+        
 实例
 >>>>>>>>>>
 ----
