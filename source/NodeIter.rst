@@ -2,7 +2,7 @@ NodeIter
 ==============
 ----
 
-NodeIter，是PyPanda对外提供的QProg程序遍历迭代器，我们可以通过NodeIter很方便的管理我们的量子程序。
+NodeIter，是pyQPanda对外提供的QProg程序遍历迭代器，我们可以通过NodeIter很方便的管理我们的量子程序。
 
 接口介绍
 >>>>>>>>>>>>>>>>
