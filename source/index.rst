@@ -51,6 +51,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     QProgClockCycle
     QProgStored
     OriginIRToQProg
+    NodeIter
     QCircuitInfo
 
 量子程序转换
