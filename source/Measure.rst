@@ -44,7 +44,7 @@
             .insert(CNOT(qubits[0], qubits[1]))\
             .insert(CNOT(qubits[1], qubits[2]))\
             .insert(CNOT(qubits[2], qubits[3]))\
-            .insert(Measure(qubits[0], cbits[0]))
+            .insert(measure(qubits[0], cbits[0]))
 
         result = directly_run(prog)
 

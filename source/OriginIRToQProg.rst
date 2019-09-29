@@ -12,7 +12,7 @@ OriginIR
 
 OriginIR的书写格式规范与例程可以参考量子程序转化OriginIR模块中的 `OriginIR介绍`_
 
-QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接口使用非常简单，具体可参考下方示例程序。
+QPanda 2提供了OriginIR文件转换工具接口 ``transform_originir_to_qprog`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
 >>>>>>>
@@ -47,8 +47,8 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
         
             f.close()
             
-            prog_trans = originir_to_qprog("testfile.txt", machine)
-            print(to_originir(prog_trans,machine))
+            prog_trans = transform_originir_to_qprog("testfile.txt", machine)
+            print(transform_qprog_to_originir(prog_trans,machine))
 
             destroy_quantum_machine(machine)
 
@@ -58,9 +58,9 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
  
  - 接着在主程序中用 ``init_quantum_machine`` 初始化一个量子虚拟机对象，用于管理后续一系列行为
 
- - 然后调用 ``originir_to_qprog`` 接口将OriginIR转换为量子程序
+ - 然后调用 ``transform_originir_to_qprog`` 接口将OriginIR转换为量子程序
 
- - 最后调用 ``to_originir`` 接口，把量子程序转为OriginIR，通过比较输入和生成的OriginIR是否相同，判断OriginIR是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用 ``transform_qprog_to_originir`` 接口，把量子程序转为OriginIR，通过比较输入和生成的OriginIR是否相同，判断OriginIR是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
@@ -87,3 +87,8 @@ QPanda 2提供了OriginIR文件转换工具接口 ``originir_to_qprog`` 该接�
         
  .. note:: 对于暂不支持的操作类型，可能会在OriginIR转化成量子程序的过程中发生错误。
 
+
+.. warning:: 
+        新版本中接口名有所调整，旧接口 ``originir_to_qprog`` 将由 ``transform_originir_to_qprog`` 替代。\
+      
+        ``originir_to_qprog`` 将于下版本去除，请读者知悉。

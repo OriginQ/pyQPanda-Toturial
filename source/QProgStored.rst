@@ -18,11 +18,11 @@
         prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
             .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
 
-然后调用 ``get_bin_str`` 接口实现序列化
+然后调用 ``transform_qprog_to_binary`` 接口实现序列化
 
     .. code-block:: python
           
-        prog_str = get_bin_str(prog, qvm)
+        prog_str = transform_qprog_to_binary(prog, qvm)
 
 .. note:: 量子程序序列化是两个过程， 首先将量子程序序列化为二进制， 然后再将二进制以base64的格式编码，转化为字符串。
 
@@ -42,7 +42,7 @@
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
 
-            prog_str = get_bin_str(prog, qvm)
+            prog_str = transform_qprog_to_binary(prog, qvm)
             print(prog_str)
             qvm.finalize()
 
@@ -53,3 +53,9 @@
 
         AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA    
 
+
+
+.. warning:: 
+        新版本中接口名有所调整，旧接口 ``get_bin_data`` 将由 ``transform_qprog_to_binary`` 替代。\
+      
+        ``get_bin_data`` 将于下版本去除，请读者知悉。
