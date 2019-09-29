@@ -20,7 +20,7 @@
 
     .. code-block:: python
 
-        machine.initQVM()
+        machine.init_qvm()
 
         q = machine.qAlloc_many(10)
         c = machine.cAlloc_many(10)
@@ -138,3 +138,21 @@
 
             8.377581799501766e-05
 
+    - ``pmeasure_sub_set(prog,state_index)`` ,使用示例
+
+        .. code-block:: python
+
+            state_index = ["0000000000","0000000001"]
+            result = machine.pmeasure_sub_set(prog,state_index)
+            print(result)
+
+        结果输出如下：
+
+        .. code-block:: python
+
+            [8.377581799501766e-05 , 8.377581799501766e-05]
+
+        .. warning::
+
+            1. 部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
+            2. 部分振幅量子虚拟机会保留 ``pmeasure_sub_set(prog,state_index)`` 接口。

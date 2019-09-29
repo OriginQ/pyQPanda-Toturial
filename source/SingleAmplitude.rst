@@ -24,7 +24,7 @@
 
     .. code-block:: python
 
-        machine.initQVM()
+        machine.init_qvm()
 
         q = machine.qAlloc_many(10)
         c = machine.cAlloc_many(10)
@@ -153,3 +153,8 @@
         .. code-block:: python
 
             0.0016670938348397613
+
+        .. warning::
+
+            1. 部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
+            2. 单振幅虚拟机会保留 ``pmeasure_bin_index(string)`` 以及 ``pmeasure_dec_index(string)`` 接口，并且它们的使用方式会略微调整。
