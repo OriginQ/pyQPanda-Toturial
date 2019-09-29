@@ -138,12 +138,12 @@
 
             8.377581799501766e-05
 
-    - ``pmeasure_sub_set(prog,state_index)`` ,使用示例
+    - ``pmeasure_subset(prog,state_index)`` ,使用示例
 
         .. code-block:: python
 
             state_index = ["0000000000","0000000001"]
-            result = machine.pmeasure_sub_set(prog,state_index)
+            result = machine.pmeasure_subset(prog,state_index)
             print(result)
 
         结果输出如下：
@@ -155,4 +155,4 @@
         .. warning::
 
             1. 部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
-            2. 部分振幅量子虚拟机会保留 ``pmeasure_sub_set(prog,state_index)`` 接口。
+            2. 部分振幅量子虚拟机会保留 ``pmeasure_subset(prog,state_index)`` 接口。
