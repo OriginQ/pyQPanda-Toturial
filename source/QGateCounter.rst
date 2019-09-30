@@ -20,11 +20,11 @@
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
             .insert(Measure(qubits[0], cbits[0]))
 
-然后调用接口 ``count_gate`` 统计量子逻辑门的个数，
+然后调用接口 ``get_qgate_num`` 统计量子逻辑门的个数，
 
     .. code-block:: python
           
-        number = count_gate(prog)
+        number = get_qgate_num(prog)
 
 .. note::  统计 ``QCircuit`` 、 ``QWhileProg`` 、``QIfProg`` 中量子逻辑门的个数和 ``QProg`` 类似。
 
@@ -45,7 +45,7 @@
                 insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
                 .insert(Measure(qubits[0], cbits[0]))
 
-            number = count_gate(prog)
+            number = get_qgate_num(prog)
             print("QGate number: " + str(number))
 
             qvm.finalize()
@@ -58,3 +58,7 @@
         QGate number: 5
 
     
+.. warning:: 
+        新版本中接口名有所调整，旧接口 ``count_gate`` 将由 ``get_qgate_num`` 替代。\
+      
+        ``count_gate`` 将于下版本去除，请读者知悉。

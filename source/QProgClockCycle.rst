@@ -33,7 +33,7 @@
 接口介绍
 --------------
 
-``QProgClockCycle`` 类是pyQPanda提供的一个将量子程序转换为Quil指令集的工具类，我们先用pyQPanda构建一个量子程序：
+我们先用pyQPanda构建一个量子程序：
 
     .. code-block:: python
           
@@ -41,11 +41,11 @@
         prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
             .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
 
-然后调用 ``get_clock_cycle`` 接口得到量子程序的时钟周期
+然后调用 ``get_qprog_clock_cycle`` 接口得到量子程序的时钟周期
 
     .. code-block:: python
           
-        clock_cycle = get_clock_cycle(qvm, prog)
+        clock_cycle = get_qprog_clock_cycle(qvm, prog)
 
 实例
 --------------
@@ -65,15 +65,19 @@
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
 
-            clock_cycle = get_clock_cycle(qvm, prog)
+            clock_cycle = get_qprog_clock_cycle(prog, qvm)
             print("clock_cycle: " + str(clock_cycle))
-            qvm.finalize()
+            destroy_quantum_machine(qvm)
 
 
 运行结果：
 
     .. code-block:: c
 
-        clock_cycle: 14
+        clock_cycle: 12
 
     
+.. warning:: 
+        新版本中接口名有所调整，旧接口 ``get_clock_cycle`` 将由 ``get_qprog_clock_cycle`` 替代。\
+      
+        ``get_clock_cycle`` 将于下版本去除，请读者知悉。

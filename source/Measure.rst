@@ -19,7 +19,7 @@
 
     .. code-block:: python
 
-        measure = measure(qubit, cbit); 
+        measure = Measure(qubit, cbit); 
 
 可以看到Measure接两个参数， 第一个是测量比特，第二个是经典寄存器。
 
