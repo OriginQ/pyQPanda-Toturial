@@ -56,6 +56,7 @@
 
         b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n'  
 
+.. note:: 二进制数据不能直接输出，以base64的编码格式编码，得到相应的字符串
 
 
 .. warning:: 
