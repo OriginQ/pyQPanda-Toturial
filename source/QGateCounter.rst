@@ -18,7 +18,7 @@
         prog = QProg()
         prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-            .insert(measure(qubits[0], cbits[0]))
+            .insert(Measure(qubits[0], cbits[0]))
 
 然后调用接口 ``get_qgate_num`` 统计量子逻辑门的个数，
 
@@ -43,7 +43,7 @@
             prog = QProg()
             prog.insert(X(qubits[0])).insert(Y(qubits[1])).\
                 insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-                .insert(measure(qubits[0], cbits[0]))
+                .insert(Measure(qubits[0], cbits[0]))
 
             number = get_qgate_num(prog)
             print("QGate number: " + str(number))

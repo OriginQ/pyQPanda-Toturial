@@ -90,7 +90,7 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
                 .insert(CNOT(qubits[1], qubits[2])) \
                 .insert(CNOT(qubits[2], qubits[3]))
 
-            prog.insert(circuit).insert(measure(qubits[0], cbits[0]))
+            prog.insert(circuit).insert(Measure(qubits[0], cbits[0]))
             result = run_with_configuration(prog, cbits, 1000)
             print(result)
 

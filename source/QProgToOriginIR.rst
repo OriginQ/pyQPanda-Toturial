@@ -35,7 +35,7 @@ QPanda2提供了OriginIR转换工具接口 ``transform_qprog_to_originir`` 该�
             prog_cir.insert(Y(qlist[2])).insert(H(qlist[2])).insert(CNOT(qlist[0],qlist[1]))
             qwhile = CreateWhileProg(clist[1], prog_cir)
             
-            prog.insert(H(qlist[2])).insert(measure(qlist[1],clist[1])).insert(qwhile)
+            prog.insert(H(qlist[2])).insert(Measure(qlist[1],clist[1])).insert(qwhile)
             
             print(transform_qprog_to_originir(prog,machine))
             

@@ -64,7 +64,7 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
 
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-                .insert(measure(qubits[0], cbits[0]))
+                .insert(Measure(qubits[0], cbits[0]))
 
             qasm = transform_qprog_to_qasm(prog, qvm)
             print(qasm)
@@ -86,7 +86,7 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
 
     .. code-block:: python
 
-        openqasm 2.0;
+        OPENQASM 2.0;
         qreg q[4];
         creg c[4];
         x q[0];
@@ -94,7 +94,7 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
         h q[2];
         rx(3.140000) q[3];
         measure q[0] -> c[0];
-
+        ibmq_qasm_simulator
 
 .. warning:: 
         新版本中接口名有所调整，旧接口 ``to_QASM`` 将由 ``transform_qprog_to_qasm`` 替代。\

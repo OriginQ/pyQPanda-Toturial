@@ -18,7 +18,7 @@
         prog = QProg()
         prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-            .insert(measure(qubits[0], cbits[0]))
+            .insert(Measure(qubits[0], cbits[0]))
 
 然后调用 ``get_unsupport_qgate_num`` 统计不支持量子逻辑门的个数
 
@@ -45,7 +45,7 @@
             prog = QProg()
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-            .insert(measure(qubits[0], cbits[0]))
+            .insert(Measure(qubits[0], cbits[0]))
 
             single_gates = ["H"]        #支持的单量子逻辑门类型
             double_gates = ["CNOT"]     #支持的双量子逻辑门类型

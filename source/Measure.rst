@@ -19,7 +19,7 @@
 
     .. code-block:: python
 
-        measure = measure(qubit, cbit); 
+        measure = Measure(qubit, cbit); 
 
 可以看到Measure接两个参数， 第一个是测量比特，第二个是经典寄存器。
 
@@ -44,7 +44,7 @@
             .insert(CNOT(qubits[0], qubits[1]))\
             .insert(CNOT(qubits[1], qubits[2]))\
             .insert(CNOT(qubits[2], qubits[3]))\
-            .insert(measure(qubits[0], cbits[0]))
+            .insert(Measure(qubits[0], cbits[0]))
 
         result = directly_run(prog)
 

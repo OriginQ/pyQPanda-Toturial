@@ -37,7 +37,7 @@
         prog = QProg()
         prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
             .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-            .insert(measure(qubits[0], cbits[0]))
+            .insert(Measure(qubits[0], cbits[0]))
 
 然后调用 ``transform_qprog_to_quil`` 接口实现转化
 
@@ -60,7 +60,7 @@
 
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-                .insert(measure(qubits[0], cbits[0]))
+                .insert(Measure(qubits[0], cbits[0]))
 
             quil = transform_qprog_to_quil(prog, qvm)
             print(quil)
