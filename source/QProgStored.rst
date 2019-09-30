@@ -32,7 +32,8 @@
     .. code-block:: python
     
         from pyqpanda import *
-
+        import base64
+        
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
             qubits = qvm.qAlloc_many(4)
@@ -42,16 +43,18 @@
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
 
-            prog_str = transform_qprog_to_binary(prog, qvm)
-            print(prog_str)
-            qvm.finalize()
+            binary_data = transform_qprog_to_binary(prog, qvm)
+            
+            str_base64_data =  base64.encodebytes(bytes(binary_data))
+            print(str_base64_data)
+            destroy_quantum_machine(qvm)
 
         
 运行结果：
 
     .. code-block:: python
 
-        AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA    
+        b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n'  
 
 
 

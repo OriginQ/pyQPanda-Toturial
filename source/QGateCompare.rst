@@ -58,6 +58,6 @@
 
     .. code-block:: python
 
-        unsupport QGate num: 4
+        unsupport QGate num: 3
 
     

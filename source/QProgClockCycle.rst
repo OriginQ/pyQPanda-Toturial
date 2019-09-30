@@ -65,16 +65,16 @@
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
 
-            clock_cycle = get_qprog_clock_cycle(qvm, prog)
+            clock_cycle = get_qprog_clock_cycle(prog, qvm)
             print("clock_cycle: " + str(clock_cycle))
-            qvm.finalize()
+            destroy_quantum_machine(qvm)
 
 
 运行结果：
 
     .. code-block:: c
 
-        clock_cycle: 14
+        clock_cycle: 12
 
     
 .. warning:: 
