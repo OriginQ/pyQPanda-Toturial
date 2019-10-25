@@ -9,7 +9,7 @@
 .. toctree::
    :maxdepth: 2
    
-   TotalAmplitude
+   FullAmplitude
    NoiseQVM
    SingleAmplitude
    PartialAmplitude
