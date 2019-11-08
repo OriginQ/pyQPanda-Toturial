@@ -42,33 +42,32 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     PMeasure
 
 .. toctree::
-    :caption: 工具
-    :maxdepth: 2
-
-.. toctree::
-    :caption: 信息
+    :caption: 量子程序信息
     :maxdepth: 2
 
     NodeIter
     QGateCounter
     QProgClockCycle
     QCircuitInfo
-    ..QGateValidity
+    QGateValidity
 
 
 .. toctree::
-    :caption: 编译
+    :caption: 编译量子程序
     :maxdepth: 2
     
     QProgToQASM
     QProgToQuil
     QProgStored
-    ..QProgDataParse
+    QProgDataParse
     QProgToQRunes
     QRunesToQProg
     QProgToOriginIR
     OriginIRToQProg
 
+.. toctree::
+    :caption: 实用工具
+    :maxdepth: 2
 
 .. toctree::
     :caption: 组件
