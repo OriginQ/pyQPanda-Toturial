@@ -58,6 +58,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     :maxdepth: 2
     
     QProgToQASM
+    QASMToQProg
     QProgToQuil
     QProgStored
     QProgDataParse
