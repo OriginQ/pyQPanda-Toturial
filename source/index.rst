@@ -49,6 +49,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     QGateCounter
     QProgClockCycle
     QCircuitInfo
+    DrawQProg
     ..QGateValidity
 
 
@@ -70,6 +71,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     :maxdepth: 2
     
     GraphMatch
+    FillQProgByI
 
 .. toctree::
     :caption: 组件
