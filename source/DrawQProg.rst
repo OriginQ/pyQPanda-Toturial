@@ -61,3 +61,33 @@
    :alt:
    
 图中，第二个量子线路图是字符画时序展示效果，每个执行时序间用虚竖线表示。
+
+其他使用
+--------
+
+接口draw_qprog()和draw_qprog_with_clock()的详细参数说明如下：
+::
+    def draw_qprog(prog: pyqpanda.pyQPanda.QProg, itr_start: pyqpanda.pyQPanda.NodeIter = <pyqpanda.pyQPanda.NodeIter>, itr_end: pyqpanda.pyQPanda.NodeIter = <pyqpanda.pyQPanda.NodeIter>)
+    def draw_qprog_with_clock(prog: pyqpanda.pyQPanda.QProg, itr_start: pyqpanda.pyQPanda.NodeIter = <pyqpanda.pyQPanda.NodeIter>, itr_end: pyqpanda.pyQPanda.NodeIter = <pyqpanda.pyQPanda.NodeIter>)
+
+可以看出这两个接口的参数类型一样，都有3个参数，并且后两个参数都为默认参数。这两个参数提供用户可根据实际需要，只打印某个量子程序中，某一区间段的量子线路信息，可以在某些场景下给用户以更灵活的使用方式。具体可参考如下示例代码：
+::
+
+    prog = pq.QCircuit()
+    prog.insert(pq.CU(1, 2, 3, 4, q[0], q[5])).insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[2], q[1], math.pi/2))
+    iter_start = prog.begin()
+    iter_end = iter_start.get_next()
+    iter_end = iter_end.get_next()
+    iter_end = iter_end.get_next()
+    prog.set_dagger(True)
+    print('draw_qprog:')
+    pq.draw_qprog(prog, iter_start, iter_end)
+    print('draw_qprog_with_clock:')
+    pq.draw_qprog_with_clock(prog, iter_start, iter_end)
+    
+上述示例代码只会输出prog的前4个逻辑门节点，用户可自行替换上述代码段到前面的示例程序中，运行查看结果，这里不再赘述。
+
+
+
+
+
