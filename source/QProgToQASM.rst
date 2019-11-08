@@ -44,7 +44,7 @@ QASM(Quantum Assembly Language)是IBM公司提出的量子汇编语言，与 :re
 
 关于QASM更多详细信息的介绍、使用与体验请参考 `IBM Q Experience量子云平台`_
 
-QPanda2提供了QASM转换工具接口 ``to_QASM`` 该接口使用非常简单，具体可参考下方示例程序。
+QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
 >>>>>>>>>>>>>>
@@ -66,7 +66,7 @@ QPanda2提供了QASM转换工具接口 ``to_QASM`` 该接口使用非常简单�
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
                 .insert(Measure(qubits[0], cbits[0]))
 
-            qasm = to_QASM(prog, qvm)
+            qasm = transform_qprog_to_qasm(prog, qvm)
             print(qasm)
             qvm.finalize()
 
@@ -79,14 +79,14 @@ QPanda2提供了QASM转换工具接口 ``to_QASM`` 该接口使用非常简单�
 
  - 然后调用 ``QProg`` 构建量子程序
 
- - 最后调用接口 ``to_QASM`` 输出QASM指令集并用 ``finalize()`` 释放系统资源
+ - 最后调用接口 ``transform_qprog_to_qasm`` 输出QASM指令集并用 ``finalize()`` 释放系统资源
 
 
 运行结果如下：
 
     .. code-block:: python
 
-        openqasm 2.0;
+        OPENQASM 2.0;
         qreg q[4];
         creg c[4];
         x q[0];
@@ -94,3 +94,9 @@ QPanda2提供了QASM转换工具接口 ``to_QASM`` 该接口使用非常简单�
         h q[2];
         rx(3.140000) q[3];
         measure q[0] -> c[0];
+        ibmq_qasm_simulator
+
+.. warning:: 
+        新版本中接口名有所调整，旧接口 ``to_QASM`` 将由 ``transform_qprog_to_qasm`` 替代。\
+      
+        ``to_QASM`` 将于下版本去除，请读者知悉。

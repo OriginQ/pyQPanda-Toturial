@@ -20,63 +20,44 @@
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
             .insert(Measure(qubits[0], cbits[0]))
 
-然后调用  类统计不支持量子逻辑门的个数
+然后调用 ``get_unsupport_qgate_num`` 统计不支持量子逻辑门的个数
 
-    .. code-block:: c
+    .. code-block:: python
           
-
-        std::vector<std::string> single_gates = {"H"}; // 支持的单量子逻辑门类型
-        std::vector<std::string> double_gates = {"CNOT"}; // 支持的双量子逻辑门类型
-        std::vector<std::vector<std::string>> gates = {single_gates, double_gates};
-        QGateCompare t(gates);
-        t.traversal(prog);
-        size_t num = t.count();
-
-我们还可以使用QPanda2封装的一个接口：
-
-    .. code-block:: c
-          
-        size_t num = size_t num = getUnSupportQGateNumber(prog, gates);
+        single_gates = ["H"]        #支持的单量子逻辑门类型
+        double_gates = ["CNOT"]     #支持的双量子逻辑门类型
+        gates = [single_gates, double_gates]
+        num = size_t num = get_unsupport_qgate_num(prog, gates)
 
 .. note:: 统计 ``QCircuit`` 、 ``QWhileProg`` 、``QIfProg`` 、 ``QGate`` 中不支持的量子逻辑门的个数和 ``QProg`` 类似。
 
 实例
 -------------
 
-    .. code-block:: c
+    .. code-block:: python
     
-        #include <QPanda.h>
-        USING_QPANDA
+        from pyqpanda import *
 
-        int main(void)
-        {
-            init();
-            auto qubits = qAllocMany(4);
-            auto cbits = cAllocMany(4);
+        if __name__ == "__main__":
+            machine = init_quantum_machine(QMachineType.CPU)
+            qubits = machine.qAlloc_many(4)
+            cbits = machine.cAlloc_many(4)
+            prog = QProg()
+            prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
+            .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
+            .insert(Measure(qubits[0], cbits[0]))
 
-            QProg prog;
-            prog << X(qubits[0])
-                    << Y(qubits[1])
-                    << H(qubits[0])
-                    << RX(qubits[0], 3.14)
-                    << iSWAP(qubits[2], qubits[3])
-                    << Measure(qubits[1], cbits[0]);
-
-            std::vector<std::string> single_gates = {"H"}; // 支持的单量子逻辑门类型
-            std::vector<std::string> double_gates = {"CNOT"}; // 支持的双量子逻辑门类型
-            std::vector<std::vector<std::string>> gates = {single_gates, double_gates};
-
-            size_t num = getUnSupportQGateNumber(prog, gates);
-            std::cout << "unsupport QGate num: " << num << std::endl;
-            finalize();
-
-            return 0;
-        }
+            single_gates = ["H"]        #支持的单量子逻辑门类型
+            double_gates = ["CNOT"]     #支持的双量子逻辑门类型
+            gates = [single_gates, double_gates]
+            num = get_unsupport_qgate_num(prog, gates)
+            print("unsupport QGate num: " + str(num))
+            destroy_quantum_machine(machine)
 
 运行结果：
 
-    .. code-block:: c
+    .. code-block:: python
 
-        unsupport QGate num: 4
+        unsupport QGate num: 3
 
     

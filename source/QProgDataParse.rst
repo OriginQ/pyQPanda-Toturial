@@ -11,77 +11,55 @@
 接口介绍
 --------------
 
-``QProgDataParse`` 类是对 :ref:`QProgStored` 类序列化的量子程序反序列化， 例如下面的量子程序：
+我们先用pyQPanda构建一个量子程序：
 
-    .. code-block:: c
+    .. code-block:: python
 
-        prog << H(qubits[0]) << CNOT(qubits[0], qubits[1])
-                << CNOT(qubits[1], qubits[2])
-                << CNOT(qubits[2], qubits[3])；
+        prog = QProg()
+        prog.insert(H(qubits[0]).insert(CNOT(qubits[0], qubits[1])) \
+                .insert(CNOT(qubits[1], qubits[2])) \
+                .insert(CNOT(qubits[2], qubits[3]))；
 
 序列化之后经过base64编码之后得到的结果是（具体序列化的方法参照 :ref:`QProgStored`）
 
     .. code-block:: c
 
-        AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA
+        b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n'
 
-现在就对这个结果反序列化，先讲base64的结果解码成二进制数据：
-
-    .. code-block:: c
-
-        std::string = "AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA";
-        auto data = Base64::decode(data_str.data(), data_str.size());
-
-然后调用 ``QProgDataParse`` 类中的函数， 得到反序列化之后的量子程序
+现在就对这个结果反序列化，先将base64的结果解码成二进制数据：
 
     .. code-block:: c
 
-        QProgDataParse parse(qvm);
-        parse.load(data);
-        parse.parse(parseProg);
-        auto qubits_parse = parse.getQubits();
-        auto cbits_parse = parse.getCbits();  
+        str_base64_data = b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n'
+        data = [int(x) for x in bytes(base64.decodebytes(str_base64_data))]
 
-我们还可以使用QPanda2封装的一个接口：
+我们可以使用QPanda2封装的一个接口：
 
-    .. code-block:: c
+    .. code-block:: python
 
-        QVec qubits_parse;
-        std::vector<ClassicalCondition> cbits_parse;
-        binaryQProgDataParse(qvm, data, qubits_parse, cbits_parse, parseProg);
+        transform_binary_data_to_qprog(qvm, data, qubits_parse, cbits_parse, parseProg);
 
 实例
 ------------
 
-    .. code-block:: c
+    .. code-block:: python
     
-        #include <QPanda.h>
-        #include <Core/Utilities/base64.hpp>
+        from pyqpanda import *
+        import base64
 
-        USING_QPANDA
+        if __name__ == "__main__":
+            qvm = init_quantum_machine(QMachineType.CPU)
+            parseProg = QProg()
+            qubits_parse = []
+            cbits_parse = []
+            str_base64_data = b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n';
+            data = [int(x) for x in bytes(base64.decodebytes(str_base64_data))]  
 
-        int main(void)
-        {
-            auto qvm = initQuantumMachine();
-            QProg parseProg;
-            QVec qubits_parse;
-            std::vector<ClassicalCondition> cbits_parse;
-
-            std::string data_str = "AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA";
-            auto data = Base64::decode(data_str.data(), data_str.size());
-            binaryQProgDataParse(qvm, data, qubits_parse, cbits_parse, parseProg);
-
-            auto result_parse = probRunTupleList(parseProg, qubits_parse);
-            for (auto &val : result_parse)
-            {
-                std::cout << val.first << ", " << val.second << std::endl;
-            }
-
-            qvm->finalize();
-            delete qvm;
-            return 0;
-        }
-
+            transform_binary_data_to_qprog(qvm, data, qubits_parse, cbits_parse, parseProg)
+        
+            result = prob_run_tuple_list(parseProg, qubits_parse, -1)
+            print(result)
+            destroy_quantum_machine(qvm)
 运行结果：
 
     .. code-block:: c

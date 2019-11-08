@@ -31,84 +31,58 @@
 判断量子门有效性的方法
 --------------------------
 
-判断量子门有效性是由 ``SingleGateTypeValidator`` 和 ``DoubleGateTypeValidator`` 两个类实现的。下面分别对这两个类中的接口介绍。
+判断量子门有效性是由 ``validate_single_qgate_type`` 和 ``validate_double_qgate_type`` 接口实现的。下面分别对这两个接口进行介绍。
 
 接口介绍
 ---------------
 
-``SingleGateTypeValidator`` 是验证单量子逻辑门有效性的工具类，使用方式如下：
+``validate_single_qgate_type`` 是验证单量子逻辑门有效性的接口，使用方式如下：
 
-    .. code-block:: c
+    .. code-block:: python
 
-        std::vector<std::string> single_gate;
-        std::vector<std::string> valid_single_gate; // 有效的量子逻辑门组合会输出到这个容器中
-        single_gate.push_back("T");
-        single_gate.push_back("H");
-        single_gate.push_back("S");
-        auto single_gate_type = SingleGateTypeValidator::GateType(single_gate, valid_single_gate); // 得到有效的量子逻辑门组合，和有效组合的类型
+        single_gate=["T", "H", "S"]
+        valid_single_gate = []
+        single_gate_type = validate_single_qgate_type(single_gate, valid_single_gate)
 
-``DoubleGateTypeValidator`` 是验证双量子逻辑门有效性的工具类，使用方式如下：
+``validate_double_qgate_type`` 是验证双量子逻辑门有效性的接口，使用方式如下：
 
-    .. code-block:: c
+    .. code-block:: python
 
-        std::vector<std::string> double_gate;
-        std::vector<std::string> valid_double_gate; // 有效的量子逻辑门组合会输出到这个容器中
-        double_gate.push_back("CNOT");
-        double_gate.push_back("SWAP");
-        double_gate.push_back("CZ");
-        auto double_gate_type = DoubleGateTypeValidator::GateType(double_gate, valid_double_gate); // 得到有效的量子逻辑门组合，和有效组合的类型
+        double_gate=["CNOT", "SWAP", "CZ"]
+        valid_double_gate = []
+        double_gate_type = validate_double_qgate_type(double_gate, valid_double_gate)
 
 实例
 ------------
 
-    .. code-block:: c
+    .. code-block:: python
     
-        #include <QPanda.h>
-        USING_QPANDA
+        from pyqpanda import *
 
-        int main(void)
-        {
-            // 单量子门有效性验证
-            std::vector<std::string> single_gate;
-            std::vector<std::string> valid_single_gate; // 有效的量子逻辑门组合会输出到这个容器中
-            single_gate.push_back("T");
-            single_gate.push_back("H");
-            single_gate.push_back("S");
+        if __name__ == "__main__":
+            # 单量子门有效性验证
+            single_gate=["T", "H", "S"]
+            valid_single_gate = []
+            # 得到有效的量子逻辑门组合，和有效组合的类型
+            single_gate_type = validate_single_qgate_type(single_gate, valid_single_gate)
+            print("SingleGateTransferType: " + str(single_gate_type))
+        
+            for gate in valid_single_gate:
+                print("%s " %gate)
 
-            // 得到有效的量子逻辑门组合，和有效组合的类型
-            auto single_gate_type = SingleGateTypeValidator::GateType(single_gate, valid_single_gate);
-
-            std::cout << "SingleGateTransferType: " << single_gate_type << std::endl;
-            for (auto &val : valid_single_gate)
-            {
-                std::cout << val << " ";
-            }
-            std::cout << std::endl;
-
-            // 双量子门有效性验证
-            std::vector<std::string> double_gate;
-            std::vector<std::string> valid_double_gate; // 有效的量子逻辑门组合会输出到这个容器中
-            double_gate.push_back("CNOT");
-            double_gate.push_back("SWAP");
-            double_gate.push_back("CZ");
-
-            // 得到有效的量子逻辑门组合，和有效组合的类型
-            auto double_gate_type = DoubleGateTypeValidator::GateType(double_gate, valid_double_gate);
-
-            std::cout << "doubleGateTransferType: " << double_gate_type << std::endl;
-            for (auto &val : valid_double_gate)
-            {
-                std::cout << val << " ";
-            }
-            std::cout << std::endl;
-
-            return 0;
-        }
+            # 双量子门有效性验证
+            double_gate=["CNOT", "SWAP", "CZ"]
+            valid_double_gate = []
+            #得到有效的量子逻辑门组合，和有效组合的类型
+            double_gate_type = validate_double_qgate_type(double_gate, valid_double_gate)
+            print("doubleGateTransferType: " + str(double_gate_type))
+            for gate in double_gate_type:
+                print("%s " %gate)
 
     
 运行结果：
 
-    .. code-block:: c
+    .. code-block:: python
 
         SingleGateTransferType: 3
         T H 
