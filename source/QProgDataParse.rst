@@ -37,7 +37,7 @@
 
     .. code-block:: python
 
-        transform_binary_data_to_qprog(qvm, data, qubits_parse, cbits_parse, parseProg);
+        convert_binary_data_to_qprog(qvm, data, qubits_parse, cbits_parse, parseProg);
 
 实例
 ------------
@@ -49,36 +49,29 @@
 
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
-            parseProg = QProg()
-            qubits_parse = []
-            cbits_parse = []
             str_base64_data = b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n';
             data = [int(x) for x in bytes(base64.decodebytes(str_base64_data))]  
+            parseProg = QProg()
 
-            transform_binary_data_to_qprog(qvm, data, qubits_parse, cbits_parse, parseProg)
-        
-            result = prob_run_tuple_list(parseProg, qubits_parse, -1)
-            print(result)
+            parseProg = convert_binary_data_to_qprog(qvm, data)
+            
+            print(convert_qprog_to_originir(parseProg,qvm))
+
             destroy_quantum_machine(qvm)
+
 运行结果：
 
     .. code-block:: c
 
-        0, 0.5
-        15, 0.5
-        1, 0
-        2, 0
-        3, 0
-        4, 0
-        5, 0
-        6, 0
-        7, 0
-        8, 0
-        9, 0
-        10, 0
-        11, 0
-        12, 0
-        13, 0
-        14, 0
+        QINIT 4
+        CREG 4
+        H q[0]
+        CNOT q[0],q[1]
+        CNOT q[1],q[2]
+        CNOT q[2],q[3]
 
 .. note:: 可以运行出正确的结果说明可以将序列化的量子程序正确的解析出来
+
+
+.. warning:: 
+        新增接口 ``convert_binary_data_to_qprog()`` ，与老版本接口 ``transform_binary_data_to_qprog()`` 功能相同。

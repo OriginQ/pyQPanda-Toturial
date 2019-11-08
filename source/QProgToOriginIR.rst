@@ -13,7 +13,7 @@ OriginIR
 OriginIR的书写格式规范与例程可以参考量子程序转化OriginIR模块中的 `OriginIR介绍`_
 
 
-QPanda2提供了OriginIR转换工具接口 ``transform_qprog_to_originir`` 该接口使用非常简单，具体可参考下方示例程序。
+QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
 >>>>>>>>>>>>>>
@@ -37,7 +37,7 @@ QPanda2提供了OriginIR转换工具接口 ``transform_qprog_to_originir`` 该�
             
             prog.insert(H(qlist[2])).insert(Measure(qlist[1],clist[1])).insert(qwhile)
             
-            print(transform_qprog_to_originir(prog,machine))
+            print(convert_qprog_to_originir(prog,machine))
             
             destroy_quantum_machine(machine)
 
@@ -50,7 +50,7 @@ QPanda2提供了OriginIR转换工具接口 ``transform_qprog_to_originir`` 该�
 
  - 然后调用 ``CreateEmptyQProg`` 构建量子程序
 
- - 最后调用接口 ``transform_qprog_to_originir`` 输出OriginIR字符串，并用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用接口 ``convert_qprog_to_originir`` 输出OriginIR字符串，并用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
@@ -67,10 +67,10 @@ QPanda2提供了OriginIR转换工具接口 ``transform_qprog_to_originir`` 该�
         ENDQWHILE
 
 
-   .. note:: 对于暂不支持的操作类型，OriginIR会显示UnSupported XXXNode，其中XXX为具体的节点类型。
+.. note:: 对于暂不支持的操作类型，OriginIR会显示UnSupported XXXNode，其中XXX为具体的节点类型。
 
 
 .. warning:: 
-        新版本中接口名有所调整，旧接口 ``to_originir`` 将由 ``transform_qprog_to_originir`` 替代。\
-      
-        ``to_originir`` 将于下版本去除，请读者知悉。
+        新增接口 ``convert_qprog_to_originir()`` ，与老版本接口 ``transform_qprog_to_originir()`` 功能相同。
+
+
