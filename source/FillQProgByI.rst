@@ -11,25 +11,20 @@
     import pyqpanda.pyQPanda as pq
     import math
     class InitQMachine:
-    def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
-        self.m_machine = pq.init_quantum_machine(machineType)
-        self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
-        self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
-        self.m_prog = pq.QProg()
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
         
-    def __del__(self):
-        pq.destroy_quantum_machine(self.m_machine)
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
 
     def test_fill_I(q, c):
-        prog222 = pq.QProg()
         prog = pq.QCircuit()
         prog.insert(pq.CU(1, 2, 3, 4, q[0], q[5])).insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[2], q[1], math.pi/2))
-        iter_start = prog.begin()
-        iter_end = iter_start.get_next()
-        iter_end = iter_end.get_next()
         prog.set_dagger(True)
         print('source prog:')
-        pq.draw_qprog(prog )
+        pq.draw_qprog(prog)
         prog = pq.fill_qprog_by_I(prog)
         print('The prog after fill_qprog_by_I:')
         pq.draw_qprog(prog)
