@@ -1,7 +1,7 @@
-通过I门填充QProg
+用I门填充QProg
 ===============
 
-接口fill_qprog_by_I实现通过I门填充QProg(量子程序)的功能。
+接口fill_qprog_by_I实现用I门填充QProg(量子程序)的功能。
 
 实例
 ---------------
