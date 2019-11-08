@@ -36,7 +36,7 @@
         
 以上示例分别演示了draw_qprog接口的使用方法，上述代码的输出结果如下：
 
-.. figure:: ./images/py_draw_prog.png
+.. figure:: ./images/draw_prog_py.png
    :alt:
 
 其他使用
