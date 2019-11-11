@@ -7,6 +7,75 @@
 QPanda2带来了含噪声量子虚拟机。含噪声量子虚拟机的模拟更贴近真实的量子计算机，我们可以自定义支持的逻辑门类型，自定义逻辑门支持的噪声模型，
 通过这些自定义形式，我们使用QPanda2开发量子程序的现实应用程度将更高。
 
+噪声模型介绍
+--------------------------------------
+
+DAMPING_KRAUS_OPERATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DAMPING_KRAUS_OPERATOR是量子比特的弛豫过程噪声模型，它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \begin{bmatrix} \sqrt{1 - p} & 0 \\ 0 & \sqrt{1 - p} \end{bmatrix},   K_2 = \begin{bmatrix} 0 & \sqrt{p} \\ 0 & 0 \end{bmatrix}`
+
+需要一个噪声参数。
+
+DEPHASING_KRAUS_OPERATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DEPHASING_KRAUS_OPERATOR是量子比特的退相位过程噪声模型，它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \begin{bmatrix} \sqrt{1 - p} & 0 \\ 0 & \sqrt{1 - p} \end{bmatrix},   K_2 = \begin{bmatrix} \sqrt{p} & 0 \\ 0 & -\sqrt{p} \end{bmatrix}`
+
+需要一个噪声参数。
+
+DECOHERENCE_KRAUS_OPERATOR_P1_P2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DECOHERENCE_KRAUS_OPERATOR_P1_P2是上述两种噪声模型的综合，他们的关系如下所示：
+
+:math:`P_{damping} = 1 - e^{-\frac{t_{gate}}{T_1}}, P_{dephasing} = 0.5 \times (1 - e^{-(\frac{t_{gate}}{T_2} - \frac{t_{gate}}{2T_1})})`
+
+:math:`K_1 = K_{1_{damping}}K_{1_{dephasing}}, K_2 = K_{1_{damping}}K_{2_{dephasing}},`
+
+:math:`K_3 = K_{2_{damping}}K_{1_{dephasing}}, K_4 = K_{2_{damping}}K_{2_{dephasing}}`
+
+需要三个噪声参数。
+
+BITFLIP_KRAUS_OPERATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+BITFLIP_KRAUS_OPERATOR是比特反转噪声模型，它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \begin{bmatrix} \sqrt{1 - p} & 0 \\ 0 & \sqrt{1 - p} \end{bmatrix}, K_2 = \begin{bmatrix} 0 & \sqrt{p} \\ \sqrt{p} & 0 \end{bmatrix}`
+
+需要一个噪声参数。
+
+BIT_PHASE_FLIP_OPRATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+BIT_PHASE_FLIP_OPRATOR是比特-相位反转噪声模型，它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \begin{bmatrix} \sqrt{1 - p} & 0 \\ 0 & \sqrt{1 - p} \end{bmatrix}, K_2 = \begin{bmatrix} 0 & -i \times \sqrt{p} \\ i \times \sqrt{p} & 0 \end{bmatrix}`
+
+需要一个噪声参数。
+
+PHASE_DAMPING_OPRATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \begin{bmatrix} 1 & 0 \\ 0 & \sqrt{1 - p} \end{bmatrix}, K_2 = \begin{bmatrix} 0 & 0 \\ 0 & \sqrt{p} \end{bmatrix}`
+
+需要一个噪声参数。
+
+双门噪声模型
+>>>>>>>>>>>>>>
+
+双门噪声模型同样也分为三种：DOUBLE_DAMPING_KRAUS_OPERATOR、DOUBLE_DEPHASING_KRAUS_OPERATOR、DOUBLE_DECOHERENCE_KRAUS_OPERATOR。
+它们的输入参数与单门噪声模型一致，双门噪声模型的kraus算符和表示与单门噪声模型存在着对应关系：假设单门噪声模型为： :math:`\{ K1, K2 \}` ，那么对应的双门噪声模型为
+:math:`\{K1\otimes K1, K1\otimes K2, K2\otimes K1, K2\otimes K2\}`。
+
+
 接口介绍
 ------------
 
@@ -44,75 +113,39 @@ QPanda2带来了含噪声量子虚拟机。含噪声量子虚拟机的模拟更�
                 qvm = NoiseQVM() 
                 qvm.initQVM(dict)
 
+实例
+------------
 
+    .. code-block:: python
 
-噪声模型介绍
---------------------------------------
+        from pyqpanda import *
+        import numpy as np
 
-QPanda2的含噪声量子虚拟机为我们提供了丰富的噪声模型，我们可以自定义噪声模型和量子逻辑门的对应关系。噪声模型主要分为两种：单门噪声模型和双门噪声模型。
+        if __name__ == "__main__":
+            qvm = NoiseQVM();
+            noise_rate = 0.001
+            doc = {'noisemodel': {'H': [NoiseModel.DEPHASING_KRAUS_OPERATOR, noise_rate],
+            'CNOT' : [NoiseModel.DEPHASING_KRAUS_OPERATOR, 2 * noise_rate]}}
 
-单门噪声模型
->>>>>>>>>>>>>>
+            qvm.init_qvm(doc)
+            qubits = qvm.qAlloc_many(4)
+            cbits = qvm.cAlloc_many(4)
 
-DAMPING_KRAUS_OPERATOR
-~~~~~~~~~~~~~~~~~~~~~~~~~
+            prog = QProg()
+            for i in range(0, len(qubits)):
+                prog.insert(H(qubits[i]))
 
-DAMPING_KRAUS_OPERATOR是量子比特的弛豫过程噪声模型，它的kraus算符和表示方法如下图所示：
+            for i in range(0, len(qubits) - 1):
+                prog.insert(CNOT(qubits[i], qubits[i + 1]))
+            
+            prog.insert(measure_all(qubits, cbits))
+            config = {'shots': 1000}
+            result = qvm.run_with_configuration(prog, cbits, config)
+            qvm.finalize()
+            print(result)
 
-.. image:: images/damping.png
-    :align: center   
+运行结果：
 
-我们可以看到，DAMPING_KRAUS_OPERATOR需要一个参数P，该参数是double类型的，所以我们在构造Json的时候需要用以下形式（假设设定RX的噪声模型,当然输入的参数也是假定的）：
+    .. code-block:: python
 
-     .. code-block:: c
-
-              {
-                  .....
-                  "noisemodel":{"RX":[DAMPING_KRAUS_OPERATOR,3.0],
-                                 ......}              
-              }
-
-DEPHASING_KRAUS_OPERATOR
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-DEPHASING_KRAUS_OPERATOR是量子比特的退相位过程噪声模型，它的kraus算符和表示方法如下图所示：
-
-.. image:: images/dephasing.png
-    :align: center   
-
-我们可以看到，DEPHASING_KRAUS_OPERATOR需要一个参数P，该参数是double类型的，所以我们在构造Json的时候需要用以下形式（假设设定RX的噪声模型）：
-
-     .. code-block:: c
-
-              {
-                  .....
-                  "noisemodel":{"RX":[DEPHASING_KRAUS_OPERATOR,2.0],
-                                 ......}              
-              }
-
-DECOHERENCE_KRAUS_OPERATOR
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-DECOHERENCE_KRAUS_OPERATOR是上述两种噪声模型的综合，他们的关系如下图所示：
-
-.. image:: images/decohernce.png
-    :align: center   
-
-我们可以看到，DEPHASING_KRAUS_OPERATOR需要三个参数T1，T2，tgate，所有的参数是double类型的，所以我们在构造Json的时候需要用以下形式（假设设定RX的噪声模型）：
-
-     .. code-block:: c
-
-              {
-                  .....
-                  "noisemodel":{"RX":[DECOHERENCE_KRAUS_OPERATOR,10.0,2.0,0.03],
-                                 ......}              
-              }
-
-双门噪声模型
->>>>>>>>>>>>>>
-
-双门噪声模型同样也分为三种：DOUBLE_DAMPING_KRAUS_OPERATOR、DOUBLE_DEPHASING_KRAUS_OPERATOR、DOUBLE_DECOHERENCE_KRAUS_OPERATOR。
-它们的输入参数与单门噪声模型一致，双门噪声模型的kraus算符和表示与单门噪声模型存在着对应关系：假设单门噪声模型为： :math:`\{ K1, K2 \}` ，那么对应的双门噪声模型为
-:math:`\{K1\otimes K1, K1\otimes K2, K2\otimes K1, K2\otimes K2\}`。
-
-
+        {'0000': 55, '0001': 59, '0010': 71, '0011': 64, '0100': 56, '0101': 67, '0110': 60, '0111': 57, '1000': 72, '1001': 73, '1010': 70, '1011': 68, '1100': 57, '1101': 56, '1110': 55, '1111': 60}
