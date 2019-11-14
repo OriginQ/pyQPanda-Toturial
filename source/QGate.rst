@@ -50,15 +50,15 @@
    :width: 50px
    :height: 50px
 
-.. |RX| image:: images/QGate_X_Theta.png
+.. |RX| image:: images/QGate_RX.png
    :width: 50px
    :height: 50px
 
-.. |RY| image:: images/QGate_Y_Theta.png
+.. |RY| image:: images/QGate_RY.png
    :width: 50px
    :height: 50px
 
-.. |RZ| image:: images/QGate_Z_Theta.png
+.. |RZ| image:: images/QGate_RZ.png
    :width: 50px
    :height: 50px
 
