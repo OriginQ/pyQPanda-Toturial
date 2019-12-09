@@ -29,9 +29,9 @@ DEPHASING_KRAUS_OPERATOR是量子比特的退相位过程噪声模型，它的kr
 需要一个噪声参数。
 
 DECOHERENCE_KRAUS_OPERATOR_P1_P2
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DECOHERENCE_KRAUS_OPERATOR_P1_P2是上述两种噪声模型的综合，他们的关系如下所示：
+DECOHERENCE_KRAUS_OPERATOR_P1_P2是退相干噪声模型，为上述两种噪声模型的综合，他们的关系如下所示：
 
 :math:`P_{damping} = 1 - e^{-\frac{t_{gate}}{T_1}}, P_{dephasing} = 0.5 \times (1 - e^{-(\frac{t_{gate}}{T_2} - \frac{t_{gate}}{2T_1})})`
 
@@ -39,7 +39,7 @@ DECOHERENCE_KRAUS_OPERATOR_P1_P2是上述两种噪声模型的综合，他们的
 
 :math:`K_3 = K_{2_{damping}}K_{1_{dephasing}}, K_4 = K_{2_{damping}}K_{2_{dephasing}}`
 
-需要三个噪声参数。
+需要两个噪声参数。
 
 BITFLIP_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
