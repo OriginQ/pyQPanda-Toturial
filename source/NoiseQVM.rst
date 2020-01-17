@@ -133,7 +133,7 @@ pyqpanda当前支持的噪声模型
         import numpy as np
 
         if __name__ == "__main__":
-            qvm = NoiseQVM();
+            qvm = NoiseQVM()
             noise_rate = 0.001
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.RX_GATE, [noise_rate])
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.CNOT_GATE, [2 * noise_rate])
