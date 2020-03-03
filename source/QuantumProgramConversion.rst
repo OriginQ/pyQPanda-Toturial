@@ -5,5 +5,5 @@
     :maxdepth: 1
    
     QProgToQASM
-    QProgToQRunes
+    QProgToOriginIR
     QProgToQuil

@@ -9,7 +9,7 @@
     QProgClockCycle
     QProgStored
     QProgDataParse
-    QRunesToQProg
+    OriginIRToQProg
 
 .. 优化量子程序
  -----------------
