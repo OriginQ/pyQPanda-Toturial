@@ -16,7 +16,7 @@ QPanda 2
 
 QPanda 2是由本源量子开发的开源量子计算框架，它可以用于构建、运行和优化量子算法。
 
-QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator、量子计算服务提供核心部件。
+QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator、量子计算服务提供核心部件。
 
 为了方便用户使用，QPanda 2为用户提供了Python版本的pyQPanda,本使用文档是pyQPanda的
 教学文档，如希望学习C++版的QPanda 2，请参考 `QPanda使用文档 <https://qpanda-toturial.readthedocs.io/zh/latest/index.html>`_ 。
@@ -49,6 +49,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     QGateCounter
     QProgClockCycle
     QCircuitInfo
+    DrawQProg
     ..QGateValidity
 
 
@@ -57,11 +58,11 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     :maxdepth: 2
     
     QProgToQASM
+    QASMToQProg
     QProgToQuil
     QProgStored
     QProgDataParse
-    QProgToQRunes
-    QRunesToQProg
+    OriginIRToQProg
     QProgToOriginIR
     OriginIRToQProg
 
@@ -70,6 +71,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为QRunes、Qurator�
     :maxdepth: 2
     
     GraphMatch
+    FillQProgByI
 
 .. toctree::
     :caption: 组件
