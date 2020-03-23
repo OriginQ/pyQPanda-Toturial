@@ -22,35 +22,36 @@ QPanda 2提供了OriginIR文件转换工具接口 ``convert_originir_to_qprog`` 
 
     .. code-block:: python
     
-        if __name__=="__main__":
-            machine = init_quantum_machine(QMachineType.CPU)
-            
-            f = open('testfile.txt', mode='w',encoding='utf-8')  
-            f.write("""QINIT 4
-                CREG 4
-                DAGGER
-                X q[1]
-                X q[2]
-                CONTROL q[1], q[2]
-                RY q[0], (1.047198)
-                ENDCONTROL
-                ENDDAGGER
-                MEASURE q[0], c[0]
-                QIF c[0]
-                H q[1]
-                H q[2]
-                RZ q[2], (2.356194)
-                CU q[2], q[3], (3.141593, 4.712389, 1.570796, -1.570796)
-                CNOT q[2], q[1]
-                ENDQIF
-                """)
-        
-            f.close()
-            
-            prog_trans = convert_originir_to_qprog("testfile.txt", machine)
-            print(convert_qprog_to_originir(prog_trans,machine))
+            from pyqpanda import *
+            if __name__=="__main__":
+                machine = init_quantum_machine(QMachineType.CPU)
 
-            destroy_quantum_machine(machine)
+                f = open('testfile.txt', mode='w',encoding='utf-8')
+                f.write("""QINIT 4
+                    CREG 4
+                    DAGGER
+                    X q[1]
+                    X q[2]
+                    CONTROL q[1], q[2]
+                    RY q[0], (1.047198)
+                    ENDCONTROL
+                    ENDDAGGER
+                    MEASURE q[0], c[0]
+                    QIF c[0]
+                    H q[1]
+                    H q[2]
+                    RZ q[2], (2.356194)
+                    CU q[2], q[3], (3.141593, 4.712389, 1.570796, -1.570796)
+                    CNOT q[2], q[1]
+                    ENDQIF
+                    """)
+
+                f.close()
+
+                prog, qv, cv = convert_originir_to_qprog("testfile.txt", machine)
+                print(convert_qprog_to_originir(prog,machine))
+
+                destroy_quantum_machine(machine)
 
 
 具体步骤如下:
