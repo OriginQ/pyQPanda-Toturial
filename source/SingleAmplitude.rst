@@ -18,6 +18,9 @@
 
     .. code-block:: python
 
+        from pyqpanda import *
+        PI = 3.141593
+        
         machine = SingleAmpQVM()
 
 然后是量子程序的初始化、构建与装载过程：
@@ -31,7 +34,7 @@
 
         prog = QProg()
 
-        prog.insert(Hadamard_Circuit(q))\
+        prog.insert(hadamard_circuit(q))\
             .insert(CZ(q[1], q[5]))\
             .insert(CZ(q[3], q[5]))\
             .insert(CZ(q[2], q[4]))\
@@ -132,7 +135,7 @@
 
         .. code-block:: python
 
-            result = machine.pmeasure_bin_index("0000000000")
+            result = machine.pmeasure_bin_index(prog,"0000000000")
             print(result)
 
         结果输出如下：
@@ -145,7 +148,7 @@
 
         .. code-block:: python
 
-            result = machine.pmeasure_bin_index("1")
+            result = machine.pmeasure_bin_index(prog,"1")
             print(result)
 
         结果输出如下：
@@ -156,5 +159,4 @@
 
         .. warning::
 
-            1. 部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
-            2. 单振幅虚拟机会保留 ``pmeasure_bin_index(string)`` 以及 ``pmeasure_dec_index(string)`` 接口，并且它们的使用方式会略微调整。
+            部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。

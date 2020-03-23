@@ -13,5 +13,3 @@
    NoiseQVM
    SingleAmplitude
    PartialAmplitude
-   QCloudMachine
-
