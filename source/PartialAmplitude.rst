@@ -14,6 +14,8 @@
 
     .. code-block:: python
 
+        from pyqpanda import *
+        PI = 3.141593
         machine = PartialAmpQVM()
 
 然后是量子程序的初始化、构建与装载过程，以QPanda2的 :ref:`部分振幅示例程序`来演示：
@@ -27,7 +29,7 @@
 
         prog = QProg()
 
-        prog.insert(Hadamard_Circuit(q))\
+        prog.insert(hadamard_circuit(q))\
             .insert(CZ(q[1], q[5]))\
             .insert(CZ(q[3], q[7]))\
             .insert(CZ(q[0], q[4]))\
