@@ -30,6 +30,7 @@ QAOA
 .. code-block:: python
 
     from pyqpanda import *
+    import numpy as np
 
     def oneCircuit(qlist, Hamiltonian, beta, gamma):
         vqc=VariationalQuantumCircuit()
