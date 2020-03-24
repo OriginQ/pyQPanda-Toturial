@@ -211,22 +211,61 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+    def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+        self.m_machine = pq.init_quantum_machine(machineType)
+        self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+        self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+        self.m_prog = pq.QProg()
+
+    def __del__(self):
+        pq.destroy_quantum_machine(self.m_machine)
+        
+    #测试接口： 判断指定的两个逻辑门是否可以交换位置
+    def test_is_swappable(q, c):
     prog = pq.QProg()
     cir = pq.QCircuit()
-    cir.insert(pq.H(q[0])).insert(pq.RX(q[1], math.pi/2)).insert(pq.T(q[2]))\
-        .insert(pq.RY(q[3], math.pi/2)).insert(pq.RZ(q[2], math.pi/2))
-    prog.insert(pq.H(q[0])).insert(pq.S(q[2])).insert(cir)\
+    cir2 = pq.QCircuit()
+    cir2.insert(pq.H(q[3])).insert(pq.RX(q[1], math.pi/2)).insert(pq.T(q[2])).insert(pq.RY(q[3], math.pi/2)).insert(pq.RZ(q[2], math.pi/2))
+    cir2.set_dagger(True)
+    cir.insert(pq.H(q[1])).insert(cir2).insert(pq.CR(q[1], q[2], math.pi/2))
+    prog.insert(pq.H(q[0])).insert(pq.S(q[2]))\
+        .insert(cir)\
         .insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.measure_all(q,c))
 
     iter_first = cir.begin()
-    iter_second = iter_first.get_next()
-    iter_second = iter_second.get_next()
-    iter_second = iter_second.get_next()
-    
+
+    iter_second = cir2.begin()
+    #iter_second = iter_second.get_next()
+    #iter_second = iter_second.get_next()
+    #iter_second = iter_second.get_next()
+
+    type =iter_first.get_node_type()
+    if pq.NodeType.GATE_NODE == type:
+        gate = pq.QGate(iter_first)
+        print(gate.gate_type())
+
+    type =iter_second.get_node_type()
+    if pq.NodeType.GATE_NODE == type:
+        gate = pq.QGate(iter_second)
+        print(gate.gate_type())
+
     if (pq.is_swappable(prog, iter_first, iter_second)) == True:
         print('Could be swapped !\n')
     else:
         print('Could NOT be swapped.')
+        
+    if __name__=="__main__":
+    init_machine = InitQMachine(16, 16)
+    qlist = init_machine.m_qlist
+    clist = init_machine.m_clist
+    machine = init_machine.m_machine
+
+    test_is_swappable(qlist, clist)
+    print("Test over.")
 
 判断逻辑门是否属于量子芯片支持的量子逻辑门集合
 ==============================================
@@ -272,7 +311,39 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
-    qgate = pq.H(q[1]))
-    result = pq.is_supported_qgate_type(qgate);
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+    def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+        self.m_machine = pq.init_quantum_machine(machineType)
+        self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+        self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+        self.m_prog = pq.QProg()
+
+    def __del__(self):
+        pq.destroy_quantum_machine(self.m_machine)
+        
+    def test_support_qgate_type():
+    machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+    q = machine.qAlloc_many(8)
+    c = machine.cAlloc_many(8)
+    
+    prog = pq.QProg()
+    prog.insert(pq.H(q[1]))
+    result = pq.is_supported_qgate_type(prog.begin())
+    if result == True:
+        print('Support !\n')
+    else:
+        print('Unsupport !')
+        
+    if __name__=="__main__":
+    init_machine = InitQMachine(16, 16)
+    qlist = init_machine.m_qlist
+    clist = init_machine.m_clist
+    machine = init_machine.m_machine
+
+    test_support_qgate_type()
+    print("Test over.")
 
 .. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.xml <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.xml>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。
