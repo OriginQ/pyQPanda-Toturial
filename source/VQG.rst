@@ -72,7 +72,7 @@ VariationalQuantumGate_CNOT   VQG_CNOT
         prog = QProg()
         prog.insert(circuit1)
 
-        print(to_QRunes(prog, machine))
+        print(to_originir(prog, machine))
 
         x.set_value([[3.]])
         y.set_value([[4.]])
@@ -80,6 +80,6 @@ VariationalQuantumGate_CNOT   VQG_CNOT
         circuit2 = vqc.feed()
         prog2 = QProg()
         prog2.insert(circuit2)
-        print(to_QRunes(prog2, machine))
+        print(to_originir(prog2, machine))
 
 .. image:: images/VQG_Example.png

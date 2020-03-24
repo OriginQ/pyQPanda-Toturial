@@ -9,6 +9,9 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
 
         .. code-block:: python
 
+            from pyqpanda import *
+            PI = 3.141593
+            
             QCM = QCloud()
             QCM.initQVM()
 
@@ -21,7 +24,7 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
             prog = QProg()
             for i in qlist:
             
-            prog.insert(Hadamard_Circuit(q))\
+            prog.insert(hadamard_circuit(qlist))\
                 .insert(CZ(qlist[1], qlist[5]))\
                 .insert(CZ(qlist[3], qlist[7]))\
                 .insert(CZ(qlist[0], qlist[4]))\
