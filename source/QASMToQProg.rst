@@ -20,31 +20,32 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
 
     .. code-block:: python
     
+        from pyqpanda import *
+
         if __name__=="__main__":
             machine = init_quantum_machine(QMachineType.CPU)
-            
-            f = open('testfile.txt', mode='w',encoding='utf-8')  
-            f.write("""// test QASM file
-				OPENQASM 2.0;
-				include "qelib1.inc";
-				qreg q[3];
-				creg c[3];
-				x q[0];
-				x q[1];
-				z q[2];
-				h q[0];
-				tdg q[1];
-				measure q[0] -> c[0];
-                """)
-        
-            f.close()
-            
-            prog_trans = convert_qasm_to_qprog("testfile.txt", machine)
-            
-            qasm_list = convert_qprog_to_qasm(prog_trans,machine)
 
-            for qasm in qasm_list:
-                print(qasm)
+            f = open('testfile.txt', mode='w',encoding='utf-8')
+            f.write("""// test QASM file
+                OPENQASM 2.0;
+                include "qelib1.inc";
+                qreg q[3];
+                creg c[3];
+                x q[0];
+                x q[1];
+                z q[2];
+                h q[0];
+                tdg q[1];
+                measure q[0] -> c[0];
+                """)
+            f.close()
+
+            prog_trans, qv, cv = convert_qasm_to_qprog("testfile.txt", machine)
+
+            qasm, backend_name = convert_qprog_to_qasm(prog_trans,machine)
+
+            print(qasm)
+            print(backend_name)
 
             destroy_quantum_machine(machine)
 
