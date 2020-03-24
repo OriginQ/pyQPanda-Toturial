@@ -28,10 +28,10 @@ DEPHASING_KRAUS_OPERATOR是量子比特的退相位过程噪声模型，它的kr
 
 需要一个噪声参数。
 
-DECOHERENCE_KRAUS_OPERATOR_P1_P2
+DECOHERENCE_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DECOHERENCE_KRAUS_OPERATOR_P1_P2是退相干噪声模型，为上述两种噪声模型的综合，他们的关系如下所示：
+DECOHERENCE_KRAUS_OPERATOR是退相干噪声模型，为上述两种噪声模型的综合，他们的关系如下所示：
 
 :math:`P_{damping} = 1 - e^{-\frac{t_{gate}}{T_1}}, P_{dephasing} = 0.5 \times (1 - e^{-(\frac{t_{gate}}{T_2} - \frac{t_{gate}}{2T_1})})`
 
@@ -39,7 +39,7 @@ DECOHERENCE_KRAUS_OPERATOR_P1_P2是退相干噪声模型，为上述两种噪声
 
 :math:`K_3 = K_{2_{damping}}K_{1_{dephasing}}, K_4 = K_{2_{damping}}K_{2_{dephasing}}`
 
-需要两个噪声参数。
+需要三个噪声参数。
 
 BITFLIP_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +71,7 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
 双门噪声模型
 >>>>>>>>>>>>>>
 
-双门噪声模型同样也分为三种：DOUBLE_DAMPING_KRAUS_OPERATOR、DOUBLE_DEPHASING_KRAUS_OPERATOR、DOUBLE_DECOHERENCE_KRAUS_OPERATOR。
+双门噪声模型同样也分为六种：DAMPING_KRAUS_OPERATOR、DEPHASING_KRAUS_OPERATOR、DECOHERENCE_KRAUS_OPERATOR_P1_P2、BITFLIP_KRAUS_OPERATOR、BIT_PHASE_FLIP_OPRATOR、PHASE_DAMPING_OPRATOR。
 它们的输入参数与单门噪声模型一致，双门噪声模型的kraus算符和表示与单门噪声模型存在着对应关系：假设单门噪声模型为： :math:`\{ K1, K2 \}` ，那么对应的双门噪声模型为
 :math:`\{K1\otimes K1, K1\otimes K2, K2\otimes K1, K2\otimes K2\}`。
 
@@ -79,39 +79,50 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
 接口介绍
 ------------
 
-含噪声量子虚拟机的接口和其他量子虚拟机的接口大部分是相同的，但含噪声量子虚拟机不能使用PMEASURE系列的概率测量接口。此外QPanda2给它重载了一个init成员函数，
-该成员函数可接收一个dict类型的参数，我们可以在参数中定义含噪声量子虚拟机支持的量子逻辑门类型和
-噪声模型，dict的结构如下所示：
+pyqpanda当前支持的噪声模型
 
-     .. code-block:: c
+.. code-block:: python
 
-              {
-                  “gates”:[.....],
-                  "noisemodel":{.....}}              
-              }
+    class NoiseModel(__pybind11_builtins.pybind11_object):
+        """
+        Members:
+        
+        DAMPING_KRAUS_OPERATOR
+        
+        DECOHERENCE_KRAUS_OPERATOR
+        
+        DEPHASING_KRAUS_OPERATOR
+        
+        PAULI_KRAUS_MAP
+        
+        DECOHERENCE_KRAUS_OPERATOR_P1_P2
+        
+        BITFLIP_KRAUS_OPERATOR
+        
+        DEPOLARIZING_KRAUS_OPERATOR
+        
+        BIT_PHASE_FLIP_OPRATOR
+        
+        PHASE_DAMPING_OPRATOR
+        """
 
-假设我们希望自定含噪声量子虚拟机支持的逻辑门是RX、RY、CNOT，并且希望设定RX,RY的噪声模型为DECOHERENCE_KRAUS_OPERATOR，那么我们把dict构造成以下形式：
-
-     .. code-block:: c
-
-              {
-                  “gates”:[["RX","RY"],["CNOT"]],
-                  "noisemodel":{"RX":[DECOHERENCE_KRAUS_OPERATOR,10.0,2.0,0.03],
-                                "RY":[DECOHERENCE_KRAUS_OPERATOR,10.0,2.0,0.03]}}              
-              }
-
-这里先举个pyQPanda使用的例子：
+设置量子逻辑门噪声模型的接口如下：
 
      .. code-block:: python
-          
-	            dict = {"gates":[["RX","RY"],["CNOT"]],
-                    "noisemodel":{"RX":[NoiseModel.DECOHERENCE_KRAUS_OPERATOR,10.0,2.0,0.03],
-                                  "RY":[NoiseModel.DECOHERENCE_KRAUS_OPERATOR,10.0,2.0,0.03]
-		    	    			 }
-		                }              
-	    
-                qvm = NoiseQVM() 
-                qvm.initQVM(dict)
+
+        set_noise_model(NoiseModel model, GateType type, list params_vec)
+
+第一个参数为噪声模型类型，第二个参数为量子逻辑门类型，第三个参数为噪声模型所需的参数。
+
+假设希望设定RX,RY的噪声模型为DECOHERENCE_KRAUS_OPERATOR，CNOT的噪声模型为DEPHASING_KRAUS_OPERATOR，可以按下面的方式构建量子虚拟机：
+
+.. code-block:: python
+
+    qvm = NoiseQVM()
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [5.0, 2.0, 0.03]) # T1: 5.0, T2: 2.0, t_gate: 0.03
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [5.0, 2.0, 0.03])
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [5.0, 2.0, 0.06])
+    qvm.init_qvm()
 
 实例
 ------------
@@ -122,12 +133,12 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
         import numpy as np
 
         if __name__ == "__main__":
-            qvm = NoiseQVM();
+            qvm = NoiseQVM()
             noise_rate = 0.001
-            doc = {'noisemodel': {'H': [NoiseModel.DEPHASING_KRAUS_OPERATOR, noise_rate],
-            'CNOT' : [NoiseModel.DEPHASING_KRAUS_OPERATOR, 2 * noise_rate]}}
+            qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.RX_GATE, [noise_rate])
+            qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.CNOT_GATE, [2 * noise_rate])
 
-            qvm.init_qvm(doc)
+            qvm.init_qvm()
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
