@@ -28,10 +28,10 @@ DEPHASING_KRAUS_OPERATOR是量子比特的退相位过程噪声模型，它的kr
 
 需要一个噪声参数。
 
-DECOHERENCE_KRAUS_OPERATOR_P1_P2
+DECOHERENCE_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DECOHERENCE_KRAUS_OPERATOR_P1_P2是退相干噪声模型，为上述两种噪声模型的综合，他们的关系如下所示：
+DECOHERENCE_KRAUS_OPERATOR是退相干噪声模型，为上述两种噪声模型的综合，他们的关系如下所示：
 
 :math:`P_{damping} = 1 - e^{-\frac{t_{gate}}{T_1}}, P_{dephasing} = 0.5 \times (1 - e^{-(\frac{t_{gate}}{T_2} - \frac{t_{gate}}{2T_1})})`
 
@@ -39,7 +39,7 @@ DECOHERENCE_KRAUS_OPERATOR_P1_P2是退相干噪声模型，为上述两种噪声
 
 :math:`K_3 = K_{2_{damping}}K_{1_{dephasing}}, K_4 = K_{2_{damping}}K_{2_{dephasing}}`
 
-需要两个噪声参数。
+需要三个噪声参数。
 
 BITFLIP_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,9 +119,9 @@ pyqpanda当前支持的噪声模型
 .. code-block:: python
 
     qvm = NoiseQVM()
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [10, 2.0, 0.03])
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [10, 2.0, 0.03])
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [10, 2.0, 0.03])
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [5.0, 2.0, 0.03]) # T1: 5.0, T2: 2.0, t_gate: 0.03
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [5.0, 2.0, 0.03])
+    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [5.0, 2.0, 0.06])
     qvm.init_qvm()
 
 实例
