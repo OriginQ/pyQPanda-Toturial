@@ -5,17 +5,19 @@
 
 pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集群发送计算指令，同时根据生成的唯一任务标识进行计算结果的查询等操作。
 
-首先通过 ``QCloud()`` 构建量子云虚拟机对象，然后用 ``initQVM()`` 初始化系统资源
+首先通过 ``QCloud()`` 构建量子云虚拟机对象，然后用 ``init_qvm`` 初始化系统资源
 
         .. code-block:: python
 
             from pyqpanda import *
+            import time
+
             PI = 3.141593
             
             QCM = QCloud()
-            QCM.initQVM()
+            QCM.init_qvm("4B7AFE1E196A4197B7C6845C4E73EF2E")
 
-接着构建量子程序
+ ``init_qvm`` 需要用户传入量子云平台用户验证标识token，可以从本源量子云平台个人信息下获取。接着构建量子程序
 
         .. code-block:: python
 
@@ -38,87 +40,47 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
                 .insert(CZ(qlist[9], qlist[5]))\
                 .insert(RY(qlist[2], PI / 4))\
                 .insert(RZ(qlist[9], PI / 4))\
-                .insert(CZ(qlist[2], qlist[3]))
+                .insert(CZ(qlist[2], qlist[3]))\
+                .insert(Measure(qlist[0], clist[0]))\
+                .insert(Measure(qlist[1], clist[1]))\
+                .insert(Measure(qlist[2], clist[2]))
 
-量子云虚拟机有两种计算任务提交接口。即 ``run_with_configuration(测量操作)`` 和 ``prob_run_dict(概率测量操作)`` ,
+量子云虚拟机有多种计算后端，主流的计算方法是 ``full_amplitude_measure(全振幅蒙特卡洛测量操作)`` 。
 
-- ``run_with_configuration(QProg，dict)`` ：
-
-        测量操作前需要先配置操作参数：
-
-        .. code-block:: python
-
-            param = {"RepeatNum": 1000, "token": "3CD107AEF1364924B9325305BF046FF3", "BackendType": QMachineType.NOISE}
-
-        参数说明：
-
-            - ``RepeatNum`` ：测量操作重复的次数
-            - ``token`` ：量子云平台用户验证标识
-            - ``BackendType`` ：量子虚拟机类型
-
-        然后提交计算任务
+- ``full_amplitude_measure(QProg,shot)`` ：
 
         .. code-block:: python
 
-            task = QCM.run_with_configuration(prog, param)
-            print(task)
+            taskid = QCM.full_amplitude_measure(prog, 100)
         
-        根据输出结果可以看到当前任务标识(TaskId)和任务状态(TaskState)
+        根据输出结果可以看到当前任务标识(TaskId)
         
         .. code-block:: python
 
-            {"TaskId":"1904301115021600","TaskState":"1"}
+            submit task 1337101012920d7beeeb122f2444c8537c97e28f64053 success
 
-        利用 ``get_result`` 接口,通过TaskId就可以对计算结果进行查询
+        利用 ``get_result`` 接口,通过传入TaskId和对应的虚拟机类型参数就可以对计算结果进行查询
         
         .. code-block:: python
 
-                result = QCM.get_result("1904301115021600")
-                print(result)
+                time.sleep(8)
+                QCM.get_result(taskid,,ClusterMachineType.Full_AMPLITUDE)
 
-        结果输出如下：
+        结果会在当前目录下生成结果文件，以taskid命名。内容如下：
         
         .. code-block:: python
 
-            0000000000 , 1.0
+                0 : 0.13
+                1 : 0.15
+                2 : 0.12
+                3 : 0.14
+                4 : 0.1
+                5 : 0.11
+                6 : 0.11
+                7 : 0.14
 
-- ``prob_run_dict(QProg，dict)`` ：
-
-        概率操作前也需要先配置操作参数，与测量不同，仅需要配置 ``token`` (量子云平台用户验证标识)与 ``BackendType`` (量子虚拟机类型)即可。
-
-        .. code-block:: python
-
-            param2 = {"token": "3CD107AEF1364924B9325305BF046FF3","BackendType": QMachineType.CPU}
-
-        然后提交计算任务
-
-        .. code-block:: python
-
-            task = QCM.prob_run_dict(prog, param)
-            print(task)
-        
-        根据输出结果可以看到当前任务标识(TaskId)和任务状态(TaskState)
-        
-        .. code-block:: python
-
-            {"TaskId":"1904301115021601","TaskState":"1"}
-
-        利用 ``get_result`` 接口,通过TaskId就可以对计算结果进行查询
-        
-        .. code-block:: python
-
-                result = QCM.get_result("1904301115021601")
-                print(result)
-
-        结果输出如下：
-        
-        .. code-block:: python
-
-            '0011000010': 0.0028459116820049733, 
-            '0011100011': 0.0028459116820049733, 
-            '0011110011': 0.0028459116820049733, 
-            ...
+        结果左侧是量子态的十进制表示，右边表示测量对应的概率
 
     .. note:: 
-        - 量子云平台用户验证标识token需要用户从本源量子云平台个人信息下获取。
-        - 量子云虚拟机除了经典的全振幅算法以外，现已支持单振幅、部分振幅等量子虚拟机模拟。
+        - 量子云计算平台还支持 ``full_amplitude_pmeasure(全振幅概率测量操作)`` 丶 ``partial_amplitude_pmeasure(部分振幅概率测量操作)`` 和 ``single_amplitude_pmeasure(单振幅概率测量操作)`` ，它们的使用方法大同小异。
+        - 量子云虚拟机未来会加入含噪声量子算法模拟以及量子化学模拟，敬请期待。
