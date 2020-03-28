@@ -1,9 +1,9 @@
-.. QPanda 2 documentation master file, created by
+.. PyQPanda documentation master file, created by
    sphinx-quickstart on Tue Jan 22 14:31:31 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-QPanda 2
+PyQPanda
 ====================================
 |build-status|
 
@@ -91,3 +91,9 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     VQC
     GradientOptimizer
     VQNetExample
+    
+.. toctree::
+    :caption: QAlg
+    :maxdepth: 2
+    
+    AmplitudeEncode
