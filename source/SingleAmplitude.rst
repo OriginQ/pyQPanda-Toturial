@@ -148,7 +148,7 @@
 
         .. code-block:: python
 
-            result = machine.pmeasure_bin_index(prog,"1")
+            result = machine.pmeasure_dec_index(prog,"1")
             print(result)
 
         结果输出如下：
