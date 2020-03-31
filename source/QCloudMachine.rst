@@ -24,7 +24,6 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
             qlist = QCM.qAlloc_many(10)
             clist = QCM.qAlloc_many(10)
             prog = QProg()
-            for i in qlist:
             
             prog.insert(hadamard_circuit(qlist))\
                 .insert(CZ(qlist[1], qlist[5]))\
@@ -64,7 +63,7 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
         .. code-block:: python
 
                 time.sleep(8)
-                QCM.get_result(taskid,,ClusterMachineType.Full_AMPLITUDE)
+                QCM.get_result(taskid,ClusterMachineType.Full_AMPLITUDE)
 
         结果会在当前目录下生成结果文件，以taskid命名。内容如下：
         
