@@ -66,7 +66,7 @@
 
         .. code-block:: python
 
-            result = machine.pmeasure_bin_index("1")
+            result = machine.pmeasure_dec_index("1")
             print(result)
 
         结果输出如下：
