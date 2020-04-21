@@ -79,7 +79,7 @@
 
         .. code-block:: python
 
-            qlist = ["0", "1", "2"]
+            state_index = ["0", "1", "2"]
             result = machine.pmeasure_subset(state_index)
             print(result)
 
