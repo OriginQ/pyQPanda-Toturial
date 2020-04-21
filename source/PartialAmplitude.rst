@@ -49,71 +49,6 @@
 
 部分接口使用如下：
 
-    - ``get_qstate()``
-
-        .. code-block:: python
-
-            result = machine.get_qstate()
-            print(result["0000000000"])
-            print(result["0000000001"])
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            (-0.0064720869120793835-0.0064720869120793185j)
-            (-3.5497357850862835e-17-0.009152913087920036j)
-
-    - ``pmeasure(string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.pmeasure("6")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0': 8.377581799501766e-05, 
-             '1': 8.377581799501789e-05, 
-             '2': 8.37758179950177e-05, 
-             '3': 8.377581799501786e-05, 
-             '4': 0.00048828124999996357, 
-             '5': 0.0004882812499999648}
-
-    - ``pmeasure(QVec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            qlist = [q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]]
-            result = machine.pmeasure(qlist, "3")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0': 0.00016755163599003553, 
-             '1': 0.00016755163599003556, 
-             '2': 0.0009765624999999284}
-
-    - ``get_prob_dict(qvec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            qlist = [q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]]
-            result = machine.get_prob_dict(qlist, "3")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'000000000': 0.00016755163599003553, 
-             '000000001': 0.00016755163599003556, 
-             '000000010': 0.0009765624999999284}
-
     - ``pmeasure_bin_index(string)`` ,使用示例
 
         .. code-block:: python
@@ -125,36 +60,38 @@
 
         .. code-block:: python
 
-            8.377581799501766e-05
+            (-0.00647208746522665-0.006472080945968628j)
 
     - ``pmeasure_dec_index(string)`` ,使用示例
 
         .. code-block:: python
 
-            result = machine.pmeasure_bin_index("1")
+            result = machine.pmeasure_dec_index("1")
             print(result)
 
         结果输出如下：
 
         .. code-block:: python
 
-            8.377581799501766e-05
+            (-6.068964220062867e-10-0.009152906015515327j)
 
-    - ``pmeasure_subset(prog,state_index)`` ,使用示例
+    - ``pmeasure_subset(state_index)`` ,使用示例
 
         .. code-block:: python
 
-            state_index = ["0000000000","0000000001"]
-            result = machine.pmeasure_subset(prog,state_index)
+            state_index = ["0", "1", "2"]
+            result = machine.pmeasure_subset(state_index)
             print(result)
 
         结果输出如下：
 
         .. code-block:: python
 
-            [8.377581799501766e-05 , 8.377581799501766e-05]
+             {'0': (-0.00647208746522665-0.006472080945968628j), 
+              '1': (-6.068964220062867e-10-0.009152906015515327j), 
+              '2': (-6.984919309616089e-10-0.009152908809483051j)}
 
         .. warning::
 
-            1. 部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
-            2. 部分振幅量子虚拟机会保留 ``pmeasure_subset(prog,state_index)`` 接口。
+            部分旧的接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等已经被弃用了。
+        
