@@ -12,21 +12,54 @@
 
 ::
 
+    #from pyqpanda import *
     import pyqpanda.pyQPanda as pq
     import math
-    
-    machine = pq.init_quantum_machine(pq.QMachineType.CPU)
-    q = machine.qAlloc_many(8)
-    c = machine.cAlloc_many(8)
-    prog = pq.QProg()
-    
-    prog.insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1]))\
-        .insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[1], q[2], math.pi/2))
-    iter_start = prog.begin()
-    iter_end = iter_start.get_next()
-    iter_end = iter_end.get_next()
-    result_mat = pq.get_matrix(prog, iter_start, iter_end)
-    pq.print_mat(result_mat)
+
+    class InitQMachine:
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+            self.m_prog = pq.QProg()
+
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
+
+    #测试接口： 获取连续逻辑门的矩阵信息
+    def test_get_matrix(q, c):
+        prog = pq.QProg()
+        #prog = pq.QCircuit()
+        gate_tmp = pq.Reset(q[0])
+        gate = pq.S(q[1])
+        prog.insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[1], q[2], math.pi/2))
+        iter_start = prog.begin()
+        iter_end = iter_start.get_next()
+        iter_end = iter_end.get_next()
+
+        type =iter_start.get_node_type()
+        if pq.NodeType.GATE_NODE == type:
+            gate = pq.QGate(iter_start)
+            print(gate.gate_type())
+
+        type =iter_end.get_node_type()
+        if pq.NodeType.GATE_NODE == type:
+            gate = pq.QGate(iter_end)
+            print(gate.gate_type())
+
+        #prog.set_dagger(True)
+        #result_mat = pq.get_matrix(prog, iter_start, iter_end)
+        result_mat = pq.get_matrix(prog)
+        pq.print_matrix(result_mat)
+
+    if __name__=="__main__":
+        init_machine = InitQMachine(16, 16)
+        qlist = init_machine.m_qlist
+        clist = init_machine.m_clist
+        machine = init_machine.m_machine
+
+        test_get_matrix(qlist, clist)
+        print("Test over.")
 
 具体步骤如下:
 
@@ -52,13 +85,33 @@ is_match_topology：判断量子逻辑门是否符合量子比特拓扑结构。
 
 ::
 
-    list = [[0,1,0,0,0],[1,0,1,1,0],[0,1,0,0,0],[0,1,0,0,1],[0,0,0,1,0]];
-    cx = pq.CNOT(q[1], q[3])
-    result = is_match_topology(cx,qubits_topology);
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+            self.m_prog = pq.QProg()
 
-在使用 is_match_topology 前需要先构建指定量子芯片的量子比特拓扑结构邻接矩阵list。
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
+        
+    #测试接口： 判断逻辑门是否符合量子拓扑结构
+    def test_is_match_topology(qlist, clist):
+        cx = pq.CNOT(q[1], q[3])
+        qubits_topology = [[0,1,0,0,0],[1,0,1,1,0],[0,1,0,0,0],[0,1,0,0,1],[0,0,0,1,0]]
+        print(len(qubits_topology))
 
-从以上示例可以看出，list有5个量子比特，量子比特拓扑图如下：
+        if (pq.is_match_topology(cx,qubits_topology)) == True:
+            print('Match !\n')
+        else:
+            print('Not match.')
+
+在使用 is_match_topology 前需要先构建指定量子芯片的量子比特拓扑结构邻接矩阵qubits_topology。
+
+从以上示例可以看出，qubits_topology有5个量子比特，量子比特拓扑图如下：
 
 .. figure:: ./images/ibmq_ourense.png
    :alt:
@@ -75,23 +128,56 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
-    prog = pq.QProg()
-    prog.insert(pq.T(qlist[0])).insert(pq.CNOT(qlist[1], qlist[2])).insert(pq.H(qlist[3]))\
-        .insert(pq.H(qlist[4])).insert(pq.measure_all(qlist, clist))
-    iter = prog.begin()
-    iter = iter.get_next()
-    type =iter.get_node_type()
-    if pq.NodeType.GATE_NODE == type:
-        gate = pq.QGate(iter)
-        print(gate.gate_type())
-        
-    list =pq.get_adjacent_qgate_type(prog,iter)
-    print(len(list))
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+            self.m_prog = pq.QProg()
 
-    gateFront = pq.QGate(list[0])
-    print(gateFront.gate_type())
-    gateBack = pq.QGate(list[1])
-    print(gateBack.gate_type())
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
+    
+    #测试接口： 获取指定位置前后逻辑门类型
+    def test_get_adjacent_qgate_type(qlist, clist):
+        prog = pq.QProg() 
+        #prog = pq.QCircuit()
+        prog.insert(pq.T(qlist[0])).insert(pq.CNOT(qlist[1], qlist[2])).insert(pq.Reset(qlist[1])).insert(pq.H(qlist[3])).insert(pq.H(qlist[4]))
+        #prog.set_dagger(True)
+        iter = prog.begin()
+        iter = iter.get_next()
+        type =iter.get_node_type()
+        if pq.NodeType.GATE_NODE == type:
+            gate = pq.QGate(iter)
+            print(gate.gate_type())
+        list =pq.get_adjacent_qgate_type(prog,iter)
+        print(len(list))
+        print(len(list[0].m_qubits))
+        print(list[1].m_is_dagger)
+    
+        node_type = list[0].m_node_type
+        print(node_type)
+        if node_type == pq.NodeType.GATE_NODE:
+            gateFront = pq.QGate(list[0].m_itr)
+            print(gateFront.gate_type())
+
+        node_type = list[1].m_node_type
+        print(node_type)
+        if node_type == pq.NodeType.GATE_NODE:
+            gateBack = pq.QGate(list[1].m_itr)
+            print(gateBack.gate_type())
+    
+    if __name__=="__main__":
+        init_machine = InitQMachine(16, 16)
+        qlist = init_machine.m_qlist
+        clist = init_machine.m_clist
+        machine = init_machine.m_machine
+
+        test_get_adjacent_qgate_type(qlist, clist)
+        print("Test over.")
 
 以上实例展示 get_adjacent_qgate_type 接口的使用方式：
 
@@ -125,22 +211,61 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
-    prog = pq.QProg()
-    cir = pq.QCircuit()
-    cir.insert(pq.H(q[0])).insert(pq.RX(q[1], math.pi/2)).insert(pq.T(q[2]))\
-        .insert(pq.RY(q[3], math.pi/2)).insert(pq.RZ(q[2], math.pi/2))
-    prog.insert(pq.H(q[0])).insert(pq.S(q[2])).insert(cir)\
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+            self.m_prog = pq.QProg()
+
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
+        
+    #测试接口： 判断指定的两个逻辑门是否可以交换位置
+    def test_is_swappable(q, c):
+        prog = pq.QProg()
+        cir = pq.QCircuit()
+        cir2 = pq.QCircuit()
+        cir2.insert(pq.H(q[3])).insert(pq.RX(q[1], math.pi/2)).insert(pq.T(q[2])).insert(pq.RY(q[3], math.pi/2)).insert(pq.RZ(q[2], math.pi/2))
+        cir2.set_dagger(True)
+        cir.insert(pq.H(q[1])).insert(cir2).insert(pq.CR(q[1], q[2], math.pi/2))
+        prog.insert(pq.H(q[0])).insert(pq.S(q[2]))\
+        .insert(cir)\
         .insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.measure_all(q,c))
 
-    iter_first = cir.begin()
-    iter_second = iter_first.get_next()
-    iter_second = iter_second.get_next()
-    iter_second = iter_second.get_next()
-    
-    if (pq.is_swappable(prog, iter_first, iter_second)) == True:
-        print('Could be swapped !\n')
-    else:
-        print('Could NOT be swapped.')
+        iter_first = cir.begin()
+
+        iter_second = cir2.begin()
+        #iter_second = iter_second.get_next()
+        #iter_second = iter_second.get_next()
+        #iter_second = iter_second.get_next()
+
+        type =iter_first.get_node_type()
+        if pq.NodeType.GATE_NODE == type:
+            gate = pq.QGate(iter_first)
+            print(gate.gate_type())
+
+        type =iter_second.get_node_type()
+        if pq.NodeType.GATE_NODE == type:
+            gate = pq.QGate(iter_second)
+            print(gate.gate_type())
+
+        if (pq.is_swappable(prog, iter_first, iter_second)) == True:
+            print('Could be swapped !\n')
+        else:
+            print('Could NOT be swapped.')
+        
+    if __name__=="__main__":
+        init_machine = InitQMachine(16, 16)
+        qlist = init_machine.m_qlist
+        clist = init_machine.m_clist
+        machine = init_machine.m_machine
+
+        test_is_swappable(qlist, clist)
+        print("Test over.")
 
 判断逻辑门是否属于量子芯片支持的量子逻辑门集合
 ==============================================
@@ -186,7 +311,39 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
-    qgate = pq.H(q[1]))
-    result = pq.is_supported_qgate_type(qgate);
+    import pyqpanda.pyQPanda as pq
+    import math
+    
+    class InitQMachine:
+        def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
+            self.m_machine = pq.init_quantum_machine(machineType)
+            self.m_qlist = self.m_machine.qAlloc_many(quBitCnt)
+            self.m_clist = self.m_machine.cAlloc_many(cBitCnt)
+            self.m_prog = pq.QProg()
+
+        def __del__(self):
+            pq.destroy_quantum_machine(self.m_machine)
+        
+    def test_support_qgate_type():
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        q = machine.qAlloc_many(8)
+        c = machine.cAlloc_many(8)
+    
+        prog = pq.QProg()
+        prog.insert(pq.H(q[1]))
+        result = pq.is_supported_qgate_type(prog.begin())
+        if result == True:
+            print('Support !\n')
+        else:
+            print('Unsupport !')
+        
+    if __name__=="__main__":
+        init_machine = InitQMachine(16, 16)
+        qlist = init_machine.m_qlist
+        clist = init_machine.m_clist
+        machine = init_machine.m_machine
+
+        test_support_qgate_type()
+        print("Test over.")
 
 .. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.xml <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.xml>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。
