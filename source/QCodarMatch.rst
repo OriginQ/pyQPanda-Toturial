@@ -26,7 +26,8 @@
 实例
 ---------------
 
-- 接口 ``topology_match``
+``topology_match`` 实例
+>>>>>>>>>>>>>>>>>>>>>>>>>
 
 .. code-block:: python
 
@@ -38,14 +39,14 @@
 
         qv = qvm.qAlloc_many(16)
         c = qvm.cAlloc_many(16)
-        prog = QProg()
-        prog.insert(CNOT(qv[0], qv[3])).insert(CNOT(qv[0], qv[2])).insert(CNOT(qv[1], qv[3])).insert(CZ(qv[1], qv[2])).insert(CZ(qv[0], qv[2]))\
+        src_prog = QProg()
+        src_prog.insert(CNOT(qv[0], qv[3])).insert(CNOT(qv[0], qv[2])).insert(CNOT(qv[1], qv[3])).insert(CZ(qv[1], qv[2])).insert(CZ(qv[0], qv[2]))\
             .insert(T(qv[1])).insert(S(qv[2])).insert(H(qv[3]))
 
-        qvm.directly_run(prog)
+        qvm.directly_run(src_prog)
         results_1 = qvm.pmeasure_no_index(qv)
         
-        out_prog, out_qv = topology_match(prog, qv, qvm, CNOT_GATE_METHOD, IBM_QX5_ARCH)
+        out_prog, out_qv = topology_match(src_prog, qv, qvm, CNOT_GATE_METHOD, IBM_QX5_ARCH)
 
         qvm.directly_run(out_prog)
         results_2 = qvm.pmeasure_no_index(out_qv)
@@ -58,6 +59,18 @@
                 print("The results are different")
 
         destroy_quantum_machine(qvm)
+
+具体步骤如下:
+
+ - 首先创建量子虚拟机、量子寄存器、经典寄存器
+ 
+ - 编写量子程序 ``src_prog`` ，对该量子程序进行概率测量得到结果 ``results_1``
+ 
+ - 接着调用 ``topology_match()`` 对 ``src_prog`` 进行符合特定物理结构的线路映射，得到适配特定物理结构的量子程序 ``out_prog``
+
+ - 对量子程序 ``out_prog`` 进行概率测量得到结果 ``results_2``
+ 
+ - 由于量子程序映射只是对原线路增加额外的 ``SWAP`` 操作，以适配物理拓扑结构，并不影响线路的结构。所以对比结果 ``results_1`` 和 ``results_2`` ，如果结果一致，则线路映射正确。
 
 
 运行结果如下:
@@ -81,7 +94,8 @@
     0.0
     0.0
 
-- 接口 ``qcodar_match``
+``qcodar_match`` 实例
+>>>>>>>>>>>>>>>>>>>>>>>>>
 
 .. code-block:: python
 
@@ -94,15 +108,15 @@
 
         qv = qvm.qAlloc_many(4)
         cv = qvm.cAlloc_many(4)
-        prog = QProg()
-        prog.insert(CNOT(qv[1], qv[3])).insert(RX(qv[0], PI / 2)).insert(CNOT(qv[0], qv[2])).insert(RY(qv[1], -PI / 4))\
+        src_prog = QProg()
+        src_prog.insert(CNOT(qv[1], qv[3])).insert(RX(qv[0], PI / 2)).insert(CNOT(qv[0], qv[2])).insert(RY(qv[1], -PI / 4))\
             .insert(CNOT(qv[2], qv[0])).insert(CZ(qv[1], qv[2])).insert(CNOT(qv[1], qv[3])).insert(RZ(qv[2], PI / 6))\
             .insert(CNOT(qv[2], qv[0])).insert(RZ(qv[0], -PI / 4)).insert(CNOT(qv[0], qv[2])).insert(H(qv[0]))\
             .insert(T(qv[1])).insert(RX(qv[1], -PI/4)).insert(Y(qv[2])).insert(Z(qv[1]))
-        qvm.directly_run(prog)
+        qvm.directly_run(src_prog)
         results_1 = qvm.pmeasure_no_index(qv)
         
-        out_prog, out_qv = qcodar_match(prog, qv, qvm, SIMPLE_TYPE, 2, 3, 5 )
+        out_prog, out_qv = qcodar_match(src_prog, qv, qvm, SIMPLE_TYPE, 2, 3, 5 )
 
         qvm.directly_run(out_prog)
         results_2 = qvm.pmeasure_no_index(out_qv)
@@ -115,6 +129,19 @@
                 print("The results are different")
 
         destroy_quantum_machine(qvm)
+
+具体步骤如下:
+
+ - 首先创建量子虚拟机、量子寄存器、经典寄存器
+ 
+ - 编写量子程序 ``src_prog`` ，对该量子程序进行概率测量得到结果 ``results_1``
+ 
+ - 接着调用 ``qcodar_match()`` 对 ``src_prog`` 进行符合特定物理结构的线路映射，得到适配特定物理结构的量子程序 ``out_prog``
+
+ - 对量子程序 ``out_prog`` 进行概率测量得到结果 ``results_2``
+ 
+ - 由于量子程序映射只是对原线路增加额外的 ``SWAP`` 操作，以适配物理拓扑结构，并不影响线路的结构。所以对比结果 ``results_1`` 和 ``results_2`` ，如果结果一致，则线路映射正确。
+
 
 运行结果如下：
 
