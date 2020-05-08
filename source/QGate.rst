@@ -206,14 +206,18 @@ CNOT门接收两个参数，第一个是控制比特，第二个是目标比特�
                init(QMachineType.CPU)
                qubits = qAlloc_many(3)
                control_qubits = [qubits[0], qubits[1]]
-               prog = CreateEmptyQProg()
+               prog = create_empty_qprog()
 
+               # 构建量子程序
                prog.insert(H(qubits[0])) \
                    .insert(H(qubits[1])) \
                    .insert(H(qubits[0]).dagger()) \
                    .insert(X(qubits[2]).control(control_qubits))
 
+               # 对量子程序进行概率测量
                result = prob_run_dict(prog, qubits, -1)
+
+               # 打印测量结果
                for key in result:
                     print(key+":"+str(result[key]))
                

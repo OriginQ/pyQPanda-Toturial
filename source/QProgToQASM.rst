@@ -62,12 +62,17 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
             cbits = qvm.cAlloc_many(4)
             prog = QProg()
 
+            # 构建量子程序
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
                 .insert(Measure(qubits[0], cbits[0]))
 
+            # 量子程序转化QASM
             qasm = convert_qprog_to_qasm(prog, qvm)
+
+            # 打印QASM
             print(qasm)
+            
             qvm.finalize()
 
 

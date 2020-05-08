@@ -61,11 +61,14 @@
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
 
+            # 统计量子程序时钟周期
             clock_cycle = get_qprog_clock_cycle(prog, qvm)
+            
             print("clock_cycle: " + str(clock_cycle))
             destroy_quantum_machine(qvm)
 

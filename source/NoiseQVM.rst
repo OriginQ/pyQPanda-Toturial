@@ -134,6 +134,8 @@ pyqpanda当前支持的噪声模型
 
         if __name__ == "__main__":
             qvm = NoiseQVM()
+
+            # 设置噪声模型参数
             noise_rate = 0.001
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.RX_GATE, [noise_rate])
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.CNOT_GATE, [2 * noise_rate])
@@ -142,6 +144,7 @@ pyqpanda当前支持的噪声模型
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             for i in range(0, len(qubits)):
                 prog.insert(H(qubits[i]))
@@ -150,10 +153,17 @@ pyqpanda当前支持的噪声模型
                 prog.insert(CNOT(qubits[i], qubits[i + 1]))
             
             prog.insert(measure_all(qubits, cbits))
+
+            # 设置测量次数为1000
             config = {'shots': 1000}
+
+            # 对量子程序进行量子测量
             result = qvm.run_with_configuration(prog, cbits, config)
-            qvm.finalize()
+
+            # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
+
+            qvm.finalize()
 
 运行结果：
 

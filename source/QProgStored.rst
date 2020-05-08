@@ -39,14 +39,18 @@
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
                 .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
 
+            # 量子程序序列化
             binary_data = convert_qprog_to_binary(prog, qvm)
             
+            # 将得到的二进制数据以base64的方式编码，并打印
             str_base64_data =  base64.encodebytes(bytes(binary_data))
             print(str_base64_data)
+
             destroy_quantum_machine(qvm)
 
         

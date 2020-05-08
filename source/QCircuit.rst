@@ -34,7 +34,7 @@
 
     .. code-block:: python
 
-        cir = CreateEmptyCircuit()
+        cir = create_empty_circuit()
 
 你可以通过如下方式向QCircuit尾部填充节点
 
@@ -82,8 +82,10 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
             init(QMachineType.CPU)
             qubits = qAlloc_many(4)
             cbits = cAlloc_many(4)
+
+            # 构建量子程序
             prog = QProg()
-            circuit = CreateEmptyCircuit()
+            circuit = create_empty_circuit()
 
             circuit.insert(H(qubits[0])) \
                 .insert(CNOT(qubits[0], qubits[1])) \
@@ -91,7 +93,11 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
                 .insert(CNOT(qubits[2], qubits[3]))
 
             prog.insert(circuit).insert(Measure(qubits[0], cbits[0]))
+
+            # 对量子程序进行量子测量
             result = run_with_configuration(prog, cbits, 1000)
+           
+            # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
 
             finalize()

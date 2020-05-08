@@ -63,7 +63,8 @@
             # 单量子门有效性验证
             single_gate=["T", "H", "S"]
             valid_single_gate = []
-            # 得到有效的量子逻辑门组合，和有效组合的类型
+
+            # 得到有效的量子逻辑门组合，和有效组合的类型；并打印逻辑门信息
             single_gate_type = validate_single_qgate_type(single_gate, valid_single_gate)
             print("SingleGateTransferType: " + str(single_gate_type))
         
@@ -73,7 +74,8 @@
             # 双量子门有效性验证
             double_gate=["CNOT", "SWAP", "CZ"]
             valid_double_gate = []
-            #得到有效的量子逻辑门组合，和有效组合的类型
+
+            #得到有效的量子逻辑门组合，和有效组合的类型；并打印逻辑门信息
             double_gate_type = validate_double_qgate_type(double_gate, valid_double_gate)
             print("doubleGateTransferType: " + str(double_gate_type))
             for gate in double_gate_type:

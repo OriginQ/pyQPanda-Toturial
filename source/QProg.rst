@@ -20,7 +20,7 @@
 
     .. code-block:: python
 
-        prog = CreateEmptyQProg()
+        prog = create_empty_qprog()
 
 还可以由已有的QNode节点来构建量子程序，如：
 
@@ -55,6 +55,7 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
             cbits = cAlloc_many(4)
             prog = QProg()
 
+            # 构建量子程序
             prog.insert(H(qubits[0])) \
                 .insert(X(qubits[1])) \
                 .insert(iSWAP(qubits[0], qubits[1])) \
@@ -62,7 +63,10 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
                 .insert(H(qubits[3])) \
                 .insert(measure_all(qubits, cbits))
 
+            # 对量子程序进行量子测量
             result = run_with_configuration(prog, cbits, 1000)
+            
+            # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
             finalize()
 
