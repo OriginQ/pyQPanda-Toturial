@@ -121,10 +121,17 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
+            
+            # 设置测量次数为1000
             config = {'shots': 1000}
+
+            # 对量子程序进行量子测量
             result = qvm.run_with_configuration(prog, cbits, config)
+            
+            # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
 
             qvm.finalize()
@@ -152,9 +159,14 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
             qubits = qAlloc_many(4)
             cbits = cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
+            
+            # 对量子程序进行量子测量
             result = run_with_configuration(prog, cbits, 1000)
+            
+            # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
 
             finalize()

@@ -20,7 +20,7 @@ QWhile
 
     .. code-block:: python
 
-        qwile = CreateWhileProg(ClassicalCondition, QNode)
+        qwile = create_while_prog(ClassicalCondition, QNode)
 
 上述函数需要提供两个参数，即ClassicalCondition量子表达式与QNode节点
 可以传入的QNode类型有： QProg、QCircuit、QGate、QWhileProg、QIfProg、QMeasure。
@@ -43,14 +43,21 @@ QWhile
 
             prog = QProg()
             prog_while = QProg()
+
+            # 构建QWhile的循环分支
             prog_while.insert(H(qubits[0])).insert(H(qubits[1])).insert(H(qubits[2]))\
                     .insert(assign(cbits[0], cbits[0] + 1)).insert(Measure(qubits[1], cbits[1]))
-            qwhile = CreateWhileProg(cbits[1], prog_while)
+            
+            # 构建QWhile
+            qwhile = create_while_prog(cbits[1], prog_while)
+           
+            # QWhile插入到量子程序中
             prog.insert(qwhile)
 
+            # 运行，并打印测量结果
             result = directly_run(prog)
-            print(cbits[0].eval())
             print(result)
+            print(cbits[0].eval())
             finalize()
 
 

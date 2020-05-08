@@ -30,13 +30,14 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
             qlist = machine.qAlloc_many(4)
             clist = machine.cAlloc_many(4)
             
-            prog = CreateEmptyQProg()
-            prog_cir = CreateEmptyCircuit()
+            # 构建量子程序
+            prog = create_empty_qprog()
+            prog_cir = create_empty_circuit()
             prog_cir.insert(Y(qlist[2])).insert(H(qlist[2])).insert(CNOT(qlist[0],qlist[1]))
-            qwhile = CreateWhileProg(clist[1], prog_cir)
-            
+            qwhile = create_while_prog(clist[1], prog_cir)
             prog.insert(H(qlist[2])).insert(Measure(qlist[1],clist[1])).insert(qwhile)
             
+            # 量子程序转换QriginIR，并打印OriginIR
             print(convert_qprog_to_originir(prog,machine))
             
             destroy_quantum_machine(machine)
@@ -48,7 +49,7 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
 
  - 接着用 ``qAlloc_many`` 和 ``cAlloc_many`` 初始化量子比特与经典寄存器数目
 
- - 然后调用 ``CreateEmptyQProg`` 构建量子程序
+ - 然后调用 ``create_empty_qprog`` 构建量子程序
 
  - 最后调用接口 ``convert_qprog_to_originir`` 输出OriginIR字符串，并用 ``destroy_quantum_machine`` 释放系统资源
 

@@ -21,8 +21,8 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
 
     .. code-block:: python
 
-        qif = CreateIfProg(ClassicalCondition, QNode)
-        qif = CreateIfProg(ClassicalCondition, QNode, QNode)
+        qif = create_if_prog(ClassicalCondition, QNode)
+        qif = create_if_prog(ClassicalCondition, QNode, QNode)
 
 上述函数需要提供两种类型参数，即ClassicalCondition量子表达式与QNode节点，
 当传入1个QNode参数时，QNode表示正确分支节点，当传入2个QNode参数时，第一个表示正确分支节点，第二个表示错误分支节点。
@@ -47,12 +47,19 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
             prog = QProg()
             branch_true = QProg()
             branch_false = QProg()
+
+            # 构建QIf正确分支以及错误分支
             branch_true.insert(H(qubits[0])).insert(H(qubits[1])).insert(H(qubits[2]))
             branch_false.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(CNOT(qubits[1], qubits[2]))
 
-            qif = CreateIfProg(cbits[0] > cbits[1], branch_true, branch_false)
+            # 构建QIf
+            qif = create_if_prog(cbits[0] > cbits[1], branch_true, branch_false)
+           
+            # QIf插入到量子程序中，并进行概率测量
             prog.insert(qif)
             result = prob_run_tuple_list(prog, qubits, -1)
+
+            # 打印概率测量结果
             print(result)
 
             finalize()

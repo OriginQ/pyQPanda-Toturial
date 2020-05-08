@@ -41,10 +41,13 @@
             cbits = qvm.cAlloc_many(2)
 
             prog = QProg()
+            
+            # 构建量子程序
             prog.insert(X(qubits[0])).insert(Y(qubits[1])).\
                 insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
                 .insert(Measure(qubits[0], cbits[0]))
 
+            # 统计逻辑门个数
             number = get_qgate_num(prog)
             print("QGate number: " + str(number))
 

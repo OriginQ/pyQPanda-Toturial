@@ -43,15 +43,25 @@
             qubits = machine.qAlloc_many(4)
             cbits = machine.cAlloc_many(4)
             prog = QProg()
+
+            # 构建量子程序
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
             .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
             .insert(Measure(qubits[0], cbits[0]))
 
-            single_gates = ["H"]        #支持的单量子逻辑门类型
-            double_gates = ["CNOT"]     #支持的双量子逻辑门类型
+            #支持的单量子逻辑门类型
+            single_gates = ["H"]      
+
+            #支持的双量子逻辑门类型 
+            double_gates = ["CNOT"]   
+
             gates = [single_gates, double_gates]
+
+            # 获取不支持的逻辑门类型的个数
             num = get_unsupport_qgate_num(prog, gates)
+
             print("unsupport QGate num: " + str(num))
+
             destroy_quantum_machine(machine)
 
 运行结果：

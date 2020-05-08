@@ -75,6 +75,7 @@
             qubits = qAlloc_many(4)
             cbits = cAlloc_many(4)
 
+            # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0]))\
                 .insert(H(qubits[1]))\
@@ -82,8 +83,12 @@
                 .insert(H(qubits[3]))\
                 .insert(measure_all(qubits, cbits))
 
+            # 对量子程序进行量子测量
             result = run_with_configuration(prog, cbits, 1000)
+
+            # 打印测量结果
             print(result)
+            
             finalize()
 
 

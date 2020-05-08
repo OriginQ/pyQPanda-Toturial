@@ -49,12 +49,16 @@
 
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
+
+            # base64的方式解码，得到的二进制数据
             str_base64_data = b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n';
             data = [int(x) for x in bytes(base64.decodebytes(str_base64_data))]  
+           
+            # 解析二进制数据，得到量子程序
             parseProg = QProg()
-
             parseProg = convert_binary_data_to_qprog(qvm, data)
             
+            # 量子程序转换OriginIR并打印
             print(convert_qprog_to_originir(parseProg,qvm))
 
             destroy_quantum_machine(qvm)
