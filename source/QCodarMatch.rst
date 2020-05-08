@@ -40,17 +40,27 @@
         qv = qvm.qAlloc_many(16)
         c = qvm.cAlloc_many(16)
         src_prog = QProg()
-        src_prog.insert(CNOT(qv[0], qv[3])).insert(CNOT(qv[0], qv[2])).insert(CNOT(qv[1], qv[3])).insert(CZ(qv[1], qv[2])).insert(CZ(qv[0], qv[2]))\
+
+        # 构建量子程序
+        src_prog.insert(CNOT(qv[0], qv[3])) \
+            .insert(CNOT(qv[0], qv[2])) \
+            .insert(CNOT(qv[1], qv[3])) \
+            .insert(CZ(qv[1], qv[2])) \
+            .insert(CZ(qv[0], qv[2])) \
             .insert(T(qv[1])).insert(S(qv[2])).insert(H(qv[3]))
 
+        # 对src_prog进行概率测量，得到结果results_1
         qvm.directly_run(src_prog)
         results_1 = qvm.pmeasure_no_index(qv)
         
+        # 对src_prog进行拓扑匹配，得到匹配IBM_QX5_ARCH拓扑结构的量子程序out_prog
         out_prog, out_qv = topology_match(src_prog, qv, qvm, CNOT_GATE_METHOD, IBM_QX5_ARCH)
 
+        # 对out_prog进行概率测量，得到结果results_2
         qvm.directly_run(out_prog)
         results_2 = qvm.pmeasure_no_index(out_qv)
         
+        # 对比概率测量结果results_1和results_2, 打印相同结果
         len = min(len(results_1), len(results_2))
         for index in range(len):
             if abs(results_1[index] - results_2[index]) < 1.0e-6 :
@@ -109,18 +119,37 @@
         qv = qvm.qAlloc_many(4)
         cv = qvm.cAlloc_many(4)
         src_prog = QProg()
-        src_prog.insert(CNOT(qv[1], qv[3])).insert(RX(qv[0], PI / 2)).insert(CNOT(qv[0], qv[2])).insert(RY(qv[1], -PI / 4))\
-            .insert(CNOT(qv[2], qv[0])).insert(CZ(qv[1], qv[2])).insert(CNOT(qv[1], qv[3])).insert(RZ(qv[2], PI / 6))\
-            .insert(CNOT(qv[2], qv[0])).insert(RZ(qv[0], -PI / 4)).insert(CNOT(qv[0], qv[2])).insert(H(qv[0]))\
-            .insert(T(qv[1])).insert(RX(qv[1], -PI/4)).insert(Y(qv[2])).insert(Z(qv[1]))
+
+        # 构建量子程序
+        src_prog.insert(CNOT(qv[1], qv[3])) \
+            .insert(RX(qv[0], PI / 2)) \
+            .insert(CNOT(qv[0], qv[2])) \
+            .insert(RY(qv[1], -PI / 4)) \
+            .insert(CNOT(qv[2], qv[0])) \
+            .insert(CZ(qv[1], qv[2])) \
+            .insert(CNOT(qv[1], qv[3])) \
+            .insert(RZ(qv[2], PI / 6)) \
+            .insert(CNOT(qv[2], qv[0])) \
+            .insert(RZ(qv[0], -PI / 4)) \
+            .insert(CNOT(qv[0], qv[2])) \
+            .insert(H(qv[0]))\
+            .insert(T(qv[1])) \
+            .insert(RX(qv[1], -PI/4)) \
+            .insert(Y(qv[2])) \
+            .insert(Z(qv[1]))
+
+        # 对src_prog进行概率测量，得到结果results_1
         qvm.directly_run(src_prog)
         results_1 = qvm.pmeasure_no_index(qv)
         
+        # 对src_prog进行拓扑匹配，得到匹配IBM_QX5_ARCH拓扑结构的量子程序out_prog
         out_prog, out_qv = qcodar_match(src_prog, qv, qvm, SIMPLE_TYPE, 2, 3, 5 )
 
+        # 对out_prog进行概率测量，得到结果results_2
         qvm.directly_run(out_prog)
         results_2 = qvm.pmeasure_no_index(out_qv)
         
+        # 对比概率测量结果results_1和results_2, 打印相同结果
         len = min(len(results_1), len(results_2))
         for index in range(len):
             if abs(results_1[index] - results_2[index]) < 1.0e-6 :

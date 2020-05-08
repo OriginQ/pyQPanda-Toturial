@@ -58,12 +58,15 @@
             cbits = qvm.cAlloc_many(4)
             prog = QProg()
 
+            # 构建量子程序
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
                 .insert(Measure(qubits[0], cbits[0]))
 
+            # 量子程序转换Quil， 并打印Quil
             quil = convert_qprog_to_quil(prog, qvm)
             print(quil)
+
             qvm.finalize()
 
 

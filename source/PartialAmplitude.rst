@@ -27,8 +27,8 @@
         q = machine.qAlloc_many(10)
         c = machine.cAlloc_many(10)
 
+        # 构建量子程序
         prog = QProg()
-
         prog.insert(hadamard_circuit(q))\
             .insert(CZ(q[1], q[5]))\
             .insert(CZ(q[3], q[7]))\

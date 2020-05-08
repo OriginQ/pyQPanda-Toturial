@@ -10,9 +10,8 @@
 实例
 ---------------
 
-::
+.. code-block:: python
 
-    #from pyqpanda import *
     import pyqpanda.pyQPanda as pq
     import math
 
@@ -26,30 +25,20 @@
         def __del__(self):
             pq.destroy_quantum_machine(self.m_machine)
 
-    #测试接口： 获取连续逻辑门的矩阵信息
     def test_get_matrix(q, c):
         prog = pq.QProg()
-        #prog = pq.QCircuit()
-        gate_tmp = pq.Reset(q[0])
-        gate = pq.S(q[1])
-        prog.insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[1], q[2], math.pi/2))
-        iter_start = prog.begin()
-        iter_end = iter_start.get_next()
-        iter_end = iter_end.get_next()
 
-        type =iter_start.get_node_type()
-        if pq.NodeType.GATE_NODE == type:
-            gate = pq.QGate(iter_start)
-            print(gate.gate_type())
-
-        type =iter_end.get_node_type()
-        if pq.NodeType.GATE_NODE == type:
-            gate = pq.QGate(iter_end)
-            print(gate.gate_type())
-
-        #prog.set_dagger(True)
-        #result_mat = pq.get_matrix(prog, iter_start, iter_end)
+        # 构建量子程序
+        prog.insert(pq.H(q[0])) \
+            .insert(pq.S(q[2])) \
+            .insert(pq.CNOT(q[0], q[1])) \
+            .insert(pq.CZ(q[1], q[2])) \
+            .insert(pq.CR(q[1], q[2], math.pi/2))
+        
+        # 获取线路对应矩阵
         result_mat = pq.get_matrix(prog)
+
+        # 打印矩阵信息
         pq.print_matrix(result_mat)
 
     if __name__=="__main__":
@@ -83,11 +72,11 @@
 
 is_match_topology：判断量子逻辑门是否符合量子比特拓扑结构。第一个输入参数是目标量子逻辑门QGate，第二个输入参数是量子比特拓扑结构，返回值为布尔值，表示目标量子逻辑门是否满足量子比特拓扑结构。True为满足，False为不满足。
 
-::
+.. code-block:: python
 
     import pyqpanda.pyQPanda as pq
     import math
-    
+
     class InitQMachine:
         def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
             self.m_machine = pq.init_quantum_machine(machineType)
@@ -98,16 +87,25 @@ is_match_topology：判断量子逻辑门是否符合量子比特拓扑结构。
         def __del__(self):
             pq.destroy_quantum_machine(self.m_machine)
         
-    #测试接口： 判断逻辑门是否符合量子拓扑结构
-    def test_is_match_topology(qlist, clist):
+    def test_is_match_topology(q, c):
         cx = pq.CNOT(q[1], q[3])
-        qubits_topology = [[0,1,0,0,0],[1,0,1,1,0],[0,1,0,0,0],[0,1,0,0,1],[0,0,0,1,0]]
-        print(len(qubits_topology))
 
+        # 构建拓扑结构
+        qubits_topology = [[0,1,0,0,0],[1,0,1,1,0],[0,1,0,0,0],[0,1,0,0,1],[0,0,0,1,0]]
+
+        #判断逻辑门是否符合量子拓扑结构
         if (pq.is_match_topology(cx,qubits_topology)) == True:
             print('Match !\n')
         else:
             print('Not match.')
+
+    if __name__=="__main__":
+        init_machine = InitQMachine(16, 16)
+        qlist = init_machine.m_qlist
+        clist = init_machine.m_clist
+        machine = init_machine.m_machine
+        test_is_match_topology(qlist, clist)
+        print("Test over.")
 
 在使用 is_match_topology 前需要先构建指定量子芯片的量子比特拓扑结构邻接矩阵qubits_topology。
 
@@ -126,11 +124,11 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 实例
 ---------------
 
-::
+.. code-block:: python
 
     import pyqpanda.pyQPanda as pq
     import math
-    
+
     class InitQMachine:
         def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
             self.m_machine = pq.init_quantum_machine(machineType)
@@ -140,24 +138,30 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
         def __del__(self):
             pq.destroy_quantum_machine(self.m_machine)
-    
-    #测试接口： 获取指定位置前后逻辑门类型
+
     def test_get_adjacent_qgate_type(qlist, clist):
         prog = pq.QProg() 
-        #prog = pq.QCircuit()
-        prog.insert(pq.T(qlist[0])).insert(pq.CNOT(qlist[1], qlist[2])).insert(pq.Reset(qlist[1])).insert(pq.H(qlist[3])).insert(pq.H(qlist[4]))
-        #prog.set_dagger(True)
+        
+        # 构建量子程序
+        prog.insert(pq.T(qlist[0])) \
+        .insert(pq.CNOT(qlist[1], qlist[2])) \
+        .insert(pq.Reset(qlist[1])) \
+        .insert(pq.H(qlist[3])) \
+        .insert(pq.H(qlist[4]))
+        
         iter = prog.begin()
         iter = iter.get_next()
         type =iter.get_node_type()
         if pq.NodeType.GATE_NODE == type:
             gate = pq.QGate(iter)
             print(gate.gate_type())
+        
+        # 获取指定位置前后逻辑门类型
         list =pq.get_adjacent_qgate_type(prog,iter)
         print(len(list))
         print(len(list[0].m_qubits))
         print(list[1].m_is_dagger)
-    
+
         node_type = list[0].m_node_type
         print(node_type)
         if node_type == pq.NodeType.GATE_NODE:
@@ -169,13 +173,12 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         if node_type == pq.NodeType.GATE_NODE:
             gateBack = pq.QGate(list[1].m_itr)
             print(gateBack.gate_type())
-    
+
     if __name__=="__main__":
         init_machine = InitQMachine(16, 16)
         qlist = init_machine.m_qlist
         clist = init_machine.m_clist
         machine = init_machine.m_machine
-
         test_get_adjacent_qgate_type(qlist, clist)
         print("Test over.")
 

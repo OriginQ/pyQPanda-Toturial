@@ -25,7 +25,8 @@ QPanda 2提供了OriginIR文件转换工具接口 ``convert_originir_to_qprog`` 
             from pyqpanda import *
             if __name__=="__main__":
                 machine = init_quantum_machine(QMachineType.CPU)
-
+                
+                # 编写OriginIR文件
                 f = open('testfile.txt', mode='w',encoding='utf-8')
                 f.write("""QINIT 4
                     CREG 4
@@ -48,7 +49,10 @@ QPanda 2提供了OriginIR文件转换工具接口 ``convert_originir_to_qprog`` 
 
                 f.close()
 
+                # OriginIR转换量子程序
                 prog, qv, cv = convert_originir_to_qprog("testfile.txt", machine)
+                
+                # 量子程序转换OriginIR，打印并对比转换结果
                 print(convert_qprog_to_originir(prog,machine))
 
                 destroy_quantum_machine(machine)
