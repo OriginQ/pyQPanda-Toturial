@@ -94,7 +94,7 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
 
             prog.insert(circuit).insert(Measure(qubits[0], cbits[0]))
 
-            # 对量子程序进行量子测量
+            # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
            
             # 打印量子态在量子程序多次运行结果中出现的次数
