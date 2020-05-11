@@ -90,17 +90,11 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
     .. code-block:: python
 
-        result = qvm.run_with_configuration(prog, cbits, config)
+        result = qvm.run_with_configuration(prog, cbits, shots)
 
-其中 ``prog`` 为量子程序， ``cbits`` 为 ClassicalCondition list, ``config`` 是一个字典类型的数据，内容如下：
+其中 ``prog`` 为量子程序， ``cbits`` 为 ClassicalCondition list，  ``shots`` 为量子程序运行次数。
 
-    .. code-block:: python
-
-        config = {'shots': 1000}
-
-.. note:: ``run_with_configuration`` 当前支持的配置只有 ``shots`` 一个可选字段， 以后随着pyqpanda的发展，会添加更多的配置可选项。
-
-如果想得到量子程序运行之后各个量子态的振幅值，可以调用 ``getQState`` 函数获得：
+如果想得到量子程序运行之后各个量子态的振幅值，可以调用 ``get_qstate`` 函数获得：
 
     .. code-block:: python
 
@@ -125,11 +119,8 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
             
-            # 设置测量次数为1000
-            config = {'shots': 1000}
-
-            # 对量子程序进行量子测量
-            result = qvm.run_with_configuration(prog, cbits, config)
+            # 量子程序运行1000次，并返回测量结果
+            result = qvm.run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
@@ -163,7 +154,7 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
             
-            # 对量子程序进行量子测量
+            # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数

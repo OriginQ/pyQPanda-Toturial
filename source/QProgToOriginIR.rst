@@ -29,12 +29,16 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
             machine = init_quantum_machine(QMachineType.CPU)
             qlist = machine.qAlloc_many(4)
             clist = machine.cAlloc_many(4)
-            
-            # 构建量子程序
             prog = create_empty_qprog()
             prog_cir = create_empty_circuit()
+
+            # 构建量子线路
             prog_cir.insert(Y(qlist[2])).insert(H(qlist[2])).insert(CNOT(qlist[0],qlist[1]))
+
+            # 构建QWhile， 使用量子线路为循环分支
             qwhile = create_while_prog(clist[1], prog_cir)
+
+            # 构建量子程序， 将QWhile插入到量子程序中
             prog.insert(H(qlist[2])).insert(Measure(qlist[1],clist[1])).insert(qwhile)
             
             # 量子程序转换QriginIR，并打印OriginIR

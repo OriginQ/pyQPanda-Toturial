@@ -41,7 +41,7 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
                 """)
             f.close()
 
-            # QASM转换量子程序
+            # QASM转换量子程序， 并返回量子程序、量子比特以及经典寄存器
             prog_trans, qv, cv = convert_qasm_to_qprog("testfile.txt", machine)
 
             # 量子程序转换QASM

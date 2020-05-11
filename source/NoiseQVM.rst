@@ -154,11 +154,8 @@ pyqpanda当前支持的噪声模型
             
             prog.insert(measure_all(qubits, cbits))
 
-            # 设置测量次数为1000
-            config = {'shots': 1000}
-
-            # 对量子程序进行量子测量
-            result = qvm.run_with_configuration(prog, cbits, config)
+            # 量子程序运行1000次，并返回测量结果
+            result = qvm.run_with_configuration(prog, cbits, 1000)
 
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)

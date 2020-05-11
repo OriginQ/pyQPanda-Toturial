@@ -49,7 +49,7 @@ QPanda 2提供了OriginIR文件转换工具接口 ``convert_originir_to_qprog`` 
 
                 f.close()
 
-                # OriginIR转换量子程序
+                # OriginIR转换量子程序, 返回转换后的量子程序、量子程序使用的量子比特以及经典寄存器
                 prog, qv, cv = convert_originir_to_qprog("testfile.txt", machine)
                 
                 # 量子程序转换OriginIR，打印并对比转换结果
