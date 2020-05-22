@@ -5,7 +5,7 @@
 
 量子测量是指通过外界对量子系统进行干扰来获取需要的信息，测量门使用的是蒙特卡洛方法的测量。在量子线路中用如下图标表示：
 
-.. image:: images/measure-01.png
+.. image:: images/QGate_measure.png
     :width: 65
 
 .. _api_introduction:
@@ -48,7 +48,7 @@
 
         result = directly_run(prog)
 
-``run_with_configuration`` 的功能是末态在目标量子比特序列在量子程序多次运行结果中出现的次数， 使用方法如下：
+``run_with_configuration`` 的功能是统计量子程序多次运行的测量结果， 使用方法如下：
 
     .. code-block:: python
 
@@ -83,7 +83,7 @@
                 .insert(H(qubits[3]))\
                 .insert(measure_all(qubits, cbits))
 
-            # 对量子程序进行量子测量
+            # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
 
             # 打印测量结果
