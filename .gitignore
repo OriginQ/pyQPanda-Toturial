@@ -4,3 +4,5 @@
 
 /.vs/slnx.sqlite
 /.vs
+/build
+/.vscode/settings.json
