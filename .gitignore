@@ -6,3 +6,5 @@
 /.vs
 /build
 /.vscode/settings.json
+/source/_build/html/.doctrees
+/source/_build/html
