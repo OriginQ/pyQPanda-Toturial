@@ -116,13 +116,21 @@ pyqpanda当前支持的噪声模型
 
 假设希望设定RX,RY的噪声模型为DECOHERENCE_KRAUS_OPERATOR，CNOT的噪声模型为DEPHASING_KRAUS_OPERATOR，可以按下面的方式构建量子虚拟机：
 
-.. code-block:: python
+    .. code-block:: python
 
-    qvm = NoiseQVM()
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [5.0, 2.0, 0.03]) # T1: 5.0, T2: 2.0, t_gate: 0.03
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [5.0, 2.0, 0.03])
-    qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [5.0, 2.0, 0.06])
-    qvm.init_qvm()
+        qvm = NoiseQVM()
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [5.0, 2.0, 0.03]) # T1: 5.0, T2: 2.0, t_gate: 0.03
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [5.0, 2.0, 0.03])
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [5.0, 2.0, 0.06])
+        qvm.init_qvm()
+
+含噪声虚拟机还支持设置设置带有角度的量子逻辑门的转转角度误差，其接口使用方式如下：
+
+    .. code-block:: python
+
+        qvm.set_rotation_angle_error(0.1)
+
+即设置角度旋转误差为0.1
 
 实例
 ------------
@@ -139,6 +147,9 @@ pyqpanda当前支持的噪声模型
             noise_rate = 0.001
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.RX_GATE, [noise_rate])
             qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.CNOT_GATE, [2 * noise_rate])
+
+            # 设置角度旋转误差为0.1
+            qvm.set_rotation_angle_error(0.1)
 
             qvm.init_qvm()
             qubits = qvm.qAlloc_many(4)
@@ -166,4 +177,4 @@ pyqpanda当前支持的噪声模型
 
     .. code-block:: python
 
-        {'0000': 55, '0001': 59, '0010': 71, '0011': 64, '0100': 56, '0101': 67, '0110': 60, '0111': 57, '1000': 72, '1001': 73, '1010': 70, '1011': 68, '1100': 57, '1101': 56, '1110': 55, '1111': 60}
+        {'0000': 56, '0001': 60, '0010': 68, '0011': 59, '0100': 58, '0101': 71, '0110': 62, '0111': 63, '1000': 67, '1001': 74, '1010': 65, '1011': 58, '1100': 61, '1101': 61, '1110': 58, '1111': 59}
