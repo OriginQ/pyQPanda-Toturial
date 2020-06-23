@@ -22,7 +22,7 @@ pyQPanda封装了量子云虚拟机，可以向本源量子的计算服务器集
         .. code-block:: python
 
             qlist = QCM.qAlloc_many(10)
-            clist = QCM.qAlloc_many(10)
+            clist = QCM.cAlloc_many(10)
             prog = QProg()
             
             prog.insert(hadamard_circuit(qlist))\
