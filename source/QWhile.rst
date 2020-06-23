@@ -38,8 +38,8 @@ QWhile
             init(QMachineType.CPU)
             qubits = qAlloc_many(3)
             cbits = cAlloc_many(3)
-            cbits[0].setValue(0)
-            cbits[1].setValue(1)
+            cbits[0].set_val(0)
+            cbits[1].set_val(1)
 
             prog = QProg()
             prog_while = QProg()
@@ -57,7 +57,7 @@ QWhile
             # 运行，并打印测量结果
             result = directly_run(prog)
             print(result)
-            print(cbits[0].eval())
+            print(cbits[0].get_val())
             finalize()
 
 

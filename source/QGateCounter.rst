@@ -58,7 +58,7 @@
 
     .. code-block:: python
 
-        QGate number: 5
+        QGate number: 4
 
     
 .. warning:: 

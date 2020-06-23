@@ -41,8 +41,8 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
             init(QMachineType.CPU)
             qubits = qAlloc_many(3)
             cbits = cAlloc_many(3)
-            cbits[0].setValue(0)
-            cbits[1].setValue(3)
+            cbits[0].set_val(0)
+            cbits[1].set_val(3)
 
             prog = QProg()
             branch_true = QProg()
