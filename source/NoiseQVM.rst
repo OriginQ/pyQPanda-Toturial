@@ -130,7 +130,30 @@ pyqpanda当前支持的噪声模型
 
         qvm.set_rotation_angle_error(0.1)
 
-即设置角度旋转误差为0.1
+即设置角度旋转误差为0.1。
+
+含噪声虚拟机同样支持直接设置KRAUS矩阵的方法，其接口使用方式如下：
+    
+    .. code-block:: python
+
+        prob = 0.05
+        k1 = [1 - prob,0,0,1 - prob]
+        k2 = [0, complex(0, -np.sqrt(prob)), complex(0, np.sqrt(prob)), 0]
+        noise = [k1, k2]
+        machine.set_noise_kraus_matrix(GateType.PAULI_X_GATE, noise)
+     
+即设置KRAUS矩阵k1，k2。
+
+含噪声虚拟机更加支持直接设置自定义酉矩阵以及矩阵对应概率的方法，其接口使用方式如下：
+
+    .. code-block:: python
+    
+        prob = 0.05
+        matrix_i = [ 1, 0, 0, 1 ];
+        matrix_x = [ 0, 1, 1, 0 ];
+        machine.set_noise_unitary_matrix(GateType.PAULI_X_GATE, [matrix_i, matrix_x], [1-prob, prob]);
+
+即设置自定义矩阵列表以及对应的概率列表。
 
 实例
 ------------
