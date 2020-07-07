@@ -41,6 +41,19 @@ DECOHERENCE_KRAUS_OPERATOR是退相干噪声模型，为上述两种噪声模型
 
 需要三个噪声参数。
 
+DEPOLARIZING_KRAUS_OPERATOR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DEPOLARIZING_KRAUS_OPERATOR去极化噪声模型，即单量子比特有一定的概率被完全混合态I/2代替, 它的kraus算符和表示方法如下所示：
+
+:math:`K_1 = \sqrt{1 - 3p/4} × I, K_2 = \sqrt{p}/2 × X` 
+
+:math:`K_3 = \sqrt{p}/2 × Y, K_4 = \sqrt{p}/2 × Z`
+
+其中I、X、Y、Z分别代表其量子逻辑门对应的矩阵
+
+需要一个参数
+
 BITFLIP_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -71,7 +84,7 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
 双门噪声模型
 >>>>>>>>>>>>>>
 
-双门噪声模型同样也分为六种：DAMPING_KRAUS_OPERATOR、DEPHASING_KRAUS_OPERATOR、DECOHERENCE_KRAUS_OPERATOR、BITFLIP_KRAUS_OPERATOR、BIT_PHASE_FLIP_OPRATOR、PHASE_DAMPING_OPRATOR。
+双门噪声模型同样也分为六种：DAMPING_KRAUS_OPERATOR、DEPHASING_KRAUS_OPERATOR、DECOHERENCE_KRAUS_OPERATOR、DEPOLARIZING_KRAUS_OPERATOR、BITFLIP_KRAUS_OPERATOR、BIT_PHASE_FLIP_OPRATOR、PHASE_DAMPING_OPRATOR。
 它们的输入参数与单门噪声模型一致，双门噪声模型的kraus算符和表示与单门噪声模型存在着对应关系：假设单门噪声模型为： :math:`\{ K1, K2 \}` ，那么对应的双门噪声模型为
 :math:`\{K1\otimes K1, K1\otimes K2, K2\otimes K1, K2\otimes K2\}`。
 
