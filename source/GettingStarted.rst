@@ -1,7 +1,7 @@
 系统配置和安装
 =========================
 
-.. _QPanda2: https://qpanda-2.readthedocs.io/zh_CN/latest/
+.. _QPanda2: https://qpanda-tutorial.readthedocs.io/zh/latest/index.html
 为了兼容 \ **高效**\与\ **便捷**\，QPanda2提供了C++ 和 Python两个版本，本文中主要介绍python版本的使用。
 如要了解和学习C++版本的使用请移步 QPanda2_。
 
