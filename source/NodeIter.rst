@@ -19,7 +19,7 @@ NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，�
 
 ::
 
-    iter = iter.get_next()
+    iter = iter.get_pre()
     
 
 获取节点类型
