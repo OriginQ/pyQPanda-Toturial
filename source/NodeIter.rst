@@ -103,7 +103,7 @@ NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，�
     else:
         print('Traversal End.\n')
     
-    pq.destroy_quantum_machine(m_machine)
+    pq.destroy_quantum_machine(machine)
 
 反向遍历：
 
