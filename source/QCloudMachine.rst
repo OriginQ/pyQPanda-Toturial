@@ -8,7 +8,10 @@
 .. image:: images/qcloud.gif
    :align: center  
 
-pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集群或量子真实芯片发送计算指令，并获取计算结果。
+pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集群或量子真实芯片发送计算指令，并获取计算结果，在使用下文介绍的各种虚拟机之前，需要确保已开通对应的虚拟机产品。
+
+.. image:: images/products.png
+   :align: center
  
 首先通过 ``QCloud()`` 构建量子云虚拟机对象，然后用 ``init_qvm`` 初始化系统资源
  
@@ -20,7 +23,12 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
             QCM = QCloud()
             QCM.init_qvm("3B1AC640AAC248C6A7EE4E8D8537370D")
 
-        ``init_qvm`` 需要用户传入量子云平台用户验证标识token，可以从本源量子云平台个人信息下获取。接着构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
+        ``init_qvm`` 需要用户传入量子云平台用户验证标识token，可以从本源量子云平台个人信息下获取，具体见下方截图。
+
+        .. image:: images/token.png
+            :align: center  
+        
+        接着构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
 
         .. code-block:: python
 
@@ -158,23 +166,47 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
 
         - ``6.real_chip_measure(本源悟源真实芯片测量操作)`` ：
 
+            该功能是通过真实芯片计算任务取代集群的模拟计算服务，完整的示例程序如下：
+
                 .. code-block:: python
+
+                    from pyqpanda import *
+                    
+                    QCM = QCloud()
+                    QCM.init_qvm("3B1AC640AAC248C6A7EE4E8D8537370D")
+
+                    qlist = QCM.qAlloc_many(6)
+                    clist = QCM.cAlloc_many(6)
+
+                    measure_prog = QProg()
+                    measure_prog.insert(hadamard_circuit(qlist))\
+                                .insert(CZ(qlist[1], qlist[5]))\
+                                .insert(Measure(qlist[0], clist[0]))\
+                                .insert(Measure(qlist[1], clist[1]))
 
                     result5 = QCM.real_chip_measure(measure_prog, 100)
                     print(result5)
+                    print("real_chip_measure pass !")
+
+                    QCM.finalize()
                 
                 输出结果如下,左侧是量子态的二进制表示，右边表示测量次数对应的概率：
                 
                 .. code-block:: python
 
-                    {'000': 0.125690974898748, 
-                     '001': 0.1376474724775309, 
-                     '010': 0.08622495923853496, 
-                     '011': 0.21313000364370588, 
-                     '100': 0.11617781984817964, 
-                     '101': 0.14758585390966736, 
-                     '110': 0.11815719064612076, 
-                     '111': 0.055385725337512515}
+                    {'00': 0.3143891308957699, 
+                     '01': 0.2614130703743602, 
+                     '10': 0.16432042714536252, 
+                     '11': 0.25987737158450747}
+
+                在使用本源悟源真实芯片测量操作时，经常会遇到各种错误，下面给出部分错误信息，可以根据抛出的错误异常信息进行对号入座。
+
+                -  ``server connection failed`` ：该异常表示服务器宕机或与服务器连接失败
+                -  ``api key error`` ：该异常表示用户的API-Key参数异常，请去官网确认个人资料的信息
+                -  ``un-activate products or lack of computing power`` ：该异常表示用户未开通该产品或算力不足
+                -  ``build system error`` ：该异常表示编译系统运行出错
+                -  ``exceeding maximum timing sequence`` ：该异常表示量子程序时序过长
+                -  ``unknown task status`` ：其他任务状态异常的情况
 
         .. note:: 
             - 使用对应的计算接口时，需要确认当前用户已经开通了该产品，否则可能会导致提交计算任务失败。
