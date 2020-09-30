@@ -31,7 +31,7 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
 .. image:: images/param.png
    :align: center
 
-通过本源悟源请求计算任务的完整代码流程如下：
+通过量子云平台向本源悟源请求计算任务的完整代码流程如下：
 
     .. code-block:: python
 
