@@ -91,6 +91,7 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
     .. code-block:: python
 
         from pyqpanda import *
+        import numpy as np
         
         # 通过QCloud()创建量子云虚拟机
         QCM = QCloud()
@@ -111,8 +112,8 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
         pmeasure_prog = QProg()
         pmeasure_prog.insert(hadamard_circuit(qlist))\
                         .insert(CZ(qlist[1], qlist[5]))\
-                        .insert(RX(qlist[2], PI / 4))\
-                        .insert(RX(qlist[1], PI / 4))\
+                        .insert(RX(qlist[2], np.pi / 4))\
+                        .insert(RX(qlist[1], np.pi / 4))\
 
         # 调用全振幅蒙特卡洛测量操作计算接口，需要量子程序和测量次数两个参数
         result = QCM.full_amplitude_measure(measure_prog, 100)
