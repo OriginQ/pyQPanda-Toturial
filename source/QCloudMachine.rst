@@ -31,7 +31,7 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
 .. image:: images/param.png
    :align: center
 
-通过本源悟源请求计算任务的完整代码流程如下：
+通过量子云平台向本源悟源请求计算任务的完整代码流程如下：
 
     .. code-block:: python
 
@@ -52,12 +52,6 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
                     .insert(CZ(qlist[1], qlist[5]))\
                     .insert(Measure(qlist[0], clist[0]))\
                     .insert(Measure(qlist[1], clist[1]))
-
-        pmeasure_prog = QProg()
-        pmeasure_prog.insert(hadamard_circuit(qlist))\
-                        .insert(CZ(qlist[1], qlist[5]))\
-                        .insert(RX(qlist[2], PI / 4))\
-                        .insert(RX(qlist[1], PI / 4))\
 
         # 调用真实芯片计算接口，需要量子程序和测量次数两个参数
         result = QCM.real_chip_measure(measure_prog, 100)
@@ -92,7 +86,41 @@ pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ----
 
-本源量子的高性能计算集群提供多种功能强大的虚拟机计算后端，适用于不同情况下的量子线路模拟需求，具体接口使用方式介绍如下：
+本源量子的高性能计算集群提供多种功能强大的虚拟机计算后端，适用于不同情况下的量子线路模拟需求，完整示例程序介绍如下：
+
+    .. code-block:: python
+
+        from pyqpanda import *
+        
+        # 通过QCloud()创建量子云虚拟机
+        QCM = QCloud()
+
+        # 通过传入当前用户的token来初始化
+        QCM.init_qvm("3B1AC640AAC248C6A7EE4E8D8537370D")
+
+        qlist = QCM.qAlloc_many(6)
+        clist = QCM.cAlloc_many(6)
+
+        # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
+        measure_prog = QProg()
+        measure_prog.insert(hadamard_circuit(qlist))\
+                    .insert(CZ(qlist[1], qlist[5]))\
+                    .insert(Measure(qlist[0], clist[0]))\
+                    .insert(Measure(qlist[1], clist[1]))
+
+        pmeasure_prog = QProg()
+        pmeasure_prog.insert(hadamard_circuit(qlist))\
+                        .insert(CZ(qlist[1], qlist[5]))\
+                        .insert(RX(qlist[2], PI / 4))\
+                        .insert(RX(qlist[1], PI / 4))\
+
+        # 调用全振幅蒙特卡洛测量操作计算接口，需要量子程序和测量次数两个参数
+        result = QCM.full_amplitude_measure(measure_prog, 100)
+        print(result)
+
+        QCM.finalize()
+
+    接口介绍如下：
 
     - ``1.full_amplitude_measure(全振幅蒙特卡洛测量操作)`` ：
 
