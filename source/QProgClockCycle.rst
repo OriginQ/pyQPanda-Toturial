@@ -53,8 +53,7 @@
     .. code-block:: python
     
         from pyqpanda import *
-
-        PI = 3.1415926
+        import numpy as np
 
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
@@ -64,7 +63,7 @@
             # 构建量子程序
             prog = QProg()
             prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
-                .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
+                .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], np.pi / 4))
 
             # 统计量子程序时钟周期
             clock_cycle = get_qprog_clock_cycle(prog, qvm)

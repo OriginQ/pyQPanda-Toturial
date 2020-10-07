@@ -39,9 +39,9 @@ QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`
         from pyqpanda import *
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
-            qubits = qvm.qAlloc_many(2)
-            cbits = qvm.cAlloc_many(2)
+            init(QMachineType.CPU)
+            qubits = qAlloc_many(2)
+            cbits = cAlloc_many(2)
 
             prog = QProg()
             prog.insert(H(qubits[0]))\
@@ -59,7 +59,7 @@ QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`
             result3 = prob_run_list(prog, qubits, -1)
             print(result3)
 
-            qvm.finalize()
+            finalize()
 
 
 运行结果：
@@ -73,4 +73,6 @@ QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`
         prob_run_list: 		   
         [0.4999999999999999, 0.0, 0.0, 0.4999999999999999]
 
+.. note::
 
+    ``概率测量`` 不支持噪声虚拟机

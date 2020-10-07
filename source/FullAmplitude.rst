@@ -30,18 +30,18 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
     .. code-block:: python
 
         init(QMachineType.CPU)  # 使用init,不会返回qvm，会在代码中生成一个全局的qvm
-        auto qvm = initQuantumMachine(QMachineType.CPU) # 通过接口得到quantum machine对象
+        auto qvm = init_quantum_machine(QMachineType.CPU) # 通过接口得到quantum machine对象
         qvm = CPUQVM() # 新建一个quantum machine对象
 
-.. note:: ``init`` 和 ``initQuantumMachine`` 这两个函数不是线程安全的，不适用于多线程编程，而且其最大的量子比特个数和经典寄存器个数均为默认值25。
+.. note:: ``init`` 和 ``init_quantum_machine`` 这两个函数不是线程安全的，不适用于多线程编程，而且其最大的量子比特个数和经典寄存器个数均为默认值25。
 
 设置好配置之后要初始化量子虚拟机：
 
     .. code-block:: python
 
-        qvm.initQVM()
+        qvm.init_qvm()
 
-.. note:: 调用 ``init`` 和 ``initQuantumMachine`` 接口， 就不需要初始化了。
+.. note:: 调用 ``init`` 和 ``init_quantum_machine`` 接口， 就不需要初始化了。
 
 下面我们就需要去申请量子比特和经典寄存器。
 
