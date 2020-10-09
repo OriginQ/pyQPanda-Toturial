@@ -44,7 +44,7 @@ QASM(Quantum Assembly Language)是IBM公司提出的量子汇编语言，与 :re
 
 关于QASM更多详细信息的介绍、使用与体验请参考 `IBM Q Experience量子云平台`_
 
-QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使用非常简单，具体可参考下方示例程序。
+QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
 >>>>>>>>>>>>>>
@@ -58,15 +58,20 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
 
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
-            qubits = qvm.qAlloc_many(4)
-            cbits = qvm.cAlloc_many(4)
+            q = qvm.qAlloc_many(6)
+            c = qvm.cAlloc_many(6)
             prog = QProg()
+            cir = QCircuit()
+            # cir.insert(T(q[0])).insert(SWAP(q[1], q[5])).insert(S(q[1])).insert(CNOT(q[1], q[0]))
+            cir.insert(CZ(q[0], q[2])).insert(CU(1.2345, 3, 4, 5, q[5], q[2]))
+            # cir.set_control([q[4],q[3]])
+            # cir.set_dagger(True)
+            prog.insert(cir)
+            prog.insert(X(q[0])).insert(Y(q[1]))\
+                .insert(H(q[2])).insert(RX(q[3], 3.14))\
+                .insert(Measure(q[0], c[0]))
 
-            prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
-                .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-                .insert(Measure(qubits[0], cbits[0]))
-
-            qasm = transform_qprog_to_qasm(prog, qvm)
+            qasm = convert_qprog_to_qasm(prog, qvm)[0]
             print(qasm)
             qvm.finalize()
 
@@ -79,7 +84,7 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
 
  - 然后调用 ``QProg`` 构建量子程序
 
- - 最后调用接口 ``transform_qprog_to_qasm`` 输出QASM指令集并用 ``finalize()`` 释放系统资源
+ - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集并用 ``finalize()`` 释放系统资源
 
 
 运行结果如下：
@@ -87,16 +92,27 @@ QPanda2提供了QASM转换工具接口 ``transform_qprog_to_qasm`` 该接口使�
     .. code-block:: python
 
         OPENQASM 2.0;
-        qreg q[4];
-        creg c[4];
-        x q[0];
-        y q[1];
-        h q[2];
-        rx(3.140000) q[3];
+        include "qelib1.inc";
+        qreg q[6];
+        creg c[6];
+        cz q[0],q[2];
+        u3(3.141593,6.283185,0.000000) q[1];
+        u3(3.140000,-1.570796,1.570796) q[3];
+        u3(0.000000,-0.336296,0.000000) q[5];
+        u3(3.141593,3.141593,0.000000) q[0];
+        u3(0.000000,-0.672593,0.000000) q[2];
         measure q[0] -> c[0];
-        ibmq_qasm_simulator
+        cx q[5],q[2];
+        u3(0.000000,0.336296,0.000000) q[2];
+        cx q[5],q[2];
+        u3(1.141593,3.141593,2.867296) q[2];
+        u3(0.000000,1.570796,0.000000) q[5];
+        cx q[5],q[2];
+        u3(1.141593,-1.194704,0.000000) q[2];
+        cx q[5],q[2];
+        u3(1.570796,0.000000,-1.336296) q[2];
 
 .. warning:: 
-        新版本中接口名有所调整，旧接口 ``to_QASM`` 将由 ``transform_qprog_to_qasm`` 替代。\
+        新版本中接口名有所调整，旧接口 ``to_QASM`` 将由 ``convert_qprog_to_qasm`` 替代。\
       
         ``to_QASM`` 将于下版本去除，请读者知悉。
