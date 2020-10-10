@@ -64,7 +64,7 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
             # 构建量子程序
             cir = QCircuit()
-            cir.insert(CZ(qubits[0], qubits[2])).insert(CU(1.2345, 3, 4, 5, qubits[5], qubits[2]))
+            cir.insert(CZ(qubits[0], qubits[2]))
             prog.insert(cir)
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
@@ -101,19 +101,9 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
         cz q[0],q[2];
         u3(3.141593,6.283185,0.000000) q[1];
         u3(3.140000,-1.570796,1.570796) q[3];
-        u3(0.000000,-0.336296,0.000000) q[5]; 
         u3(3.141593,3.141593,0.000000) q[0];
-        u3(0.000000,-0.672593,0.000000) q[2];
-        measure q[0] -> c[0]; 
-        cx q[5],q[2];
-        u3(0.000000,0.336296,0.000000) q[2];
-        cx q[5],q[2];
-        u3(1.141593,3.141593,2.867296) q[2];
-        u3(0.000000,1.570796,0.000000) q[5];
-        cx q[5],q[2];
-        u3(1.141593,-1.194704,0.000000) q[2];
-        cx q[5],q[2];
-        u3(1.570796,0.000000,-1.336296) q[2];
+        u3(1.570796,0.000000,3.141593) q[2];
+        measure q[0] -> c[0];
 
 .. warning:: 
         新增接口 ``convert_qprog_to_qasm()`` ，与老版本接口 ``transform_qprog_to_qasm()`` 功能相同。
