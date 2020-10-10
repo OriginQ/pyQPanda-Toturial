@@ -64,7 +64,7 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
             # 构建量子程序
             cir = QCircuit()
-            cir.insert(CZ(q[0], q[2])).insert(CU(1.2345, 3, 4, 5, q[5], q[2]))
+            cir.insert(CZ(qubits[0], qubits[2])).insert(CU(1.2345, 3, 4, 5, qubits[5], qubits[2]))
             prog.insert(cir)
             prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
                 .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
