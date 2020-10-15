@@ -58,7 +58,8 @@ QAOA
 
 
     if __name__=="__main__":    
-
+        problem = {'Z0 Z4':0.73,'Z0 Z5':0.33,'Z0 Z6':0.5,'Z1 Z4':0.69,'Z1 Z5':0.36,
+               'Z2 Z5':0.88,'Z2 Z6':0.58,'Z3 Z5':0.67,'Z3 Z6':0.43}
         Hp = PauliOperator(problem)
         qubit_num = Hp.getMaxIndex()
 
