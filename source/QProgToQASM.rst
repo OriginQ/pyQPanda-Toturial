@@ -81,7 +81,7 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
  - 然后调用 ``QProg`` 构建量子程序
 
- - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集以及所使用的后端名称并用 ``finalize()`` 释放系统资源
+ - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集。``finalize()`` 用于释放系统资源
 
 
 运行结果如下：
