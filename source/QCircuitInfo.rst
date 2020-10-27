@@ -349,4 +349,4 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         test_support_qgate_type()
         print("Test over.")
 
-.. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.xml <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.xml>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。
+.. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.xml <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.json>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。
