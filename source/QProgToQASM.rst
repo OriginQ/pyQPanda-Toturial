@@ -58,21 +58,18 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
-            qubits = qvm.qAlloc_many(4)
-            cbits = qvm.cAlloc_many(4)
+            q = qvm.qAlloc_many(6)
+            c = qvm.cAlloc_many(6)
             prog = QProg()
-
-            # 构建量子程序
-            prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
-                .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-                .insert(Measure(qubits[0], cbits[0]))
-
-            # 量子程序转化QASM
-            qasm = convert_qprog_to_qasm(prog, qvm)
-
-            # 打印QASM
-            print(qasm)
+            cir = QCircuit()
+            cir.insert(T(q[0])).insert(S(q[1])).insert(CNOT(q[1], q[0]))
+            prog.insert(cir)
+            prog.insert(X(q[0])).insert(Y(q[1])).insert(CU(1.2345, 3, 4, 5, q[5], q[2]))\
+                .insert(H(q[2])).insert(RX(q[3], 3.14))\
+                .insert(Measure(q[0], c[0]))
             
+            qasm = convert_qprog_to_qasm(prog, qvm)
+            print(qasm)
             qvm.finalize()
 
 
@@ -84,7 +81,7 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
  - 然后调用 ``QProg`` 构建量子程序
 
- - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集以及所使用的后端名称并用 ``finalize()`` 释放系统资源
+ - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集。``finalize()`` 用于释放系统资源
 
 
 运行结果如下：
@@ -92,15 +89,25 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
     .. code-block:: python
 
         OPENQASM 2.0;
-        qreg q[4];
-        creg c[4];
-        x q[0];
-        y q[1];
-        h q[2];
-        rx(3.140000) q[3];
+        include "qelib1.inc";
+        qreg q[6];
+        creg c[6];
+        u3(0,0.78539816339744828,0) q[0];
+        u3(0,1.5707963267948966,0) q[1];
+        u3(0,-0.67259265358979359,0) q[2];
+        u3(3.1400000000000001,-1.5707963267948966,1.5707963267948966) q[3];
+        u3(0,-0.33629632679489674,0) q[5];
+        cx q[1],q[0];
+        cx q[5],q[2];
+        u3(3.1415926535897931,3.14159265358979,0) q[0];
+        u3(3.1415926535897931,6.2831853071795827,0) q[1];
+        u3(0,0.33629632679489674,0) q[2];
         measure q[0] -> c[0];
-        ibmq_qasm_simulator
+        cx q[5],q[2];
+        u3(1.1415926535897933,3.1415926535897931,2.8672963267948974) q[2];
+        u3(0,1.5707963267948963,0) q[5];
+        cx q[5],q[2];
+        u3(1.1415926535897929,-1.1947036732051033,0) q[2];
+        cx q[5],q[2];
+        u3(1.5707963267949037,0,-1.3362963267948968) q[2];
 
-
-.. warning:: 
-        新增接口 ``convert_qprog_to_qasm()`` ，与老版本接口 ``transform_qprog_to_qasm()`` 功能相同。
