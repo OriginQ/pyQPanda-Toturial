@@ -45,12 +45,10 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
             prog_trans, qv, cv = convert_qasm_to_qprog("testfile.txt", machine)
 
             # 量子程序转换QASM
-            qasm, backend_name = convert_qprog_to_qasm(prog_trans,machine)
+            qasm = convert_qprog_to_qasm(prog_trans,machine)
             
             # 打印并对比转换结果
             print(qasm)
-
-            print(backend_name)
             destroy_quantum_machine(machine)
 
 
@@ -62,23 +60,19 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
 
  - 然后调用 ``convert_qasm_to_qprog`` 接口将QASM转换为量子程序
 
- - 最后调用 ``convert_qprog_to_qasm`` 接口，把量子程序转为QASM，通过比较输入和生成的QASM是否相同，判断QASM是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用 ``convert_qprog_to_qasm`` 接口，把量子程序转为QASM，通过比较量子程序执行结果，判断QASM是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
     .. code-block:: c
 
-        QINIT 4
         OPENQASM 2.0;
         include "qelib1.inc";
         qreg q[3];
         creg c[3];
-        x q[0];
-        x q[1];
-        z q[2];
-        h q[0];
-        tdg q[1];
+        u3(1.5707963267949037,3.1415926535897931,3.1415926535897931) q[0];
+        u3(3.1415926535897931,2.3561944901923386,0) q[1];
+        u3(0,3.1415926535897931,0) q[2];
         measure q[0] -> c[0];
-        ibmq_qasm_simulator
         
-.. note:: 对于暂不支持的操作类型，可能会在QASM转化成量子程序的过程中发生错误。
+.. note:: 上述示例中，由于QASM支持U3门，所以在QProg转QASM时，对量子线路做了优化，输出的QASM中只有U3门，这样可以有效降低量子线路深度。对于暂不支持的操作类型，可能会在QASM转化成量子程序的过程中发生错误。
