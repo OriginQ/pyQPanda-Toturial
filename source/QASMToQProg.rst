@@ -60,7 +60,7 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
 
  - 然后调用 ``convert_qasm_to_qprog`` 接口将QASM转换为量子程序
 
- - 最后调用 ``convert_qprog_to_qasm`` 接口，把量子程序转为QASM，通过比较输入和生成的QASM是否相同，判断QASM是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
+ - 最后调用 ``convert_qprog_to_qasm`` 接口，把量子程序转为QASM，通过比较量子程序执行结果，判断QASM是否正确转换成量子程序，并且用 ``destroy_quantum_machine`` 释放系统资源
 
 运行结果如下：
 
