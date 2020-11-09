@@ -12,8 +12,8 @@
 QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`` 、 ``prob_run_tuple_list``  、 ``prob_run_dict``。
 
 - ``prob_run_list`` ： 获得目标量子比特的概率测量结果列表。
-- ``prob_run_tuple_list``： 获得目标量子比特的概率测量结果， 其对应的下标为十进制。
-- ``prob_run_dict`` ：  获得目标量子比特的概率测量结果， 其对应的下标为二进制。
+- ``prob_run_tuple_list``： 获得目标量子比特的概率测量结果，为字典类型，其对应的下标为十进制。
+- ``prob_run_dict`` ：  获得目标量子比特的概率测量结果，为字典类型，其对应的下标为二进制。
 
 这三个函数的使用方式是一样的，下面就以 ``prob_run_dict`` 为例介绍，使用方式如下：
 
