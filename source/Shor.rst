@@ -135,7 +135,7 @@ Shor算法的量子线路图如下所示
 
 下面是QPanda-2.0中提供的Shor算法调用接口。
 
-.. code-block::
+.. code-block:: python
 
    Shor_factorization(int)
 
@@ -144,7 +144,7 @@ Shor算法的量子线路图如下所示
 选取 :math:`N=15` ，
 验证Shor的代码实例如下
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -158,6 +158,6 @@ Shor算法的量子线路图如下所示
 
 对 :math:`15` 的质因子分解结果应该是 :math:`15=3*5` ，所以应当返还算法成功标志和两个质因子 :math:`3` 和 :math:`5` 。 
 
-.. code-block::
+.. code-block:: python
 
    (True, (3, 5))

@@ -105,7 +105,7 @@ QFT的量子线路图如下所示
 QFT在一维情况就是Hadamard量子门。
 基于QPanda-2.0的QFT接口函数如下：
 
-.. code-block::
+.. code-block:: python
 
    QFT(qlist)
 
@@ -113,7 +113,7 @@ QFT在一维情况就是Hadamard量子门。
 
 选取 :math:`\left|x\right\rangle=\left|000\right\rangle` 验证QFT的代码实例如下
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -141,7 +141,7 @@ QFT在一维情况就是Hadamard量子门。
 由前文中QFT的定义及 :math:`\left|x\right\rangle=\left|000\right\rangle` 可知\
 输出结果应当以均匀概率 :math:`\frac{1}{8}` 得到所有量子态，即
 
-.. code-block::
+.. code-block:: python
 
    000, 0.125
    001, 0.125

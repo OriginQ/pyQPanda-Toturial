@@ -86,7 +86,7 @@ QPE的量子线路图如下所示
 量子线路总共可以分为三个部分，特征量子态制备与辅助比特量子态初始化、特征值相位提取、\
 逆量子傅里叶变换。程序实现的核心内容如下：
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -110,7 +110,7 @@ QPE的量子线路图如下所示
 选取 :math:`U=RY(\frac{\pi}{4}),\left|\psi\right\rangle=\left|0\right\rangle+i\left|1\right\rangle` ，
 对应的特征值为 :math:`e^{-i\frac{\pi}{8}}` ，验证QPE的代码实例如下
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -143,7 +143,7 @@ QPE的量子线路图如下所示
 
 由前文可知输出结果应当以较大概率得到量子态 :math:`\left|0\right\rangle` 
 
-.. code-block::
+.. code-block:: python
 
    000, 0.821067
    001, 0.0732233

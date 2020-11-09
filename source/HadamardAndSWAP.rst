@@ -56,7 +56,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 取 :math:`\left|\psi\right\rangle=\frac{\left|0\right\rangle+\left|1\right\rangle}{\sqrt2},U=H`，\
 Hadamard Test的一个代码实例如下：
 
-.. code-block::
+.. code-block:: python
 
     #!/usr/bin/env python
 
@@ -86,7 +86,7 @@ Hadamard Test的一个代码实例如下：
 输出结果应如下所示，分别以 :math:`\frac{1+\sqrt2/2}{2}` 和 :math:`1-\frac{1+\sqrt2/2}{2}` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
 
-.. code-block::
+.. code-block:: python
     
     0:0.853553
     1:0.146447
@@ -136,7 +136,7 @@ SWAP Test的代码实例与Hadamard Test有细微区别。
 {\sqrt2},\left|\psi\right\rangle=\left|1\right\rangle`，\
 SWAP Test的一个代码实例如下：
 
-.. code-block::
+.. code-block:: python
 
     #!/usr/bin/env python
 
@@ -168,7 +168,7 @@ SWAP Test的一个代码实例如下：
 输出结果应如下所示，分别以 :math:`0.75` 和 :math:`0.25` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
 
-.. code-block::
+.. code-block:: python
     
     0:0.75
     1:0.25

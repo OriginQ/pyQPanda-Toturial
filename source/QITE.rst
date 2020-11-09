@@ -152,7 +152,7 @@ QITE算法中构造线性方程组的左端项矩阵和右端项的量子线路�
 `QPanda-2.0下QITE算法程序源码 <https://github.com/OriginQ/QPanda-2/tree/master/QAlg/QITE>`_ \ ，\
 QPanda-2.0中QITE算法相关代码是一个类，因而下面将介绍所有相关的输入输出接口函数。
 
-.. code-block::
+.. code-block:: python
 
    qite=QITE()
    qite.set_Hamiltonian(Hamiltonian)
@@ -175,7 +175,7 @@ QPanda-2.0中QITE算法相关代码是一个类，因而下面将介绍所有相
 
 此问题的QITE求解代码实例如下
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -221,6 +221,6 @@ QPanda-2.0中QITE算法相关代码是一个类，因而下面将介绍所有相
 可以直接推导得知此7点网络图的节点重要性最大的节点应当为3号，因此结果应当抛出最重要节点3，\
 写法为 :math:`00000100:1.00`，如下所示的输出结果符合预期。
 
-.. code-block::
+.. code-block:: python
 
    4 0.999967
