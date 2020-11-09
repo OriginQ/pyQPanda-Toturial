@@ -84,7 +84,7 @@ Amplitude Amplification
 
 振幅放大量子线路的相应代码实例如下
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -114,7 +114,7 @@ Amplitude Amplification
 输出结果应如下所示，分别以 :math:`1` 和 :math:`0` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
 
-.. code-block::
+.. code-block:: python
     
     0:1
     1:0

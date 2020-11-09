@@ -55,7 +55,7 @@
 下面是基于QPanda-2.0的最大叠加态制备的代码实现，调用的量子比特之间有着纠缠关联。
 
 
-.. code-block::
+.. code-block:: python
 
     #!/usr/bin/env python
 
@@ -82,7 +82,7 @@
 
 运行结果应当是以均匀概率1/8得到3比特空间中所有量子态：
 
-.. code-block::
+.. code-block:: python
 
     000, 0.125
     001, 0.125
