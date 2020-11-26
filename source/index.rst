@@ -100,7 +100,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
 
     QubitAndQGate
     QPreparation
-    DataEncoding
+    .. DataEncoding
     HadamardAndSWAP
     AmplitudeAmplification
     QFT
