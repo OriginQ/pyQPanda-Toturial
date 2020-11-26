@@ -144,7 +144,7 @@ HHL算法的量子线路图如下所示
 `QPanda-2.0下HHL算法程序源码 <https://github.com/OriginQ/QPanda-2/tree/master/QAlg/HHL>`_ \ ，\
 此处仅介绍QPanda-2.0中提供的几个HHL算法调用接口。
 
-.. code-block::
+.. code-block:: python
 
    HHL(matrix, data, QuantumMachine)
 
@@ -154,7 +154,7 @@ HHL算法的量子线路图如下所示
 
 选择一个最简单的二维左端项单位矩阵例子来验证HHL接口函数的可用性，代码实例如下：
 
-.. code-block::
+.. code-block:: python
    
    #!/usr/bin/env python
 
@@ -180,7 +180,7 @@ HHL算法的量子线路图如下所示
 
 输出结果应该和右端项向量一样是 :math:`[0.6,0.8]`，因为误差会出现较小的扰动：
 
-.. code-block::
+.. code-block:: python:
 
    (0.5988269448280334-3.930189507173054e-14i)
    (0.7984358668327332-8.08242361927114e-14i)

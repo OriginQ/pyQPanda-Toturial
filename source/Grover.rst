@@ -169,7 +169,7 @@ Grover算法的量子线路图如下所示
 
 .. note:: 基于集合 :math:`\Omega` 和判别函数 :math:`f` 的试验态制备是两种算法共同的重要前置工作，与振幅放大算子一起构成了算法的核心组件。
 
-.. code-block::
+.. code-block:: python
 
    Grover(data, Classical_condition, QuantumMachine, qlist, data)
 
@@ -178,7 +178,7 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
 下面是一个一维Grover示例程序代码
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -198,6 +198,6 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
 输出结果是查找列表中数值6所在的坐标，应当如下
 
-.. code-block::
+.. code-block:: python
 
    [1,2,7]

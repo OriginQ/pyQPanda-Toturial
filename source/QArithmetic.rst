@@ -118,7 +118,7 @@ UMA模块是为了实现获得当前位结果，我们想要得到当前位 :mat
 
 在QPanda-2.0中加法器的接口函数如下：
 
-.. code-block::
+.. code-block:: python
 
    QAdder(adder1,adder2,c,is_carry)
 
@@ -140,7 +140,7 @@ UMA模块是为了实现获得当前位结果，我们想要得到当前位 :mat
 
 在QPanda-2.0中减法器（带符号的加法器）的接口函数如下：
 
-.. code-block::
+.. code-block:: python
 
    QSub(a,b,k)
 
@@ -153,7 +153,7 @@ UMA模块是为了实现获得当前位结果，我们想要得到当前位 :mat
 
 在QPanda-2.0中乘法器的接口函数如下：
 
-.. code-block::
+.. code-block:: python
 
    QMultiplier(a,b,k,d)
 
@@ -174,7 +174,7 @@ QMul中，辅助比特k.size()=a.size()，结果比特d.size()=2*a.size()-1。
 
 在QPanda-2.0中除法法器的接口函数如下：
 
-.. code-block::
+.. code-block:: python
 
    QDivider(a,b,c,k,t)
 
@@ -204,7 +204,7 @@ k为辅助比特，t或s为限制QWhile循环次数的经典比特。
 
 下面是一个简单的基于QPanda-2.0调用量子四则运算的代码示例
 
-.. code-block::
+.. code-block:: python
 
    #!/usr/bin/env python
 
@@ -249,6 +249,6 @@ k为辅助比特，t或s为限制QWhile循环次数的经典比特。
 执行的计算为 :math:`(4/1+1-3)*5=10`，因此结果应当以概率 :math:`1` 得到 :math:`\left|10\right\rangle`\
 即 :math:`\left|1010\right\rangle`。
 
-.. code-block::
+.. code-block:: python
     
     1010:1

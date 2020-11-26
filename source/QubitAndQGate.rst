@@ -23,7 +23,7 @@ QPanda接口函数
 
 在QPanda-2.0中，量子门的定义函数形式如下：
 
-.. code-block::
+.. code-block:: python
         
         gate = H(qubit)
 
@@ -97,7 +97,7 @@ QPanda接口函数
 
 输出结果应如下所示，分别以0.5的概率得到 :math:`\left|0\right\rangle`\和 :math:`\left|2\right\rangle` ：
 
-.. code-block::
+.. code-block:: python
     
     000:0.5
     010:0.5
