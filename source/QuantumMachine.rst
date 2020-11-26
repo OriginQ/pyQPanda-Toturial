@@ -13,5 +13,5 @@
    NoiseQVM
    SingleAmplitude
    PartialAmplitude
-   MPS
+   .. MPS
    QCloudMachine
