@@ -65,73 +65,6 @@
 
 部分接口使用如下：
 
-    - ``get_qstate()``
-
-        .. code-block:: python
-
-            result = machine.get_qstate()
-            print(result["0000000000"])
-            print(result["0000000001"])
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            (0.040830060839653015,-9.313225746154785e-10j)
-            (0.040830060839653015,-9.313225746154785e-10j)
-
-    - ``pmeasure(string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.pmeasure("6")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            (0, 0.0016670938348397613)
-            (1, 0.0016670938348397613)
-            (2, 0.0002860281092580408)
-            (3, 0.0002860281092580408)
-            (4, 0.0002860281092580408)
-            (5, 0.0002860281092580408)
-
-    - ``pmeasure(QVec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            qlist = [q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]]
-            result = machine.pmeasure(qlist, "3")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0': 0.0033341876696795225, 
-             '1': 0.0005720562185160816, 
-             '2': 0.0005720562185160816}
-
-    - ``get_prob_dict(qvec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.get_prob_dict(q,"6")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0000000000': 0.0016670938348397613, 
-             '0000000001': 0.0016670938348397613, 
-             '0000000010': 0.0002860281092580408, 
-             '0000000011': 0.0002860281092580408,
-             '0000000100': 0.0002860281092580408, 
-             '0000000101': 0.0002860281092580408}
-
     - ``pmeasure_bin_index(string)`` ,使用示例
 
         .. code-block:: python
@@ -157,7 +90,3 @@
         .. code-block:: python
 
             0.0016670938348397613
-
-        .. warning::
-
-            部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
