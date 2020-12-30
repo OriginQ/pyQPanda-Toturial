@@ -63,7 +63,7 @@ QAOA
         Hp = PauliOperator(problem)
         qubit_num = Hp.getMaxIndex()
 
-        machine=init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine=init_quantum_machine(QMachineType.CPU)
         qlist = machine.qAlloc_many(qubit_num)
 
         step = 4
