@@ -1,4 +1,4 @@
-Shor's Algorithm
+Shor算法
 ####
 
 Shor算法，又叫质因数分解算法，在破解RSA加密方面有着重要意义。

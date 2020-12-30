@@ -1,4 +1,4 @@
-Quantum Phase Estimation
+量子相位估计
 ####
 
 量子相位估计（QPE）可以计算给定幺正算符U的特征值的相位，即求解 :math:`U\left|\psi\right\rangle= \ 
