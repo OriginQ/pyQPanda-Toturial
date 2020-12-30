@@ -94,7 +94,7 @@
 
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+      machine = init_quantum_machine(QMachineType.CPU)
       qvec = machine.qAlloc_many(1)
       prog = create_empty_qprog()
 

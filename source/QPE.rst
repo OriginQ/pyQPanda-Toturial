@@ -119,7 +119,7 @@ QPE的量子线路图如下所示
 
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+      machine = init_quantum_machine(QMachineType.CPU)
       qvec = machine.qAlloc_many(1)
       cqv = machine.qAlloc_many(2)
       prog = create_empty_qprog()

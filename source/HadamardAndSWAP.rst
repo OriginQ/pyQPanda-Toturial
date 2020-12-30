@@ -64,7 +64,7 @@ Hadamard Test的一个代码实例如下：
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = init_quantum_machine(QMachineType.CPU)
         cqv = machine.qAlloc_many(1)
         tqv = machine.qAlloc_many(1)
         prog = create_empty_qprog()
@@ -144,7 +144,7 @@ SWAP Test的一个代码实例如下：
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = init_quantum_machine(QMachineType.CPU)
         cqv = machine.qAlloc_many(1)
         tqv = machine.qAlloc_many(1)
         qvec = machine.qAlloc_many(1)
