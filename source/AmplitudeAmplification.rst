@@ -1,4 +1,4 @@
-Amplitude Amplification
+振幅放大
 ####
 
 振幅放大（Amplitude Amplification）线路的主要作用为对于给定纯态的振幅进行放大，从而调整其测量结果概率分布。

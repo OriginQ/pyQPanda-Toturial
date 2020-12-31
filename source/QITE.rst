@@ -1,4 +1,4 @@
-Quantum Imaginary Time Evolution
+量子虚时演化算法
 ####
 
 虚时演化（Imaginary time evolution）是研究量子系统的一个有力工具。虚时演化算法作为一种量子经典混合算法\

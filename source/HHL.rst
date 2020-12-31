@@ -1,4 +1,4 @@
-Harrow-Hassidim-Lloyd Algorithm
+HHL算法
 ####
 
 HHL算法是一种求解线性方程组的量子算法，线性方程组在许多领域中都有着广泛的实际应用。

@@ -1,4 +1,4 @@
-Quantum Fourier Transform
+量子傅里叶变换
 ####
 
 量子傅里叶变换（QFT）实质上是经典的逆离散傅里叶变换（IDFT）的量子版本。

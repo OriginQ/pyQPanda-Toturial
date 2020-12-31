@@ -1,4 +1,4 @@
-Grover's Algorithm & Quantum Counting
+Grover算法和量子计数算法
 ####
 
 量子计数算法（Quantum Counting）与Grover算法都是基于集合元素二类划分问题衍生的算法。\

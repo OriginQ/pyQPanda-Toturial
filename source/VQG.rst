@@ -52,7 +52,7 @@ VariationalQuantumGate_CNOT   VQG_CNOT
     
     if __name__=="__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = init_quantum_machine(QMachineType.CPU)
         q = machine.qAlloc_many(2)
 
         x = var(1)
