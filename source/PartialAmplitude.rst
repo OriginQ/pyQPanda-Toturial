@@ -29,21 +29,21 @@
 
         # 构建量子程序
         prog = QProg()
-        prog.insert(hadamard_circuit(q))\
-            .insert(CZ(q[1], q[5]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CZ(q[0], q[4]))\
-            .insert(RZ(q[7], PI / 4))\
-            .insert(RX(q[5], PI / 4))\
-            .insert(RX(q[4], PI / 4))\
-            .insert(RY(q[3], PI / 4))\
-            .insert(CZ(q[2], q[6]))\
-            .insert(RZ(q[3], PI / 4))\
-            .insert(RZ(q[8], PI / 4))\
-            .insert(CZ(q[9], q[5]))\
-            .insert(RY(q[2], PI / 4))\
-            .insert(RZ(q[9], PI / 4))\
-            .insert(CZ(q[2], q[3]))
+        prog << hadamard_circuit(q)\
+             << CZ(q[1], q[5])\
+             << CZ(q[3], q[7])\
+             << CZ(q[0], q[4])\
+             << RZ(q[7], pi / 4)\
+             << RX(q[5], pi / 4)\
+             << RX(q[4], pi / 4)\
+             << RY(q[3], pi / 4)\
+             << CZ(q[2], q[6])\
+             << RZ(q[3], pi / 4)\
+             << RZ(q[8], pi / 4)\
+             << CZ(q[9], q[5])\
+             << RY(q[2], pi / 4)\
+             << RZ(q[9], pi / 4)\
+             << CZ(q[2], q[3])
 
         machine.run(prog)
 

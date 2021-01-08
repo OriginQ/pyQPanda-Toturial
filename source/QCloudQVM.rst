@@ -8,7 +8,7 @@
 
         from pyqpanda import *
         import numpy as np
-        
+
         # 通过QCloud()创建量子云虚拟机
         QCM = QCloud()
 
@@ -20,22 +20,20 @@
 
         # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
         measure_prog = QProg()
-        measure_prog.insert(hadamard_circuit(qlist))\
-                    .insert(CZ(qlist[1], qlist[5]))\
-                    .insert(Measure(qlist[0], clist[0]))\
-                    .insert(Measure(qlist[1], clist[1]))
+        measure_prog << hadamard_circuit(qlist)\
+                     << CZ(qlist[1], qlist[5])\
+                     << Measure(qlist[0], clist[0])\
+                     << Measure(qlist[1], clist[1])
 
         pmeasure_prog = QProg()
-        pmeasure_prog.insert(hadamard_circuit(qlist))\
-                        .insert(CZ(qlist[1], qlist[5]))\
-                        .insert(RX(qlist[2], np.pi / 4))\
-                        .insert(RX(qlist[1], np.pi / 4))\
+        pmeasure_prog << hadamard_circuit(qlist)\
+                      << CZ(qlist[1], qlist[5])\
+                      << RX(qlist[2], np.pi / 4)\
+                      << RX(qlist[1], np.pi / 4)\
 
         # 调用全振幅蒙特卡洛测量操作计算接口，需要量子程序和测量次数两个参数
-        result = QCM.full_amplitude_measure(measure_prog, 100)
+        result = QCM.full_amplitude_measure(measure_prog, 1000)
         print(result)
-
-        QCM.finalize()
 
 全振幅模拟云计算
 >>>>>>>>>>>>>>>>>>

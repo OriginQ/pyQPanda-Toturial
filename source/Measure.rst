@@ -40,11 +40,11 @@
     .. code-block:: python
 
         prog = QProg()
-        prog.insert(H(qubits[0]))\
-            .insert(CNOT(qubits[0], qubits[1]))\
-            .insert(CNOT(qubits[1], qubits[2]))\
-            .insert(CNOT(qubits[2], qubits[3]))\
-            .insert(Measure(qubits[0], cbits[0]))
+        prog << H(qubits[0])\
+             << CNOT(qubits[0], qubits[1])\
+             << CNOT(qubits[1], qubits[2])\
+             << CNOT(qubits[2], qubits[3])\
+             << Measure(qubits[0], cbits[0])
 
         result = directly_run(prog)
 
@@ -53,11 +53,11 @@
     .. code-block:: python
 
         prog = QProg()
-        prog.insert(H(qubits[0]))\
-            .insert(H(qubits[0]))\
-            .insert(H(qubits[1]))\
-            .insert(H(qubits[2]))\
-            .insert(measure_all(qubits, cbits))
+        prog << H(qubits[0])\
+             << H(qubits[0])\
+             << H(qubits[1])\
+             << H(qubits[2])\
+             << measure_all(qubits, cbits)
 
         result = run_with_configuration(prog, cbits, 1000)
 
@@ -77,18 +77,17 @@
 
             # 构建量子程序
             prog = QProg()
-            prog.insert(H(qubits[0]))\
-                .insert(H(qubits[1]))\
-                .insert(H(qubits[2]))\
-                .insert(H(qubits[3]))\
-                .insert(measure_all(qubits, cbits))
+            prog << H(qubits[0])\
+                 << H(qubits[1])\
+                 << H(qubits[2])\
+                 << H(qubits[3])\
+                 << measure_all(qubits, cbits)
 
             # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
 
             # 打印测量结果
             print(result)
-            
             finalize()
 
 

@@ -26,26 +26,25 @@
         from pyqpanda import *
         
         # 通过QCloud()创建量子云虚拟机
-        QCM = QCloud()
+        qm = QCloud()
 
         # 通过传入当前用户的token来初始化
-        QCM.init_qvm("3B1AC640AAC248C6A7EE4E8D8537370D")
+        qm.init_qvm("3B1AC640AAC248C6A7EE4E8D8537370D")
 
-        qlist = QCM.qAlloc_many(6)
-        clist = QCM.cAlloc_many(6)
+        qlist = qm.qAlloc_many(6)
+        clist = qm.cAlloc_many(6)
 
         # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
-        measure_prog = QProg()
-        measure_prog.insert(hadamard_circuit(qlist))\
-                    .insert(CZ(qlist[1], qlist[5]))\
-                    .insert(Measure(qlist[0], clist[0]))\
-                    .insert(Measure(qlist[1], clist[1]))
+        prog = QProg()
+        prog << hadamard_circuit(qlist)\
+            << CZ(qlist[1], qlist[5])\
+            << Measure(qlist[0], clist[0])\
+            << Measure(qlist[1], clist[1])
 
         # 调用真实芯片计算接口，需要量子程序和测量次数两个参数
-        result = QCM.real_chip_measure(measure_prog, 1000)
+        result = qm.real_chip_measure(prog, 1000)
         print(result)
-
-        QCM.finalize()
+        qm.finalize()
 
     上述过程需要注意的是， ``init`` 需要用户传入量子云平台用户验证标识 ``token`` ，可以从本源量子云平台个人信息下获取，具体见下方截图。
 
@@ -56,10 +55,7 @@
     
     .. code-block:: python
 
-        {'00': 0.009017310339861142, 
-         '01': 0.05618913175703472, 
-         '10': 0.027749039108681332, 
-         '11': 0.907044518794423}
+        {'00': 0.23802240750336423, '01': 0.26973019843267976, '10': 0.2343739851574412, '11': 0.25787340890651467}
 
     在使用本源悟源真实芯片测量操作时，经常会遇到各种错误，下面给出部分错误信息，可以根据抛出的错误异常信息进行对号入座。
 

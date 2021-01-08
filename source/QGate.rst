@@ -248,47 +248,43 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
          rx_control = RX(qubits[2], np.pi)
          rx_control.set_control(qvec)
 
+pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑门的操作
+
+      .. code-block:: python
+
+         cir = apply_QGate(qubits, H)
+
+qubits的每个量子比特都添加H们
 
 实例
 ----------------
 
 以下实例主要是向您展现QGate类型接口的使用方式.
 
-    .. code-block:: python
+.. code-block:: python
 
-          from pyqpanda import *
+      from pyqpanda import *
 
-          if __name__ == "__main__":
+      if __name__ == "__main__":
+          init(QMachineType.CPU)
+          qubits = qAlloc_many(3)
+          control_qubits = [qubits[0], qubits[1]]
+          prog = create_empty_qprog()
 
-               init(QMachineType.CPU)
-               qubits = qAlloc_many(3)
-               control_qubits = [qubits[0], qubits[1]]
-               prog = create_empty_qprog()
+          # 构建量子程序
+          prog << apply_QGate([qubits[0], qubits[1]], H) \
+               << H(qubits[0]).dagger() \
+               << X(qubits[2]).control(control_qubits)
 
-               # 构建量子程序
-               prog.insert(H(qubits[0])) \
-                   .insert(H(qubits[1])) \
-                   .insert(H(qubits[0]).dagger()) \
-                   .insert(X(qubits[2]).control(control_qubits))
+          # 对量子程序进行概率测量
+          result = prob_run_dict(prog, qubits, -1)
 
-               # 对量子程序进行概率测量
-               result = prob_run_dict(prog, qubits, -1)
-
-               # 打印测量结果
-               for key in result:
-                    print(key+":"+str(result[key]))
-               
-               finalize()
+          # 打印测量结果
+          print(result)
+          finalize()
 
 计算结果如下：
 
     .. code-block:: python
         
-          000:0.4999999999999998
-          001:0.0
-          010:0.4999999999999998
-          011:0.0
-          100:0.0
-          101:0.0
-          110:0.0
-          111:0.0
+      {'000': 0.4999999999999894, '001': 0.0, '010': 0.4999999999999894, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}

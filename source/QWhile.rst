@@ -45,14 +45,14 @@ QWhile
             prog_while = QProg()
 
             # 构建QWhile的循环分支
-            prog_while.insert(H(qubits[0])).insert(H(qubits[1])).insert(H(qubits[2]))\
-                    .insert(assign(cbits[0], cbits[0] + 1)).insert(Measure(qubits[1], cbits[1]))
+            prog_while << H(qubits[0]) << H(qubits[1])<< H(qubits[2])\
+                    << assign(cbits[0], cbits[0] + 1) << Measure(qubits[1], cbits[1])
             
             # 构建QWhile
             qwhile = create_while_prog(cbits[1], prog_while)
-           
+            
             # QWhile插入到量子程序中
-            prog.insert(qwhile)
+            prog << qwhile
 
             # 运行，并打印测量结果
             result = directly_run(prog)

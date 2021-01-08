@@ -45,6 +45,15 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
 下面我们就需要去申请量子比特和经典寄存器。
 
+设置最大量子比特个数
+
+.. code-block:: python
+
+        # 设置最大量子比特个数和最大经典寄存器个数
+        qvm.set_configure(30, 30)
+
+.. note:: 若不设置则默认最大比特为29。
+
 例如我们申请4个量子比特：
 
     .. code-block:: python
@@ -82,7 +91,7 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
     .. code-block:: python
 
         prog = QProg()
-        prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
+        prog << H(qubits[0]) << CNOT(qubits[0], qubits[1]) << Measure(qubits[0], cbits[0])
         
         result = qvm.directly_run(prog) # 执行量子程序
 
@@ -123,20 +132,21 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
         if __name__ == "__main__":
             qvm = CPUQVM()
-            qvm.initQVM()
+            qvm.init_qvm()
+
+            qvm.set_configure(29, 29)
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
             # 构建量子程序
             prog = QProg()
-            prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
+            prog << H(qubits[0]) << CNOT(qubits[0], qubits[1]) << Measure(qubits[0], cbits[0])
             
             # 量子程序运行1000次，并返回测量结果
             result = qvm.run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
-
             qvm.finalize()
 
 
@@ -164,14 +174,13 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
             # 构建量子程序
             prog = QProg()
-            prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1])).insert(Measure(qubits[0], cbits[0]))
+            prog << H(qubits[0]) << CNOT(qubits[0], qubits[1]) << Measure(qubits[0], cbits[0])
             
             # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
-
             finalize()
 
 

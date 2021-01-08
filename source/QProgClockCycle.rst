@@ -12,23 +12,17 @@
 配置文件可仿照下面设置
 ***********************
 
-.. code-block:: xml
+.. code-block:: json
 
-    <QGate>
-        <SingleGate>
-            <Gate time = "2">rx</Gate>
-            <Gate time = "2">Ry</Gate>
-            <Gate time = "2">RZ</Gate>
-            <Gate time = "2">S</Gate>
-            <Gate time = "2">H</Gate>
-            <Gate time = "2">X1</Gate>
-        </SingleGate>
-        <DoubleGate>
-            <Gate time = "5">CNOT</Gate>
-            <Gate time = "5">CZ</Gate>
-            <Gate time = "5">ISWAP</Gate>
-        </DoubleGate>
-    </QGate>
+    "QGate": {
+        "SingleGate":{
+            "U3":{"time":1}
+        },
+        "DoubleGate":{
+            "CNOT":{"time":2},
+            "CZ":{"time":2}
+        }
+    }
 
 接口介绍
 --------------
@@ -38,8 +32,8 @@
     .. code-block:: python
           
         prog = QProg()
-        prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
-            .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], PI / 4))
+        prog << H(qubits[0]) << CNOT(qubits[0], qubits[1])\
+             << iSWAP(qubits[1], qubits[2]) << RX(qubits[3], np.pi / 4)
 
 然后调用 ``get_qprog_clock_cycle`` 接口得到量子程序的时钟周期
 
@@ -62,13 +56,13 @@
 
             # 构建量子程序
             prog = QProg()
-            prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
-                .insert(iSWAP(qubits[1], qubits[2])).insert(RX(qubits[3], np.pi / 4))
+            prog << H(qubits[0]) << CNOT(qubits[0], qubits[1])\
+                 << iSWAP(qubits[1], qubits[2]) << RX(qubits[3], np.pi / 4)
 
             # 统计量子程序时钟周期
             clock_cycle = get_qprog_clock_cycle(prog, qvm)
             
-            print("clock_cycle: " + str(clock_cycle))
+            print(clock_cycle)
             destroy_quantum_machine(qvm)
 
 
@@ -76,7 +70,7 @@
 
     .. code-block:: c
 
-        clock_cycle: 12
+        5
 
     
 .. warning:: 

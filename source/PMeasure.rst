@@ -20,10 +20,10 @@ QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`
     .. code-block:: python
 
         prog = QProg()
-        prog.insert(H(qubits[0]))\
-            .insert(CNOT(qubits[0], qubits[1]))\
-            .insert(CNOT(qubits[1], qubits[2]))\
-            .insert(CNOT(qubits[2], qubits[3]))
+        prog << H(qubits[0])\
+             << CNOT(qubits[0], qubits[1])\
+             << CNOT(qubits[1], qubits[2])\
+             << CNOT(qubits[2], qubits[3])
 
         result = prob_run_dict(prog, qubits, 3)
 
@@ -43,8 +43,8 @@ QPanda2提供了三种获得PMeasure结果的方式，其中有 ``prob_run_list`
             cbits = cAlloc_many(2)
 
             prog = QProg()
-            prog.insert(H(qubits[0]))\
-                .insert(CNOT(qubits[0], qubits[1]))
+            prog << H(qubits[0])\
+                << CNOT(qubits[0], qubits[1])
 
             print("prob_run_dict: ")
             result1 = prob_run_dict(prog, qubits, -1)

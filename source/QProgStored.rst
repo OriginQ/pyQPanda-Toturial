@@ -15,8 +15,10 @@
     .. code-block:: python
           
         prog = QProg()
-        prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
-            .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
+        prog << H(qubits[0]) \
+            << CNOT(qubits[0], qubits[1]) \
+            << CNOT(qubits[1], qubits[2]) \
+            << CNOT(qubits[2], qubits[3])
 
 然后调用 ``convert_qprog_to_binary`` 接口实现序列化
 
@@ -33,7 +35,7 @@
     
         from pyqpanda import *
         import base64
-        
+
         if __name__ == "__main__":
             qvm = init_quantum_machine(QMachineType.CPU)
             qubits = qvm.qAlloc_many(4)
@@ -41,8 +43,10 @@
 
             # 构建量子程序
             prog = QProg()
-            prog.insert(H(qubits[0])).insert(CNOT(qubits[0], qubits[1]))\
-                .insert(CNOT(qubits[1], qubits[2])).insert(CNOT(qubits[2], qubits[3]))
+            prog << H(qubits[0]) \
+                << CNOT(qubits[0], qubits[1]) \
+                << CNOT(qubits[1], qubits[2]) \
+                << CNOT(qubits[2], qubits[3])
 
             # 量子程序序列化
             binary_data = convert_qprog_to_binary(prog, qvm)
