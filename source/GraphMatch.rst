@@ -29,34 +29,34 @@ CZ(1,0)
         machine = init_quantum_machine(QMachineType.CPU)
         q = machine.qAlloc_many(4)
         c = machine.cAlloc_many(4)
-        
+
         # 构建量子程序
         prog = QProg()
-        prog.insert(H(q[0]))\
-            .insert(H(q[2]))\
-            .insert(H(q[3]))\
-            .insert(CNOT(q[1], q[0]))\
-            .insert(H(q[0]))\
-            .insert(CNOT(q[1], q[2]))\
-            .insert(H(q[2]))\
-            .insert(CNOT(q[2], q[3]))\
-            .insert(H(q[3]))
+        prog << H(q[0])\
+            << H(q[2])\
+            << H(q[3])\
+            << CNOT(q[1], q[0])\
+            << H(q[0])\
+            << CNOT(q[1], q[2])\
+            << H(q[2])\
+            << CNOT(q[2], q[3])\
+            << H(q[3])
 
         # 构建查询线路
         query_cir = QCircuit()
-        query_cir.insert(H(q[0]))\
-                .insert(CNOT(q[1], q[0]))\
-                .insert(H(q[0]))
-        
+        query_cir << H(q[0])\
+                << CNOT(q[1], q[0])\
+                << H(q[0])
+
         # 构建替换线路
         replace_cir = QCircuit()
-        replace_cir.insert(CZ(q[1], q[0]))
+        replace_cir << CZ(q[1], q[0])
 
         print(convert_qprog_to_originir(prog,machine))
 
         # 搜索量子程序中的查询线路，并用替换线路替代
         update_prog = graph_query_replace(prog, query_cir, replace_cir, machine)
-       
+
         print(convert_qprog_to_originir(update_prog,machine))
 
 运行结果如下：

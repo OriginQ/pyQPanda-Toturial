@@ -19,7 +19,7 @@
     .. code-block:: python
 
         from pyqpanda import *
-        PI = 3.141593
+        from numpy import pi
         
         machine = SingleAmpQVM()
 
@@ -35,58 +35,58 @@
         prog = QProg()
 
         # 构建量子程序
-        prog.insert(hadamard_circuit(q))\
-            .insert(CZ(q[1], q[5]))\
-            .insert(CZ(q[3], q[5]))\
-            .insert(CZ(q[2], q[4]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CZ(q[0], q[4]))\
-            .insert(RY(q[7], PI / 2))\
-            .insert(RX(q[8], PI / 2))\
-            .insert(RX(q[9], PI / 2))\
-            .insert(CR(q[0], q[1], PI))\
-            .insert(CR(q[2], q[3], PI))\
-            .insert(RY(q[4], PI / 2))\
-            .insert(RZ(q[5], PI / 4))\
-            .insert(RX(q[6], PI / 2))\
-            .insert(RZ(q[7], PI / 4))\
-            .insert(CR(q[8], q[9], PI))\
-            .insert(CR(q[1], q[2], PI))\
-            .insert(RY(q[3], PI / 2))\
-            .insert(RX(q[4], PI / 2))\
-            .insert(RX(q[5], PI / 2))\
-            .insert(CR(q[9], q[1], PI))\
-            .insert(RY(q[1], PI / 2))\
-            .insert(RY(q[2], PI / 2))\
-            .insert(RZ(q[3], PI / 4))\
-            .insert(CR(q[7], q[8], PI))
+        prog << hadamard_circuit(q)\
+             << CZ(q[1], q[5])\
+             << CZ(q[3], q[5])\
+             << CZ(q[2], q[4])\
+             << CZ(q[3], q[7])\
+             << CZ(q[0], q[4])\
+             << RY(q[7], pi / 2)\
+             << RX(q[8], pi / 2)\
+             << RX(q[9], pi / 2)\
+             << CR(q[0], q[1], pi)\
+             << CR(q[2], q[3], pi)\
+             << RY(q[4], pi / 2)\
+             << RZ(q[5], pi / 4)\
+             << RX(q[6], pi / 2)\
+             << RZ(q[7], pi / 4)\
+             << CR(q[8], q[9], pi)\
+             << CR(q[1], q[2], pi)\
+             << RY(q[3], pi / 2)\
+             << RX(q[4], pi / 2)\
+             << RX(q[5], pi / 2)\
+             << CR(q[9], q[1], pi)\
+             << RY(q[1], pi / 2)\
+             << RY(q[2], pi / 2)\
+             << RZ(q[3], pi / 4)\
+             << CR(q[7], q[8], pi)
 
         machine.run(prog)
 
-部分接口使用如下：
+接口使用如下：
 
-    - ``pmeasure_bin_index(string)`` ,使用示例
+- ``pmeasure_bin_index(string)`` ,使用示例
 
-        .. code-block:: python
+    .. code-block:: python
 
-            result = machine.pmeasure_bin_index(prog,"0000000000")
-            print(result)
+        result = machine.pmeasure_bin_index(prog,"0000000000")
+        print(result)
 
-        结果输出如下：
+    结果输出如下：
 
-        .. code-block:: python
+    .. code-block:: python
 
-            0.0016670938348397613
+        0.0016670938348397613
 
-    - ``pmeasure_dec_index(string)`` ,使用示例
+- ``pmeasure_dec_index(string)`` ,使用示例
 
-        .. code-block:: python
+    .. code-block:: python
 
-            result = machine.pmeasure_dec_index(prog,"1")
-            print(result)
+        result = machine.pmeasure_dec_index(prog,"1")
+        print(result)
 
-        结果输出如下：
+    结果输出如下：
 
-        .. code-block:: python
+    .. code-block:: python
 
-            0.0016670938348397613
+        0.0016670938348397613

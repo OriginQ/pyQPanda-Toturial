@@ -35,9 +35,9 @@
     .. code-block:: python
                 
         prog = QProg()
-        prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
-            .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-            .insert(Measure(qubits[0], cbits[0]))
+        prog << X(qubits[0]) << Y(qubits[1])\
+            << H(qubits[2]) << RX(qubits[3], 3.14)\
+            << Measure(qubits[0], cbits[0])
 
 然后调用 ``convert_qprog_to_quil`` 接口实现转化
 
@@ -59,9 +59,9 @@
             prog = QProg()
 
             # 构建量子程序
-            prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
-                .insert(H(qubits[2])).insert(RX(qubits[3], 3.14))\
-                .insert(Measure(qubits[0], cbits[0]))
+            prog << X(qubits[0]) << Y(qubits[1])\
+                << H(qubits[2]) << RX(qubits[3], 3.14)\
+                << Measure(qubits[0], cbits[0])
 
             # 量子程序转换Quil， 并打印Quil
             quil = convert_qprog_to_quil(prog, qvm)

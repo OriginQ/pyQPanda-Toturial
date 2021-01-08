@@ -16,9 +16,9 @@
     .. code-block:: python
           
         prog = QProg()
-        prog.insert(X(qubits[0])).insert(Y(qubits[1]))\
-            .insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-            .insert(Measure(qubits[0], cbits[0]))
+        prog << X(qubits[0]) << Y(qubits[1])\
+             << H(qubits[0]) << RX(qubits[0], 3.14)\
+             << Measure(qubits[0], cbits[0])
 
 然后调用接口 ``get_qgate_num`` 统计量子逻辑门的个数，
 
@@ -43,9 +43,9 @@
             prog = QProg()
             
             # 构建量子程序
-            prog.insert(X(qubits[0])).insert(Y(qubits[1])).\
-                insert(H(qubits[0])).insert(RX(qubits[0], 3.14))\
-                .insert(Measure(qubits[0], cbits[0]))
+            prog << X(qubits[0]) << Y(qubits[1])\
+                << H(qubits[0]) << RX(qubits[0], 3.14)\
+                << Measure(qubits[0], cbits[0])
 
             # 统计逻辑门个数
             number = get_qgate_num(prog)

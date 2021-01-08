@@ -54,21 +54,21 @@
 
         # 初始化操作
         qvm.set_configure(64, 64)
-        qvm.initQVM()
+        qvm.init_qvm()
 
         q = qvm.qAlloc_many(10)
         c = qvm.cAlloc_many(10)
 
         # 构建量子程序
         prog = QProg()
-        prog.insert(hadamard_circuit(q))\
-            .insert(CZ(q[2], q[4]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CNOT(q[0], q[1]))\
-            .insert(Measure(q[0], c[0]))\
-            .insert(Measure(q[1], c[1]))\
-            .insert(Measure(q[2], c[2]))\
-            .insert(Measure(q[3], c[3]))
+        prog << hadamard_circuit(q)\
+            << CZ(q[2], q[4])\
+            << CZ(q[3], q[7])\
+            << CNOT(q[0], q[1])\
+            << Measure(q[0], c[0])\
+            << Measure(q[1], c[1])\
+            << Measure(q[2], c[2])\
+            << Measure(q[3], c[3])
 
         # 量子程序运行100次，并返回测量结果
         result = qvm.run_with_configuration(prog, c, 100)
@@ -92,28 +92,28 @@
 
         qvm = MPSQVM()
         qvm.set_configure(64, 64)
-        qvm.initQVM()
+        qvm.init_qvm()
 
         q = qvm.qAlloc_many(10)
         c = qvm.cAlloc_many(10)
 
         prog = QProg()
-        prog.insert(hadamard_circuit(q))\
-            .insert(CZ(q[2], q[4]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CNOT(q[0], q[1]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CZ(q[0], q[4]))\
-            .insert(RY(q[7], pi / 2))\
-            .insert(RX(q[8], pi / 2))\
-            .insert(RX(q[9], pi / 2))\
-            .insert(CR(q[0], q[1], pi))\
-            .insert(CR(q[2], q[3], pi))\
-            .insert(RY(q[4], pi / 2))\
-            .insert(RZ(q[5], pi / 4))\
-            .insert(Measure(q[0], c[0]))\
-            .insert(Measure(q[1], c[1]))\
-            .insert(Measure(q[2], c[2]))
+        prog << hadamard_circuit(q)\
+            << CZ(q[2], q[4])\
+            << CZ(q[3], q[7])\
+            << CNOT(q[0], q[1])\
+            << CZ(q[3], q[7])\
+            << CZ(q[0], q[4])\
+            << RY(q[7], pi / 2)\
+            << RX(q[8], pi / 2)\
+            << RX(q[9], pi / 2)\
+            << CR(q[0], q[1], pi)\
+            << CR(q[2], q[3], pi)\
+            << RY(q[4], pi / 2)\
+            << RZ(q[5], pi / 4)\
+            << Measure(q[0], c[0])\
+            << Measure(q[1], c[1])\
+            << Measure(q[2], c[2])
 
         # Monte Carlo采样模拟接口
         result0 = qvm.run_with_configuration(prog, c, 100)
@@ -126,7 +126,7 @@
 
         qvm.finalize()
 
-    上述代码中``runWithConfiguration`` 与 ``probRunDict`` 接口分别用于Monte Carlo采样模拟和概率测量，他们分别输出模拟采样的结果和对应振幅的概率，上述程序的计算结果如下
+    上述代码中``run_with_configuration`` 与 ``prob_run_dict`` 接口分别用于Monte Carlo采样模拟和概率测量，他们分别输出模拟采样的结果和对应振幅的概率，上述程序的计算结果如下
 
     .. code-block:: python
 
@@ -149,8 +149,3 @@
          '101': 0.12499999999999194, 
          '110': 0.12499999999999198, 
          '111': 0.12499999999999208}
-
-    .. note::
-
-        1. 概率测量还支持其他输出类型的接口，比如 ``getProbTupleList(QVec, int)`` 、 ``probRunTupleList(QProg &, QVec, int)`` 、 ``probRunList(QProg &, QVec, int)`` 、 ``getQState()`` 以及 ``pMeasure(QVec, int)`` 等，在此不做过多介绍。
-        2. 后续张量网络量子虚拟机会支持含噪声的模拟，使量子电路的模拟更贴近真实的量子计算机，支持自定义的逻辑门类型和噪声模型，所有的噪声模型和错误包括但不限于 :ref:`NoiseQVM` 部分提到的内容。

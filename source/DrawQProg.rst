@@ -18,18 +18,18 @@
 
         def __del__(self):
             pq.destroy_quantum_machine(self.m_machine)
-    
+
     def test_print_qcircuit(q, c):
         # 构建量子程序
         prog = pq.QCircuit()
-        prog.insert(pq.CU(1, 2, 3, 4, q[0], q[5])).insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[2], q[1], math.pi/2))
+        prog << pq.CU(1, 2, 3, 4, q[0], q[5]) << pq.H(q[0]) << pq.S(q[2]) << pq.CNOT(q[0], q[1]) << pq.CZ(q[1], q[2]) << pq.CR(q[2], q[1], math.pi/2)
         prog.set_dagger(True)
-       
+        
         print('draw_qprog:')
 
         # 量子程序字符画
         pq.draw_qprog(prog)
-    
+
     if __name__=="__main__":
         init_machine = InitQMachine(16, 16)
         qlist = init_machine.m_qlist
@@ -54,7 +54,7 @@
 ::
 
     prog = pq.QCircuit()
-    prog.insert(pq.CU(1, 2, 3, 4, q[0], q[5])).insert(pq.H(q[0])).insert(pq.S(q[2])).insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.CR(q[2], q[1], math.pi/2))
+    prog << pq.CU(1, 2, 3, 4, q[0], q[5]) << pq.H(q[0]) << pq.S(q[2]) << pq.CNOT(q[0], q[1]) << pq.CZ(q[1], q[2]) << pq.CR(q[2], q[1], math.pi/2)
     iter_start = prog.begin()
     iter_end = iter_start.get_next()
     iter_end = iter_end.get_next()
