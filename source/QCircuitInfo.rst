@@ -159,19 +159,19 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         # 获取指定位置前后逻辑门类型
         list = pq.get_adjacent_qgate_type(prog,iter)
         print(len(list))
-        print(len(list[0].m_qubits))
+        print(len(list[0].m_target_qubits))
         print(list[1].m_is_dagger)
 
         node_type = list[0].m_node_type
         print(node_type)
         if node_type == pq.NodeType.GATE_NODE:
-            gateFront = pq.QGate(list[0].m_itr)
+            gateFront = pq.QGate(list[0].m_iter)
             print(gateFront.gate_type())
 
         node_type = list[1].m_node_type
         print(node_type)
         if node_type == pq.NodeType.GATE_NODE:
-            gateBack = pq.QGate(list[1].m_itr)
+            gateBack = pq.QGate(list[1].m_iter)
             print(gateBack.gate_type())
 
     if __name__=="__main__":
