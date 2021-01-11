@@ -53,7 +53,7 @@
 
 输出的量子线路图片效果如下：
 
-.. figure:: ./images/prog_pic.png
+.. figure:: ./images/test_cir_draw.jpg
    :alt:
 
 接口draw_qprog()的详细参数说明如下：
