@@ -187,7 +187,7 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+      machine = init_quantum_machine(QMachineType.CPU)
       x = machine.cAlloc()
       prog = create_empty_qprog()
 
