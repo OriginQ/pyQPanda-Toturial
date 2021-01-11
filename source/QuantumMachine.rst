@@ -13,4 +13,4 @@
    NoiseQVM
    SingleAmplitude
    PartialAmplitude
-   .. MPS
+   MPS
