@@ -38,36 +38,36 @@ pyqpanda中设计了 ``matrix_decompose`` 接口用于进行酉矩阵分解，�
 
     .. code-block:: python
   
-        import pyqpanda.pyQPanda as pq
-        import numpy as np
+        import pyqpanda as pq
+        import numpy as np
 
-        if __name__=="__main__":
+        if __name__=="__main__":
 
-            machine = pq.init_quantum_machine(pq.QMachineType.CPU)
-            q = machine.qAlloc_many(2)
-            c = machine.cAlloc_many(2)
+            machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+            q = machine.qAlloc_many(2)
+            c = machine.cAlloc_many(2)
 
-            source_matrix = [(0.974545+0.002125j),  (-0.012681-0.128788j), (-0.015742-0.128335j), (-0.020006-0.128030j),
-                             (-0.012681-0.128788j), (0.980870-0.129132j),  (-0.012099+0.001730j), (-0.016949-0.063521j),
-                             (-0.015742-0.128335j), (-0.012099+0.001730j), (0.976706-0.128312j),  (-0.023108-0.110363j),
-                             (-0.020006-0.128030j), (-0.016949-0.063521j), (-0.023108-0.110363j), (0.974615-0.127660j)]
+            source_matrix = [(0.974545+0.002125j),  (-0.012681-0.128788j), (-0.015742-0.128335j), (-0.020006-0.128030j),
+                            (-0.012681-0.128788j), (0.980870-0.129132j),  (-0.012099+0.001730j), (-0.016949-0.063521j),
+                            (-0.015742-0.128335j), (-0.012099+0.001730j), (0.976706-0.128312j),  (-0.023108-0.110363j),
+                            (-0.020006-0.128030j), (-0.016949-0.063521j), (-0.023108-0.110363j), (0.974615-0.127660j)]
 
-            print("source matrix : ")
-            print(source_matrix)
+            print("source matrix : ")
+            print(source_matrix)
 
-            out_cir = pq.matrix_decompose(q, source_matrix)
-            circuit_matrix = pq.get_matrix(out_cir)
+            out_cir = pq.matrix_decompose(q, source_matrix)
+            circuit_matrix = pq.get_matrix(out_cir)
 
-            print("the decomposed matrix : ")
-            print(circuit_matrix)
-            
-            source_matrix = np.round(np.array(source_matrix),3)
-            circuit_matrix = np.round(np.array(circuit_matrix),3)
+            print("the decomposed matrix : ")
+            print(circuit_matrix)
 
-            if np.all(source_matrix == circuit_matrix):
-                print('matrix decompose ok !')
-            else:
-                print('matrix decompose false !')
+            source_matrix = np.round(np.array(source_matrix),3)
+            circuit_matrix = np.round(np.array(circuit_matrix),3)
+
+            if np.all(source_matrix == circuit_matrix):
+                print('matrix decompose ok !')
+            else:
+                print('matrix decompose false !')
 
 
 上述实例运行的结果如下：

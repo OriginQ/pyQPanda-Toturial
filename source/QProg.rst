@@ -32,11 +32,11 @@
 
 可以用类似的方式构建量子程序的有QCircuit、QGate、QWhileProg、QIfProg、ClassicalCondition、QMeasure。
 
-你可以通过如下方式向QProg尾部填充节点
+你可以通过如下方式向QProg尾部填充节点, 在这里pyqpanda重载了 ``<<`` 运算符作为插入量子线路的方法
 
     .. code-block:: python
 
-        prog.insert(node)
+        prog << node
 
 QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有类型的QNode
 
@@ -56,12 +56,12 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
             prog = QProg()
 
             # 构建量子程序
-            prog.insert(H(qubits[0])) \
-                .insert(X(qubits[1])) \
-                .insert(iSWAP(qubits[0], qubits[1])) \
-                .insert(CNOT(qubits[1], qubits[2])) \
-                .insert(H(qubits[3])) \
-                .insert(measure_all(qubits, cbits))
+            prog << H(qubits[0]) \
+                 << X(qubits[1]) \
+                 << iSWAP(qubits[0], qubits[1]) \
+                 << CNOT(qubits[1], qubits[2]) \
+                 << H(qubits[3]) \
+                 << measure_all(qubits, cbits)
 
             # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)

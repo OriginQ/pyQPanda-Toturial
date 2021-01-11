@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'QPanda-2'
+project = 'pyQPanda'
 copyright = '2019, OriginQC'
 author = 'OriginQC'
 

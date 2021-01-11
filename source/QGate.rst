@@ -146,31 +146,75 @@ QPanda 2把所有的量子逻辑门封装为API向用户提供使用，并可获
 
      .. code-block:: python
           
-          h = H(qubit)
+         from pyqpanda import *
+         import numpy as np
+         init(QMachineType.CPU)
+         qubits = qAlloc_many(4)
+         h = H(qubits[0])
 
-可以看到，H函数只接收一个qubit，qubit如何申请会在 :ref:`QuantumMachine` 部分介绍。
+其中参数为目标比特，返回值为量子逻辑门
 
-再比如，您想要使用RX门，可以通过如下方式获得：
+pyqpanda中支持的不含角度的单门有： ``I``、 ``H``、 ``T``、 ``S``、 ``X``、 ``Y``、 ``Z``、 ``X1``、 ``Y1``、 ``Z1``
+
+qubit如何申请会在 :ref:`QuantumMachine` 部分介绍。
+
+单门带有一个旋转角的逻辑门门，例如RX门：
 
      .. code-block:: python
           
-          rx = RX(qubit，PI)
+         rx = RX(qubits[0]，np.pi/3)
 
-如上所示，RX门接收两个参数，第一个是目标量子比特，第二个偏转角度。您也可以通过相同的方式使用RY，RZ门。
+第一个参数为目标比特
+第二个参数为旋转角度 
 
-两比特量子逻辑门的使用和单比特量子逻辑门的用法相似，只不过是输入的参数不同，举个使用CNOT的例子：
+pyqpanda中支持的单门带有一个旋转角度的逻辑门有： ``RX``、``RY``、``RZ``、``U1``
+   
+
+pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
+
+      .. code-block:: python
+
+         # U2(qubit, phi, lambda) 有两个角度
+         u2 = U2(qubits[0]，np.pi, np.pi/2) 
+
+         # U3(qubit, theta, phi, lambda) 有三个角度
+         u3 = U3(qubits[0]，np.pi, np.pi/2, np.pi/4)
+         
+         # U4(qubit, alpha, beta, gamma, delta) 有四个角度
+         u4 = U4(qubits[0]，np.pi, np.pi/2, np.pi/4, np.pi/2)   
+
+两比特量子逻辑门的使用和单比特量子逻辑门的用法相似，只不过是输入的参数不同，例如CNOT门：
 
      .. code-block:: python
           
-          cnot = CNOT(control_qubit，target_qubit)
+         cnot = CNOT(qubits[0]，qubits[1])
 
-CNOT门接收两个参数，第一个是控制比特，第二个是目标比特。
+第一个参数为控制比特
+第二个参数为目标比特 
+注：两个比特不能相同
+
+pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``SWAP``、``iSWAp``、``SqiSWAP``
+
+双门带有旋转角度的门，例如CR门：
+
+      .. code-block:: python
+            
+         cr = CR(qubits[0]，qubits[1]，np.pi)
+
+第一个参数为控制比特, 第二个参数为目标比特, 第三个参数为旋转角度 
+
+支持CU门，使用方法如下：
+
+      .. code-block:: python
+
+         # CU(control, target, alpha, beta, gamma, delta) 有四个角度   
+         cu = CU(qubits[0]，qubits[1]，np.pi,np.pi/2,np.pi/3,np.pi/4)
 
 获得三量子逻辑门 ``Toffoli`` 的方式：
 
      .. code-block:: python
 
-          toffoli = Toffoli(control1,control2,target)
+          toffoli = Toffoli(qubits[0], qubits[1], qubits[2])
 
 三比特量子逻辑门Toffoli实际上是CCNOT门，前两个参数是控制比特，最后一个参数是目标比特。
 
@@ -179,59 +223,68 @@ CNOT门接收两个参数，第一个是控制比特，第二个是目标比特�
 
 在本章的开头介绍过，所有的量子逻辑门都是酉矩阵，那么您也可以对量子逻辑门做转置共轭操作，获得一个量子逻辑门 ``dagger`` 之后的量子逻辑门可以用下面的方法：
 
-     .. code-block:: python
-          
-          rx_dagger = RX(qubit,PI).dagger()
+      .. code-block:: python
+            
+         rx_dagger = RX(qubits[0], np.pi).dagger()
 
-除了转置共轭操作，您也可以为量子逻辑门添加控制比特，添加控制比特后，当前量子逻辑门是否执行需要根据控制比特的量子态决定，而控制比特有可能处于叠加态，
-所以当前量子逻辑门是否执行，获得一个量子逻辑门 ``control`` 之后的量子逻辑门可以用下面的方法：
+或：
 
-     .. code-block:: python
-          
-          qvec = [qubits[0], qubits[1]]
-          rx_control = RX(qubit,PI).control(qvec)
+      .. code-block:: python
 
+         rx_dagger = RX(qubits[0], np.pi)
+         rx_dagger.set_dagger(true)
+
+也可以为量子逻辑门添加控制比特,获得一个量子逻辑门 control 之后的量子逻辑门可以用下面的方法：
+
+      .. code-block:: python
+
+         qvec = [qubits[0], qubits[1]]
+         rx_control = RX(qubits[2], np.pi).control(qvec)
+
+或：
+      .. code-block:: python
+
+         qvec = [qubits[0], qubits[1]]
+         rx_control = RX(qubits[2], np.pi)
+         rx_control.set_control(qvec)
+
+pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑门的操作
+
+      .. code-block:: python
+
+         cir = apply_QGate(qubits, H)
+
+qubits的每个量子比特都添加H们
 
 实例
 ----------------
 
 以下实例主要是向您展现QGate类型接口的使用方式.
 
-    .. code-block:: python
+.. code-block:: python
 
-          from pyqpanda import *
+      from pyqpanda import *
 
-          if __name__ == "__main__":
+      if __name__ == "__main__":
+          init(QMachineType.CPU)
+          qubits = qAlloc_many(3)
+          control_qubits = [qubits[0], qubits[1]]
+          prog = create_empty_qprog()
 
-               init(QMachineType.CPU)
-               qubits = qAlloc_many(3)
-               control_qubits = [qubits[0], qubits[1]]
-               prog = create_empty_qprog()
+          # 构建量子程序
+          prog << apply_QGate([qubits[0], qubits[1]], H) \
+               << H(qubits[0]).dagger() \
+               << X(qubits[2]).control(control_qubits)
 
-               # 构建量子程序
-               prog.insert(H(qubits[0])) \
-                   .insert(H(qubits[1])) \
-                   .insert(H(qubits[0]).dagger()) \
-                   .insert(X(qubits[2]).control(control_qubits))
+          # 对量子程序进行概率测量
+          result = prob_run_dict(prog, qubits, -1)
 
-               # 对量子程序进行概率测量
-               result = prob_run_dict(prog, qubits, -1)
-
-               # 打印测量结果
-               for key in result:
-                    print(key+":"+str(result[key]))
-               
-               finalize()
+          # 打印测量结果
+          print(result)
+          finalize()
 
 计算结果如下：
 
     .. code-block:: python
         
-          000:0.4999999999999998
-          001:0.0
-          010:0.4999999999999998
-          011:0.0
-          100:0.0
-          101:0.0
-          110:0.0
-          111:0.0
+      {'000': 0.4999999999999894, '001': 0.0, '010': 0.4999999999999894, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}

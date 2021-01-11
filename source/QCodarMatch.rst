@@ -42,12 +42,14 @@
         src_prog = QProg()
 
         # 构建量子程序
-        src_prog.insert(CNOT(qv[0], qv[3])) \
-            .insert(CNOT(qv[0], qv[2])) \
-            .insert(CNOT(qv[1], qv[3])) \
-            .insert(CZ(qv[1], qv[2])) \
-            .insert(CZ(qv[0], qv[2])) \
-            .insert(T(qv[1])).insert(S(qv[2])).insert(H(qv[3]))
+        src_prog << CNOT(qv[0], qv[3]) \
+                << CNOT(qv[0], qv[2]) \
+                << CNOT(qv[1], qv[3]) \
+                << CZ(qv[1], qv[2]) \
+                << CZ(qv[0], qv[2]) \
+                << T(qv[1])  \
+                << S(qv[2])  \
+                << H(qv[3])
 
         # 对src_prog进行概率测量，得到结果results_1
         qvm.directly_run(src_prog)
@@ -110,7 +112,7 @@
 .. code-block:: python
 
     from pyqpanda import *
-    PI = 3.1415926
+    from numpy import pi
 
     if __name__=="__main__":
         qvm = CPUQVM()
@@ -121,22 +123,22 @@
         src_prog = QProg()
 
         # 构建量子程序
-        src_prog.insert(CNOT(qv[1], qv[3])) \
-            .insert(RX(qv[0], PI / 2)) \
-            .insert(CNOT(qv[0], qv[2])) \
-            .insert(RY(qv[1], -PI / 4)) \
-            .insert(CNOT(qv[2], qv[0])) \
-            .insert(CZ(qv[1], qv[2])) \
-            .insert(CNOT(qv[1], qv[3])) \
-            .insert(RZ(qv[2], PI / 6)) \
-            .insert(CNOT(qv[2], qv[0])) \
-            .insert(RZ(qv[0], -PI / 4)) \
-            .insert(CNOT(qv[0], qv[2])) \
-            .insert(H(qv[0]))\
-            .insert(T(qv[1])) \
-            .insert(RX(qv[1], -PI/4)) \
-            .insert(Y(qv[2])) \
-            .insert(Z(qv[1]))
+        src_prog << CNOT(qv[1], qv[3]) \
+                << RX(qv[0], pi / 2) \
+                << CNOT(qv[0], qv[2]) \
+                << RY(qv[1], -pi / 4) \
+                << CNOT(qv[2], qv[0]) \
+                << CZ(qv[1], qv[2]) \
+                << CNOT(qv[1], qv[3]) \
+                << RZ(qv[2], pi / 6) \
+                << CNOT(qv[2], qv[0]) \
+                << RZ(qv[0], -pi / 4) \
+                << CNOT(qv[0], qv[2]) \
+                << H(qv[0]) \
+                << T(qv[1]) \
+                << RX(qv[1], -pi/4) \
+                << Y(qv[2]) \
+                << Z(qv[1])
 
         # 对src_prog进行概率测量，得到结果results_1
         qvm.directly_run(src_prog)

@@ -19,7 +19,7 @@
     .. code-block:: python
 
         from pyqpanda import *
-        PI = 3.141593
+        from numpy import pi
         
         machine = SingleAmpQVM()
 
@@ -35,129 +35,58 @@
         prog = QProg()
 
         # 构建量子程序
-        prog.insert(hadamard_circuit(q))\
-            .insert(CZ(q[1], q[5]))\
-            .insert(CZ(q[3], q[5]))\
-            .insert(CZ(q[2], q[4]))\
-            .insert(CZ(q[3], q[7]))\
-            .insert(CZ(q[0], q[4]))\
-            .insert(RY(q[7], PI / 2))\
-            .insert(RX(q[8], PI / 2))\
-            .insert(RX(q[9], PI / 2))\
-            .insert(CR(q[0], q[1], PI))\
-            .insert(CR(q[2], q[3], PI))\
-            .insert(RY(q[4], PI / 2))\
-            .insert(RZ(q[5], PI / 4))\
-            .insert(RX(q[6], PI / 2))\
-            .insert(RZ(q[7], PI / 4))\
-            .insert(CR(q[8], q[9], PI))\
-            .insert(CR(q[1], q[2], PI))\
-            .insert(RY(q[3], PI / 2))\
-            .insert(RX(q[4], PI / 2))\
-            .insert(RX(q[5], PI / 2))\
-            .insert(CR(q[9], q[1], PI))\
-            .insert(RY(q[1], PI / 2))\
-            .insert(RY(q[2], PI / 2))\
-            .insert(RZ(q[3], PI / 4))\
-            .insert(CR(q[7], q[8], PI))
+        prog << hadamard_circuit(q)\
+             << CZ(q[1], q[5])\
+             << CZ(q[3], q[5])\
+             << CZ(q[2], q[4])\
+             << CZ(q[3], q[7])\
+             << CZ(q[0], q[4])\
+             << RY(q[7], pi / 2)\
+             << RX(q[8], pi / 2)\
+             << RX(q[9], pi / 2)\
+             << CR(q[0], q[1], pi)\
+             << CR(q[2], q[3], pi)\
+             << RY(q[4], pi / 2)\
+             << RZ(q[5], pi / 4)\
+             << RX(q[6], pi / 2)\
+             << RZ(q[7], pi / 4)\
+             << CR(q[8], q[9], pi)\
+             << CR(q[1], q[2], pi)\
+             << RY(q[3], pi / 2)\
+             << RX(q[4], pi / 2)\
+             << RX(q[5], pi / 2)\
+             << CR(q[9], q[1], pi)\
+             << RY(q[1], pi / 2)\
+             << RY(q[2], pi / 2)\
+             << RZ(q[3], pi / 4)\
+             << CR(q[7], q[8], pi)
 
         machine.run(prog)
 
-部分接口使用如下：
+接口使用如下：
 
-    - ``get_qstate()``
+- ``pmeasure_bin_index(string)`` ,使用示例
 
-        .. code-block:: python
+    .. code-block:: python
 
-            result = machine.get_qstate()
-            print(result["0000000000"])
-            print(result["0000000001"])
+        result = machine.pmeasure_bin_index(prog,"0000000000")
+        print(result)
 
-        运行结果如下:
+    结果输出如下：
 
-        .. code-block:: python
+    .. code-block:: python
 
-            (0.040830060839653015,-9.313225746154785e-10j)
-            (0.040830060839653015,-9.313225746154785e-10j)
+        0.0016670938348397613
 
-    - ``pmeasure(string)`` ,使用示例
+- ``pmeasure_dec_index(string)`` ,使用示例
 
-        .. code-block:: python
+    .. code-block:: python
 
-            result = machine.pmeasure("6")
-            print(result)
+        result = machine.pmeasure_dec_index(prog,"1")
+        print(result)
 
-        运行结果如下:
+    结果输出如下：
 
-        .. code-block:: python
+    .. code-block:: python
 
-            (0, 0.0016670938348397613)
-            (1, 0.0016670938348397613)
-            (2, 0.0002860281092580408)
-            (3, 0.0002860281092580408)
-            (4, 0.0002860281092580408)
-            (5, 0.0002860281092580408)
-
-    - ``pmeasure(QVec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            qlist = [q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]]
-            result = machine.pmeasure(qlist, "3")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0': 0.0033341876696795225, 
-             '1': 0.0005720562185160816, 
-             '2': 0.0005720562185160816}
-
-    - ``get_prob_dict(qvec,string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.get_prob_dict(q,"6")
-            print(result)
-
-        运行结果如下:
-
-        .. code-block:: python
-
-            {'0000000000': 0.0016670938348397613, 
-             '0000000001': 0.0016670938348397613, 
-             '0000000010': 0.0002860281092580408, 
-             '0000000011': 0.0002860281092580408,
-             '0000000100': 0.0002860281092580408, 
-             '0000000101': 0.0002860281092580408}
-
-    - ``pmeasure_bin_index(string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.pmeasure_bin_index(prog,"0000000000")
-            print(result)
-
-        结果输出如下：
-
-        .. code-block:: python
-
-            0.0016670938348397613
-
-    - ``pmeasure_dec_index(string)`` ,使用示例
-
-        .. code-block:: python
-
-            result = machine.pmeasure_dec_index(prog,"1")
-            print(result)
-
-        结果输出如下：
-
-        .. code-block:: python
-
-            0.0016670938348397613
-
-        .. warning::
-
-            部分接口，比如 ``get_qstate()`` 、 ``pmeasure(string)`` 、 ``pmeasure(string)`` 以及 ``get_prob_dict(qvec,string)`` 等会在后续的版本中舍弃。
+        0.0016670938348397613

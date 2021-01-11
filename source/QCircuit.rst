@@ -36,13 +36,13 @@
 
         cir = create_empty_circuit()
 
-你可以通过如下方式向QCircuit尾部填充节点
+你可以通过如下方式向QCircuit尾部填充节点，在这里pyqpanda重载了 ``<<`` 运算符作为插入量子线路的方法
 
     .. code-block:: python
 
-        cir.insert(node)
+        cir << node
 
-node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象和另一些QCircuit对象的集合。
+node的类型可以为QGate或QCircuit。
 
 我们还可以获得QCircuit的转置共轭之后的量子线路，使用方式为：
 
@@ -80,19 +80,18 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
             prog = QProg()
             circuit = create_empty_circuit()
 
-            circuit.insert(H(qubits[0])) \
-                .insert(CNOT(qubits[0], qubits[1])) \
-                .insert(CNOT(qubits[1], qubits[2])) \
-                .insert(CNOT(qubits[2], qubits[3]))
+            circuit << H(qubits[0]) \
+                    << CNOT(qubits[0], qubits[1]) \
+                    << CNOT(qubits[1], qubits[2]) \
+                    << CNOT(qubits[2], qubits[3])
 
-            prog.insert(circuit).insert(Measure(qubits[0], cbits[0]))
+            prog << circuit << Measure(qubits[0], cbits[0])
 
             # 量子程序运行1000次，并返回测量结果
             result = run_with_configuration(prog, cbits, 1000)
-           
+            
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
-
             finalize()
 
 
@@ -100,5 +99,5 @@ node的类型可以为QGate或QCircuit。所以QCircuit类是一个QGate对象�
 
     .. code-block:: python
 
-        {'0000': 508, '1000': 492}
+        {'0000': 486, '0001': 514}
 

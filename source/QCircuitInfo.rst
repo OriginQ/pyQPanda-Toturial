@@ -29,11 +29,11 @@
         prog = pq.QProg()
 
         # 构建量子程序
-        prog.insert(pq.H(q[0])) \
-            .insert(pq.S(q[2])) \
-            .insert(pq.CNOT(q[0], q[1])) \
-            .insert(pq.CZ(q[1], q[2])) \
-            .insert(pq.CR(q[1], q[2], math.pi/2))
+        prog << pq.H(q[0]) \
+            << pq.S(q[2]) \
+            << pq.CNOT(q[0], q[1]) \
+            << pq.CZ(q[1], q[2]) \
+            << pq.CR(q[1], q[2], math.pi/2)
         
         # 获取线路对应矩阵
         result_mat = pq.get_matrix(prog)
@@ -143,11 +143,11 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         prog = pq.QProg() 
         
         # 构建量子程序
-        prog.insert(pq.T(qlist[0])) \
-        .insert(pq.CNOT(qlist[1], qlist[2])) \
-        .insert(pq.Reset(qlist[1])) \
-        .insert(pq.H(qlist[3])) \
-        .insert(pq.H(qlist[4]))
+        prog << pq.T(qlist[0]) \
+            << pq.CNOT(qlist[1], qlist[2]) \
+            << pq.Reset(qlist[1]) \
+            << pq.H(qlist[3]) \
+            << pq.H(qlist[4])
         
         iter = prog.begin()
         iter = iter.get_next()
@@ -157,7 +157,7 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
             print(gate.gate_type())
         
         # 获取指定位置前后逻辑门类型
-        list =pq.get_adjacent_qgate_type(prog,iter)
+        list = pq.get_adjacent_qgate_type(prog,iter)
         print(len(list))
         print(len(list[0].m_qubits))
         print(list[1].m_is_dagger)
@@ -216,7 +216,7 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
     import pyqpanda.pyQPanda as pq
     import math
-    
+
     class InitQMachine:
         def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
             self.m_machine = pq.init_quantum_machine(machineType)
@@ -232,12 +232,12 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         prog = pq.QProg()
         cir = pq.QCircuit()
         cir2 = pq.QCircuit()
-        cir2.insert(pq.H(q[3])).insert(pq.RX(q[1], math.pi/2)).insert(pq.T(q[2])).insert(pq.RY(q[3], math.pi/2)).insert(pq.RZ(q[2], math.pi/2))
+        cir2 << pq.H(q[3]) << pq.RX(q[1], math.pi/2) << pq.T(q[2]) << pq.RY(q[3], math.pi/2) << pq.RZ(q[2], math.pi/2)
         cir2.set_dagger(True)
-        cir.insert(pq.H(q[1])).insert(cir2).insert(pq.CR(q[1], q[2], math.pi/2))
-        prog.insert(pq.H(q[0])).insert(pq.S(q[2]))\
-        .insert(cir)\
-        .insert(pq.CNOT(q[0], q[1])).insert(pq.CZ(q[1], q[2])).insert(pq.measure_all(q,c))
+        cir << pq.H(q[1]) << cir2 << pq.CR(q[1], q[2], math.pi/2)
+        prog << pq.H(q[0]) << pq.S(q[2]) \
+        << cir\
+        << pq.CNOT(q[0], q[1]) << pq.CZ(q[1], q[2]) << pq.measure_all(q,c)
 
         iter_first = cir.begin()
 
@@ -294,21 +294,15 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
 ::
 
-    <QGate>
-        <SingleGate>
-            <Gate time = "2">rx</Gate>
-            <Gate time = "2">Ry</Gate>
-            <Gate time = "2">RZ</Gate>
-            <Gate time = "2">S</Gate>
-            <Gate time = "2">H</Gate>
-            <Gate time = "2">X1</Gate>
-        </SingleGate>
-        <DoubleGate>
-            <Gate time = "5">CNOT</Gate>
-            <Gate time = "5">CZ</Gate>
-            <Gate time = "5">ISWAP</Gate>
-        </DoubleGate>
-    </QGate>
+    "QGate": {
+        "SingleGate":{
+            "U3":{"time":1}
+        },
+        "DoubleGate":{
+            "CNOT":{"time":2},
+            "CZ":{"time":2}
+        }
+    }
 
 从上面的示例中我们可以得到，量子芯片支持RX，RY，RZ，S，H，X1，CNOT，CZ，ISWAP门。在配置文件配置完成后，我们可以调用接口 is_supported_qgate_type ，判断逻辑门是否属于量子芯片支持的量子逻辑门集合。is_supported_qgate_type 接口只有一个参数：目标量子逻辑门。
 
@@ -316,7 +310,7 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
 
     import pyqpanda.pyQPanda as pq
     import math
-    
+
     class InitQMachine:
         def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
             self.m_machine = pq.init_quantum_machine(machineType)
@@ -331,9 +325,9 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         machine = pq.init_quantum_machine(pq.QMachineType.CPU)
         q = machine.qAlloc_many(8)
         c = machine.cAlloc_many(8)
-    
+
         prog = pq.QProg()
-        prog.insert(pq.H(q[1]))
+        prog << pq.H(q[1])
         result = pq.is_supported_qgate_type(prog.begin())
         if result == True:
             print('Support !\n')
@@ -349,4 +343,4 @@ CNOT逻辑门操作的是1,3号量子比特，而从图中可以看出1,3号量�
         test_support_qgate_type()
         print("Test over.")
 
-.. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.xml <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.json>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。
+.. note:: 用户可通过如下链接地址获取默认配置文件 `QPandaConfig.json <https://github.com/OriginQ/QPanda-2/blob/master/QPandaConfig.json>`_, 将该默认配置文件放在执行程序同级目录下，可执行程序会自动解析该文件。

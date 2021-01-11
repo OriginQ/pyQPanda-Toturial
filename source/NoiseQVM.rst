@@ -119,54 +119,73 @@ pyqpanda当前支持的噪声模型
         PHASE_DAMPING_OPRATOR
         """
 
-设置量子逻辑门噪声模型的接口如下：
+设置一个噪声参数的使用方法如下：
 
      .. code-block:: python
 
-        set_noise_model(NoiseModel model, GateType type, list params_vec)
+        from pyqpanda import *
+        import numpy as np
+
+        qvm = NoiseQVM()
+        qvm.init_qvm()
+        q = qvm.qAlloc_many(4)
+        c = qvm.cAlloc_many(4)
+        
+        # 未指定作用比特则对所有比特生效
+        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.1)
+        # 制定比特时，仅对指定的比特生效
+        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.RY_GATE, 0.1, [q[0], q[1]])
+        # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
+        qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, [[q[0], q[1]], [q[1], q[2]]])
 
 第一个参数为噪声模型类型，第二个参数为量子逻辑门类型，第三个参数为噪声模型所需的参数。
 
-假设希望设定RX,RY的噪声模型为DECOHERENCE_KRAUS_OPERATOR，CNOT的噪声模型为DEPHASING_KRAUS_OPERATOR，可以按下面的方式构建量子虚拟机：
+设置三个噪声参数的使用方法如下：
 
     .. code-block:: python
 
-        qvm = NoiseQVM()
-        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RX_GATE, [5.0, 2.0, 0.03]) # T1: 5.0, T2: 2.0, t_gate: 0.03
-        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.RY_GATE, [5.0, 2.0, 0.03])
-        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CNOT_GATE, [5.0, 2.0, 0.06])
-        qvm.init_qvm()
+        # 未指定作用比特则对所有比特生效
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.PAULI_Y_GATE, 5, 2, 0.01)
+        # 制定比特时，仅对指定的比特生效
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.Y_HALF_PI, 5, 2, 0.01, [q[0], q[1]])
+        # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CZ_GATE, 5, 2, 0.01, [[q[0], q[1]], [q[1], q[0]]])
+
 
 含噪声虚拟机还支持设置设置带有角度的量子逻辑门的转转角度误差，其接口使用方式如下：
 
     .. code-block:: python
 
-        qvm.set_rotation_angle_error(0.1)
+        qvm.set_rotation_error(0.05)
 
-即设置角度旋转误差为0.1。
+即设置角度旋转误差为0.05。
 
-含噪声虚拟机同样支持直接设置KRAUS矩阵的方法，其接口使用方式如下：
-    
-    .. code-block:: python
-
-        prob = 0.05
-        k1 = [1 - prob,0,0,1 - prob]
-        k2 = [0, complex(0, -np.sqrt(prob)), complex(0, np.sqrt(prob)), 0]
-        noise = [k1, k2]
-        machine.set_noise_kraus_matrix(GateType.PAULI_X_GATE, noise)
-     
-即设置KRAUS矩阵k1，k2。
-
-含噪声虚拟机更加支持直接设置自定义酉矩阵以及矩阵对应概率的方法，其接口使用方式如下：
+设置测量误差, 其使用方法与上面的方法类似，只不过不需要指定量子逻辑门的类型
 
     .. code-block:: python
-    
-        prob = 0.05
-        matrix_i = [ 1, 0, 0, 1 ];
-        matrix_x = [ 0, 1, 1, 0 ];
-        machine.set_noise_unitary_matrix(GateType.PAULI_X_GATE, [matrix_i, matrix_x], [1-prob, prob]);
 
-即设置自定义矩阵列表以及对应的概率列表。
+        qvm.set_measure_error(NoiseModel.DEPOLARIZING_KRAUS_OPERATOR, 0.1)   
+
+设置reset噪声：
+
+    .. code-block:: python
+
+        p0 = 0.9
+        p1 = 0.05
+        qvm.set_reset_error(p0, p1)  
+    
+p0 表示重置到 :math:`\left|0\right\rangle`\ 的概率，p1表示重置到 :math:`\left|1\right\rangle`\ 的概率，未被重置的概率为 1-p0-p1
+
+设置读取误差：
+
+    .. code-block:: python
+
+        f0 = 0.9
+        f1 = 0.85
+        qvm.set_readout_error([[f0, 1 - f0], [1 - f1, f1]])
+
+表示在读取q0时0读为0的概率为0.9，读为1的概率为1 - f0，
+1读为1的概率为0.85，读为0的概率为1 - f1
 
 实例
 ------------
@@ -178,39 +197,33 @@ pyqpanda当前支持的噪声模型
 
         if __name__ == "__main__":
             qvm = NoiseQVM()
-
-            # 设置噪声模型参数
-            noise_rate = 0.001
-            qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.RX_GATE, [noise_rate])
-            qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.CNOT_GATE, [2 * noise_rate])
-
-            # 设置角度旋转误差为0.1
-            qvm.set_rotation_angle_error(0.1)
-
             qvm.init_qvm()
-            qubits = qvm.qAlloc_many(4)
-            cbits = qvm.cAlloc_many(4)
+            q = qvm.qAlloc_many(4)
+            c = qvm.cAlloc_many(4)
 
-            # 构建量子程序
+            qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.1)
+            qv0 = [q[0], q[1]]
+            qvm.set_noise_model(NoiseModel.DEPHASING_KRAUS_OPERATOR, GateType.HADAMARD_GATE, 0.1, qv0)
+            qves = [[q[0], q[1]], [q[1], q[2]]]
+            qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, qves)
+
+            f0 = 0.9
+            f1 = 0.85
+            qvm.set_readout_error([[f0, 1 - f0], [1 - f1, f1]])
+            qvm.set_rotation_error(0.05)
+
             prog = QProg()
-            for i in range(0, len(qubits)):
-                prog.insert(H(qubits[i]))
+            prog << X(q[0]) << H(q[0]) \
+                 << CNOT(q[0], q[1]) \
+                 << CNOT(q[1], q[2]) \
+                 << CNOT(q[2], q[3]) \
+                 << measure_all(q, c)
 
-            for i in range(0, len(qubits) - 1):
-                prog.insert(CNOT(qubits[i], qubits[i + 1]))
-            
-            prog.insert(measure_all(qubits, cbits))
-
-            # 量子程序运行1000次，并返回测量结果
-            result = qvm.run_with_configuration(prog, cbits, 1000)
-
-            # 打印量子态在量子程序多次运行结果中出现的次数
+            result = qvm.run_with_configuration(prog, c, 1000)
             print(result)
-
-            qvm.finalize()
 
 运行结果：
 
     .. code-block:: python
 
-        {'0000': 56, '0001': 60, '0010': 68, '0011': 59, '0100': 58, '0101': 71, '0110': 62, '0111': 63, '1000': 67, '1001': 74, '1010': 65, '1011': 58, '1100': 61, '1101': 61, '1110': 58, '1111': 59}
+        {'0000': 347, '0001': 55, '0010': 50, '0011': 43, '0100': 41, '0101': 18, '0110': 16, '0111': 34, '1000': 50, '1001': 18, '1010': 18, '1011': 37, '1100': 15, '1101': 49, '1110': 42, '1111': 167}

@@ -62,11 +62,11 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
             c = qvm.cAlloc_many(6)
             prog = QProg()
             cir = QCircuit()
-            cir.insert(T(q[0])).insert(S(q[1])).insert(CNOT(q[1], q[0]))
-            prog.insert(cir)
-            prog.insert(X(q[0])).insert(Y(q[1])).insert(CU(1.2345, 3, 4, 5, q[5], q[2]))\
-                .insert(H(q[2])).insert(RX(q[3], 3.14))\
-                .insert(Measure(q[0], c[0]))
+            cir << T(q[0]) << S(q[1]) << CNOT(q[1], q[0])
+            prog << cir
+            prog << X(q[0]) << Y(q[1]) << CU(1.2345, 3, 4, 5, q[5], q[2])\
+                << H(q[2]) << RX(q[3], 3.14)\
+                << Measure(q[0], c[0])
             
             qasm = convert_qprog_to_qasm(prog, qvm)
             print(qasm)

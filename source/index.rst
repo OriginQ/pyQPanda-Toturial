@@ -40,6 +40,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QuantumMachine
     Measure
     PMeasure
+    QCloudServer
 
 .. toctree::
     :caption: 量子程序信息
@@ -95,7 +96,19 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     VQNetExample
     
 .. toctree::
-    :caption: QAlg
+    :caption: 量子算法基础
     :maxdepth: 2
-    
-    AmplitudeEncode
+
+    QubitAndQGate
+    QPreparation
+    .. DataEncoding
+    HadamardAndSWAP
+    AmplitudeAmplification
+    QFT
+    QPE
+    QArithmetic
+    HHL
+    Grover
+    Shor
+    QITE
+

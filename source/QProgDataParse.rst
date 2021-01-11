@@ -16,9 +16,10 @@
     .. code-block:: python
 
         prog = QProg()
-        prog.insert(H(qubits[0]).insert(CNOT(qubits[0], qubits[1])) \
-                .insert(CNOT(qubits[1], qubits[2])) \
-                .insert(CNOT(qubits[2], qubits[3]))；
+        prog << H(qubits[0]) \
+            << CNOT(qubits[0], qubits[1]) \
+            << CNOT(qubits[1], qubits[2]) \
+            << CNOT(qubits[2], qubits[3])
 
 序列化之后经过base64编码之后得到的结果是（具体序列化的方法参照 :ref:`QProgStored`）
 
