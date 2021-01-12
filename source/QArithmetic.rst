@@ -212,7 +212,7 @@ k为辅助比特，t或s为限制QWhile循环次数的经典比特。
 
    if __name__ == "__main__":
       # 为了节约比特数，辅助比特将会互相借用
-      qvm = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+      qvm = init_quantum_machine(QMachineType.CPU)
       qdivvec = qvm.qAlloc_many(10)
       qmulvec = qdivvec[:7]
       qsubvec = qmulvec[:-1]

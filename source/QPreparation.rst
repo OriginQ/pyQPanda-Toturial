@@ -63,7 +63,7 @@
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = init_quantum_machine(QMachineType.CPU)
         qubits = machine.qAlloc_many(3)
         prog = create_empty_qprog()
 
