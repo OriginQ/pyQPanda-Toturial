@@ -109,8 +109,6 @@ QFT在一维情况就是Hadamard量子门。
 
    QFT(qlist)
 
-需要注意的是会对输入的量子比特向量按序号从高往低排序开始QFT操作。
-
 选取 :math:`\left|x\right\rangle=\left|000\right\rangle` 验证QFT的代码实例如下
 
 .. code-block:: python
