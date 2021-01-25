@@ -34,10 +34,10 @@ QPanda接口函数
 
 .. code-block:: python
         
-        U4(alpha, beta, gamma, delta, qubit);
-        U4(qubit, alpha, beta, gamma, delta);
-        U4(matrix, qubit);
-        U4(qubit, matrix);
+        U4(alpha, beta, gamma, delta, qubit)
+        U4(qubit, alpha, beta, gamma, delta)
+        U4(matrix, qubit)
+        U4(qubit, matrix)
 
 如前文所述，量子门的接口函数有两种拓展操作：转置共轭和受控。两种操作都各有两种实现方式。
 
@@ -45,9 +45,9 @@ QPanda接口函数
 
 .. code-block:: python
         
-        gate = H(qubit);
-        gate1 = gate.dagger();
-        gate.setDagger(true);
+        gate = H(qubit)
+        gate1 = gate.dagger()
+        gate.setDagger(true)
 
 .. note:: dagger函数返回的是一个基于目标量子门的新量子门，setDagger返回的则是进行转置共轭后的目标量子门。
 
@@ -55,9 +55,9 @@ QPanda接口函数
 
 .. code-block:: python
         
-        gate = H(qubit);
-        gate1 = gate.control(QVec);
-        gate.setControl(QVec);
+        gate = H(qubit)
+        gate1 = gate.control(QVec)
+        gate.setControl(QVec)
 
 .. note:: 区别与转置共轭操作类似，但受控函数入参是Qvec（qubit的list）而非单个qubit。
 
