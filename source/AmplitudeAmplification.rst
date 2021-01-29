@@ -86,30 +86,29 @@
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
-   from numpy import pi
+    import pyqpanda as pq
+    from numpy import pi
 
+    if __name__ == "__main__":
 
-   if __name__ == "__main__":
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        qvec = machine.qAlloc_many(1)
+        prog = pq.create_empty_qprog()
 
-      machine = init_quantum_machine(QMachineType.CPU)
-      qvec = machine.qAlloc_many(1)
-      prog = create_empty_qprog()
+        # 构建量子程序
+        prog.insert(pq.H(qvec[0]))
+        for i in range(9):
+             prog.insert(pq.RY(qvec[0],pi/2))
 
-      # 构建量子程序
-      prog.insert(H(qvec[0]))
-      for i in range(9):
-            prog.insert(RY(qvec[0],pi/2))
+        # 对量子程序进行概率测量
+        result = pq.prob_run_dict(prog, qvec, -1)
+        pq.destroy_quantum_machine(machine)
 
-      # 对量子程序进行概率测量
-      result = prob_run_dict(prog, qvec, -1)
-      destroy_quantum_machine(machine)
-
-      # 打印测量结果
-      for key in result:
-            print(key+":"+str(result[key]))
+        # 打印测量结果
+        for key in result:
+             print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`1` 和 :math:`0` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：

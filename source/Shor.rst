@@ -146,15 +146,15 @@ Shor算法的量子线路图如下所示
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
+    import pyqpanda as pq
 
-   if __name__ == "__main__":
+    if __name__ == "__main__":
 
-      N=15
-      r = Shor_factorization(N)
-      print(r)
+        N=15
+        r = pq.Shor_factorization(N)
+        print(r)
 
 对 :math:`15` 的质因子分解结果应该是 :math:`15=3*5` ，所以应当返还算法成功标志和两个质因子 :math:`3` 和 :math:`5` 。 
 

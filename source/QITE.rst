@@ -177,46 +177,43 @@ QPanda-2.0中QITE算法相关代码是一个类，因而下面将介绍所有相
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   import pyqpanda as pq
-   import numpy as np
+    import pyqpanda as pq
+    import numpy as np
 
-   if __name__ == "__main__":
-
-      node7graph = [[0, 1 ,0 ,0, 0, 0, 0],
+    if __name__ == "__main__":
+        node7graph = [[0, 1 ,0 ,0, 0, 0, 0],
                      [1, 0 ,1 ,0, 0, 0, 0],
                      [0, 1 ,0 ,1, 1, 1, 0],
                      [0, 0 ,1 ,0, 1, 0, 1],
                      [0, 0 ,1 ,1, 0, 1, 1],
                      [0, 0 ,1 ,0, 1, 0, 1],
-                     [0, 0 ,0 ,1, 1, 1, 0],
-                     ]
+                     [0, 0 ,0 ,1, 1, 1, 0],]
 
-      problem = pq.NodeSortProblemGenerator()
-      problem.set_problem_graph(node7graph)
-      problem.exec()
-      ansatz_vec = problem.get_ansatz()
+        problem = pq.NodeSortProblemGenerator()
+        problem.set_problem_graph(node7graph)
+        problem.exec()
+        ansatz_vec = problem.get_ansatz()
 
-      cnt_num = 1
-      iter_num = 100
-      upthrow_num = 3
-      delta_tau = 2.6
-      update_mode = pq.UpdateMode.GD_DIRECTION
+        cnt_num = 1
+        iter_num = 100
+        upthrow_num = 3
+        delta_tau = 2.6
+        update_mode = pq.UpdateMode.GD_DIRECTION
 
-      for cnt in range(cnt_num):
-         qite = pq.QITE()
-         qite.set_Hamiltonian(problem.get_Hamiltonian())
-         qite.set_ansatz_gate(ansatz_vec)
-         qite.set_iter_num(iter_num)
-         qite.set_delta_tau(delta_tau)
-         qite.set_upthrow_num(upthrow_num)
-         qite.set_para_update_mode(update_mode)
-         ret = qite.exec()
-         if ret != 0:
-               print(ret)
-         qite.get_result()
-
+        for cnt in range(cnt_num):
+            qite = pq.QITE()
+            qite.set_Hamiltonian(problem.get_Hamiltonian())
+            qite.set_ansatz_gate(ansatz_vec)
+            qite.set_iter_num(iter_num)
+            qite.set_delta_tau(delta_tau)
+            qite.set_upthrow_num(upthrow_num)
+            qite.set_para_update_mode(update_mode)
+            ret = qite.exec()
+            if ret != 0:
+                print(ret)
+            qite.get_result()
 
 可以直接推导得知此7点网络图的节点重要性最大的节点应当为3号，因此结果应当抛出最重要节点3，\
 写法为 :math:`00000100:1.00`，如下所示的输出结果符合预期。

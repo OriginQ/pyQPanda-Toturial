@@ -113,28 +113,27 @@ QFT在一维情况就是Hadamard量子门。
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
-   from numpy import pi
+    import pyqpanda as pq
+    from numpy import pi
 
+    if __name__ == "__main__":
 
-   if __name__ == "__main__":
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        qvec = machine.qAlloc_many(3)
+        prog = pq.create_empty_qprog()
 
-      machine = init_quantum_machine(QMachineType.CPU)
-      qvec = machine.qAlloc_many(3)
-      prog = create_empty_qprog()
+        # 构建量子程序
+        prog.insert(pq.QFT(qvec))
 
-      # 构建量子程序
-      prog.insert(QFT(qvec))
+        # 对量子程序进行概率测量
+        result = pq.prob_run_dict(prog, qvec, -1)
+        pq.destroy_quantum_machine(machine)
 
-      # 对量子程序进行概率测量
-      result = prob_run_dict(prog, qvec, -1)
-      destroy_quantum_machine(machine)
-
-      # 打印测量结果
-      for key in result:
-            print(key+":"+str(result[key]))
+        # 打印测量结果
+        for key in result:
+             print(key+":"+str(result[key]))
 
 由前文中QFT的定义及 :math:`\left|x\right\rangle=\left|000\right\rangle` 可知\
 输出结果应当以均匀概率 :math:`\frac{1}{8}` 得到所有量子态，即

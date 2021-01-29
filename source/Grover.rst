@@ -180,21 +180,21 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+#!/usr/bin/env python
 
-   from pyqpanda import *
-   import numpy as np
+    import pyqpanda as pq
+    import numpy as np
 
-   if __name__ == "__main__":
+    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU)
-      x = machine.cAlloc()
-      prog = create_empty_qprog()
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        x = machine.cAlloc()
+        prog = pq.create_empty_qprog()
 
-      data=[3, 6, 6, 9, 10, 15, 11, 6]
-      grover_result = Grover_search(data, x==6, machine, 1)
+        data=[3, 6, 6, 9, 10, 15, 11, 6]
+        grover_result = pq.Grover_search(data, x==6, machine, 1)
 
-      print(grover_result[1])
+        print(grover_result[1])
 
 输出结果是查找列表中数值6所在的坐标，应当如下
 
