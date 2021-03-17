@@ -99,7 +99,7 @@
 
         # 构建量子程序
         prog.insert(pq.H(qvec[0]))
-        for i in range(9):
+        for i in range(7):
              prog.insert(pq.RY(qvec[0],pi/2))
 
         # 对量子程序进行概率测量
