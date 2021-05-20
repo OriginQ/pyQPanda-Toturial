@@ -1,5 +1,5 @@
 量子傅里叶变换
-####
+#####
 
 量子傅里叶变换（QFT）实质上是经典的逆离散傅里叶变换（IDFT）的量子版本。
 
@@ -98,6 +98,11 @@ QFT的量子线路图如下所示
 
 .. image:: images/QFT.png
    :align: center
+
+特别地，注意到上图中初始量子态为 :math:`\left|x_i\right\rangle` 的量子比特对应的结果量子态为\
+:math:`\frac{1}{\sqrt{2}}(\left|0\right\rangle + e^{2\pi ix2^{n+1-l}}\left|1\right\rangle)`\ 
+而非 :math:`\frac{1}{\sqrt{2}}(\left|0\right\rangle + e^{2\pi ix2^{-l}}\left|1\right\rangle)` ，\
+因此实际使用时还需要追加相应的多组 :math:`SWAP` 门。
 
 代码实现
 ****
