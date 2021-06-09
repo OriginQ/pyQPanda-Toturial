@@ -88,22 +88,22 @@ QPE的量子线路图如下所示
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+	#!/usr/bin/env python
 
-   from pyqpanda import *
-   from numpy import pi
+	import pyqpanda as pq
+	from numpy import pi
 
-   def QPE(controlqlist, targetqlist, matrix):
-      circ = QCircuit()
-      for i in range(len(controlqlist)):
-         circ.insert(H(controlqlist[i]))
-      
-      for i in range(len(controlqlist)):
-         circ.insert(controlUnitaryPower(targetqlist, controlqlist[controlqlist.size() \
-          - 1 - i], i, matrix))
+	def QPE(controlqlist, targetqlist, matrix):
+	   circ = pq.QCircuit()
+	   for i in range(len(controlqlist)):
+		  circ.insert(pq.H(controlqlist[i]))
 
-      circ.insert(QFT(controlqlist).dagger())
-      return circ
+	   for i in range(len(controlqlist)):
+		  circ.insert(controlUnitaryPower(targetqlist, controlqlist[controlqlist.size() \
+		   - 1 - i], i, matrix))
+
+	   circ.insert(pq.QFT(controlqlist).dagger())
+	   return circ
 
 图中的参数matrix是指需要估计特征值的幺正算符 :math:`U` 对应的矩阵。
 
@@ -114,28 +114,28 @@ QPE的量子线路图如下所示
 
    #!/usr/bin/env python
 
-   from pyqpanda import *
+   import pyqpanda as pq
    from numpy import pi
 
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU)
+      machine = pq.init_quantum_machine(pq.QMachineType.CPU)
       qvec = machine.qAlloc_many(1)
       cqv = machine.qAlloc_many(2)
-      prog = create_empty_qprog()
+      prog = pq.create_empty_qprog()
 
       # 构建量子程序
-      prog.insert(H(cqv[0]))\
-            .insert(H(cqv[1]))\
-            .insert(S(qvec[0]))\
-            .insert(RY(qvec[0], pi/4).control(cqv[1]))\
-            .insert(RY(qvec[0], pi/4).control(cqv[0]))\
-            .insert(RY(qvec[0], pi/4).control(cqv[0]))\
-            .insert(QFT(cqv).dagger())
+      prog.insert(pq.H(cqv[0]))\
+            .insert(pq.H(cqv[1]))\
+            .insert(pq.S(qvec[0]))\
+            .insert(pq.RY(qvec[0], pi/4).control(cqv[1]))\
+            .insert(pq.RY(qvec[0], pi/4).control(cqv[0]))\
+            .insert(pq.RY(qvec[0], pi/4).control(cqv[0]))\
+            .insert(pq.QFT(cqv).dagger())
 
       # 对量子程序进行概率测量
-      result = prob_run_dict(prog, cqv, -1)
-      destroy_quantum_machine(machine)
+      result = pq.prob_run_dict(prog, cqv, -1)
+      pq.destroy_quantum_machine(machine)
 
       # 打印测量结果
       for key in result:

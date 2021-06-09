@@ -60,7 +60,7 @@
         
 运行结果：
 
-    .. code-block:: python
+    .. code-block:: c
 
         b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n'  
 

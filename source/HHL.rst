@@ -156,27 +156,27 @@ HHL算法的量子线路图如下所示
 
 .. code-block:: python
    
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
-   import numpy as np
+    import pyqpanda as pq
+    import numpy as np
 
-   if __name__ == "__main__":
+    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU)
-      prog = create_empty_qprog()
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        prog = pq.create_empty_qprog()
 
-      # 构建量子程序
-      prog.insert(HHL([1,0,0,1],[0.6,0.8],machine))
+        # 构建量子程序
+        prog.insert(pq.build_HHL_circuit([1,0,0,1],[0.6,0.8],machine))
 
-      directly_run(prog)
+        pq.directly_run(prog)
 
-      result = np.array(machine.get_qstate())[:2]
-      destroy_quantum_machine(machine)
+        result = np.array(machine.get_qstate())[:2]
+        pq.destroy_quantum_machine(machine)
 
-      #打印测量结果
-      for key in result:
-            print(key)
+        #打印测量结果
+        for key in result:
+             print(key)
 
 输出结果应该和右端项向量一样是 :math:`[0.6,0.8]`，因为误差会出现较小的扰动：
 

@@ -182,17 +182,17 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
    #!/usr/bin/env python
 
-   from pyqpanda import *
+   import pyqpanda as pq
    import numpy as np
-
+   
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU)
+      machine = pq.init_quantum_machine(pq.QMachineType.CPU)
       x = machine.cAlloc()
-      prog = create_empty_qprog()
+      prog = pq.create_empty_qprog()
 
       data=[3, 6, 6, 9, 10, 15, 11, 6]
-      grover_result = Grover_search(data, x==6, machine, 1)
+      grover_result = pq.Grover_search(data, x==6, machine, 1)
 
       print(grover_result[1])
 

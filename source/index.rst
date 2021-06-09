@@ -38,6 +38,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QIf
     QProg
     QuantumMachine
+    QubitPool
     Measure
     PMeasure
     QCloudServer
@@ -52,7 +53,9 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QCircuitInfo
     DrawQProg
     ..QGateValidity
-
+    QuantumVolume
+    RandomizedBenchmarking
+    CrossEntropyBenchmarking
 
 .. toctree::
     :caption: 编译量子程序

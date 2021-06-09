@@ -12,17 +12,17 @@
 配置文件可仿照下面设置
 ***********************
 
-.. code-block:: json
+    .. code-block:: json
 
-    "QGate": {
-        "SingleGate":{
-            "U3":{"time":1}
-        },
-        "DoubleGate":{
-            "CNOT":{"time":2},
-            "CZ":{"time":2}
+        "QGate": {
+            "SingleGate":{
+                "U3":{"time":1}
+            },
+            "DoubleGate":{
+                "CNOT":{"time":2},
+                "CZ":{"time":2}
+            }
         }
-    }
 
 接口介绍
 --------------

@@ -58,30 +58,30 @@ Hadamard Test的一个代码实例如下：
 
 .. code-block:: python
 
-    #!/usr/bin/env python
+	#!/usr/bin/env python
 
-    from pyqpanda import *
+	import pyqpanda as pq
 
-    if __name__ == "__main__":
+	if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU)
-        cqv = machine.qAlloc_many(1)
-        tqv = machine.qAlloc_many(1)
-        prog = create_empty_qprog()
+		machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+		cqv = machine.qAlloc_many(1)
+		tqv = machine.qAlloc_many(1)
+		prog = pq.create_empty_qprog()
 
-        # 构建量子程序
-        prog.insert(H(cqv[0])) \
-            .insert(H(tqv[0])) \
-            .insert(H(tqv[0]).control([cqv[0]]))\
-            .insert(H(cqv[0]))
+		# 构建量子程序
+		prog.insert(pq.H(cqv[0])) \
+			.insert(pq.H(tqv[0])) \
+			.insert(pq.H(tqv[0]).control([cqv[0]]))\
+			.insert(pq.H(cqv[0]))
 
-        # 对量子程序进行概率测量
-        result = prob_run_dict(prog, cqv, -1)
-        destroy_quantum_machine(machine)
+		# 对量子程序进行概率测量
+		result = pq.prob_run_dict(prog, cqv, -1)
+		pq.destroy_quantum_machine(machine)
 
-        # 打印测量结果
-        for key in result:
-            print(key+":"+str(result[key]))
+		# 打印测量结果
+		for key in result:
+			print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`\frac{1+\sqrt2/2}{2}` 和 :math:`1-\frac{1+\sqrt2/2}{2}` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
@@ -140,26 +140,26 @@ SWAP Test的一个代码实例如下：
 
     #!/usr/bin/env python
 
-    from pyqpanda import *
+    import pyqpanda as pq
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU)
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
         cqv = machine.qAlloc_many(1)
         tqv = machine.qAlloc_many(1)
         qvec = machine.qAlloc_many(1)
-        prog = create_empty_qprog()
+        prog = pq.create_empty_qprog()
 
         # 构建量子程序
-        prog.insert(H(cqv[0])) \
-            .insert(H(tqv[0])) \
-            .insert(X(qvec[0])) \
-            .insert(SWAP(tqv[0],qvec[0]).control([cqv[0]]))\
-            .insert(H(cqv[0]))
+        prog.insert(pq.H(cqv[0])) \
+            .insert(pq.H(tqv[0])) \
+            .insert(pq.X(qvec[0])) \
+            .insert(pq.SWAP(tqv[0],qvec[0]).control([cqv[0]]))\
+            .insert(pq.H(cqv[0]))
 
         # 对量子程序进行概率测量
-        result = prob_run_dict(prog, cqv, -1)
-        destroy_quantum_machine(machine)
+        result = pq.prob_run_dict(prog, cqv, -1)
+        pq.destroy_quantum_machine(machine)
 
         # 打印测量结果
         for key in result:
