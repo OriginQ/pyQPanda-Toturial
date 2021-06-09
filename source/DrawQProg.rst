@@ -57,7 +57,8 @@
    :alt:
 
 接口draw_qprog()的详细参数说明如下：
-::
+
+.. code-block:: CMakeLists
 
 
     """Draw a quantum circuit to different formats (set by output parameter):
