@@ -15,7 +15,7 @@
 
 在目前的量子计算理论研究中，各种量子算法常用量子线路表示，比如下方列出的量子算法中的 ``HHL算法`` 量子线路图。
 
-.. image:: images/hhl.bmp
+.. image:: images/hhl.png
    :align: center   
 
 .. _api_introduction:
