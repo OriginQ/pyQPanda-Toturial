@@ -8,7 +8,7 @@
 
         from pyqpanda import *
         import numpy as np
-
+        # 需下载curl并将其加入环境变量
         # 通过QCloud()创建量子云虚拟机
         QCM = QCloud()
 

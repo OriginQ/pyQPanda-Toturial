@@ -130,13 +130,21 @@ pyqpanda当前支持的噪声模型
         qvm.init_qvm()
         q = qvm.qAlloc_many(4)
         c = qvm.cAlloc_many(4)
-        
+        # 添加噪声类型的门
+        types = [
+        GateType.PAULI_X_GATE, GateType.PAULI_Y_GATE, GateType.PAULI_Z_GATE
+        ]
+
         # 未指定作用比特则对所有比特生效
         qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.1)
         # 制定比特时，仅对指定的比特生效
         qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.RY_GATE, 0.1, [q[0], q[1]])
         # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
         qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, [[q[0], q[1]], [q[1], q[2]]])
+        #可对线路中所有types加噪声
+        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, types, 0.1)
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, types, 0.1, 0.2, 0.3)
+        qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, q)
 
 第一个参数为噪声模型类型，第二个参数为量子逻辑门类型，第三个参数为噪声模型所需的参数。
 
@@ -150,7 +158,10 @@ pyqpanda当前支持的噪声模型
         qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.Y_HALF_PI, 5, 2, 0.01, [q[0], q[1]])
         # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
         qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CZ_GATE, 5, 2, 0.01, [[q[0], q[1]], [q[1], q[0]]])
-
+        #可对线路中所有GateType加噪声
+        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, types, 0.1)
+        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, types, 0.1, 0.2, 0.3)
+        qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, q)
 
 含噪声虚拟机还支持设置设置带有角度的量子逻辑门的转转角度误差，其接口使用方式如下：
 
