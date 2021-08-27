@@ -10,7 +10,10 @@
 
 pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集群或量子真实芯片发送计算指令，并获取计算结果，在使用下文介绍的各种虚拟机之前，需要确保已开通对应的虚拟机产品。
 
-.. image:: images/products.png
+.. image:: images/real.png
+   :align: center
+
+.. image:: images/cloud.png
    :align: center
  
 .. toctree::

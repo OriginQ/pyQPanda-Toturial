@@ -6,7 +6,7 @@
 实例
 ---------------
 
-::
+.. code-block:: python
 
     import pyqpanda.pyQPanda as pq
     from pyqpanda.Visualization.circuit_draw import *
@@ -23,12 +23,14 @@
     def test_print_qcircuit(q, c):
         # 构建量子程序
         prog = pq.QCircuit()
-        prog << pq.CU(1, 2, 3, 4, q[0], q[5]) << pq.H(q[0]) << pq.S(q[2]) << pq.CNOT(q[0], q[1]) << pq.CZ(q[1], q[2]) << pq.CR(q[2], q[1], math.pi/2)
+        prog << pq.CU(1, 2, 3, 4, q[0], q[5]) << pq.H(q[0]) << pq.S(q[2])\
+             << pq.CNOT(q[0], q[1]) << pq.CZ(q[1], q[2]) << pq.CR(q[2], q[1], math.pi/2)
         prog.set_dagger(True)
         
         print('draw_qprog:')
 
         # 通过print直接输出量子线路字符画，该方法会在控制台输出量子线路，输出格式为utf8编码，所以在非utf8编码的控制台下，输出字符画会出现乱码情况。
+        
         # 同时，该方法会将当前量子线路字符画信息保存到文件，文件名为 “QCircuitTextPic.txt”，文件用utf8编码，并保存在当面路径下面，
         # 所以用户也可以通过该文件查看量子线路信息，注意该文件要以uft8格式打开，否则会出现乱码。
         print(prog)

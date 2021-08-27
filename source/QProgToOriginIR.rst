@@ -335,7 +335,6 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
 .. note:: 对于暂不支持的操作类型，OriginIR会显示UnSupported XXXNode，其中XXX为具体的节点类型。
 
 
-.. warning:: 
-        新增接口 ``convert_qprog_to_originir()`` ，与老版本接口 ``transform_qprog_to_originir()`` 功能相同。
+.. warning:: 新增接口 ``convert_qprog_to_originir()`` ，与老版本接口 ``transform_qprog_to_originir()`` 功能相同。
 
 

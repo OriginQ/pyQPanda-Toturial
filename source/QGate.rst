@@ -108,7 +108,7 @@
 
 单比特量子逻辑门：
 `````````````````````````````````````````````````
-.. tabularcolumns:: |m{0.06\textwidth}<{\centering}|c|c|
+.. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
 .. list-table:: 
    :align: center
@@ -169,7 +169,7 @@
 
 多比特量子逻辑门：
 `````````````````````````````````````````````````
-.. tabularcolumns:: |m{0.1\linewidth}<{\centering}|c|c|
+.. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
 .. list-table:: 
    :widths: auto

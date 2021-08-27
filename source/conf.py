@@ -37,6 +37,8 @@ latex_elements = {
     'fontenc': '',
     'figure_align':'htbp',
     'preamble': r'''
+        \usepackage[draft]{minted}
+        \fvset{breaklines=true}
         \usepackage{xeCJK}
         \parindent 2em
         \setcounter{tocdepth}{3}
