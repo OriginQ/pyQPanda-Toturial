@@ -54,8 +54,8 @@ e^{2\pi i\varphi}\left|\psi\right\rangle` 中的 :math:`\varphi`，\
 .. math::
    \begin{aligned}
    & QFT^{-1}\frac{1}{2^\frac{n}{2}}\otimes_{t=1}^n(\left|0\right\rangle+e^{2\pi i\varphi2^{t-1}}
-   \left|1\right\rangle) \\ & =QFT^{-1}\frac{1}{2^\frac{n}{2}}\mathrm{\Sigma}_{k=0}^{2^n-1}e^{2\pi i
-   \varphi k}\left|k\right\rangle \\ & =\frac{1}{2^n}\mathrm{\Sigma}_{k=0}^{2^n-1}\mathrm{\Sigma}_{x=0}
+   \left|1\right\rangle) \\ & =QFT^{-1}\frac{1}{2^\frac{n}{2}}\Sigma_{k=0}^{2^n-1}e^{2\pi i
+   \varphi k}\left|k\right\rangle \\ & =\frac{1}{2^n}\Sigma_{k=0}^{2^n-1}\Sigma_{x=0}
    ^{2^n-1}e^{-\frac{2\pi ik}{2^n}\left(x-2^n\varphi\right)}\left|x\right\rangle.
    \end{aligned}
 含特征值相位的基向量测量
