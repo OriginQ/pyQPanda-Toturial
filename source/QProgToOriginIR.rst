@@ -230,20 +230,55 @@ BARRIER操作是将操作的量子比特进行阻断，防止在线路优化和�
 
 QGATE操作
 :::::::::::
+
 QGATE为自定义逻辑门操作，可以将多个逻辑门组合成一个新的逻辑门使用。
-它通过QGATE和ENDQGATE框定自定义逻辑门的范围。同时需要注意的是，自定义逻辑门的形参名不能与上述相关关键字冲突。示例：
+它通过QGATE和ENDQGATE框定自定义逻辑门的范围。同时需要注意的是，自定义逻辑门的形参名不能与上述相关关键字冲突。
+
+用户自定义逻辑门的声明规则如下：
+::
+    QGATE UserDefinedeGateName BitParameter,(angle)
+    //UserDefinedeGateName,用户自定义逻辑门名称，string
+    //BitParameter,用户自定义逻辑门形参信息，string
+    //angle,角度信息，string
+    //其他的相关信息【","、"("等】必须按照定义的格式书写
+    //其中",”及以后的相关信息可空，即角度信息可空
+
+下面是一个简单的例子：
 ::
     QGATE new_H a
     H a
     X a
-    ENDQGATE 
-    new_H q[1]
+    ENDQGATE
+
+
     QGATE new_RX a,(b)
     RX a,(PI/2+b)
-    X a
-    ENDQGATE 
-    new_RX q[1],(PI/4)
+    CONTROL q[0]
+    RX a,(-3.141593)
+    DAGGER
+    H a
+    ENDDAGGER
+    ENDCONTROL
+    DAGGER
+    H a
+    DAGGER
+    H a
+    ENDDAGGER
+    ENDDAGGER
+    ENDQGATE
 
+
+用户可以在申请完量子比特和经典寄存器之后，调用自定义逻辑门，格式如下：
+::
+     UserDefinedeGateName  argue,(angle)
+    //UserDefinedeGateName,用户自定义逻辑门名称，string,与上述定义部分保持一致
+    //BitParameter,用户自定义逻辑门形参信息，string，必须是q[x],x需要小于申请的量子比特的数目
+    //angle,角度信息，string，可以是数字，或者与PI相关的表达式
+
+下面是一个简单的例子：
+::
+    new_H q[0]
+    new_RX q[1],(PI/4)
 
 OriginIR程序示例
 :::::::::::::::
