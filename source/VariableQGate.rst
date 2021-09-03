@@ -214,113 +214,39 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
 实例
 ----------
 
-.. code-block:: cpp
+.. code-block:: python
 
-    #include "QPanda.h"
-    #include "Variational/var.h"
+ from pyqpanda import *
 
-    int main()
-    {
-        using namespace QPanda;
-        using namespace QPanda::Variational;
+ if __name__=="__main__":
 
-        constexpr int qnum = 2;
+     machine = init_quantum_machine(QMachineType.CPU)
+     q = machine.qAlloc_many(2)
 
-        QuantumMachine *machine = initQuantumMachine(QuantumMachine_type::CPU_SINGLE_THREAD);
-        std::vector<Qubit*> q;
-        for (int i = 0; i < qnum; ++i)
-        {
-            q.push_back(machine->Allocate_Qubit());
-        }
-
-        MatrixXd m1(1, 1);
-        MatrixXd m2(1, 1);
-        m1(0, 0) = 1;
-        m2(0, 0) = 2;
-
-        var x(m1);
-        var y(m2);
-        var ts(1.5);
-
-        VQC vqc;
-        vqc.insert(VQG_H(q[0]));
-        vqc.insert(VQG_RX(q[0], x));
-        vqc.insert(VQG_RY(q[1], y));
-        vqc.insert(VQG_RZ(q[0], 0.123));
-        vqc.insert(VQG_CZ(q[0], q[1]));
-        vqc.insert(VQG_CNOT(q[0], q[1]));
-        vqc.insert(VQG_RPhi(q[0], ts, x));
-
-        QCircuit circuit = vqc.feed();
-        QProg prog;
-        prog << circuit;
-
-        std::cout << convert_qprog_to_originirs(prog,machine) << std::endl << std::endl;
-
-        m1(0, 0) = 3;
-        m2(0, 0) = 4;
-
-        x.setValue(m1);
-        y.setValue(m2);
-        ts.setValue(3.14);// or ts =3.14;
-
-        QCircuit circuit2 = vqc.feed();
-        QProg prog2;
-        prog2 << circuit2;
-
-        std::cout << convert_qprog_to_originirs(prog2,machine) << std::endl;
-
-        return 0;
-    }
-
-上述示例会得到以下结果：
-
-.. code-block:: cpp
+     x = var(1)
+     y = var(2)
 
 
-        QINIT 4
-        CREG 0
-        I q[0]
-        H q[0]
-        T q[0]
-        S q[1]
-        X q[2]
-        Y q[1]
-        Z q[2]
-        X1 q[2]
-        Y1 q[1]
-        Z1 q[2]
-        RPhi q[0],(1.8,1)
-        U1 q[0],(1.8)
-        U2 q[1],(3.1415927,1.5707963)
-        U3 q[2],(3.1415927,1.5707963,0.78539816)
-        RX q[0],(1.562)
-        RY q[1],(2.3658)
-        RZ q[0],(0.123)
-        CZ q[0],q[1]
-        CR q[0],q[1],(3.1415927)
-        CNOT q[0],q[1]
+     vqc = VariationalQuantumCircuit()
+     vqc.insert(VariationalQuantumGate_H(q[0]))
+     vqc.insert(VariationalQuantumGate_RX(q[0], x))
+     vqc.insert(VariationalQuantumGate_RY(q[1], y))
+     vqc.insert(VariationalQuantumGate_RZ(q[0], 0.12))
+     vqc.insert(VariationalQuantumGate_CZ(q[0], q[1]))
+     vqc.insert(VariationalQuantumGate_CNOT(q[0], q[1]))
 
-        QINIT 4
-        CREG 0
-        I q[0]
-        H q[0]
-        T q[0]
-        S q[1]
-        X q[2]
-        Y q[1]
-        Z q[2]
-        X1 q[2]
-        Y1 q[1]
-        Z1 q[2]
-        RPhi q[0],(3.148,3.3)
-        U1 q[0],(3.148)
-        U2 q[1],(3.1415927,1.5707963)
-        U3 q[2],(3.1415927,1.5707963,0.78539816)
-        RX q[0],(1.562)
-        RY q[1],(2.3658)
-        RZ q[0],(0.123)
-        CZ q[0],q[1]
-        CR q[0],q[1],(3.1415927)
-        CNOT q[0],q[1]
-       
+     circuit1 = vqc.feed()
+
+     prog = QProg()
+     prog.insert(circuit1)
+
+     print(convert_qprog_to_originir(prog, machine))
+
+     x.set_value([[3.]])
+     y.set_value([[4.]])
+
+     circuit2 = vqc.feed()
+     prog2 = QProg()
+     prog2.insert(circuit2)
+     print(convert_qprog_to_originir(prog2, machine))
+
