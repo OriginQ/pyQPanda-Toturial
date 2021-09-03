@@ -222,55 +222,80 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
     int main()
     {
         using namespace QPanda;
-        using namespace QPanda::Variational;
+	using namespace QPanda::Variational;
 
-        constexpr int qnum = 2;
+	constexpr int qnum = 4;
 
-        QuantumMachine *machine = initQuantumMachine(QuantumMachine_type::CPU_SINGLE_THREAD);
-        std::vector<Qubit*> q;
-        for (int i = 0; i < qnum; ++i)
-        {
-            q.push_back(machine->Allocate_Qubit());
-        }
+	QuantumMachine* machine = initQuantumMachine(CPU);
+	auto q = machine->qAllocMany(qnum);
 
-        MatrixXd m1(1, 1);
-        MatrixXd m2(1, 1);
-        m1(0, 0) = 1;
-        m2(0, 0) = 2;
+	MatrixXd m1(1, 1);
+	MatrixXd m2(1, 1);
+	m1(0, 0) = 1;
+	m2(0, 0) = 2;
 
-        var x(m1);
-        var y(m2);
-        var ts(1.5);
+	double x1 = 1.562;
+	double x2 = 2.3658;
+	var x(m1);
+	var y(m2);
+	var ts(1.5);
+	ts = 1.8;
 
-        VQC vqc;
-        vqc.insert(VQG_H(q[0]));
-        vqc.insert(VQG_RX(q[0], x));
-        vqc.insert(VQG_RY(q[1], y));
-        vqc.insert(VQG_RZ(q[0], 0.123));
-        vqc.insert(VQG_CZ(q[0], q[1]));
-        vqc.insert(VQG_CNOT(q[0], q[1]));
-        vqc.insert(VQG_RPhi(q[0], ts, x));
+	
 
-        QCircuit circuit = vqc.feed();
-        QProg prog;
-        prog << circuit;
+	VQC vqc;
+	vqc.insert(VQG_H(q[0]));
+	vqc.insert(VQG_T(q[0]));
+	vqc.insert(VQG_S(q[1]));
 
-        std::cout << convert_qprog_to_originirs(prog,machine) << std::endl << std::endl;
 
-        m1(0, 0) = 3;
-        m2(0, 0) = 4;
+	vqc.insert(VQG_X(q[2]));
+	vqc.insert(VQG_Y(q[1]));
+	vqc.insert(VQG_Z(q[2]));
 
-        x.setValue(m1);
-        y.setValue(m2);
-        ts.setValue(3.14);// or ts =3.14;
+	vqc.insert(VQG_X1(q[2]));
+	vqc.insert(VQG_Y1(q[1]));
+	vqc.insert(VQG_Z1(q[2]));
 
-        QCircuit circuit2 = vqc.feed();
-        QProg prog2;
-        prog2 << circuit2;
+	vqc.insert(VQG_RPhi(q[0], ts, x));
+	vqc.insert(VQG_U1(q[0], ts));
+	vqc.insert(VQG_U2(q[1], PI, PI/2));
+	vqc.insert(VQG_U3(q[2], PI, PI / 2, PI / 4));
 
-        std::cout << convert_qprog_to_originirs(prog2,machine) << std::endl;
 
-        return 0;
+	//vqc.insert();
+
+	vqc.insert(VQG_RX(q[0], x1));
+	vqc.insert(VQG_RY(q[1], x2));
+	vqc.insert(VQG_RZ(q[0], 0.123));
+	vqc.insert(VQG_CZ(q[0], q[1]));
+	vqc.insert(VQG_CR(q[0], q[1], PI));
+	vqc.insert(VQG_CNOT(q[0], q[1]));
+
+	QCircuit circuit = vqc.feed();
+	QProg prog;
+	prog << circuit;
+
+	std::cout << convert_qprog_to_originir(prog, machine) << std::endl << std::endl;
+
+	m1(0, 0) = 3.3;
+	m2(0, 0) = 4;
+
+	double s = 2.36559;
+
+	x.setValue(m1);
+	y.setValue(m2);
+	
+	ts.setValue(3.145);
+	ts = 3.148;
+
+	QCircuit circuit2 = vqc.feed();
+	QProg prog2;
+	prog2 << circuit2;
+
+	std::cout << convert_qprog_to_originir(prog2, machine) << std::endl;
+
+	return 0;
     }
 
 上述示例会得到以下结果：
@@ -280,7 +305,6 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
 
         QINIT 4
         CREG 0
-        I q[0]
         H q[0]
         T q[0]
         S q[1]
@@ -303,7 +327,6 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
 
         QINIT 4
         CREG 0
-        I q[0]
         H q[0]
         T q[0]
         S q[1]
