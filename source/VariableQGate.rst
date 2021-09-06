@@ -214,136 +214,81 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
 实例
 ----------
 
-.. code-block:: cpp
+.. code-block:: python
 
-    #include "QPanda.h"
-    #include "Variational/var.h"
+        import pyqpanda as pq
+	import numpy as np
 
-    int main()
-    {
-        using namespace QPanda;
-	using namespace QPanda::Variational;
+	if __name__=="__main__":
 
-	constexpr int qnum = 4;
+	    machine = pq.init_quantum_machine(pq.CPU)
+	    q = machine.qAlloc_many(2)
 
-	QuantumMachine* machine = initQuantumMachine(CPU);
-	auto q = machine->qAllocMany(qnum);
+	    x = pq.var(1)
+	    y = pq.var(2)
 
-	MatrixXd m1(1, 1);
-	MatrixXd m2(1, 1);
-	m1(0, 0) = 1;
-	m2(0, 0) = 2;
-
-	double x1 = 1.562;
-	double x2 = 2.3658;
-	var x(m1);
-	var y(m2);
-	var ts(1.5);
-	ts = 1.8;
-
-	
-
-	VQC vqc;
-	vqc.insert(VQG_H(q[0]));
-	vqc.insert(VQG_T(q[0]));
-	vqc.insert(VQG_S(q[1]));
+	    temp = np.matrix([5])
+	    ss=pq.var(temp)
 
 
-	vqc.insert(VQG_X(q[2]));
-	vqc.insert(VQG_Y(q[1]));
-	vqc.insert(VQG_Z(q[2]));
+	    vqc = pq.VariationalQuantumCircuit()
+	    vqc.insert(pq.VariationalQuantumGate_H(q[0]))
+	    vqc.insert(pq.VariationalQuantumGate_RX(q[0], ss))
+	    vqc.insert(pq.VariationalQuantumGate_RY(q[1], y))
+	    vqc.insert(pq.VariationalQuantumGate_RZ(q[0], 0.12))
+	    vqc.insert(pq.VariationalQuantumGate_CZ(q[0], q[1]))
+	    vqc.insert(pq.VariationalQuantumGate_CNOT(q[0], q[1]))
+	    vqc.insert(pq.VariationalQuantumGate_U1(q[0], x))
+	    vqc.insert(pq.VariationalQuantumGate_U2(q[0], np.pi, x))
+	    vqc.insert(pq.VariationalQuantumGate_U3(q[0], np.pi, x,  y))
+	    vqc.insert(pq.VariationalQuantumGate_U4(q[0], np.pi, x,  y,ss))
 
-	vqc.insert(VQG_X1(q[2]));
-	vqc.insert(VQG_Y1(q[1]));
-	vqc.insert(VQG_Z1(q[2]));
-
-	vqc.insert(VQG_RPhi(q[0], ts, x));
-	vqc.insert(VQG_U1(q[0], ts));
-	vqc.insert(VQG_U2(q[1], PI, PI/2));
-	vqc.insert(VQG_U3(q[2], PI, PI / 2, PI / 4));
 
 
-	//vqc.insert();
+	    circuit1 = vqc.feed()
 
-	vqc.insert(VQG_RX(q[0], x1));
-	vqc.insert(VQG_RY(q[1], x2));
-	vqc.insert(VQG_RZ(q[0], 0.123));
-	vqc.insert(VQG_CZ(q[0], q[1]));
-	vqc.insert(VQG_CR(q[0], q[1], PI));
-	vqc.insert(VQG_CNOT(q[0], q[1]));
+	    prog = pq.QProg()
+	    prog.insert(circuit1)
 
-	QCircuit circuit = vqc.feed();
-	QProg prog;
-	prog << circuit;
+	    print(pq.convert_qprog_to_originir(prog, machine))
 
-	std::cout << convert_qprog_to_originir(prog, machine) << std::endl << std::endl;
+	    x.set_value([[3.]])
+	    y.set_value([[4.]])
 
-	m1(0, 0) = 3.3;
-	m2(0, 0) = 4;
-
-	double s = 2.36559;
-
-	x.setValue(m1);
-	y.setValue(m2);
-	
-	ts.setValue(3.145);
-	ts = 3.148;
-
-	QCircuit circuit2 = vqc.feed();
-	QProg prog2;
-	prog2 << circuit2;
-
-	std::cout << convert_qprog_to_originir(prog2, machine) << std::endl;
-
-	return 0;
-    }
+	    circuit2 = vqc.feed()
+	    prog2 = pq.QProg()
+	    prog2.insert(circuit2)
+	    print(pq.convert_qprog_to_originir(prog2, machine))
+	    
+	    
 
 上述示例会得到以下结果：
 
 .. code-block:: cpp
 
 
-        QINIT 4
-        CREG 0
-        H q[0]
-        T q[0]
-        S q[1]
-        X q[2]
-        Y q[1]
-        Z q[2]
-        X1 q[2]
-        Y1 q[1]
-        Z1 q[2]
-        RPhi q[0],(1.8,1)
-        U1 q[0],(1.8)
-        U2 q[1],(3.1415927,1.5707963)
-        U3 q[2],(3.1415927,1.5707963,0.78539816)
-        RX q[0],(1.562)
-        RY q[1],(2.3658)
-        RZ q[0],(0.123)
-        CZ q[0],q[1]
-        CR q[0],q[1],(3.1415927)
-        CNOT q[0],q[1]
-
-        QINIT 4
-        CREG 0
-        H q[0]
-        T q[0]
-        S q[1]
-        X q[2]
-        Y q[1]
-        Z q[2]
-        X1 q[2]
-        Y1 q[1]
-        Z1 q[2]
-        RPhi q[0],(3.148,3.3)
-        U1 q[0],(3.148)
-        U2 q[1],(3.1415927,1.5707963)
-        U3 q[2],(3.1415927,1.5707963,0.78539816)
-        RX q[0],(1.562)
-        RY q[1],(2.3658)
-        RZ q[0],(0.123)
-        CZ q[0],q[1]
-        CR q[0],q[1],(3.1415927)
-        CNOT q[0],q[1]
-       
+        QINIT 2
+	CREG 0
+	H q[0]
+	RX q[0],(56)
+	RY q[1],(2)
+	RZ q[0],(0.12)
+	CZ q[0],q[1]
+	CNOT q[0],q[1]
+	U1 q[0],(1)
+	U2 q[0],(3.1415927,1)
+	U3 q[0],(3.1415927,1,2)
+	U4 q[0],(3.1415927,1,2,5)
+	
+	QINIT 2
+	CREG 0
+	H q[0]
+	RX q[0],(56)
+	RY q[1],(4)
+	RZ q[0],(0.12)
+	CZ q[0],q[1]
+	CNOT q[0],q[1]
+	U1 q[0],(3)
+	U2 q[0],(3.1415927,3)
+	U3 q[0],(3.1415927,3,4)
+	U4 q[0],(3.1415927,3,4,5)
