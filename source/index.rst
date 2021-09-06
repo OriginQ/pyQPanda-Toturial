@@ -88,7 +88,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     Optimizer
 
 .. toctree::
-    :caption: VQNet
+    :caption: VQC
     :maxdepth: 2
     
     Var
