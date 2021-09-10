@@ -211,6 +211,27 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
 
     object = newValue;
 
+
+更新可变量子线路
+----------
+
+通过以下方法可以向可变量子线路中插入VQG或VQC
+
+（1）：insert()，使用方法如下：
+
+    object.insert(VQC);
+    
+    // or object.insert(VQG);
+
+（2）："<<"运算符插入，使用方法如下：
+
+
+    object << VQC;
+    
+    //or object << VQG;
+
+
+
 实例
 ----------
 
