@@ -108,11 +108,10 @@
 
 单比特量子逻辑门：
 `````````````````````````````````````````````````
-.. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
+.. .. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
 .. list-table:: 
-   :align: center
-   :class: longtable 
+ 
 
    * - |I|                                                     
      - ``I``                     
@@ -169,12 +168,10 @@
 
 多比特量子逻辑门：
 `````````````````````````````````````````````````
-.. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
+.. .. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
 .. list-table:: 
-   :widths: auto
-   :align: center
-   :class: longtable 
+
 
    * - |CNOT|                                                      
      - ``CNOT``                  
