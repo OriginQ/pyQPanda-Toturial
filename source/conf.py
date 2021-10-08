@@ -91,7 +91,7 @@ exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
-
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 

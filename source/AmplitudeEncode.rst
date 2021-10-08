@@ -16,6 +16,7 @@
 
     import pyqpanda.pyQPanda as pq
     import math
+    import numpy as np
 
     class InitQMachine:
         def __init__(self, quBitCnt, cBitCnt, machineType = pq.QMachineType.CPU):
@@ -34,9 +35,11 @@
         machine = init_machine.m_machine
         
         #这里实现用2个qubit，编码4个double数据[2.2, 1, 4.5, 3.7]
-        cir_encode = pq.amplitude_encode([qlist[0], qlist[1]], [2.2, 1, 4.5, 3.7])
+        mat=[2.2,1,4.5,3.7]
+        mat = mat / np.linalg.norm(mat)
+        cir_encode = pq.amplitude_encode([qlist[0], qlist[1]], mat)
         #输出编码量子线路
-        pq.draw_qprog(cir_encode)
+        print(cir_encode)
         
         print("Test over.")
 
