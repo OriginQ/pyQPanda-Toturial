@@ -89,7 +89,7 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
 .. math::
    \begin{aligned}
    CR(k)(\left|a\right\rangle\left|j\right\rangle)=\left\{\begin{matrix}
-   RY(\arccos{\frac{C}{k}})\left|a\right\rangle\left|k\right\rangle,j=k,\\ 
+   RY(2\arcsin{\frac{C}{k}})\left|a\right\rangle\left|k\right\rangle,j=k,\\ 
    \left|a\right\rangle\left|j\right\rangle,j\neq k,
    \end{matrix}\right.
    \end{aligned}
