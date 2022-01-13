@@ -79,8 +79,9 @@
 代码实例
 ****
 
-取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \frac{\left|0\right\rangle+
-\left|1\right\rangle}{2}, P_1=I-2\left|1\right\rangle \left\langle1\right|=Z`，
+取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \sin{\frac{\pi}{6}}\left|1\right\rangle+
+\cos{\frac{\pi}{6}}\left|1\right\rangle,\ P_1=I-2\left|1\right\rangle \left\langle 1\right|=Z,
+P=I-2\left|\psi\right\rangle \left\langle\psi\right|`，
 
 振幅放大量子线路的相应代码实例如下
 
@@ -98,9 +99,9 @@
         prog = pq.create_empty_qprog()
 
         # 构建量子程序
-        prog.insert(pq.H(qvec[0]))
-        for i in range(7):
-             prog.insert(pq.RY(qvec[0],pi/2))
+        prog.insert(pq.RY(qvec[0], pi/3))
+        prog.insert(pq.Z(qvec[0]))
+        prog.insert(pq.RY(qvec[0], pi*4/3))
 
         # 对量子程序进行概率测量
         result = pq.prob_run_dict(prog, qvec, -1)
@@ -111,9 +112,9 @@
              print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`1` 和 :math:`0` 的概率\
-得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
+得到 :math:`\left|1\right\rangle`\和 :math:`\left|0\right\rangle` ：
 
 .. code-block:: python
     
-    0:1
-    1:0
+    0:0
+    1:1
