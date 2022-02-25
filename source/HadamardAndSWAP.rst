@@ -40,7 +40,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 .. math::
 
    \begin{aligned}
-   P_0= \frac{1}{4}\left \| (I+U)(Q\left|{0} \right\rangle\left|\psi \right\rangle)| \right \|^2 \ 
+   P_0= \frac{1}{4}\left \| (I+U)\left|\psi \right\rangle \right \|^2 \ 
    =\frac{1+Re(\left\langle\psi\left|U\right|\psi\right\rangle)}{2}, \
    P_1 = 1- P_0.
    \end{aligned}
