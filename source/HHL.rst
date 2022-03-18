@@ -39,6 +39,7 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
    C_b=\left[\begin{matrix}b\\0\\\end{matrix}\right],
    C_x=\left[\begin{matrix}0\\x\\\end{matrix}\right],
    \end{aligned}
+
 使得 :math:`C_A\vec{C_x}=\vec{C_b}` 成立且满足 :math:`C_A` 自共轭。
 
 以下内容中将默认A为自共轭矩阵。
@@ -52,6 +53,7 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
    \begin{aligned}
    A=\sum_{j=0}^{N-1}\lambda_j\left|u_j\right\rangle\left\langle u_j\right|,\lambda_j\in R.
    \end{aligned}
+
 其中 :math:`{{\lambda}_j,u_j}` 为矩阵A的特征对（特征值及相应的特征向量）。
 
 将 :math:`\left|b\right\rangle` 以特征向量基展开，得到
@@ -60,10 +62,12 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
    \begin{aligned}
    \left|b\right\rangle=\sum_{j=0}^{N-1}{b_j\left|u_j\right\rangle},b_j\in C.
    \end{aligned}
+
 于是原方程组的解可表示为
 
 .. math::
    \left|x\right\rangle=A^{-1}\left|b\right\rangle=\sum_{j=0}^{N-1}{\lambda_j^{-1}b_j\left|u_j\right\rangle.}
+
 显而易见算法的基本思路应当是从右端项量子态 :math:`\left|b\right\rangle` 出发构造解量子态 :math:`\left|x\right\rangle` 。
 
 通过QPE提取特征值
@@ -78,6 +82,7 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
    \begin{aligned}
    {QPE(\left|0\right\rangle}^{\otimes n}\left|b\right\rangle)=\sum_{j=0}^{N-1}{b_j\left|\widetilde{\lambda_j}\right\rangle\left|u_j\right\rangle}.
    \end{aligned}
+
 其中 :math:`\widetilde{\lambda_j}` 是对应特征值 :math:`\lambda_j` 的近似整数，细节参见QPE部分介绍。
 于是矩阵A的特征值信息存入到了基向量 :math:`\left|\widetilde{\lambda_j}\right\rangle` 中。
 
@@ -93,13 +98,14 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
    \left|a\right\rangle\left|j\right\rangle,j\neq k,
    \end{matrix}\right.
    \end{aligned}
+
 式中 :math:`C` 为 :math:`\widetilde{\lambda_j}` 的归一化系数，有 :math:`C\le\smash{\displaystyle\min_{j}} {\left|\widetilde{\lambda_j}\right|}`\
 从而任意 :math:`\frac{C^2}{{\widetilde{\lambda_j}}^2}\le 1`。对 :math:`\sum_{j=0}^{N-1}{b_j\left|0\right\rangle
 \left|\widetilde{\lambda_j}\right\rangle\left|u_j\right\rangle}` 经过遍历式旋转量子门操作后可以得到
 
 .. math::
    \begin{aligned}
-   (\prod (CR(k)\otimes I))\sum_{N-1}^{j=0}b_j\left|0\right\rangle\left|\widetilde{\lambda_j}\right\rangle
+   (\prod (CR(k)\otimes I))\sum^{N-1}_{j=0}b_j\left|0\right\rangle\left|\widetilde{\lambda_j}\right\rangle
    \left|u_j\right\rangle=\sum_{j=0}^{N-1}{(\sqrt{1-\frac{C^2}{{\widetilde{\lambda_j}}^2}}\left|0\right\rangle
    +\frac{C}{\widetilde{\lambda_j}}\left|1\right\rangle)b_j\left|\widetilde{\lambda_j}\right\rangle\left|u_j\right\rangle}.
    \end{aligned}
@@ -151,36 +157,33 @@ HHL算法的量子线路图如下所示
    HHL_solve_linear_equations(matrix, data)
 
 第一个函数接口用于得到HHL算法对应的量子线路，第二个函数接口则可以输入QStat格式的矩阵和右端项，返还解向量。
+目前第一个函数接口返回的线路需要追加特殊后处理，得到的并不是直接求解的结果，一般推荐使用第二个函数接口HHL_solve_linear_equations。
 
-选择一个最简单的二维左端项单位矩阵例子来验证HHL接口函数的可用性，代码实例如下：
+选取 :math:`A=\bigl(\begin{smallmatrix}
+1 & 0 \\ 
+0 & 1 \\  
+\end{smallmatrix}\bigr), b=\begin{pmatrix} 0.6,0.8\end{pmatrix}^T` ，
+验证HHL的代码实例如下：
 
 .. code-block:: python
    
-    #!/usr/bin/env python
+   #!/usr/bin/env python
 
-    import pyqpanda as pq
-    import numpy as np
+   import pyqpanda as pq
+   import numpy as np
 
-    if __name__ == "__main__":
+   if __name__ == "__main__":
+      A=[1,0,0,1]
+      b=[0.6,0.8]
+      result = pq.HHL_solve_linear_equations(A,b,1)
 
-        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
-        prog = pq.create_empty_qprog()
+      #打印测量结果
+      for key in result:
+         print(key)
 
-        # 构建量子程序
-        prog.insert(pq.build_HHL_circuit([1,0,0,1],[0.6,0.8],machine))
-
-        pq.directly_run(prog)
-
-        result = np.array(machine.get_qstate())[:2]
-        pq.destroy_quantum_machine(machine)
-
-        #打印测量结果
-        for key in result:
-             print(key)
-
-输出结果应该和右端项向量一样是 :math:`[0.6,0.8]`，因为误差会出现较小的扰动：
+输出结果应该和右端项向量一样是 :math:`[0.6,0.8]`，虚数项参数为0。因为误差会出现较小的扰动：
 
 .. code-block:: python:
 
-   (0.5988269448280334-3.930189507173054e-14i)
-   (0.7984358668327332-8.08242361927114e-14i)
+   (0.6,0)
+   (0.8,0)
