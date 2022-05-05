@@ -118,7 +118,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 (I-2\left|\psi\right\rangle \left\langle\psi\right|)` 在实际的编程实现和运算过程中计算量过大，因此需要考虑如何将其利用\
 基础的普适量子门简单实现累乘。
 
-将原问题转换到空间 :math:`\{\left|\omega\right\rangle,\left|\psi\right\rangle\}`上，不妨记 :math:`\left|\Omega\right|=N`，由
+将原问题转换到空间 :math:`\{\left|\omega\right\rangle,\left|\psi\right\rangle\}` 上，不妨记 :math:`\left|\Omega\right|=N` ，由
 :math:`\left\langle\varphi\middle|\omega\right\rangle=\frac{1}{\sqrt N}, \left\langle\varphi\middle|\varphi\right\rangle=1` 可知
 
 .. math::
@@ -144,7 +144,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 &\left\langle\omega|\varphi\right\rangle\\\end{matrix}\right]{{{(U}_sU}_\omega)}^k\left[\begin{matrix}0\\1\\\end{matrix}\right]
 =\frac{a^{2k+1}-a^{-\left(2k+1\right)}}{2i}=\sin{(\left(2k+1\right)\theta)}`。
 
-解 :math:`\left(2k+1\right)\theta=\frac{\pi}{2}` 可知经过 :math:`k=[\frac{\pi}{4}\arcsin^{-1}{\frac{1}{\sqrt N}}-\frac{1}{2}]≈O(N)`\
+解 :math:`\left(2k+1\right)\theta=\frac{\pi}{2}` 可知经过 :math:`k=[\frac{\pi}{4}\arcsin{\frac{1}{\sqrt N}}-\frac{1}{2}]≈O(N)`\
 次 :math:`Q` 量子门操作后可以通过测量以逼近 :math:`1` 的概率得到解 :math:`\left|\omega\right\rangle`。
 
 
