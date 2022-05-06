@@ -35,7 +35,7 @@ DECOHERENCE_KRAUS_OPERATOR是退相干噪声模型，为上述两种噪声模型
 
 :math:`P_{damping} = 1 - e^{-\frac{t_{gate}}{T_1}}, P_{dephasing} = 0.5 \times (1 - e^{-(\frac{t_{gate}}{T_2} - \frac{t_{gate}}{2T_1})})`
 
-:math:`K_1 = K_{1_{damping}}K_{1_{dephasing}}, K_2 = K_{1_{damping}}K_{2_{dephasing}}`
+:math:`K_1 = K_{1_{damping}}K_{1_{dephasing}}, K_2 = K_{1_{damping}}K_{2_{dephasing}},`
 
 :math:`K_3 = K_{2_{damping}}K_{1_{dephasing}}, K_4 = K_{2_{damping}}K_{2_{dephasing}}`
 
@@ -46,9 +46,9 @@ DEPOLARIZING_KRAUS_OPERATOR
 
 DEPOLARIZING_KRAUS_OPERATOR去极化噪声模型，即单量子比特有一定的概率被完全混合态I/2代替, 它的kraus算符和表示方法如下所示：
 
-:math:`K_1 = \sqrt{1 - 3p/4} \times I, K_2 = \sqrt{p}/2 \times X` 
+:math:`K_1 = \sqrt{1 - 3p/4} × I, K_2 = \sqrt{p}/2 × X` 
 
-:math:`K_3 = \sqrt{p}/2 \times Y, K_4 = \sqrt{p}/2 \times Z`
+:math:`K_3 = \sqrt{p}/2 × Y, K_4 = \sqrt{p}/2 × Z`
 
 其中I、X、Y、Z分别代表其量子逻辑门对应的矩阵
 
@@ -137,10 +137,6 @@ pyqpanda当前支持的噪声模型
         qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.RY_GATE, 0.1, [q[0], q[1]])
         # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
         qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, [[q[0], q[1]], [q[1], q[2]]])
-        #可对线路中所有types加噪声
-        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, types, 0.1)
-        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, types, 0.1, 0.2, 0.3)
-        qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, q)
 
 第一个参数为噪声模型类型，第二个参数为量子逻辑门类型，第三个参数为噪声模型所需的参数。
 
@@ -154,10 +150,6 @@ pyqpanda当前支持的噪声模型
         qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.Y_HALF_PI, 5, 2, 0.01, [q[0], q[1]])
         # 双门指定比特时, 需要同时指定两个比特，且对比特的顺序敏感
         qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CZ_GATE, 5, 2, 0.01, [[q[0], q[1]], [q[1], q[0]]])
-        #可对线路中所有GateType加噪声
-        qvm.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, types, 0.1)
-        qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, types, 0.1, 0.2, 0.3)
-        qvm.set_noise_model(NoiseModel.DAMPING_KRAUS_OPERATOR, GateType.CNOT_GATE, 0.1, q)
 
 
 含噪声虚拟机还支持设置设置带有角度的量子逻辑门的转转角度误差，其接口使用方式如下：

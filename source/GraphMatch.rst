@@ -20,8 +20,6 @@ CZ(1,0)
 参数1：QProg 待优化的原始量子程序
 参数2：vector 子线路查询替换队列，每个队列元素包含目标搜索线路和对应的替换线路
 
-.. warning:: 
-    ``graph_query_replace`` 接口已弃用。
 
 示例
 >>>>>>>>>>>>>>>>
@@ -31,7 +29,8 @@ CZ(1,0)
 
         from pyqpanda import *
         if __name__=="__main__":
-            machine = init_quantum_machine(QMachineType.CPU)
+            machine = CPUQVM()
+            machine.init_qvm()
             q = machine.qAlloc_many(4)
             c = machine.cAlloc_many(4)
             # 构建量子程序

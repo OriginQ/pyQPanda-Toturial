@@ -230,55 +230,20 @@ BARRIER操作是将操作的量子比特进行阻断，防止在线路优化和�
 
 QGATE操作
 :::::::::::
-
 QGATE为自定义逻辑门操作，可以将多个逻辑门组合成一个新的逻辑门使用。
-它通过QGATE和ENDQGATE框定自定义逻辑门的范围。同时需要注意的是，自定义逻辑门的形参名不能与上述相关关键字冲突。
-
-用户自定义逻辑门的声明规则如下：
-::
-    QGATE UserDefinedeGateName BitParameter,(angle)
-    //UserDefinedeGateName,用户自定义逻辑门名称，string
-    //BitParameter,用户自定义逻辑门形参信息，string
-    //angle,角度信息，string
-    //其他的相关信息【","、"("等】必须按照定义的格式书写
-    //其中",”及以后的相关信息可空，即角度信息可空
-
-下面是一个简单的例子：
+它通过QGATE和ENDQGATE框定自定义逻辑门的范围。同时需要注意的是，自定义逻辑门的形参名不能与上述相关关键字冲突。示例：
 ::
     QGATE new_H a
     H a
     X a
-    ENDQGATE
-
-
+    ENDQGATE 
+    new_H q[1]
     QGATE new_RX a,(b)
     RX a,(PI/2+b)
-    CONTROL q[0]
-    RX a,(-3.141593)
-    DAGGER
-    H a
-    ENDDAGGER
-    ENDCONTROL
-    DAGGER
-    H a
-    DAGGER
-    H a
-    ENDDAGGER
-    ENDDAGGER
-    ENDQGATE
-
-
-用户可以在申请完量子比特和经典寄存器之后，调用自定义逻辑门，格式如下：
-::
-     UserDefinedeGateName  argue,(angle)
-    //UserDefinedeGateName,用户自定义逻辑门名称，string,与上述定义部分保持一致
-    //BitParameter,用户自定义逻辑门形参信息，string，必须是q[x],x需要小于申请的量子比特的数目
-    //angle,角度信息，string，可以是数字，或者与PI相关的表达式
-
-下面是一个简单的例子：
-::
-    new_H q[0]
+    X a
+    ENDQGATE 
     new_RX q[1],(PI/4)
+
 
 OriginIR程序示例
 :::::::::::::::
@@ -321,17 +286,18 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
         from pyqpanda import *
 
         if __name__ == "__main__":
-            machine = init_quantum_machine(QMachineType.CPU)
+            machine = CPUQVM()
+            machine.init_qvm()
             qlist = machine.qAlloc_many(4)
             clist = machine.cAlloc_many(4)
-            prog = create_empty_qprog()
-            prog_cir = create_empty_circuit()
+            prog = QProg()
+            prog_cir = QCircuit()
 
             # 构建量子线路
             prog_cir << Y(qlist[2]) << H(qlist[2]) << CNOT(qlist[0],qlist[1])
 
             # 构建QWhile， 使用量子线路为循环分支
-            qwhile = create_while_prog(clist[1], prog_cir)
+            qwhile = QProg(clist[1], prog_cir)
 
             # 构建量子程序， 将QWhile插入到量子程序中
             prog << H(qlist[2]) << Measure(qlist[1],clist[1]) << qwhile
@@ -339,7 +305,6 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
             # 量子程序转换QriginIR，并打印OriginIR
             print(convert_qprog_to_originir(prog,machine))
             
-            destroy_quantum_machine(machine)
 
 
 具体步骤如下:
@@ -369,7 +334,5 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
 
 .. note:: 对于暂不支持的操作类型，OriginIR会显示UnSupported XXXNode，其中XXX为具体的节点类型。
 
-
-.. warning:: 新增接口 ``convert_qprog_to_originir()`` ，与老版本接口 ``transform_qprog_to_originir()`` 功能相同。
 
 

@@ -49,7 +49,8 @@
         import base64
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
 
             # base64的方式解码，得到的二进制数据
             str_base64_data = b'AAAAAAQAAAAEAAAABAAAAA4AAQAAAAAAJAACAAAAAQAkAAMAAQACACQABAACAAMA\n';
@@ -62,7 +63,6 @@
             # 量子程序转换OriginIR并打印
             print(convert_qprog_to_originir(parseProg,qvm))
 
-            destroy_quantum_machine(qvm)
 
 运行结果：
 
@@ -77,6 +77,3 @@
 
 .. note:: 可以运行出正确的结果说明可以将序列化的量子程序正确的解析出来
 
-
-.. warning:: 
-        新增接口 ``convert_binary_data_to_qprog()`` ，与老版本接口 ``transform_binary_data_to_qprog()`` 功能相同。

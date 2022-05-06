@@ -53,7 +53,8 @@
         from pyqpanda import *
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
             prog = QProg()
@@ -67,7 +68,6 @@
             quil = convert_qprog_to_quil(prog, qvm)
             print(quil)
 
-            qvm.finalize()
 
 
 运行结果：

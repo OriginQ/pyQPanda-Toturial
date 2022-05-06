@@ -5,35 +5,16 @@
 
 目前在QPanda::Variational中定义了如下可变量子逻辑门，它们都继承自 ``VQG`` 。
 
-================================     ============== 
- VQG                                   别名
-================================     ==============  
-VariationalQuantumGate_I              VQG_I  
-VariationalQuantumGate_H              VQG_H 
-VariationalQuantumGate_T              VQG_T
-VariationalQuantumGate_S              VQG_S
-VariationalQuantumGate_X              VQG_X
-VariationalQuantumGate_Y              VQG_Y
-VariationalQuantumGate_Z              VQG_Z
-VariationalQuantumGate_X1             VQG_X1
-VariationalQuantumGate_Y1             VQG_Y1
-VariationalQuantumGate_Z1             VQG_Z1
-VariationalQuantumGate_U1             VQG_U1
-VariationalQuantumGate_U2             VQG_U2
-VariationalQuantumGate_U3             VQG_U3
-VariationalQuantumGate_U4             VQG_U4
-VariationalQuantumGate_RX             VQG_RX
-VariationalQuantumGate_RY             VQG_RY
-VariationalQuantumGate_RZ             VQG_RZ
-VariationalQuantumGate_CRX            VQG_CRX
-VariationalQuantumGate_CRY            VQG_CRY
-VariationalQuantumGate_CRZ            VQG_CRZ
-VariationalQuantumGate_CNOT           VQG_CNOT
-VariationalQuantumGate_CZ             VQG_CZ
-VariationalQuantumGate_SWAP           VQG_SWAP
-VariationalQuantumGate_iSWAP          VQG_iSWAP
-VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
-================================     ============== 
+===========================  ========== 
+ VQG                           别名
+===========================  ==========  
+VariationalQuantumGate_H      VQG_H
+VariationalQuantumGate_RX     VQG_RX
+VariationalQuantumGate_RY     VQG_RY
+VariationalQuantumGate_RZ     VQG_RZ
+VariationalQuantumGate_CNOT   VQG_CNOT
+VariationalQuantumGate_CZ     VQG_CZ
+===========================  ========== 
 
 
 接口介绍
@@ -195,100 +176,64 @@ VariationalQuantumGate_SqiSWAP        VQG_SqiSWAP
         **参数**
             - q1 控制比特 
             - q2 目标比特
-可变量子逻辑门的使用方法和量子逻辑门的使用方法类似，这里就不再一一赘述，有问题可以查看量子逻辑门相关内容。
-
-动态修改参数方法
-----------
-若构造的VQC中含有变量参数，可以通过以下方法动态修改参数值，并生成对应的参数的普通量子逻辑门。
-
-（1）：setValue()，使用方法如下：
-
-
-    object.setValue(newValue);
-
-（2）："="运算符重新赋值，使用方法如下：
-
-
-    object = newValue;
 
 实例
 ----------
 
-.. code-block:: python
-
-        import pyqpanda as pq
-	import numpy as np
-
-	if __name__=="__main__":
-
-	    machine = pq.init_quantum_machine(pq.CPU)
-	    q = machine.qAlloc_many(2)
-
-	    x = pq.var(1)
-	    y = pq.var(2)
-
-	    temp = np.matrix([5])
-	    ss=pq.var(temp)
-
-
-	    vqc = pq.VariationalQuantumCircuit()
-	    vqc.insert(pq.VariationalQuantumGate_H(q[0]))
-	    vqc.insert(pq.VariationalQuantumGate_RX(q[0], ss))
-	    vqc.insert(pq.VariationalQuantumGate_RY(q[1], y))
-	    vqc.insert(pq.VariationalQuantumGate_RZ(q[0], 0.12))
-	    vqc.insert(pq.VariationalQuantumGate_CZ(q[0], q[1]))
-	    vqc.insert(pq.VariationalQuantumGate_CNOT(q[0], q[1]))
-	    vqc.insert(pq.VariationalQuantumGate_U1(q[0], x))
-	    vqc.insert(pq.VariationalQuantumGate_U2(q[0], np.pi, x))
-	    vqc.insert(pq.VariationalQuantumGate_U3(q[0], np.pi, x,  y))
-	    vqc.insert(pq.VariationalQuantumGate_U4(q[0], np.pi, x,  y,ss))
-
-
-
-	    circuit1 = vqc.feed()
-
-	    prog = pq.QProg()
-	    prog.insert(circuit1)
-
-	    print(pq.convert_qprog_to_originir(prog, machine))
-
-	    x.set_value([[3.]])
-	    y.set_value([[4.]])
-
-	    circuit2 = vqc.feed()
-	    prog2 = pq.QProg()
-	    prog2.insert(circuit2)
-	    print(pq.convert_qprog_to_originir(prog2, machine))
-	    
-	    
-
-上述示例会得到以下结果：
-
 .. code-block:: cpp
 
+    #include "QPanda.h"
+    #include "Variational/var.h"
 
-        QINIT 2
-	CREG 0
-	H q[0]
-	RX q[0],(56)
-	RY q[1],(2)
-	RZ q[0],(0.12)
-	CZ q[0],q[1]
-	CNOT q[0],q[1]
-	U1 q[0],(1)
-	U2 q[0],(3.1415927,1)
-	U3 q[0],(3.1415927,1,2)
-	U4 q[0],(3.1415927,1,2,5)
-	
-	QINIT 2
-	CREG 0
-	H q[0]
-	RX q[0],(56)
-	RY q[1],(4)
-	RZ q[0],(0.12)
-	CZ q[0],q[1]
-	CNOT q[0],q[1]
-	U1 q[0],(3)
-	U2 q[0],(3.1415927,3)
-	U3 q[0],(3.1415927,3,4)
-	U4 q[0],(3.1415927,3,4,5)
+    int main()
+    {
+        using namespace QPanda;
+        using namespace QPanda::Variational;
+
+        constexpr int qnum = 2;
+
+        QuantumMachine *machine = initQuantumMachine(QuantumMachine_type::CPU_SINGLE_THREAD);
+        std::vector<Qubit*> q;
+        for (int i = 0; i < qnum; ++i)
+        {
+            q.push_back(machine->Allocate_Qubit());
+        }
+
+        MatrixXd m1(1, 1);
+        MatrixXd m2(1, 1);
+        m1(0, 0) = 1;
+        m2(0, 0) = 2;
+
+        var x(m1);
+        var y(m2);
+
+        VQC vqc;
+        vqc.insert(VQG_H(q[0]));
+        vqc.insert(VQG_RX(q[0], x));
+        vqc.insert(VQG_RY(q[1], y));
+        vqc.insert(VQG_RZ(q[0], 0.123));
+        vqc.insert(VQG_CZ(q[0], q[1]));
+        vqc.insert(VQG_CNOT(q[0], q[1]));
+
+        QCircuit circuit = vqc.feed();
+        QProg prog;
+        prog << circuit;
+
+        std::cout << convert_qprog_to_originirs(prog,machine) << std::endl << std::endl;
+
+        m1(0, 0) = 3;
+        m2(0, 0) = 4;
+
+        x.setValue(m1);
+        y.setValue(m2);
+
+        QCircuit circuit2 = vqc.feed();
+        QProg prog2;
+        prog2 << circuit2;
+
+        std::cout << convert_qprog_to_originirs(prog2,machine) << std::endl;
+
+        return 0;
+    }
+
+.. image:: images/VQG_Example.png

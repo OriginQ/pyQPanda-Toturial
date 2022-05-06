@@ -10,6 +10,7 @@
    :maxdepth: 2
    
    FullAmplitude
+   FullAmplitudeWithNoise
    NoiseQVM
    SingleAmplitude
    PartialAmplitude

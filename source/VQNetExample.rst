@@ -14,7 +14,7 @@ QAOA
 我们给定一个MAX-CUT的问题如下
 
 .. image:: images/QAOA_7bit_Problem.png
- 
+
 首先，我们输入 ``MAX-CUT`` 问题的图形信息，以用来构造相应的问题哈密顿量。 
 
 .. code-block:: python

@@ -107,93 +107,38 @@
    :height: 50px
 
 单比特量子逻辑门：
-`````````````````````````````````````````````````
-.. .. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
-.. list-table:: 
- 
-
-   * - |I|                                                     
-     - ``I``                     
-     - :math:`\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\quad`
-   * - |H|                                                      
-     - ``Hadamard``              
-     - :math:`\begin{bmatrix} 1/\sqrt {2} & 1/\sqrt {2} \\ 1/\sqrt {2} & -1/\sqrt {2} \end{bmatrix}\quad`
-   * - |T|                                                     
-     - ``T``                     
-     - :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\pi / 4) \end{bmatrix}\quad`
-   * - |S|                                                     
-     - ``S``                      
-     - :math:`\begin{bmatrix} 1 & 0 \\ 0 & 1i \end{bmatrix}\quad`
-   * - |X|                                                     
-     - ``Pauli-X``               
-     - :math:`\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}\quad`
-   * - |Y|                                                     
-     - ``Pauli-Y``               
-     - :math:`\begin{bmatrix} 0 & -1i \\ 1i & 0 \end{bmatrix}\quad`
-   * - |Z|                                                     
-     - ``Pauli-Z``               
-     - :math:`\begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}\quad`
-   * - |X1|                                                    
-     - ``X1``                    
-     - :math:`\begin{bmatrix} 1/\sqrt {2} & -1i/\sqrt {2} \\ -1i/\sqrt {2} & 1/\sqrt {2} \end{bmatrix}\quad`
-   * - |Y1|                                                    
-     - ``Y1``                    
-     - :math:`\begin{bmatrix} 1/\sqrt {2} & -1/\sqrt {2} \\ 1/\sqrt {2} & 1/\sqrt {2} \end{bmatrix}\quad`
-   * - |Z1|                                                    
-     - ``Z1``                    
-     - :math:`\begin{bmatrix} \exp(-i\pi/4) & 0 \\ 0 & \exp(i\pi/4) \end{bmatrix}\quad`
-   * - |RX|                                                    
-     - ``RX``                    
-     - :math:`\begin{bmatrix} \cos(\theta/2) & -1i×\sin(\theta/2) \\ -1i×\sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
-   * - |RY|                                                    
-     - ``RY``                    
-     - :math:`\begin{bmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
-   * - |RZ|                                                    
-     - ``RZ``                    
-     - :math:`\begin{bmatrix} \exp(-i\theta/2) & 0 \\ 0 & \exp(i\theta/2) \end{bmatrix}\quad`
-   * - |U1|                                                    
-     - ``U1``                    
-     - :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\theta) \end{bmatrix}\quad`
-   * - |U2|                                                    
-     - ``U2``                    
-     - :math:`\begin{bmatrix} 1/\sqrt {2} & -\exp(i\lambda)/\sqrt {2} \\ \exp(i\phi)/\sqrt {2} & \exp(i\lambda+i\phi)/\sqrt {2} \end{bmatrix}\quad`
-   * - |U3|                                                    
-     - ``U3``                    
-     - :math:`\begin{bmatrix} \cos(\theta/2) & -\exp(i\lambda)×\sin(\theta/2) \\ \exp(i\phi)×\sin(\theta/2) & \exp(i\lambda+i\phi)×\cos(\theta/2) \end{bmatrix}\quad`
-   * - |U4|                                                    
-     - ``U4``                    
-     - :math:`\begin{bmatrix} u0 & u1 \\ u2 & u3 \end{bmatrix}\quad`
-
+======================================================== ======================= =========================================================================================================================================================================
+| |I|                                                     | ``I``                     | :math:`\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\quad`
+| |H|                                                     | ``Hadamard``              | :math:`\begin{bmatrix} 1/\sqrt {2} & 1/\sqrt {2} \\ 1/\sqrt {2} & -1/\sqrt {2} \end{bmatrix}\quad`
+| |T|                                                     | ``T``                     | :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\pi / 4) \end{bmatrix}\quad`
+| |S|                                                     | ``S``                     | :math:`\begin{bmatrix} 1 & 0 \\ 0 & 1i \end{bmatrix}\quad`
+| |X|                                                     | ``Pauli-X``               | :math:`\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}\quad`
+| |Y|                                                     | ``Pauli-Y``               | :math:`\begin{bmatrix} 0 & -1i \\ 1i & 0 \end{bmatrix}\quad`
+| |Z|                                                     | ``Pauli-Z``               | :math:`\begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}\quad`
+| |X1|                                                    | ``X1``                    | :math:`\begin{bmatrix} 1/\sqrt {2} & -1i/\sqrt {2} \\ -1i/\sqrt {2} & 1/\sqrt {2} \end{bmatrix}\quad`
+| |Y1|                                                    | ``Y1``                    | :math:`\begin{bmatrix} 1/\sqrt {2} & -1/\sqrt {2} \\ 1/\sqrt {2} & 1/\sqrt {2} \end{bmatrix}\quad`
+| |Z1|                                                    | ``Z1``                    | :math:`\begin{bmatrix} \exp(-i\pi/4) & 0 \\ 0 & \exp(i\pi/4) \end{bmatrix}\quad`
+| |RX|                                                    | ``RX``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -1i×\sin(\theta/2) \\ -1i×\sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
+| |RY|                                                    | ``RY``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
+| |RZ|                                                    | ``RZ``                    | :math:`\begin{bmatrix} \exp(-i\theta/2) & 0 \\ 0 & \exp(i\theta/2) \end{bmatrix}\quad`
+| |U1|                                                    | ``U1``                    | :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\theta) \end{bmatrix}\quad`
+| |U2|                                                    | ``U2``                    | :math:`\begin{bmatrix} 1/\sqrt {2} & -\exp(i\lambda)/\sqrt {2} \\ \exp(i\phi)/\sqrt {2} & \exp(i\lambda+i\phi)/\sqrt {2} \end{bmatrix}\quad`
+| |U3|                                                    | ``U3``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -\exp(i\lambda)×\sin(\theta/2) \\ \exp(i\phi)×\sin(\theta/2) & \exp(i\lambda+i\phi)×\cos(\theta/2) \end{bmatrix}\quad`
+| |U4|                                                    | ``U4``                    | :math:`\begin{bmatrix} u0 & u1 \\ u2 & u3 \end{bmatrix}\quad`
+======================================================== ======================= =========================================================================================================================================================================
 
 多比特量子逻辑门：
-`````````````````````````````````````````````````
-.. .. tabularcolumns:: |m{0.1\textwidth}<{\centering}|c|c|
 
-.. list-table:: 
-
-
-   * - |CNOT|                                                      
-     - ``CNOT``                  
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{bmatrix}\quad`
-   * - |CR|                                                        
-     - ``CR``                    
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & \exp(i\theta) \end{bmatrix}\quad`
-   * - |iSWAP|                                                      
-     - ``iSWAP``                 
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & \cos(\theta) & -i×\sin(\theta) & 0 \\ 0 & -i×\sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
-   * - |SWAP|                                                      
-     - ``SWAP``                  
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
-   * - |CZ|                                                        
-     - ``CZ``                    
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{bmatrix}\quad`
-   * - |CU|                                                        
-     - ``CU``                    
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & u0 & u1 \\ 0 & 0 & u2 & u3 \end{bmatrix}\quad`
-   * - |Toffoli|                                                    
-     - ``Toffoli``               
-     - :math:`\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0  \\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1  \\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \end{bmatrix}\quad`
+============================================================ =========================== ========================================================================================================
+| |CNOT|                                                      | ``CNOT``                  | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{bmatrix}\quad`
+| |CR|                                                        | ``CR``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & \exp(i\theta) \end{bmatrix}\quad`
+| |iSWAP|                                                     | ``iSWAP``                 | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & \cos(\theta) & -i×\sin(\theta) & 0 \\ 0 & -i×\sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
+| |SWAP|                                                      | ``SWAP``                  | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
+| |CZ|                                                        | ``CZ``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{bmatrix}\quad`
+| |CU|                                                        | ``CU``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & u0 & u1 \\ 0 & 0 & u2 & u3 \end{bmatrix}\quad`
+| |Toffoli|                                                   | ``Toffoli``               | :math:`\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0  \\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1  \\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \end{bmatrix}\quad`
+============================================================ =========================== ========================================================================================================
 
 .. _api_introduction:
 
@@ -203,8 +148,9 @@ QPanda 2把所有的量子逻辑门封装为API向用户提供使用，并可获
           
          from pyqpanda import *
          import numpy as np
-         init(QMachineType.CPU)
-         qubits = qAlloc_many(4)
+         qvm = CPUQVM()
+		 qvm.init()
+         qubits = qvm.qAlloc_many(4)
          h = H(qubits[0])
 
 其中参数为目标比特，返回值为量子逻辑门
@@ -222,7 +168,7 @@ qubit如何申请会在 :ref:`QuantumMachine` 部分介绍。
 第一个参数为目标比特
 第二个参数为旋转角度 
 
-pyqpanda中支持的单门带有一个旋转角度的逻辑门有： ``RX``、``RY``、``RZ``、``U1``、``P``
+pyqpanda中支持的单门带有一个旋转角度的逻辑门有： ``RX``、``RY``、``RZ``、``U1``
    
 
 pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
@@ -250,16 +196,6 @@ pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
 
 pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``SWAP``、``iSWAp``、``SqiSWAP``
 
-两比特量子逻辑门的使用和单比特量子逻辑门的用法相似，只不过是输入的参数不同，举个使用CNOT的例子：
-
-     .. code-block:: python
-          
-         cnot = CNOT(control_qubit, target_qubit);
-
-CNOT门接收两个参数，第一个是控制比特，第二个是目标比特。
-
-pyqpanda中支持的双门含旋转角度的逻辑门有： ``CR``、``CU`` 、``CP``
-
 双门带有旋转角度的门，例如CR门：
 
       .. code-block:: python
@@ -282,15 +218,6 @@ pyqpanda中支持的双门含旋转角度的逻辑门有： ``CR``、``CU`` 、`
           toffoli = Toffoli(qubits[0], qubits[1], qubits[2])
 
 三比特量子逻辑门Toffoli实际上是CCNOT门，前两个参数是控制比特，最后一个参数是目标比特。
-
-pyqpanda还支持在量子逻辑门中添加量子比特数组操作，即将该数组中的所有量子比特赋予同一种逻辑门运算，举个使用单门H的例子：
-
-     .. code-block:: python
-
-          # 这里返回的是一个量子线路
-          circuit = H(Qvec);
-
-这里的Qvec即为存放量子比特的数组。在对多门进行数组操作时，则是传入对应的多个数组，并按照数组下标顺序进行逻辑门运算。
 
 接口介绍
 ----------------
@@ -328,7 +255,7 @@ pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑�
 
          cir = apply_QGate(qubits, H)
 
-qubits的每个量子比特都添加H门
+qubits的每个量子比特都添加H们
 
 实例
 ----------------
@@ -340,25 +267,25 @@ qubits的每个量子比特都添加H门
          from pyqpanda import *
 
          if __name__ == "__main__":
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(3)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(3)
             control_qubits = [qubits[0], qubits[1]]
-            prog = create_empty_qprog()
+            prog = QProg()
 
             # 构建量子程序
-            prog  << H(qubits) \
+            prog << apply_QGate([qubits[0], qubits[1]], H) \
                   << H(qubits[0]).dagger() \
                   << X(qubits[2]).control(control_qubits)
 
             # 对量子程序进行概率测量
-            result = prob_run_dict(prog, qubits, -1)
+            result = qvm.prob_run_dict(prog, qubits, -1)
 
             # 打印测量结果
             print(result)
-            finalize()
 
 计算结果如下：
 
     .. code-block:: python
         
-      {'000': 0.24999999999999295, '001': 0.0, '010': 0.24999999999999295, '011': 0.0, '100': 0.24999999999999295, '101': 0.0, '110': 0.24999999999999295, '111': 0.0}
+      {'000': 0.4999999999999894, '001': 0.0, '010': 0.4999999999999894, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}

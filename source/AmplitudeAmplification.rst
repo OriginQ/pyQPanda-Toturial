@@ -1,13 +1,13 @@
 振幅放大
-####
+#################
 
 振幅放大（Amplitude Amplification）线路的主要作用为对于给定纯态的振幅进行放大，从而调整其测量结果概率分布。
 
 算法背景
-****
+********************************
 
 对于某个已知大小的可二元分类且标准 :math:`f` 确定的有限集合 :math:`\Omega`，基于 :math:`f` 可以将集合中的任一元素\
-:math:`\left|\psi\right\rangle` 表示为两个正交基态 :math:`\left|\varphi_0\right\rangle,\left|\varphi_1\right\rangle` 的线性组合。
+:math:`\left|\psi\right\rangle` 表示为两个正交基态 :math:`\left|\psi_0\right\rangle,\left|\psi_1\right\rangle` 的线性组合。
 
 .. math::
 
@@ -16,8 +16,8 @@
    \left|\varphi_0\right\rangle=\left|\varphi_1^\bot\right\rangle.
    \end{aligned}
 
-振幅放大量子线路可以将叠加态 :math:`\left|\psi\right\rangle` 的表达式中 :math:`\left|\varphi_1\right\rangle` 的振幅放大，从而得到\
-一个结果量子态，能够以大概率测量得到目标量子态 :math:`\left|\varphi_1\right\rangle`。
+振幅放大量子线路可以将叠加态 :math:`\left|\psi\right\rangle` 的表达式中 :math:`\left|\psi_1\right\rangle` 的振幅放大，从而得到\
+一个结果量子态，能够以大概率测量得到目标量子态 :math:`\left|\psi_1\right\rangle`。
 
 假设我们可以构造出某种量子门操作的组合，记该组合为振幅放大算子 :math:`Q` ，将 :math:`Q` 作用 :math:`k` 次于量子态\
 :math:`\left|\psi\right\rangle` 上得到形如下式的量子态
@@ -44,7 +44,7 @@
 .. math::
 
    \begin{aligned}
-   P_1=I-2\left|\varphi_1\right\rangle \left\langle\varphi_1\right|,
+   P_1=I-2\left|\psi_1\right\rangle \left\langle\psi_1\right|,
    P=I-2\left|\psi\right\rangle \left\langle\psi\right|,
    Q=-PP_1.
    \end{aligned}
@@ -77,11 +77,10 @@
 相比经典的遍历分类方法，振幅放大量子线路可以充分体现量子计算的优势。
 
 代码实例
-****
+*************************
 
-取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \sin{\frac{\pi}{6}}\left|1\right\rangle+
-\cos{\frac{\pi}{6}}\left|0\right\rangle,\ P_1=I-2\left|1\right\rangle \left\langle 1\right|=Z,
-P=I-2\left|\psi\right\rangle \left\langle\psi\right|`，
+取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \frac{\left|0\right\rangle+
+\left|1\right\rangle}{2}, P_1=I-2\left|1\right\rangle \left\langle1\right|=Z`，
 
 振幅放大量子线路的相应代码实例如下
 
@@ -99,9 +98,9 @@ P=I-2\left|\psi\right\rangle \left\langle\psi\right|`，
         prog = pq.create_empty_qprog()
 
         # 构建量子程序
-        prog.insert(pq.RY(qvec[0], pi/3))
-        prog.insert(pq.Z(qvec[0]))
-        prog.insert(pq.RY(qvec[0], pi*4/3))
+        prog.insert(pq.H(qvec[0]))
+        for i in range(7):
+             prog.insert(pq.RY(qvec[0],pi/2))
 
         # 对量子程序进行概率测量
         result = pq.prob_run_dict(prog, qvec, -1)
@@ -112,9 +111,9 @@ P=I-2\left|\psi\right\rangle \left\langle\psi\right|`，
              print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`1` 和 :math:`0` 的概率\
-得到 :math:`\left|1\right\rangle`\和 :math:`\left|0\right\rangle` ：
+得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
 
 .. code-block:: python
     
-    0:0
-    1:1
+    0:1
+    1:0
