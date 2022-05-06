@@ -107,7 +107,7 @@ QPE的量子线路图如下所示
 
 图中的参数matrix是指需要估计特征值的幺正算符 :math:`U` 对应的矩阵。
 
-选取 :math:`U=RY(\frac{\pi}{4}),\left|\psi\right\rangle=\left|0\right\rangle+i\left|1\right\rangle` ，
+选取 :math:`U=RY(\frac{\pi}{4}),\left|\psi\right\rangle=\sqrt{\frac{1}{2}}\left|0\right\rangle+i\sqrt{\frac{1}{2}}\left|1\right\rangle` ，
 对应的特征值为 :math:`e^{-i\frac{\pi}{8}}` ，验证QPE的代码实例如下
 
 .. code-block:: python
@@ -121,17 +121,21 @@ QPE的量子线路图如下所示
 
       machine = pq.init_quantum_machine(pq.QMachineType.CPU)
       qvec = machine.qAlloc_many(1)
-      cqv = machine.qAlloc_many(2)
+      cqv = machine.qAlloc_many(4)
       prog = pq.create_empty_qprog()
 
       # 构建量子程序
       prog.insert(pq.H(cqv[0]))\
-            .insert(pq.H(cqv[1]))\
-            .insert(pq.S(qvec[0]))\
-            .insert(pq.RY(qvec[0], pi/4).control(cqv[1]))\
-            .insert(pq.RY(qvec[0], pi/4).control(cqv[0]))\
-            .insert(pq.RY(qvec[0], pi/4).control(cqv[0]))\
-            .insert(pq.QFT(cqv).dagger())
+          .insert(pq.H(cqv[1]))\
+          .insert(pq.H(cqv[2]))\
+          .insert(pq.H(cqv[3]))\
+          .insert(pq.H(qvec[0]))\
+          .insert(pq.S(qvec[0]))\
+          .insert(pq.RY(qvec[0], pi/4).control(cqv[0]))\
+          .insert(pq.RY(qvec[0], pi/2).control(cqv[1]))\
+          .insert(pq.RY(qvec[0], pi).control(cqv[2]))\
+          .insert(pq.RY(qvec[0], pi*2).control(cqv[3])) \
+          .insert(pq.QFT(cqv).dagger())
 
       # 对量子程序进行概率测量
       result = pq.prob_run_dict(prog, cqv, -1)
@@ -139,13 +143,25 @@ QPE的量子线路图如下所示
 
       # 打印测量结果
       for key in result:
-            print(key+":"+str(result[key]))
+          print(key+":"+str(result[key]))
 
-由前文可知输出结果应当以较大概率得到量子态 :math:`\left|0\right\rangle` 
+由前文可知输出结果应当以接近 1 的概率得到量子态 :math:`\left|1111\right\rangle` (即-1)。因此可得 :math:`2^4 \varphi = 15,\varphi=15/16`。因此，特征值为 :math:`e^{i\pi\frac{8}{15}}=e^{-i\frac{\pi}8}`
 
 .. code-block:: python
 
-   000, 0.821067
-   001, 0.0732233
-   010, 0.0324864
-   011, 0.0732233
+   0000:8.027759204248868e-34
+   0001:1.4038818472306108e-33
+   0010:6.324302228415449e-35
+   0011:1.8002817275101533e-33
+   0100:1.1716099389234709e-34
+   0101:3.7184613996614186e-35
+   0110:7.14619905441006e-35
+   0111:3.163946664340403e-33
+   1000:1.1716099389234709e-34
+   1001:2.361635369532623e-33
+   1010:6.324302228415447e-35
+   1011:1.5092886417824937e-32
+   1100:2.0191804511467995e-34
+   1101:2.142003975785634e-33
+   1110:1.0410679182118513e-33
+   1111:0.999999999999936

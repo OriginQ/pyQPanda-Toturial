@@ -104,14 +104,12 @@ QPanda之前版本中量子比特和经典寄存器都是通过虚拟机进行�
         # res_3 = qvm.run_with_configuration(prog, cv, 5000) #同等上述方法
         #print(res_2)
 
-        qvm.finalize()
 
 
         # 同时我们还可以再次利用这里申请的qv，避免多次使用虚拟机多次申请比特的问题发生
         qvm_noise = NoiseQVM()
         qvm_noise.init_qvm()
         res_4 = qvm_noise.run_with_configuration(prog, [ 0,1,2,3,4,5 ], 5000)
-        qvm_noise.finalize()
 
 运行结果：
 ::

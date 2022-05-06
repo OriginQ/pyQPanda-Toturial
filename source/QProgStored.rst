@@ -37,7 +37,8 @@
         import base64
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
@@ -55,7 +56,6 @@
             str_base64_data =  base64.encodebytes(bytes(binary_data))
             print(str_base64_data)
 
-            destroy_quantum_machine(qvm)
 
         
 运行结果：
@@ -66,6 +66,4 @@
 
 .. note:: 二进制数据不能直接输出，以base64的编码格式编码，得到相应的字符串
 
-.. warning:: 
-        新增接口 ``convert_qprog_to_binary()`` ，与老版本接口 ``transform_qprog_to_binary()`` 功能相同。
 

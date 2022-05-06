@@ -50,7 +50,8 @@
         import numpy as np
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
             qubits = qvm.qAlloc_many(4)
             cbits = qvm.cAlloc_many(4)
 
@@ -63,7 +64,6 @@
             clock_cycle = get_qprog_clock_cycle(prog, qvm)
             
             print(clock_cycle)
-            destroy_quantum_machine(qvm)
 
 
 运行结果：

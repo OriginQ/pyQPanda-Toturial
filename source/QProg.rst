@@ -50,9 +50,10 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
 
         if __name__ == "__main__":
 
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(4)
-            cbits = cAlloc_many(4)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(4)
+            cbits = qvm.cAlloc_many(4)
             prog = QProg()
 
             # 构建量子程序
@@ -64,11 +65,10 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
                  << measure_all(qubits, cbits)
 
             # 量子程序运行1000次，并返回测量结果
-            result = run_with_configuration(prog, cbits, 1000)
+            result = qvm.run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
-            finalize()
 
 
 
@@ -76,4 +76,4 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
 
     .. code-block:: c
 
-        {'1000': 272, '1001': 261, '1110': 220, '1111': 247}
+        {'0001': 232, '0111': 263, '1001': 243, '1111': 262}

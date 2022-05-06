@@ -57,7 +57,8 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
         from pyqpanda import *
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
             q = qvm.qAlloc_many(6)
             c = qvm.cAlloc_many(6)
             prog = QProg()
@@ -70,7 +71,6 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
             
             qasm = convert_qprog_to_qasm(prog, qvm)
             print(qasm)
-            qvm.finalize()
 
 
 具体步骤如下:

@@ -23,7 +23,8 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
         from pyqpanda import *
 
         if __name__=="__main__":
-            machine = init_quantum_machine(QMachineType.CPU)
+            machine = CPUQVM()
+            machine.init_qvm()
 
             # 编写QASM文件
             f = open('testfile.txt', mode='w',encoding='utf-8')
@@ -49,7 +50,6 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
             
             # 打印并对比转换结果
             print(qasm)
-            destroy_quantum_machine(machine)
 
 
 具体步骤如下:

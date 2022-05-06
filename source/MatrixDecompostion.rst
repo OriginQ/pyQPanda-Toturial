@@ -43,7 +43,8 @@ pyqpanda中设计了 ``matrix_decompose`` 接口用于进行酉矩阵分解，�
 
         if __name__=="__main__":
 
-            machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+            machine = CPUQVM()
+            machine.init_qvm()
             q = machine.qAlloc_many(2)
             c = machine.cAlloc_many(2)
 

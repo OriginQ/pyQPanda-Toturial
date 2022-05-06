@@ -71,9 +71,10 @@
         from pyqpanda import *
 
         if __name__ == "__main__":
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(4)
-            cbits = cAlloc_many(4)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(4)
+            cbits = qvm.cAlloc_many(4)
 
             # 构建量子程序
             prog = QProg()
@@ -84,11 +85,10 @@
                  << measure_all(qubits, cbits)
 
             # 量子程序运行1000次，并返回测量结果
-            result = run_with_configuration(prog, cbits, 1000)
+            result = qvm.run_with_configuration(prog, cbits, 1000)
 
             # 打印测量结果
             print(result)
-            finalize()
 
 
 运行结果：

@@ -286,17 +286,18 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
         from pyqpanda import *
 
         if __name__ == "__main__":
-            machine = init_quantum_machine(QMachineType.CPU)
+            machine = CPUQVM()
+            machine.init_qvm()
             qlist = machine.qAlloc_many(4)
             clist = machine.cAlloc_many(4)
-            prog = create_empty_qprog()
-            prog_cir = create_empty_circuit()
+            prog = QProg()
+            prog_cir = QCircuit()
 
             # 构建量子线路
             prog_cir << Y(qlist[2]) << H(qlist[2]) << CNOT(qlist[0],qlist[1])
 
             # 构建QWhile， 使用量子线路为循环分支
-            qwhile = create_while_prog(clist[1], prog_cir)
+            qwhile = QProg(clist[1], prog_cir)
 
             # 构建量子程序， 将QWhile插入到量子程序中
             prog << H(qlist[2]) << Measure(qlist[1],clist[1]) << qwhile
@@ -304,7 +305,6 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
             # 量子程序转换QriginIR，并打印OriginIR
             print(convert_qprog_to_originir(prog,machine))
             
-            destroy_quantum_machine(machine)
 
 
 具体步骤如下:
@@ -334,8 +334,5 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
 
 .. note:: 对于暂不支持的操作类型，OriginIR会显示UnSupported XXXNode，其中XXX为具体的节点类型。
 
-
-.. warning:: 
-        新增接口 ``convert_qprog_to_originir()`` ，与老版本接口 ``transform_qprog_to_originir()`` 功能相同。
 
 

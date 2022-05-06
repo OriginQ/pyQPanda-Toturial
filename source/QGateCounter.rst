@@ -36,7 +36,8 @@
         from pyqpanda import *
 
         if __name__ == "__main__":
-            qvm = init_quantum_machine(QMachineType.CPU)
+            qvm = CPUQVM()
+            qvm.init_qvm()
             qubits = qvm.qAlloc_many(2)
             cbits = qvm.cAlloc_many(2)
 
@@ -51,7 +52,6 @@
             number = get_qgate_num(prog)
             print("QGate number: " + str(number))
 
-            qvm.finalize()
 
 
 运行结果：
@@ -61,7 +61,3 @@
         QGate number: 4
 
     
-.. warning:: 
-        新版本中接口名有所调整，旧接口 ``count_gate`` 将由 ``get_qgate_num`` 替代。\
-      
-        ``count_gate`` 将于下版本去除，请读者知悉。

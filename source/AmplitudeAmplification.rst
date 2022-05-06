@@ -1,10 +1,10 @@
 振幅放大
-####
+#################
 
 振幅放大（Amplitude Amplification）线路的主要作用为对于给定纯态的振幅进行放大，从而调整其测量结果概率分布。
 
 算法背景
-****
+********************************
 
 对于某个已知大小的可二元分类且标准 :math:`f` 确定的有限集合 :math:`\Omega`，基于 :math:`f` 可以将集合中的任一元素\
 :math:`\left|\psi\right\rangle` 表示为两个正交基态 :math:`\left|\psi_0\right\rangle,\left|\psi_1\right\rangle` 的线性组合。
@@ -77,7 +77,7 @@
 相比经典的遍历分类方法，振幅放大量子线路可以充分体现量子计算的优势。
 
 代码实例
-****
+*************************
 
 取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \frac{\left|0\right\rangle+
 \left|1\right\rangle}{2}, P_1=I-2\left|1\right\rangle \left\langle1\right|=Z`，

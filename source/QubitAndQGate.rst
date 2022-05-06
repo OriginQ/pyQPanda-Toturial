@@ -76,10 +76,11 @@ QPanda接口函数
 
     if __name__ == "__main__":
 
-        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        machine = pq.CPUQVM()
+        machine.init_qvm()
         qubits = machine.qAlloc_many(3)
         control_qubits = [qubits[0], qubits[1]]
-        prog = pq.create_empty_qprog()
+        prog = pq.QProg()
 
         # 构建量子程序
         prog.insert(pq.H(qubits[0])) \
@@ -88,8 +89,7 @@ QPanda接口函数
             .insert(pq.X(qubits[2]).control(control_qubits))
 
         # 对量子程序进行概率测量
-        result = pq.prob_run_dict(prog, qubits, -1)
-        pq.destroy_quantum_machine(machine)
+        result = machine.prob_run_dict(prog, qubits, -1)
 
         # 打印测量结果
         for key in result:

@@ -148,8 +148,9 @@ QPanda 2把所有的量子逻辑门封装为API向用户提供使用，并可获
           
          from pyqpanda import *
          import numpy as np
-         init(QMachineType.CPU)
-         qubits = qAlloc_many(4)
+         qvm = CPUQVM()
+		 qvm.init()
+         qubits = qvm.qAlloc_many(4)
          h = H(qubits[0])
 
 其中参数为目标比特，返回值为量子逻辑门
@@ -266,10 +267,11 @@ qubits的每个量子比特都添加H们
          from pyqpanda import *
 
          if __name__ == "__main__":
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(3)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(3)
             control_qubits = [qubits[0], qubits[1]]
-            prog = create_empty_qprog()
+            prog = QProg()
 
             # 构建量子程序
             prog << apply_QGate([qubits[0], qubits[1]], H) \
@@ -277,11 +279,10 @@ qubits的每个量子比特都添加H们
                   << X(qubits[2]).control(control_qubits)
 
             # 对量子程序进行概率测量
-            result = prob_run_dict(prog, qubits, -1)
+            result = qvm.prob_run_dict(prog, qubits, -1)
 
             # 打印测量结果
             print(result)
-            finalize()
 
 计算结果如下：
 

@@ -5,15 +5,15 @@
 在 ``QPanda`` 中我们称它们为 :math:`X`  门，:math:`Y` 门，:math:`Z` 门。
 它们对应的矩阵形式如下表所示。
 
-.. |X| image:: images/X.svg
+.. |X| image:: images/X.png
    :width: 50px
    :height: 50px
 
-.. |Y| image:: ./images/Y.svg
+.. |Y| image:: ./images/Y.png
    :width: 50px
    :height: 50px
    
-.. |Z| image:: images/Z.svg
+.. |Z| image:: images/Z.png
    :width: 50px
    :height: 50px
 

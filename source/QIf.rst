@@ -17,12 +17,6 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
         qif = QIfProg(ClassicalCondition, QNode)
         qif = QIfProg(ClassicalCondition, QNode, QNode)
 
-或
-
-    .. code-block:: python
-
-        qif = create_if_prog(ClassicalCondition, QNode)
-        qif = create_if_prog(ClassicalCondition, QNode, QNode)
 
 上述函数需要提供两种类型参数，即ClassicalCondition量子表达式与QNode节点，
 当传入1个QNode参数时，QNode表示正确分支节点，当传入2个QNode参数时，第一个表示正确分支节点，第二个表示错误分支节点。
@@ -38,9 +32,10 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
 
         if __name__ == "__main__":
 
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(3)
-            cbits = cAlloc_many(3)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(3)
+            cbits = qvm.cAlloc_many(3)
             cbits[0].set_val(0)
             cbits[1].set_val(3)
 
@@ -53,17 +48,16 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
             branch_false << H(qubits[0]) << CNOT(qubits[0], qubits[1]) << CNOT(qubits[1], qubits[2])
 
             # 构建QIf
-            qif = create_if_prog(cbits[0] > cbits[1], branch_true, branch_false)
+            qif = QIfProg(cbits[0] > cbits[1], branch_true, branch_false)
             
             # QIf插入到量子程序中
             prog << qif
 
             # 概率测量，并返回目标量子比特的概率测量结果，下标为十进制
-            result = prob_run_tuple_list(prog, qubits, -1)
+            result = qvm.prob_run_tuple_list(prog, qubits, -1)
 
             # 打印概率测量结果
             print(result)
-            finalize()
 
 
 运行结果：

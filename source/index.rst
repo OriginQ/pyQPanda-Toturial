@@ -44,7 +44,23 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QCloudServer
 
 .. toctree::
-    :caption: 量子程序信息
+    :caption: 量子程序编译及优化
+    :maxdepth: 2
+    
+    QProgToQASM
+    QASMToQProg
+    QProgToQuil
+    QProgStored
+    QProgDataParse
+    OriginIRToQProg
+    QProgToOriginIR
+    OriginIRToQProg
+    MatrixDecompostion
+    GraphMatch
+    QCodarMatch
+
+.. toctree::
+    :caption: 量子程序分析
     :maxdepth: 2
 
     NodeIter
@@ -56,28 +72,14 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QuantumVolume
     RandomizedBenchmarking
     CrossEntropyBenchmarking
-
-.. toctree::
-    :caption: 编译量子程序
-    :maxdepth: 2
-    
-    QProgToQASM
-    QASMToQProg
-    QProgToQuil
-    QProgStored
-    QProgDataParse
-    OriginIRToQProg
-    QProgToOriginIR
-    OriginIRToQProg
-    QCodarMatch
 	
-.. toctree::
-    :caption: 实用工具
-    :maxdepth: 2
+.. .. toctree:
+..     :caption: 实用工具
+..     :maxdepth: 2
     
-    GraphMatch
-    FillQProgByI
-    MatrixDecompostion
+..     GraphMatch
+..     FillQProgByI
+..     MatrixDecompostion
 
 .. toctree::
     :caption: 组件
@@ -86,6 +88,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     PauliOperator
     FermionOperator
     Optimizer
+    HamiltonianSimulation
 
 .. toctree::
     :caption: VQNet
@@ -101,10 +104,10 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
 .. toctree::
     :caption: 量子算法基础
     :maxdepth: 2
-
+    
     QubitAndQGate
     QPreparation
-    .. DataEncoding
+    QuantumStatePreparation
     HadamardAndSWAP
     AmplitudeAmplification
     QFT
