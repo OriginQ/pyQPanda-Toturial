@@ -1,11 +1,11 @@
 Grover算法和量子计数算法
-####
+##############################
 
 量子计数算法（Quantum Counting）与Grover算法都是基于集合元素二类划分问题衍生的算法。\
 量子计数算法可以求得集合中两种类型元素的个数，Grover算法则可以求得指定类型的一个元素。
 
 问题背景概述
-****
+***************************
 
 前文中介绍了振幅放大量子线路的问题背景集合元素二类划分问题，即对于给定的有限集合和划分标准 :math:`\Omega,f`，\
 我们可以用如下量子态表示集合元素
@@ -41,7 +41,7 @@ Grover算法和量子计数算法
 .. note:: 将振幅放大算子应用到QPE线路中，可以起到类似于由特征量子态提取特征值的过滤提取作用。
 
 解元素的搜索问题
-++++
++++++++++++++++++++++++++++++++
 
 集合 :math:`\Omega` 中存在某个元素 :math:`\omega \in \Omega` 为特定问题的解，判别函数的定义如下：
 
@@ -62,7 +62,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 .. note:: 事实上，振幅放大得到振幅和基向量的近似求解的思想不局限于集合元素二类划分问题。
 
 算法原理
-****
+******************************
 
 两种算法需要预制备的集合元素量子态有着相似的如下形式
 
@@ -75,7 +75,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 但具体定义和需要求解的目标不同，因此基于振幅放大量子线路衍生出的算法原理也有所不同
 
 基于振幅放大算子的QPE过程
-++++
+++++++++++++++++++++++++++++++++++++++
 
 量子计数算法中的两个基量子态是基于集合和判别函数定义的，即
 
@@ -149,7 +149,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 
 
 量子线路图与参考代码
-****
+*******************************
 
 量子计数算法和Grover算法的核心内容都是振幅放大算子，算法结构分别与QPE和振幅放大量子线路基本一致。
 
@@ -182,17 +182,17 @@ Grover算法还有其他的接口函数，此处不作赘述。
 
    #!/usr/bin/env python
 
-   from pyqpanda import *
+   import pyqpanda as pq
    import numpy as np
-
+   
    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+      machine = pq.init_quantum_machine(pq.QMachineType.CPU)
       x = machine.cAlloc()
-      prog = create_empty_qprog()
+      prog = pq.create_empty_qprog()
 
       data=[3, 6, 6, 9, 10, 15, 11, 6]
-      grover_result = Grover_search(data, x==6, machine, 1)
+      grover_result = pq.Grover_search(data, x==6, machine, 1)
 
       print(grover_result[1])
 

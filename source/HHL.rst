@@ -4,7 +4,7 @@ HHL算法
 HHL算法是一种求解线性方程组的量子算法，线性方程组在许多领域中都有着广泛的实际应用。
 
 问题背景概述
-****
+*******************
 
 线性方程组问题可定义为：
 给定矩阵 :math:`A\in C^{N\times N}` 和向量 :math:`\vec{b}\in C^N` ，找到 :math:`\vec{x}\in C^N` \
@@ -21,7 +21,7 @@ HHL算法相对于经典算法有着指数级的加速，但经典算法可以�
 .. note:: HHL算法是一种纯量子算法，它和它的改进版的出现对于证明量子算法的实用性有着重大意义。
 
 算法原理
-****
+*********************************
 
 在对线性方程组进行一定格式转换后可以以HHL算法进行求解，HHL算法主要包含了以下三大步骤，并需要使用右端项比特、存储比特和辅助比特总共三个寄存器。
 
@@ -156,27 +156,27 @@ HHL算法的量子线路图如下所示
 
 .. code-block:: python
    
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
-   import numpy as np
+    import pyqpanda as pq
+    import numpy as np
 
-   if __name__ == "__main__":
+    if __name__ == "__main__":
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
-      prog = create_empty_qprog()
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        prog = pq.create_empty_qprog()
 
-      # 构建量子程序
-      prog.insert(HHL([1,0,0,1],[0.6,0.8],machine))
+        # 构建量子程序
+        prog.insert(pq.build_HHL_circuit([1,0,0,1],[0.6,0.8],machine))
 
-      directly_run(prog)
+        pq.directly_run(prog)
 
-      result = np.array(machine.get_qstate())[:2]
-      destroy_quantum_machine(machine)
+        result = np.array(machine.get_qstate())[:2]
+        pq.destroy_quantum_machine(machine)
 
-      #打印测量结果
-      for key in result:
-            print(key)
+        #打印测量结果
+        for key in result:
+             print(key)
 
 输出结果应该和右端项向量一样是 :math:`[0.6,0.8]`，因为误差会出现较小的扰动：
 

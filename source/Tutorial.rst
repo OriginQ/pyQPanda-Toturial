@@ -119,7 +119,7 @@ VS下使用QPanda2
 
 VS下使用QPanda2的CMakeList的写法为
 
-    .. code-block:: c
+.. code-block:: c
 
         cmake_minimum_required(VERSION 3.1)
         project(testQPanda)
@@ -175,12 +175,12 @@ VS下使用QPanda2的CMakeList的写法为
         add_executable(${PROJECT_NAME} test.cpp)
         target_link_libraries(${PROJECT_NAME} ${QPANDA_LIBRARIES})
 
- linux、MacOS及MinGW下使用QPanda2
- ************************************************
+linux、MacOS及MinGW下使用QPanda2
+************************************************
 
 linux、MacOS和MinGW下使用QPanda2的方式是相同的，其CmakeList的写法为：
 
-    .. code-block:: c
+.. code-block:: CMakeLists
 
         add_definitions("-w -DGTEST_USE_OWN_TR1_TUPLE=1")
         set(CMAKE_BUILD_TYPE "Release")

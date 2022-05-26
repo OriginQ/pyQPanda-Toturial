@@ -10,20 +10,21 @@
 
 全振幅量子虚拟机类型：
 
-.. code-block:: python
+    .. code-block:: CMakeLists
 
-    class QMachineType(__pybind11_builtins.pybind11_object):
-    """
-        Members:
-        
-        CPU
-        
-        GPU
-        
-        CPU_SINGLE_THREAD
-        
-        NOISE
-    """
+
+        class QMachineType(__pybind11_builtins.pybind11_object):
+        """
+            Members:
+            
+            CPU
+            
+            GPU
+            
+            CPU_SINGLE_THREAD
+            
+            NOISE
+        """
 
 QPanda2中在构造量子虚拟机时有以下几种方式：
 
@@ -47,10 +48,10 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
 设置最大量子比特个数
 
-.. code-block:: python
+    .. code-block:: python
 
-        # 设置最大量子比特个数和最大经典寄存器个数
-        qvm.set_configure(30, 30)
+            # 设置最大量子比特个数和最大经典寄存器个数
+            qvm.set_configure(30, 30)
 
 .. note:: 若不设置则默认最大比特为29。
 

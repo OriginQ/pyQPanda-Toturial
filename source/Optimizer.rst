@@ -61,7 +61,7 @@
     y = np.array([1.7, 2.76, 2.09, 3.19, 1.694, 1.573, 3.366, 2.596, 2.53, 
                  1.221, 2.827, 3.465, 1.65, 2.904, 2.42, 2.94,1.3])
 
-    def lossFunc(para):
+    def lossFunc(para,grad,inter,fcall):
         y_ = np.zeros(len(y))
         
         for i in range(len(y)):

@@ -1,5 +1,5 @@
 Hadamard Test与SWAP Test
-####
+###################################
 
 量子线路是一系列量子门操作的组合。众多量子线路中有一部分量子线路是在构造量子算法时会被反复使用，\
 这些被高频调用的量子线路组件我们称之为量子算法基本线路，下面将介绍几种常用基本线路。
@@ -7,7 +7,7 @@ Hadamard Test与SWAP Test
 ----
 
 Hadamard Test
-****
+*************************
 
 Hadamard Test量子线路的主要作用是对任给的幺正算符 :math:`U` 和量子态 :math:`\psi` ，\
 可以给出该幺正算符在量子态上的投影期望 :math:`\left\langle\psi\left|U\right|\psi\right\rangle` 。
@@ -22,7 +22,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 ，其中 :math:`C-U` 表示基于幺正算符 :math:`U` 的受控门。
 
 输出结果及推广
-++++
+++++++++++++++++++++++++++++++++
 
 对Hadamard Test量子线路的输出结果进行推导，有如下结论：
 
@@ -51,37 +51,37 @@ Hadamard Test的量子线路图结构简单，如下所示。
 将图中测量之前的 :math:`H` 门换成 :math:`RX(\frac{\pi}{2})` 门，则可以得到概率与投影期望虚部相关的结果量子态。
 
 代码实例
-++++
+++++++++++++++++++++++++
 
 取 :math:`\left|\psi\right\rangle=\frac{\left|0\right\rangle+\left|1\right\rangle}{\sqrt2},U=H`，\
 Hadamard Test的一个代码实例如下：
 
 .. code-block:: python
 
-    #!/usr/bin/env python
+	#!/usr/bin/env python
 
-    from pyqpanda import *
+	import pyqpanda as pq
 
-    if __name__ == "__main__":
+	if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
-        cqv = machine.qAlloc_many(1)
-        tqv = machine.qAlloc_many(1)
-        prog = create_empty_qprog()
+		machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+		cqv = machine.qAlloc_many(1)
+		tqv = machine.qAlloc_many(1)
+		prog = pq.create_empty_qprog()
 
-        # 构建量子程序
-        prog.insert(H(cqv[0])) \
-            .insert(H(tqv[0])) \
-            .insert(H(tqv[0]).control([cqv[0]]))\
-            .insert(H(cqv[0]))
+		# 构建量子程序
+		prog.insert(pq.H(cqv[0])) \
+			.insert(pq.H(tqv[0])) \
+			.insert(pq.H(tqv[0]).control([cqv[0]]))\
+			.insert(pq.H(cqv[0]))
 
-        # 对量子程序进行概率测量
-        result = prob_run_dict(prog, cqv, -1)
-        destroy_quantum_machine(machine)
+		# 对量子程序进行概率测量
+		result = pq.prob_run_dict(prog, cqv, -1)
+		pq.destroy_quantum_machine(machine)
 
-        # 打印测量结果
-        for key in result:
-            print(key+":"+str(result[key]))
+		# 打印测量结果
+		for key in result:
+			print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`\frac{1+\sqrt2/2}{2}` 和 :math:`1-\frac{1+\sqrt2/2}{2}` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：
@@ -94,7 +94,7 @@ Hadamard Test的一个代码实例如下：
 Hadamard Test有着多种形式和广泛用途，其中一种特殊形式是基本量子线路SWAP Test。
 
 SWAP Test
-****
+**********************
 
 任给两个维数相同的量子态，通过SWAP Test线路，可以得到两个量子态的保真度，反应了它们的重叠情况。
 
@@ -128,7 +128,7 @@ SWAP Test作为Hadamard的一种特殊形式，它对两个给定量子态给出
    \end{aligned}
 
 代码实例
-++++
++++++++++++++++++++++++++++
 
 SWAP Test的代码实例与Hadamard Test有细微区别。
 
@@ -140,26 +140,26 @@ SWAP Test的一个代码实例如下：
 
     #!/usr/bin/env python
 
-    from pyqpanda import *
+    import pyqpanda as pq
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
         cqv = machine.qAlloc_many(1)
         tqv = machine.qAlloc_many(1)
         qvec = machine.qAlloc_many(1)
-        prog = create_empty_qprog()
+        prog = pq.create_empty_qprog()
 
         # 构建量子程序
-        prog.insert(H(cqv[0])) \
-            .insert(H(tqv[0])) \
-            .insert(X(qvec[0])) \
-            .insert(SWAP(tqv[0],qvec[0]).control([cqv[0]]))\
-            .insert(H(cqv[0]))
+        prog.insert(pq.H(cqv[0])) \
+            .insert(pq.H(tqv[0])) \
+            .insert(pq.X(qvec[0])) \
+            .insert(pq.SWAP(tqv[0],qvec[0]).control([cqv[0]]))\
+            .insert(pq.H(cqv[0]))
 
         # 对量子程序进行概率测量
-        result = prob_run_dict(prog, cqv, -1)
-        destroy_quantum_machine(machine)
+        result = pq.prob_run_dict(prog, cqv, -1)
+        pq.destroy_quantum_machine(machine)
 
         # 打印测量结果
         for key in result:

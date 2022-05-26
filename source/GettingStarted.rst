@@ -2,6 +2,9 @@
 =========================
 
 .. _QPanda2: https://qpanda-tutorial.readthedocs.io/zh/latest/index.html
+.. _`Microsoft Visual C++ Redistributable x64`: https://aka.ms/vs/17/release/vc_redist.x64.exe
+
+
 为了兼容 \ **高效**\与\ **便捷**\，QPanda2提供了C++ 和 Python两个版本，本文中主要介绍python版本的使用。
 如要了解和学习C++版本的使用请移步 QPanda2_。
 
@@ -13,6 +16,21 @@
 
 pyqpanda是以C++为宿主语言，其对系统的环境要求如下：
 
+
+Windows
+---------------------
+.. list-table::
+
+    * - software
+      - version
+    * - `Microsoft Visual C++ Redistributable x64`_ 
+      - 2017 - 2022 
+    * - Python
+      - >= 3.7.0 && <= 3.9
+
+Linux
+---------------------
+
 .. list-table::
 
     * - software
@@ -20,7 +38,7 @@ pyqpanda是以C++为宿主语言，其对系统的环境要求如下：
     * - GCC
       - >= 5.4.0 
     * - Python
-      - >= 3.6.0  
+      - >= 3.6.0 && <= 3.9.0
 
 
 下载pyqpanda

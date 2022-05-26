@@ -59,22 +59,22 @@
 
     #!/usr/bin/env python
 
-    from pyqpanda import *
+    import pyqpanda as pq
 
     if __name__ == "__main__":
 
-        machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
+        machine = pq.CPUQVM()
+        machine.init_qvm()
         qubits = machine.qAlloc_many(3)
-        prog = create_empty_qprog()
+        prog = pq.QProg()
 
         # 构建量子程序
-        prog.insert(H(qubits[0])) \
-            .insert(H(qubits[1])) \
-            .insert(H(qubits[2]))
+        prog.insert(pq.H(qubits[0])) \
+            .insert(pq.H(qubits[1])) \
+            .insert(pq.H(qubits[2]))
 
         # 对量子程序进行概率测量
-        result = prob_run_dict(prog, qubits, -1)
-        destroy_quantum_machine(machine)
+        result = machine.prob_run_dict(prog, qubits, -1)
 
         # 打印测量结果
         for key in result:

@@ -15,7 +15,7 @@
 
 在目前的量子计算理论研究中，各种量子算法常用量子线路表示，比如下方列出的量子算法中的 ``HHL算法`` 量子线路图。
 
-.. image:: images/hhl.bmp
+.. image:: images/hhl.png
    :align: center   
 
 .. _api_introduction:
@@ -30,11 +30,6 @@
 
         cir = QCircuit()
 
-或
-
-    .. code-block:: python
-
-        cir = create_empty_circuit()
 
 你可以通过如下方式向QCircuit尾部填充节点，在这里pyqpanda重载了 ``<<`` 运算符作为插入量子线路的方法
 
@@ -72,13 +67,14 @@ node的类型可以为QGate或QCircuit。
 
         if __name__ == "__main__":
 
-            init(QMachineType.CPU)
-            qubits = qAlloc_many(4)
-            cbits = cAlloc_many(4)
+            qvm = CPUQVM()
+            qvm.init_qvm()
+            qubits = qvm.qAlloc_many(4)
+            cbits = qvm.cAlloc_many(4)
 
             # 构建量子程序
             prog = QProg()
-            circuit = create_empty_circuit()
+            circuit = QCircuit()
 
             circuit << H(qubits[0]) \
                     << CNOT(qubits[0], qubits[1]) \
@@ -88,11 +84,10 @@ node的类型可以为QGate或QCircuit。
             prog << circuit << Measure(qubits[0], cbits[0])
 
             # 量子程序运行1000次，并返回测量结果
-            result = run_with_configuration(prog, cbits, 1000)
+            result = qvm.run_with_configuration(prog, cbits, 1000)
             
             # 打印量子态在量子程序多次运行结果中出现的次数
             print(result)
-            finalize()
 
 
 运行结果：

@@ -94,34 +94,34 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
 
 pyqpanda当前支持的噪声模型
 
-.. code-block:: python
+    .. code-block:: CMakeLists
 
-    class NoiseModel(__pybind11_builtins.pybind11_object):
-        """
-        Members:
-        
-        DAMPING_KRAUS_OPERATOR
-        
-        DECOHERENCE_KRAUS_OPERATOR
-        
-        DEPHASING_KRAUS_OPERATOR
-        
-        PAULI_KRAUS_MAP
-        
-        DECOHERENCE_KRAUS_OPERATOR_P1_P2
-        
-        BITFLIP_KRAUS_OPERATOR
-        
-        DEPOLARIZING_KRAUS_OPERATOR
-        
-        BIT_PHASE_FLIP_OPRATOR
-        
-        PHASE_DAMPING_OPRATOR
-        """
+        class NoiseModel(__pybind11_builtins.pybind11_object):
+            """
+            Members:
+            
+            DAMPING_KRAUS_OPERATOR
+            
+            DECOHERENCE_KRAUS_OPERATOR
+            
+            DEPHASING_KRAUS_OPERATOR
+            
+            PAULI_KRAUS_MAP
+            
+            DECOHERENCE_KRAUS_OPERATOR_P1_P2
+            
+            BITFLIP_KRAUS_OPERATOR
+            
+            DEPOLARIZING_KRAUS_OPERATOR
+            
+            BIT_PHASE_FLIP_OPRATOR
+            
+            PHASE_DAMPING_OPRATOR
+            """
 
 设置一个噪声参数的使用方法如下：
 
-     .. code-block:: python
+    .. code-block:: python
 
         from pyqpanda import *
         import numpy as np

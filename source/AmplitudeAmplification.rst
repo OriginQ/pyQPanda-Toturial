@@ -1,10 +1,10 @@
 振幅放大
-####
+#################
 
 振幅放大（Amplitude Amplification）线路的主要作用为对于给定纯态的振幅进行放大，从而调整其测量结果概率分布。
 
 算法背景
-****
+********************************
 
 对于某个已知大小的可二元分类且标准 :math:`f` 确定的有限集合 :math:`\Omega`，基于 :math:`f` 可以将集合中的任一元素\
 :math:`\left|\psi\right\rangle` 表示为两个正交基态 :math:`\left|\psi_0\right\rangle,\left|\psi_1\right\rangle` 的线性组合。
@@ -77,7 +77,7 @@
 相比经典的遍历分类方法，振幅放大量子线路可以充分体现量子计算的优势。
 
 代码实例
-****
+*************************
 
 取 :math:`\Omega=\{0,1\}, \left|\psi\right\rangle = \frac{\left|0\right\rangle+
 \left|1\right\rangle}{2}, P_1=I-2\left|1\right\rangle \left\langle1\right|=Z`，
@@ -86,30 +86,29 @@
 
 .. code-block:: python
 
-   #!/usr/bin/env python
+    #!/usr/bin/env python
 
-   from pyqpanda import *
-   from numpy import pi
+    import pyqpanda as pq
+    from numpy import pi
 
+    if __name__ == "__main__":
 
-   if __name__ == "__main__":
+        machine = pq.init_quantum_machine(pq.QMachineType.CPU)
+        qvec = machine.qAlloc_many(1)
+        prog = pq.create_empty_qprog()
 
-      machine = init_quantum_machine(QMachineType.CPU_SINGLE_THREAD)
-      qvec = machine.qAlloc_many(1)
-      prog = create_empty_qprog()
+        # 构建量子程序
+        prog.insert(pq.H(qvec[0]))
+        for i in range(7):
+             prog.insert(pq.RY(qvec[0],pi/2))
 
-      # 构建量子程序
-      prog.insert(H(qvec[0]))
-      for i in range(9):
-            prog.insert(RY(qvec[0],pi/2))
+        # 对量子程序进行概率测量
+        result = pq.prob_run_dict(prog, qvec, -1)
+        pq.destroy_quantum_machine(machine)
 
-      # 对量子程序进行概率测量
-      result = prob_run_dict(prog, qvec, -1)
-      destroy_quantum_machine(machine)
-
-      # 打印测量结果
-      for key in result:
-            print(key+":"+str(result[key]))
+        # 打印测量结果
+        for key in result:
+             print(key+":"+str(result[key]))
 
 输出结果应如下所示，分别以 :math:`1` 和 :math:`0` 的概率\
 得到 :math:`\left|0\right\rangle`\和 :math:`\left|1\right\rangle` ：

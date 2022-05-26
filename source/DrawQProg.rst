@@ -1,5 +1,5 @@
 量子线路字符画
-============
+====================
 
 目前PyQPanda提供了3中量子线路可视化方式，具体使用方式参考如下示例。
 
@@ -36,7 +36,7 @@
         # 参数“console_encode_type” 用于指定控制台类型，目前支持两种编码方式:utf8和gbk，默认为utf8
         draw_qprog(prog, 'text', console_encode_type='gbk')
         # draw_qprog接口还可以将量子线路保存成图片，调用方式如下。参数“filename”用于指定保存的文件名。
-        draw_qprog(prog, 'pic', filename='D:/test_cir_draw.jpg')
+        draw_qprog(prog, 'pic', filename='D:/test_cir_draw.png')
 
     if __name__=="__main__":
         init_machine = InitQMachine(16, 16)
@@ -57,7 +57,10 @@
    :alt:
 
 接口draw_qprog()的详细参数说明如下：
-::
+
+.. code-block:: CMakeLists
+
+
     """Draw a quantum circuit to different formats (set by output parameter):
 
     **text**: ASCII art TextDrawing that can be printed in the console.
