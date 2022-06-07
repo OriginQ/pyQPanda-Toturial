@@ -66,6 +66,87 @@
     -  ``exceeding maximum timing sequence`` ：该异常表示量子程序时序过长
     -  ``unknown task status`` ：其他任务状态异常的情况
 
+除了蒙特卡洛测量接口之外，还有用于获取量子态qst层析结果和保真度接口，下面逐一介绍：
+
+    -  **获取量子态qst层析结果接口：**  ``get_state_tomography_density`` ,使用示例如下：
+ 
+    .. code-block:: python
+
+        from pyqpanda import *
+        PI=3.14159
+
+        # 通过QCloud()创建量子云虚拟机
+        qm = QCloud()
+
+        # 通过传入当前用户的token来初始化
+        qm.init_qvm("E02BB115D5294012AA88D4BE82603984")
+
+        q = qm.qAlloc_many(6)
+        c = qm.cAlloc_many(6)
+
+        # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
+        prog = QProg()
+        prog << hadamard_circuit(q)\
+            << RX(q[1], PI / 4)\
+            << RX(q[2], PI / 4)\
+            << RX(q[1], PI / 4)\
+            << CZ(q[0], q[1])\
+            << CZ(q[1], q[2])\
+            << Measure(q[0], c[0])\
+            << Measure(q[1], c[1])
+
+        # 调用真实芯片计算qst层析接口，需要量子程序和测量次数两个参数
+        result = qm.get_state_tomography_density(prog, 1000,real_chip_type.origin_wuyuan_d4)
+        print(result)
+        qm.finalize()
+
+    输出结果如下：
+            
+    .. code-block:: python
+
+        (0.270653826659909, 0)(0.210086163203244, -0.018499746578814)(-0.00228079067410038, -0.0114039533705018)(-0.00126710593005575, -0.0103902686264572)
+        (0.210086163203244, 0.018499746578814)(0.225038013177902, 0)(0.00202736948808921, 0.00456158134820069)(0.0187531677648251, -0.00304105423213379)
+        (-0.00228079067410038, 0.0114039533705018)(0.00202736948808921, -0.00456158134820069)(0.26862645717182, 0)(-0.207298530157121, -0.0146984287886467)
+        (-0.00126710593005575, 0.0103902686264572)(0.0187531677648251, 0.00304105423213379)(-0.207298530157121, 0.0146984287886467)(0.23568170299037, 0)
+
+    - 3. **获取量子态保真度接口：**  ``get_state_fidelity`` ,使用示例如下：
+ 
+    .. code-block:: python
+
+        from pyqpanda import *
+        PI=3.14159
+
+        # 通过QCloud()创建量子云虚拟机
+        qm = QCloud()
+
+        # 通过传入当前用户的token来初始化
+        qm.init_qvm("E02BB115D5294012AA88D4BE82603984")
+
+        q = qm.qAlloc_many(6)
+        c = qm.cAlloc_many(6)
+
+        # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
+        prog = QProg()
+        prog << hadamard_circuit(q)\
+            << RX(q[1], PI / 4)\
+            << RX(q[2], PI / 4)\
+            << RX(q[1], PI / 4)\
+            << CZ(q[0], q[1])\
+            << CZ(q[1], q[2])\
+            << Measure(q[0], c[0])\
+            << Measure(q[1], c[1])
+
+        # 调用真实芯片计算保真度接口，需要量子程序和测量次数两个参数
+        result = qm.get_state_fidelity(prog, 1000,real_chip_type.origin_wuyuan_d4)
+        print(result)
+        qm.finalize()
+
+    输出结果如下：
+            
+    .. code-block:: python
+
+        0.942748
+
 .. note:: 
             - 使用对应的计算接口时，需要确认当前用户已经开通了该产品，否则可能会导致提交计算任务失败。
             - 在噪声模拟时，退相干的单门噪声和双门参数参数分别有3个，不同于其他噪声

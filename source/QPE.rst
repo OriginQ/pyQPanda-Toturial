@@ -54,8 +54,8 @@ e^{2\pi i\varphi}\left|\psi\right\rangle` 中的 :math:`\varphi`，\
 .. math::
    \begin{aligned}
    & QFT^{-1}\frac{1}{2^\frac{n}{2}}\otimes_{t=1}^n(\left|0\right\rangle+e^{2\pi i\varphi2^{t-1}}
-   \left|1\right\rangle) \\ & =QFT^{-1}\frac{1}{2^\frac{n}{2}}\mathrm{\Sigma}_{k=0}^{2^n-1}e^{2\pi i
-   \varphi k}\left|k\right\rangle \\ & =\frac{1}{2^n}\mathrm{\Sigma}_{k=0}^{2^n-1}\mathrm{\Sigma}_{x=0}
+   \left|1\right\rangle) \\ & =QFT^{-1}\frac{1}{2^\frac{n}{2}}\Sigma_{k=0}^{2^n-1}e^{2\pi i
+   \varphi k}\left|k\right\rangle \\ & =\frac{1}{2^n}\Sigma_{k=0}^{2^n-1}\Sigma_{x=0}
    ^{2^n-1}e^{-\frac{2\pi ik}{2^n}\left(x-2^n\varphi\right)}\left|x\right\rangle.
    \end{aligned}
 含特征值相位的基向量测量
@@ -107,7 +107,7 @@ QPE的量子线路图如下所示
 
 图中的参数matrix是指需要估计特征值的幺正算符 :math:`U` 对应的矩阵。
 
-选取 :math:`U=RY(\frac{\pi}{4}),\left|\psi\right\rangle=\sqrt{\frac{1}{2}}\left|0\right\rangle+i\sqrt{\frac{1}{2}}\left|1\right\rangle` ，
+选取 :math:`U=RY(\frac{\pi}{4}),\left|\psi\right\rangle=\left|0\right\rangle+i\left|1\right\rangle` ，
 对应的特征值为 :math:`e^{-i\frac{\pi}{8}}` ，验证QPE的代码实例如下
 
 .. code-block:: python
@@ -145,7 +145,7 @@ QPE的量子线路图如下所示
       for key in result:
           print(key+":"+str(result[key]))
 
-由前文可知输出结果应当以接近 1 的概率得到量子态 :math:`\left|1111\right\rangle` (即-1)。因此可得 :math:`2^4 \varphi = 15,\varphi=15/16`。因此，特征值为 :math:`e^{i\pi\frac{8}{15}}=e^{-i\frac{\pi}8}`
+由前文可知输出结果应当以接近 :math:`1` 的概率得到量子态 :math:`\left|1111\right\rangle` （即 :math:`-1` ）
 
 .. code-block:: python
 
