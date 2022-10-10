@@ -77,6 +77,17 @@ def get_single_paulis(num_qubits, index):
 
 
 def plot_bloch_vector(bloch, title="bloch", axis_obj=None, fig_size=None):
+    """Draw a quantum state bloch view
+
+    Args:
+        state : the quantum state 
+        title : the figure title 
+        fig_size : the figure size 
+
+    Returns: 
+        bloch figure shows quantum state
+
+    """
     if not HAS_MATPLOTLIB:
         raise ImportError('Must have Matplotlib installed')
     if fig_size is None:
@@ -96,6 +107,17 @@ def plot_bloch_vector(bloch, title="bloch", axis_obj=None, fig_size=None):
 
 
 def plot_bloch_multivector(state, title='', fig_size=None):
+    """Draw a quantum state bloch view
+
+    Args:
+        state : the quantum state 
+        title : the figure title 
+        fig_size : the figure size 
+
+    Returns: 
+        bloch figure shows quantum state
+
+    """
 
     if not HAS_MATPLOTLIB:
         raise ImportError('Must have Matplotlib installed')
@@ -297,6 +319,17 @@ def plot_bloch_circuit(circuit,
                        saveas=None,
                        fps=20,
                        secs_per_gate=1):
+    """Draw a quantum circuit bloch view , only support one qubit
+
+    Args:
+        circuit : the quantum circuit 
+        trace : whether shows the trace 
+        fps : flash fps 
+
+    Returns: 
+        bloch figure shows quantum circuit
+
+    """
 
     if not HAS_MATPLOTLIB:
         raise ImportError("Must have Matplotlib installed.")

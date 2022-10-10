@@ -5,6 +5,15 @@ plt.switch_backend('agg')
 
 
 def draw_probaility(list):
+    """Draw a quantum state probaility dict
+
+    Args:
+        list : the quantum state probaility dict
+
+    Returns: 
+        no return
+
+    """
     mpl.rcParams["font.sans-serif"] = ["SimHei"]
     mpl.rcParams["axes.unicode_minus"] = False
     x = [key for key in list.keys()]
@@ -17,6 +26,15 @@ def draw_probaility(list):
 
 
 def draw_probaility_dict(prob_dict):
+    """Draw a quantum state probaility dict
+
+    Args:
+        list : the quantum state probaility dict
+
+    Returns: 
+        no return
+
+    """
     mpl.rcParams["font.sans-serif"] = ["SimHei"]
     mpl.rcParams["axes.unicode_minus"] = False
 
