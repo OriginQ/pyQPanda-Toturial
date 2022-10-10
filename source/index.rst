@@ -67,7 +67,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QProgClockCycle
     QCircuitInfo
     DrawQProg
-    .. QGateValidity
+    ..QGateValidity
     QuantumVolume
     RandomizedBenchmarking
     CrossEntropyBenchmarking
@@ -123,11 +123,5 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
 
     autoapi/pyqpanda/pyQPanda/index
     autoapi/pyqpanda/utils/index
-    autoapi/pyqpanda/Encode/index
-    autoapi/pyqpanda/TorchLayer/index
-    autoapi/pyqpanda/Operator/index
-    autoapi/pyqpanda/Hamiltonian/index
-    autoapi/pyqpanda/Variational/index
     autoapi/pyqpanda/Visualization/index
-    autoapi/pyqpanda/ChemiQ/index
     autoapi/pyqpanda/Algorithm/index

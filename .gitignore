@@ -19,4 +19,8 @@ source/build
 /source/_build/.vscode
 /pyqpanda/*.pyd
 /pyqpanda/Operator/*.pyd
+/pyqpanda/__pycache__/*
+/pyqpanda/ChemiQ/__pycache__/*
+/pyqpanda/Operator/__pycache__/*
+/pyqpanda/Visualization/__pycache__/*
 /pyqpanda/ChemiQ/pyQPandaChemiQ.pyd

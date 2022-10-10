@@ -124,6 +124,17 @@ def config_shade_colors(color, normals, lightsource=None):
 
 
 def state_to_density_matrix(quantum_state):
+    """ convert quantum state to density matrix
+
+    Args:
+        quantum state: complex list
+
+    Returns:
+        density matrix
+
+    Raises:
+        RuntimeError: if input is not a valid quantum state.
+    """
     rho = np.asarray(quantum_state)
     if rho.ndim == 1:
         rho = np.outer(rho, np.conj(rho))
@@ -137,7 +148,6 @@ def state_to_density_matrix(quantum_state):
 
 
 def complex_phase_cmap():
-
     cdict = {'blue': ((0.00, 0.0, 0.0),
                       (0.25, 0.0, 0.0),
                       (0.50, 1.0, 1.0),
@@ -173,6 +183,19 @@ def config_color_array(color):
 
 
 def plot_state_city(state, title="", figsize=None, color=None, ax_real=None, ax_imag=None):
+    """ plot quantum state city 
+
+    Args:
+        quantum state: complex list
+        title : string for figure
+        color : color for figure
+
+    Returns:
+        matplot figure
+
+    Raises:
+        RuntimeError: if input is not a valid quantum state.
+    """
     alpha = 1
     rho = state_to_density_matrix(state)
 
@@ -325,6 +348,19 @@ def plot_state_city(state, title="", figsize=None, color=None, ax_real=None, ax_
 def plot_density_matrix(M, xlabels=None, ylabels=None,
                         title=None, limits=None, phase_limits=None, fig=None, axis_vals=None,
                         threshold=None):
+    """ plot quantum state density matrix 
+
+    Args:
+        quantum state: complex list
+        title : string for figure
+        color : color for figure
+
+    Returns:
+        matplot figure
+
+    Raises:
+        RuntimeError: if input is not a valid quantum state.
+    """
 
     # if isinstance(M, Qobj):
     # extract matrix data from Qobj
