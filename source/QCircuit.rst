@@ -15,7 +15,7 @@
 
 在目前的量子计算理论研究中，各种量子算法常用量子线路表示，比如下方列出的量子算法中的 ``HHL算法`` 量子线路图。
 
-.. image:: images/hhl.png
+.. image:: images/HHL.png
    :align: center   
 
 .. _api_introduction:
@@ -53,7 +53,7 @@ node的类型可以为QGate或QCircuit。
                 cir_control = cir.control(qvec)
 
     .. note:: 
-        - 向QCircuit中插入QPorg，QIf，Measure中不会报错，但是运行过程中可能会产生预料之外的错误
+        - 向QCircuit中插入QPorg，QIf，Measure不会报错，但是运行过程中可能会产生预料之外的错误
         - 一个构建好的QCircuit不能直接参与量子计算与模拟，需要进一步构建成QProg类型
 
 

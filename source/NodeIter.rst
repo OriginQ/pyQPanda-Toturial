@@ -105,6 +105,17 @@ NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，�
 
     pq.destroy_quantum_machine(machine)
 
+运行结果：
+
+::
+
+    9
+    11
+    21
+    22
+    28
+    Traversal End.
+
 反向遍历：
 
 ::
@@ -127,3 +138,14 @@ NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，�
         iter = iter.get_pre()
     else:
         print('Traversal End.\n')
+
+运行结果：
+
+::
+
+    28
+    22
+    21
+    11
+    9
+    Traversal End.

@@ -126,7 +126,7 @@
 
         qvm.finalize()
 
-    上述代码中``run_with_configuration`` 与 ``prob_run_dict`` 接口分别用于Monte Carlo采样模拟和概率测量，他们分别输出模拟采样的结果和对应振幅的概率，上述程序的计算结果如下
+    上述代码中 ``run_with_configuration`` 与 ``prob_run_dict`` 接口分别用于Monte Carlo采样模拟和概率测量，他们分别输出模拟采样的结果和对应振幅的概率，上述程序的计算结果如下
 
     .. code-block:: python
 

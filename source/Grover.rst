@@ -64,7 +64,7 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
 算法原理
 ****
 
-两种算法需要预制备的集合元素量子态有着相似的如下形式
+两种算法需要预制备的集合元素量子态有着相似的如下形式：
 
 .. math::
 
@@ -72,12 +72,12 @@ Grover算法的时间复杂度为 :math:`O(\sqrt N)`，相对于经典算法的O
    \left|\psi\right\rangle=sin\theta\left|\varphi_1\right\rangle+cos\theta\left|\varphi_0\right\rangle, \ 
    \left|\varphi_0\right\rangle=\left|\varphi_1^\bot\right\rangle.
    \end{aligned}
-但具体定义和需要求解的目标不同，因此基于振幅放大量子线路衍生出的算法原理也有所不同
+但具体定义和需要求解的目标不同，因此基于振幅放大量子线路衍生出的算法原理也有所不同。
 
 基于振幅放大算子的QPE过程
 ++++
 
-量子计数算法中的两个基量子态是基于集合和判别函数定义的，即
+量子计数算法中的两个基量子态是基于集合和判别函数定义的，即：
 
 .. math::
    \begin{aligned}

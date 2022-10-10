@@ -106,7 +106,7 @@ S=\left(\frac{\partial}{\partial\tau}-\left(H-E_\tau\right)\right)` ，同时考
 =U_N\left(\theta_N\right)\cdots U_2\left(\theta_2\right)U_1\left(\theta_1\right)\left|\bar{0}\right\rangle`，其中\
 :math:`U_i` 为幺正算符，:math:`\bar{0}` 为系统的初态（并不是基态 :math:`\left|0\right\rangle`）。
 
-不失一般性地，可以假设每个U_i均仅依赖于一个参数\theta_i（否则可以进行量子门操作分解），不妨假设每个 :math:`U_i` 均为旋转或受控旋转门，\
+不失一般性地，可以假设每个 :math:`U_i` 均仅依赖于一个参数 :math:`\theta_i`（否则可以进行量子门操作分解），不妨假设每个 :math:`U_i` 均为旋转或受控旋转门，\
 于是其导数可以表示为 :math:`\frac{{\partial U}_i\left(\theta_i\right)}{\partial\theta_i}
 =\sum_{k}{f_{k,i}U_i\left(\theta_i\right)\sigma_{k,i}}`。\
 其中 :math:`\delta_{k,i}` 为幺正算符，:math:`f_{k,i}` 为标量函数，\

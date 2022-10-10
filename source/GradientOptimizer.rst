@@ -27,7 +27,7 @@
         0.0,   # 累加量起始值
         1.e-10)# 很小的数值以避免零分母
 
-    RMSOptimizer.minimize(
+    RMSPropOptimizer.minimize(
         loss,  # 损失函数 
         0.01,  # 学习率
         0.9,   # 历史或即将到来的梯度的贴现因子

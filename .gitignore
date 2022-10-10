@@ -6,6 +6,7 @@
 .vscode
 .vs
 source/_build
+source/build
 /build
 /source/sphinx/__pycache__
 /.vs
@@ -16,3 +17,6 @@ source/_build
 /source/_build/html/.doctrees
 /source/_build/html
 /source/_build/.vscode
+/pyqpanda/*.pyd
+/pyqpanda/Operator/*.pyd
+/pyqpanda/ChemiQ/pyQPandaChemiQ.pyd

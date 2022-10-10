@@ -5,16 +5,39 @@
 
 目前在 ``pyQPanda`` 中定义了如下可变量子逻辑门，它们都继承自 ``VariationalQuantumGate`` 。
 
-===========================  ========== 
- VQG                           别名
-===========================  ==========  
-VariationalQuantumGate_H      VQG_H
-VariationalQuantumGate_RX     VQG_RX
-VariationalQuantumGate_RY     VQG_RY
-VariationalQuantumGate_RZ     VQG_RZ
-VariationalQuantumGate_CZ     VQG_CZ
-VariationalQuantumGate_CNOT   VQG_CNOT
-===========================  ========== 
+=================================    =============== 
+ VQG                                   别名
+=================================    ===============
+VariationalQuantumGate_I               VQG_I
+VariationalQuantumGate_H               VQG_H
+VariationalQuantumGate_X               VQG_X
+VariationalQuantumGate_X1              VQG_X1
+VariationalQuantumGate_RX              VQG_RX
+VariationalQuantumGate_Y               VQG_Y
+VariationalQuantumGate_Y1              VQG_Y1
+VariationalQuantumGate_RY              VQG_RY
+VariationalQuantumGate_Z               VQG_Z
+VariationalQuantumGate_Z1              VQG_Z1
+VariationalQuantumGate_RZ              VQG_RZ
+VariationalQuantumGate_S               VQG_S
+VariationalQuantumGate_T               VQG_T
+VariationalQuantumGate_U1              VQG_U1
+VariationalQuantumGate_U2              VQG_U2
+VariationalQuantumGate_RPhi            VQG_RPhi
+VariationalQuantumGate_U3              VQG_U3
+VariationalQuantumGate_U4              VQG_U4
+VariationalQuantumGate_CZ              VQG_CZ
+VariationalQuantumGate_CNOT            VQG_CNOT
+VariationalQuantumGate_SWAP            VQG_SWAP
+VariationalQuantumGate_iSWAP           VQG_iSWAP
+VariationalQuantumGate_SqiSWAP         VQG_SqiSWAP
+VariationalQuantumGate_CR              VQG_CR
+VariationalQuantumGate_CU              VQG_CU
+VariationalQuantumGate_CRX             VQG_CRX
+VariationalQuantumGate_CRY             VQG_CRY
+VariationalQuantumGate_CRZ             VQG_CRZ
+VariationalQuantumGate_SpecialA        VQG_A
+=================================    =============== 
 
 接口介绍
 -------------
