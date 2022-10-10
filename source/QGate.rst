@@ -62,6 +62,10 @@
    :width: 50px
    :height: 50px
 
+.. |P| image:: images/QGate_P.png
+   :width: 50px
+   :height: 50px
+
 .. |U1| image:: images/QGate_U1.png
    :width: 50px
    :height: 50px
@@ -102,6 +106,22 @@
    :width: 50px
    :height: 50px
 
+.. |RXX| image:: images/QGate_RXX.png
+   :width: 50px
+   :height: 50px
+
+.. |RYY| image:: images/QGate_RYY.png
+   :width: 50px
+   :height: 50px
+
+.. |RZZ| image:: images/QGate_RZZ.png
+   :width: 50px
+   :height: 50px
+
+.. |RZX| image:: images/QGate_RZX.png
+   :width: 50px
+   :height: 50px
+
 .. |Toffoli| image:: images/QGate_Toff.png
    :width: 50px
    :height: 50px
@@ -122,6 +142,7 @@
 | |RX|                                                    | ``RX``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -1i×\sin(\theta/2) \\ -1i×\sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
 | |RY|                                                    | ``RY``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}\quad`
 | |RZ|                                                    | ``RZ``                    | :math:`\begin{bmatrix} \exp(-i\theta/2) & 0 \\ 0 & \exp(i\theta/2) \end{bmatrix}\quad`
+| |P|                                                     | ``P``                     | :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\theta) \end{bmatrix}\quad`
 | |U1|                                                    | ``U1``                    | :math:`\begin{bmatrix} 1 & 0 \\ 0 & \exp(i\theta) \end{bmatrix}\quad`
 | |U2|                                                    | ``U2``                    | :math:`\begin{bmatrix} 1/\sqrt {2} & -\exp(i\lambda)/\sqrt {2} \\ \exp(i\phi)/\sqrt {2} & \exp(i\lambda+i\phi)/\sqrt {2} \end{bmatrix}\quad`
 | |U3|                                                    | ``U3``                    | :math:`\begin{bmatrix} \cos(\theta/2) & -\exp(i\lambda)×\sin(\theta/2) \\ \exp(i\phi)×\sin(\theta/2) & \exp(i\lambda+i\phi)×\cos(\theta/2) \end{bmatrix}\quad`
@@ -137,6 +158,10 @@
 | |SWAP|                                                      | ``SWAP``                  | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
 | |CZ|                                                        | ``CZ``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{bmatrix}\quad`
 | |CU|                                                        | ``CU``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & u0 & u1 \\ 0 & 0 & u2 & u3 \end{bmatrix}\quad`
+| |RXX|                                                       | ``RXX``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & 0 & i\sin(\theta/2)  \\ 0 & \cos(\theta/2) & -i\sin(\theta/2) & 0 \\ 0 & -i\sin(\theta/2) & \cos(\theta/2) & 0 \\ i\sin(\theta/2) & 0 & 0 & \cos(\theta/2) \end{bmatrix}\quad`
+| |RYY|                                                       | ``RYY``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & 0 & i\sin(\theta/2)  \\ 0 & \cos(\theta/2) & -i\sin(\theta/2) & 0 \\ 0 & -i\sin(\theta/2) & \cos(\theta/2) & 0 \\ i\sin(\theta/2) & 0 & 0 & \cos(\theta/2) \end{bmatrix}\quad`
+| |RZZ|                                                       | ``RZZ``                   | :math:`\begin{bmatrix} \exp(-i\theta/2) & 0 & 0 & 0  \\ 0 & \exp(i\theta/2) & 0 & 0 \\ 0 & 0 & \exp(i\theta/2) & 0 \\ 0 & 0 & 0 & \exp(-i\theta/2) \end{bmatrix}\quad`
+| |RZX|                                                       | ``RZX``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & -i\sin(\theta/2) & 0  \\ 0 & \cos(\theta/2) & 0 & i\sin(\theta/2) \\ -i\sin(\theta/2) & 0 & \cos(\theta/2) & 0 \\ 0 & i\sin(\theta/2) & 0 & \cos(\theta/2) \end{bmatrix}\quad`
 | |Toffoli|                                                   | ``Toffoli``               | :math:`\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0  \\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1  \\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\ \end{bmatrix}\quad`
 ============================================================ =========================== ========================================================================================================
 
@@ -149,7 +174,7 @@ QPanda 2把所有的量子逻辑门封装为API向用户提供使用，并可获
          from pyqpanda import *
          import numpy as np
          qvm = CPUQVM()
-		 qvm.init()
+         qvm.init_qvm()
          qubits = qvm.qAlloc_many(4)
          h = H(qubits[0])
 
@@ -159,16 +184,16 @@ pyqpanda中支持的不含角度的单门有： ``I``、 ``H``、 ``T``、 ``S``
 
 qubit如何申请会在 :ref:`QuantumMachine` 部分介绍。
 
-单门带有一个旋转角的逻辑门门，例如RX门：
+单门带有一个旋转角的逻辑门，例如RX门：
 
      .. code-block:: python
           
-         rx = RX(qubits[0]，np.pi/3)
+         rx = RX(qubits[0], np.pi/3)
 
 第一个参数为目标比特
 第二个参数为旋转角度 
 
-pyqpanda中支持的单门带有一个旋转角度的逻辑门有： ``RX``、``RY``、``RZ``、``U1``
+pyqpanda中支持的单门带有一个旋转角度的逻辑门有： ``RX``、``RY``、``RZ``、``U1``、``P``
    
 
 pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
@@ -176,19 +201,19 @@ pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
       .. code-block:: python
 
          # U2(qubit, phi, lambda) 有两个角度
-         u2 = U2(qubits[0]，np.pi, np.pi/2) 
+         u2 = U2(qubits[0], np.pi, np.pi/2) 
 
          # U3(qubit, theta, phi, lambda) 有三个角度
-         u3 = U3(qubits[0]，np.pi, np.pi/2, np.pi/4)
+         u3 = U3(qubits[0], np.pi, np.pi/2, np.pi/4)
          
          # U4(qubit, alpha, beta, gamma, delta) 有四个角度
-         u4 = U4(qubits[0]，np.pi, np.pi/2, np.pi/4, np.pi/2)   
+         u4 = U4(qubits[0], np.pi, np.pi/2, np.pi/4, np.pi/2)   
 
 两比特量子逻辑门的使用和单比特量子逻辑门的用法相似，只不过是输入的参数不同，例如CNOT门：
 
      .. code-block:: python
           
-         cnot = CNOT(qubits[0]，qubits[1])
+         cnot = CNOT(qubits[0], qubits[1])
 
 第一个参数为控制比特
 第二个参数为目标比特 
@@ -196,11 +221,11 @@ pyqpanda中还支持 ``U2``、``U3``、``U4`` 门，其用法如下：
 
 pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``SWAP``、``iSWAp``、``SqiSWAP``
 
-双门带有旋转角度的门，例如CR门：
+双门带有旋转角度的门有：``CR``、``RXX`` 、``RYY``、``RZZ``、``RZX``，例如CR门：
 
       .. code-block:: python
             
-         cr = CR(qubits[0]，qubits[1]，np.pi)
+         cr = CR(qubits[0], qubits[1], np.pi)
 
 第一个参数为控制比特, 第二个参数为目标比特, 第三个参数为旋转角度 
 
@@ -209,7 +234,7 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
       .. code-block:: python
 
          # CU(control, target, alpha, beta, gamma, delta) 有四个角度   
-         cu = CU(qubits[0]，qubits[1]，np.pi,np.pi/2,np.pi/3,np.pi/4)
+         cu = CU(qubits[0], qubits[1], np.pi, np.pi/2, np.pi/3, np.pi/4)
 
 获得三量子逻辑门 ``Toffoli`` 的方式：
 
@@ -233,7 +258,7 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
       .. code-block:: python
 
          rx_dagger = RX(qubits[0], np.pi)
-         rx_dagger.set_dagger(true)
+         rx_dagger.set_dagger(True)
 
 也可以为量子逻辑门添加控制比特,获得一个量子逻辑门 control 之后的量子逻辑门可以用下面的方法：
 
@@ -251,11 +276,45 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
 
 pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑门的操作
 
+单门操作：
+
       .. code-block:: python
 
-         cir = apply_QGate(qubits, H)
+         cir = H(qubits)
+         print(cir)
 
-qubits的每个量子比特都添加H们
+      .. code-block:: python
+
+                   ┌─┐ 
+         q_0:  |0>─┤H├ 
+                   ├─┤ 
+         q_1:  |0>─┤H├ 
+                   ├─┤ 
+         q_2:  |0>─┤H├ 
+                   ├─┤ 
+         q_3:  |0>─┤H├ 
+                   └─┘       
+        
+    对多个量子比特添加H门
+
+双门操作：
+    
+    .. code-block:: python
+
+        cir = CNOT(qubits[0:3], qubits[1:4])
+        print(cir)
+
+    .. code-block:: python
+
+        q_0:  |0>────■── ────── ────── 
+                  ┌──┴─┐               
+        q_1:  |0>─┤CNOT├ ───■── ────── 
+                  └────┘ ┌──┴─┐        
+        q_2:  |0>─────── ┤CNOT├ ───■── 
+                         └────┘ ┌──┴─┐ 
+        q_3:  |0>─────── ────── ┤CNOT├ 
+                                └────┘
+    对多个量子比特添加CNOT门
 
 实例
 ----------------
@@ -289,3 +348,5 @@ qubits的每个量子比特都添加H们
     .. code-block:: python
         
       {'000': 0.4999999999999894, '001': 0.0, '010': 0.4999999999999894, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}
+
+

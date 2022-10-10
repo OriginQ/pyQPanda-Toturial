@@ -9,6 +9,8 @@
 ****
 
 如图所示，QFT可以简单地通过对IDFT进行替换得到，QFT和DFT本质上都是同一个向量在两个等价空间中的不同表示形式，即基向量的更换。
+.. figure:: ./images/QFT.png
+   :alt:
 
 .. math::
 

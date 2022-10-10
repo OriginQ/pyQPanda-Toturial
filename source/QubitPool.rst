@@ -28,7 +28,7 @@ QPanda之前版本中量子比特和经典寄存器都是通过虚拟机进行�
 
 ``set_capacity`` 设置容量  
 
-``get_cbit_by_addr`` 通过物理地址获取量子比特  
+``get_cbit_by_addr`` 通过物理地址获取经典寄存器   
 
 由于申请释放方法均和虚拟机提供的方法相同。 在 :ref:`QuantumMachine` 中有详细介绍。
 同时对于量子比特和经典寄存器的使用，现在也可以直接通过对应比特的地址传参。
@@ -93,10 +93,7 @@ QPanda之前版本中量子比特和经典寄存器都是通过虚拟机进行�
         # 同样经典比特地址也可以作为经典比特信息入参
         prog << Measure(0, 0)\
             << Measure(1, 1)\
-            << Measure(2, 2)\
-            << Measure(3, 3)\
-            << Measure(4, 4)\
-            << Measure(5, 5)
+            << Measure(2, 2)
             
 
         # 使用经典比特地址入参 
@@ -110,6 +107,7 @@ QPanda之前版本中量子比特和经典寄存器都是通过虚拟机进行�
         qvm_noise = NoiseQVM()
         qvm_noise.init_qvm()
         res_4 = qvm_noise.run_with_configuration(prog, [ 0,1,2,3,4,5 ], 5000)
+        print(res_4)
 
 运行结果：
 ::
@@ -117,4 +115,5 @@ QPanda之前版本中量子比特和经典寄存器都是通过虚拟机进行�
     get_capacity :  29
     qpool get_capacity :  20
     qpool_1 get_capacity :  20
+    {'000000': 299, '000001': 290, '000010': 986, '000011': 1007, '000100': 238, '000101': 265, '000110': 929, '000111': 986}
 

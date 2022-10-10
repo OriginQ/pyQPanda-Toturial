@@ -13,7 +13,7 @@
 
 在量子力学中，波函数 :math:`\Psi( |t \rangle)` 的时间演化由含时薛定谔方程控制。
 
-将普朗克常量视为1，将积分上下限分别定为 0、t，并经过一系列数学运算后，可以得到 :math:`\Psi( |t \rangle) = e^{-iHt} \Psi( |0 \rangle)`
+将普朗克常量视为1，将积分上下限分别定为 t、0，并经过一系列数学运算后，可以得到 :math:`\Psi( |t \rangle) = e^{-iHt} \Psi( |0 \rangle)`
 
 
 
@@ -36,7 +36,7 @@ step3:使用 ``QOperator`` 操作将线路构造成算符操作，并获取线�
 
 step4:使用 ``expMat()`` 接口计算 ``e`` 的复数矩阵的真实值；
 
-step4:使用 ``average_gate_fidelity()`` 接口计算两个矩阵的相似度；
+step5:使用 ``average_gate_fidelity()`` 接口计算两个矩阵的相似度。
 
 
 示例
@@ -97,7 +97,7 @@ Pauli-算符模拟
         U_y = pq.expMat(conf, Y, t)
         U_z = pq.expMat(conf, Z, t)
 
-        f_ave_x = pq.average_gate_fidelity(U_x, unitary_y)
+        f_ave_x = pq.average_gate_fidelity(U_x, unitary_x)
         f_ave_y = pq.average_gate_fidelity(U_y, unitary_y)
         f_ave_z = pq.average_gate_fidelity(U_z, unitary_z)
 

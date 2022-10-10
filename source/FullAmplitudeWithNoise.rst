@@ -316,9 +316,9 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
 
 .. code-block:: python
 
-    def add_reset_error(self, p0: float, p1: float, qubits: QVec) -> None:
+    def set_reset_error(self, p0: float, p1: float, qubits: QVec) -> None:
 
-p0 表示重置到 :math:`\ket{0}` 的概率，p1表示重置到 :math:`\ket{1}` 的概率，未被重置的概率为 1-p0-p1。
+p0 表示重置到 :math:`\left|0\right\rangle` 的概率，p1表示重置到 :math:`\left|1\right\rangle` 的概率，未被重置的概率为 1-p0-p1。
     
 
 读出噪声：
@@ -327,8 +327,8 @@ p0 表示重置到 :math:`\ket{0}` 的概率，p1表示重置到 :math:`\ket{1}`
 
     def add_readout_error(self, prob_list: List[List[float]], qubits: QVec = ...) -> None:
 
-:c:var:`probs_list` 为四个元素，两两一组，如 :code:`probs_list = {{f0, 1 - f0},{1 - f1, f1}};`， 
-表示当测量终态为 :math:`\ket{0}` ，读出为0的概率为f0，读出为1的概率为1-f0；当测量终态为 :math:`\ket{1}` 时，读出为0的概率为1-f1，读出为1的概率为f1。
+:code:`probs_list` 为四个元素，两两一组，如 :code:`probs_list = {{f0, 1 - f0},{1 - f1, f1}};`， 
+表示当测量终态为 :math:`\left|0\right\rangle` ，读出为0的概率为f0，读出为1的概率为1-f0；当测量终态为 :math:`\left|1\right\rangle` 时，读出为0的概率为1-f1，读出为1的概率为f1。
 
 第二个参数为读出噪声作用的比特。
 
@@ -365,7 +365,7 @@ p0 表示重置到 :math:`\ket{0}` 的概率，p1表示重置到 :math:`\ket{1}`
 
         f0 = 0.9
         f1 = 0.85
-        noise.add_readout_error([[f0, 1 - f0], [1 - f1, f1]])
+        noise.set_readout_error([[f0, 1 - f0], [1 - f1, f1]])
         noise.set_rotation_error(0.05)
 
         prog = QProg()

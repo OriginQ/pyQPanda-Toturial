@@ -60,7 +60,7 @@
         encode_qubits=cir_encode.get_out_qubits()
 
         #获取线路的概率测量结果
-        result = qvm.prog_run_dict(prog, encode_qubits, shots)
+        result = qvm.prog_run_dict(prog, encode_qubits)
         print(result)
         qvm.finalize()
 
@@ -117,7 +117,7 @@
         prog=QProg()
         prog << cir_encode.get_circuit()
         encode_qubits=cir_encode.get_out_qubits()
-        result = qvm.prog_run_dict(prog, encode_qubits, shots)
+        result = qvm.prog_run_dict(prog, encode_qubits)
         print(result)
         qvm.finalize()
 
@@ -178,7 +178,7 @@ Bottom-top振幅编码
 ****
 
 双向振幅编码[2] ``bid_amplitude_encode(qubit, data, split)`` 则是综合了Top-down和Bottom-top两种编码方式，即可通过参数 :math:`split` 控制决定其线路深度与宽度。
-其线路宽度为 :math:`O_{w}\left(2^{split}+\log _{2}^{2}(N)-split^{2}\right)` ，线路宽度为 :math:`O_{d}\left((split+1) \frac{N}{2^{split}}\right)` ，而在我们pyqpanda中的接口默认为 :math:`n/2`。
+其线路宽度为 :math:`O_{w}\left(2^{split}+\log _{2}^{2}(N)-split^{2}\right)` ，线路深度为 :math:`O_{d}\left((split+1) \frac{N}{2^{split}}\right)` ，而在我们pyqpanda中的接口默认为 :math:`n/2`。
 从 :math:`O_{w}` 和 :math:`O_{d}` 的公式可以看出当split为1时，则为Bottom-top振幅编码，当spilt为n时则为Top-down振幅编码。
 
 .. image:: images/bid_encode.png
@@ -275,9 +275,9 @@ sparse_isometry编码[5] ``sparse_isometry(qubit, data)`` 不同于双稀疏量�
         prog=QProg()
         prog << cir_encode.get_circuit()
         encode_qubits=cir_encode.get_out_qubits()
-        result = qvm.prog_run_dict(prog, encode_qubits, shots)
+        result = machine.prog_run_dict(prog, encode_qubits)
         print(result)
-        qvm.finalize()
+        machine.finalize()
 
 运行结果：
 
@@ -331,10 +331,10 @@ IQP编码[7] ``iqp_encode(qubit, data, control_vector = None, inverse=false, rep
         prog=QProg()
         prog << cir_encode.get_circuit()
         encode_qubits=cir_encode.get_out_qubits()
-        qvm.directly_run(prog)
-        result = qvm.get_qstate()
+        machine.directly_run(prog)
+        result = machine.get_qstate()
         print(result)
-        qvm.finalize()
+        machine.finalize()
 
 运行结果:
 
