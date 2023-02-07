@@ -40,6 +40,26 @@
 
 QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有类型的QNode
 
+QProg还支持 ``cast_qprog_qcircuit`` 接口，可以将QProg转换成QCircuit类型：
+
+    .. code-block:: python
+
+        cir = cast_qprog_qcircuit(prog)  
+        print(cir)
+
+
+QProg还支持 ``cast_qprog_qgate`` 接口，可以将QProg转换成QGate类型：
+
+    .. code-block:: python
+
+        gate = cast_qprog_qgate(prog) 
+
+QProg还支持 ``cast_qprog_qmeasure`` 接口，可以将QProg转换成QMeasure类型：
+
+    .. code-block:: python
+
+        qmeas = cast_qprog_qmeasure(prog)
+
 实例
 >>>>>>>>>>
 ----
@@ -77,3 +97,23 @@ QNode的类型有QGate，QPorg，QIf，Measure等等，QProg支持插入所有�
     .. code-block:: c
 
         {'0001': 232, '0111': 263, '1001': 243, '1111': 262}
+
+
+QProg支持 ``get_all_used_qubits`` 接口，可以获取到QProg中所有已使用到的比特信息：
+
+.. code-block:: python
+
+        used_qv = get_all_used_qubits(prog)
+
+QProg支持 ``transform_qprog_to_binary`` 接口，可以将量子程序作为二进制数据保存到文件中：
+
+.. code-block:: python
+
+        bin_prog = transform_qprog_to_binary(prog, qvm)
+
+QProg支持 ``get_bin_str`` 接口，可以将量子程序转换到字符串：
+
+.. code-block:: python
+
+        str_prog = get_bin_str(prog, qvm)
+

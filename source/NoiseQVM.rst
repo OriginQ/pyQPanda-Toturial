@@ -152,7 +152,7 @@ pyqpanda当前支持的噪声模型
         qvm.set_noise_model(NoiseModel.DECOHERENCE_KRAUS_OPERATOR, GateType.CZ_GATE, 5, 2, 0.01, [[q[0], q[1]], [q[1], q[0]]])
 
 
-含噪声虚拟机还支持设置设置带有角度的量子逻辑门的转转角度误差，其接口使用方式如下：
+含噪声虚拟机还支持设置设置带有角度的量子逻辑门的旋转角度误差，其接口使用方式如下：
 
     .. code-block:: python
 

@@ -55,7 +55,7 @@ def meas_all(qubits, cbits):
     Returns: 
         quantum prog
 
-    Raises:\n"
+    Raises:
         run_fail: An error occurred in construct measure all node
     '''
     prog=pywrap.QProg()
@@ -96,7 +96,7 @@ def _new_default(self, obj):
     Args:
         obj : qpanda enum
 
-    Returns: 
+    Returns:
         int
     '''
     if isinstance(obj, pywrap.QMachineType):

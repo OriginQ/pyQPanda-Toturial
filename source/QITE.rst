@@ -2,7 +2,7 @@
 ####
 
 虚时演化（Imaginary time evolution）是研究量子系统的一个有力工具。虚时演化算法作为一种量子经典混合算法\
-对于任意一个给定哈密顿量H的系统均可以近似求解得到其基态向量，即哈密顿量 :math:`H`的最小特征值对应的特征向量。\
+对于任意一个给定哈密顿量H的系统均可以近似求解得到其基态向量，即哈密顿量 :math:`H` 的最小特征值对应的特征向量。\
 此算法的量子线路浅易于实现，应用范围广泛，可以求解一些经典算法难以解决的问题。
 
 问题背景概述
@@ -129,9 +129,7 @@ U_i\left(\theta_i\right)\sigma_{k,i}{\cdots U}_2\left(\theta_2\right)U_1\left(\t
 
 .. math::
    \begin{aligned}
-   \mathrm{\langle}\bar{\mathrm{0}}|{\widetilde{V}}_{k,i}^\dagger{\widetilde{V}}_{l,j}\left|\bar{\mathrm{0}}\right\rangle
-   \mathrm{=\langle}\bar{\mathrm{0}}\mathrm{|}\mathrm{U}_1^\dagger\cdots\mathrm{U}_{i-1}^\dagger\sigma_{k,i}^\dagger
-   \mathrm{U}_i^\dagger\cdots\mathrm{U}_{j-1}^\dagger{\sigma_{i,j}\mathrm{U} }_j^\dagger\cdots U_1\left|\bar{\mathrm{0}}\right\rangle.
+   \left\langle\overline{0}\left|\tilde{V}_{k, i}^{\dagger} \widetilde{V}_{l, j}\right| \overline{0}\right\rangle=\left\langle\overline{0}\left|\mathrm{U}_1^{\dagger} \cdots \mathrm{U}_{i-1}^{\dagger} \sigma_{k, i}^{\dagger} \mathrm{U}_i^{\dagger} \cdots \mathrm{U}_{j-1}^{\dagger} \sigma_{i, j} \mathrm{U}_j^{\dagger} \cdots U_1\right| \overline{0}\right\rangle.
    \end{aligned}
 对 :math:`C_{ij}` 有类似结果，于是可以用量子线路构造 :math:`A_{ij}, C_{ij}` 。
 
@@ -220,4 +218,5 @@ QPanda-2.0中QITE算法相关代码是一个类，因而下面将介绍所有相
 
 .. code-block:: python
 
-   4 0.999967
+    Measure result: 
+    4 0.999916

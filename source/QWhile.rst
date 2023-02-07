@@ -60,5 +60,5 @@ QWhile
 
     .. code-block:: python
 
-        2
         {'c1': False}
+        0

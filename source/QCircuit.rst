@@ -30,6 +30,13 @@
 
         cir = QCircuit()
 
+或
+
+    .. code-block:: python
+
+        prog = create_empty_qcircuit()
+
+
 
 你可以通过如下方式向QCircuit尾部填充节点，在这里pyqpanda重载了 ``<<`` 运算符作为插入量子线路的方法
 
@@ -41,16 +48,16 @@ node的类型可以为QGate或QCircuit。
 
 我们还可以获得QCircuit的转置共轭之后的量子线路，使用方式为：
 
-        .. code-block:: python
+    .. code-block:: python
         
-            cir_dagger = cir.dagger()
+        cir_dagger = cir.dagger()
 
 如果想复制当前的量子线路，并给复制的量子线路添加控制比特，可以使用下面的方式：
 
-        .. code-block:: python
+    .. code-block:: python
             
-                qvec = [qubits[0], qubits[1]]
-                cir_control = cir.control(qvec)
+        qvec = [qubits[0], qubits[1]]
+        cir_control = cir.control(qvec)
 
     .. note:: 
         - 向QCircuit中插入QPorg，QIf，Measure不会报错，但是运行过程中可能会产生预料之外的错误

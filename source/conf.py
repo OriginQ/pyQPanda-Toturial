@@ -19,7 +19,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pyQPanda'
-copyright = '2019, OriginQC'
+copyright = '2023, OriginQC'
 author = 'OriginQC'
 
 # The short X.Y version
@@ -77,6 +77,7 @@ autoapi_options = ['members', 'undoc-members', 'private-members',
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['.templates']
 inheritance_graph_attrs = dict(rankdir="TB", size='""')
+graphviz_output_format = 'svg'
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -283,3 +284,13 @@ pdf_use_numbered_links = False
 
 # Background images fitting mode
 pdf_fit_background_mode = 'scale'
+
+def autoapi_skip_member(app, what, name, obj, skip, options):
+    """Exclude all private attributes, methods, and dunder methods from Sphinx."""
+    import re
+    exclude = re.findall('\._.*', str(obj))
+    return skip or exclude or what == "data"
+
+def setup(sphinx):
+    """Add autoapi-skip-member."""
+    sphinx.connect('autoapi-skip-member', autoapi_skip_member)

@@ -12,7 +12,7 @@
 .. code-block:: python
 
     optimizer = OptimizerFactory.makeOptimizer(OptimizerType.NELDER_MEAD)
-    #optimizer = OptimizerFactory.makeOptimizer('NELDER_MEAD')
+    #optimizer = OptimizerFactory.makeOptimizer('Nelder-Mead')
 
 
 我们需要向优化器注册一个计算损失值的函数和待优化参数。
@@ -77,7 +77,7 @@
 
 .. code-block:: python
 
-    optimizer = OptimizerFactory.makeOptimizer('NELDER_MEAD')
+    optimizer = OptimizerFactory.makeOptimizer('Nelder-Mead')
 
     init_para = [0, 0]
     optimizer.registerFunc(lossFunc, init_para)

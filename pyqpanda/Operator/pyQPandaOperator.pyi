@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Tuple
 
 from typing import Set
 from typing import overload
+import numpy
 
 class FermionOperator:
     """
@@ -164,6 +165,12 @@ class PauliOperator:
         ...
 
     @overload
+    def __init__(self, arg0: numpy.ndarray[float64[m,n]]) -> None:
+        """
+        """
+        ...
+
+    @overload
     def __init__(self, arg0: str, arg1: complex) -> None:
         """
         """
@@ -251,6 +258,11 @@ class PauliOperator:
         ...
 
     def to_hamiltonian(self, arg0: bool) -> List[Tuple[Dict[int,str],float]]:
+        """
+        """
+        ...
+
+    def to_matrix(self) -> numpy.ndarray[complex128[m,n]]:
         """
         """
         ...
@@ -716,6 +728,34 @@ class complex_var:
         ...
 
 
+def i(arg0: int) -> PauliOperator:
+    """
+    construct a pauli i operator
+    
+    Args:
+        int: pauli operate index
+    
+    Returns:
+        pauli operator i  
+    Raises:
+        run_fail: An error occurred in construct a pauli i operator
+    
+    """
+    ...
+
+def matrix_decompose_hamiltonian(arg0, arg1: numpy.ndarray[float64[m,n]], arg2: PauliOperator) -> None:
+    """
+    decompose matrix into hamiltonian
+    
+    Args:
+        quantum_machine: quantum machine
+        matrix: 2^N *2^N double matrix 
+    
+    Returns:
+        result : hamiltonian
+    """
+    ...
+
 def trans_Pauli_operator_to_vec(arg0: PauliOperator) -> List[float]:
     """
     Transfrom Pauli operator to vector
@@ -725,6 +765,51 @@ def trans_Pauli_operator_to_vec(arg0: PauliOperator) -> List[float]:
 def trans_vec_to_Pauli_operator(arg0: List[float]) -> PauliOperator:
     """
     Transfrom vector to pauli operator
+    """
+    ...
+
+def x(index: int) -> PauliOperator:
+    """
+    construct a pauli x operator
+    
+    Args:
+        int: pauli operate index
+    
+    Returns:
+        pauli operator x  
+    Raises:
+        run_fail: An error occurred in construct a pauli x operator
+    
+    """
+    ...
+
+def y(arg0: int) -> PauliOperator:
+    """
+    construct a pauli y operator
+    
+    Args:
+        int: pauli operate index
+    
+    Returns:
+        pauli operator y  
+    Raises:
+        run_fail: An error occurred in construct a pauli y operator
+    
+    """
+    ...
+
+def z(arg0: int) -> PauliOperator:
+    """
+    construct a pauli z operator
+    
+    Args:
+        int: pauli operate index
+    
+    Returns:
+        pauli operator z  
+    Raises:
+        run_fail: An error occurred in construct a pauli z operator
+    
     """
     ...
 

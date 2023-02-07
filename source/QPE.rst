@@ -90,20 +90,21 @@ QPE的量子线路图如下所示
 
 	#!/usr/bin/env python
 
-	import pyqpanda as pq
-	from numpy import pi
+   import pyqpanda as pq
+   from numpy import pi
+   import numpy as np
 
-	def QPE(controlqlist, targetqlist, matrix):
-	   circ = pq.QCircuit()
-	   for i in range(len(controlqlist)):
-		  circ.insert(pq.H(controlqlist[i]))
+   def QPE(controlqlist, targetqlist, matrix):
+      circ = pq.QCircuit()
+      for i in range(len(controlqlist)):
+               circ.insert(pq.H(controlqlist[i]))
 
-	   for i in range(len(controlqlist)):
-		  circ.insert(controlUnitaryPower(targetqlist, controlqlist[controlqlist.size() \
-		   - 1 - i], i, matrix))
+      for i in range(len(controlqlist)):
+               circ.insert(pq.control_unitary_power(targetqlist, controlqlist[controlqlist.size() \
+               - 1 - i], i, matrix))
 
-	   circ.insert(pq.QFT(controlqlist).dagger())
-	   return circ
+      circ.insert(pq.QFT(controlqlist).dagger())
+      return circ
 
 图中的参数matrix是指需要估计特征值的幺正算符 :math:`U` 对应的矩阵。
 

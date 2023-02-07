@@ -26,7 +26,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     :caption: 基础介绍
 
     GettingStarted
-
+    ChangeLog
 
 .. toctree::
     :caption: 深入学习
@@ -66,7 +66,9 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     QGateCounter
     QProgClockCycle
     QCircuitInfo
+    MultiControlGateDecomposition
     DrawQProg
+    PlotApi
     ..QGateValidity
     QuantumVolume
     RandomizedBenchmarking

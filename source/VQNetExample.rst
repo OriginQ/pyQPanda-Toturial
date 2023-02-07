@@ -10,10 +10,12 @@ QAOA
 我们通过 ``VQNet`` 可以有效地实现 ``MAX-CUT`` 问题的 ``QAOA`` 算法。 VQNet中QAOA的流程图如下所示。
 
 .. image:: images/VQNetQAOAFlow.png
+   :align: center
 
-我们给定一个MAX-CUT的问题如下
+我们给定一个MAX-CUT的问题如下:
 
 .. image:: images/QAOA_7bit_Problem.png
+   :align: center
 
 首先，我们输入 ``MAX-CUT`` 问题的图形信息，以用来构造相应的问题哈密顿量。 
 
@@ -22,7 +24,7 @@ QAOA
     problem = {'Z0 Z4':0.73,'Z0 Z5':0.33,'Z0 Z6':0.5,'Z1 Z4':0.69,'Z1 Z5':0.36,
            'Z2 Z5':0.88,'Z2 Z6':0.58,'Z3 Z5':0.67,'Z3 Z6':0.43}
 
-然后，使用哈密顿量和待优化的变量参数beta和gamma，构建 ``QAOA`` 的vqc。 
+然后，使用哈密顿量和待优化的变量参数beta和gamma，构建 ``QAOA`` 的 ``VQC`` 。 
 ``QOP`` 的输入参数是问题哈密顿量、``VQC`` 、 一组量子比特和量子运行环境。``QOP`` 的输出是问题哈密顿量的期望。 
 在这个问题中，损失函数是问题哈密顿量的期望，因此需要最小化 ``QOP`` 的输出。 
 我们通过使用梯度下降优化器 ``MomentumOptimizer`` 来优化vqc中的变量beta和gamma。
@@ -64,7 +66,7 @@ QAOA
         qubit_num = Hp.getMaxIndex()
 
         machine=init_quantum_machine(QMachineType.CPU)
-        qlist = machine.qAlloc_many(qubit_num)
+        qlist = machine.qAlloc_many(qubit_num + 1)
 
         step = 4
 
@@ -100,7 +102,9 @@ QAOA
         print(result)
 
 .. image:: images/QAOA_7bit_Optimizer_Example.png
+   :align: center 
 
 我们将测量的结果绘制出柱状图，可以看到'0001111'和'1110000'这两个比特串测量得到的概率最大，也正是我们这个问题的解。
 
 .. image:: images/QAOA_result.png
+   :align: center 
