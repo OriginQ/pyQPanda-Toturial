@@ -37,8 +37,8 @@
         qvm = CPUQVM()
         qvm.init_qvm()
 
-        qv = qvm.qAlloc_many(16)
-        c = qvm.cAlloc_many(16)
+        qv = qvm.qAlloc_many(5)
+        c = qvm.cAlloc_many(5)
         src_prog = QProg()
 
         # 构建量子程序
@@ -56,7 +56,7 @@
         results_1 = qvm.pmeasure_no_index(qv)
         
         # 对src_prog进行拓扑匹配，得到匹配IBM_QX5_ARCH拓扑结构的量子程序out_prog
-        out_prog, out_qv = topology_match(src_prog, qv, qvm, CNOT_GATE_METHOD, IBM_QX5_ARCH)
+        out_prog, out_qv = topology_match(src_prog, qv, qvm)
 
         # 对out_prog进行概率测量，得到结果results_2
         qvm.directly_run(out_prog)
@@ -194,3 +194,5 @@
     0.007947907783091068
     0.07867618650197983
     0.046323806047439575
+
+.. note:: 运行量子程序匹配拓扑结构接口时，需要在本地运行目录下配置 ``QPandaConfig.json`` 文件，在配置文件中的 ``QuantumChipArch`` 字段对拓扑结构进行配置修改。

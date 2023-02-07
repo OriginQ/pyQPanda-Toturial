@@ -21,7 +21,7 @@
 QPanda接口函数
 **************
 
-在QPanda-2.0中，量子门的定义函数形式如下：
+在pyqpanda中，量子门的定义函数形式如下：
 
 .. code-block:: python
         
@@ -29,8 +29,8 @@ QPanda接口函数
 
 .. note:: 输入参数为量子比特Qubit及其他参数，返回值为可以插入量子线路的量子门QGate。
 
-在QPanda-2.0中定义的量子门种类非常丰富。\
-特别地，QPanda-2.0中支持完全自定义的量子门U4门，它的接口函数同时有以下几种重载：
+在pyqpanda中定义的量子门种类非常丰富。\
+特别地，pyqpanda中支持完全自定义的量子门U4门，它的接口函数同时有以下几种重载：
 
 .. code-block:: python
         
@@ -44,10 +44,15 @@ QPanda接口函数
 转置共轭操作的两种接口函数定义如下：
 
 .. code-block:: python
-        
-        gate = H(qubit)
-        gate1 = gate.dagger()
-        gate.setDagger(true)
+            
+   rx_dagger = RX(qubits[0], np.pi).dagger()
+
+或：
+
+.. code-block:: python
+
+   rx_dagger = RX(qubits[0], np.pi)
+   rx_dagger.set_dagger(True)
 
 .. note:: dagger函数返回的是一个基于目标量子门的新量子门，setDagger返回的则是进行转置共轭后的目标量子门。
 
@@ -108,4 +113,4 @@ QPanda接口函数
     110:0.0
     111:0.0
 
-以上就是量子比特和量子门的基本定义和在QPanda-2.0中的调用介绍。
+以上就是量子比特和量子门的基本定义和在pyqpanda中的调用介绍。

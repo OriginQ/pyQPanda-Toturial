@@ -154,11 +154,11 @@
 ============================================================ =========================== ========================================================================================================
 | |CNOT|                                                      | ``CNOT``                  | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{bmatrix}\quad`
 | |CR|                                                        | ``CR``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & \exp(i\theta) \end{bmatrix}\quad`
-| |iSWAP|                                                     | ``iSWAP``                 | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & \cos(\theta) & -i×\sin(\theta) & 0 \\ 0 & -i×\sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
+| |iSWAP|                                                     | ``iSWAP``                 | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & \cos(\theta) & i×\sin(\theta) & 0 \\ 0 & i×\sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
 | |SWAP|                                                      | ``SWAP``                  | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}\quad`
 | |CZ|                                                        | ``CZ``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{bmatrix}\quad`
 | |CU|                                                        | ``CU``                    | :math:`\begin{bmatrix} 1 & 0 & 0 & 0  \\ 0 & 1 & 0 & 0 \\ 0 & 0 & u0 & u1 \\ 0 & 0 & u2 & u3 \end{bmatrix}\quad`
-| |RXX|                                                       | ``RXX``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & 0 & i\sin(\theta/2)  \\ 0 & \cos(\theta/2) & -i\sin(\theta/2) & 0 \\ 0 & -i\sin(\theta/2) & \cos(\theta/2) & 0 \\ i\sin(\theta/2) & 0 & 0 & \cos(\theta/2) \end{bmatrix}\quad`
+| |RXX|                                                       | ``RXX``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & 0 & -i\sin(\theta/2)  \\ 0 & \cos(\theta/2) & -i\sin(\theta/2) & 0 \\ 0 & -i\sin(\theta/2) & \cos(\theta/2) & 0 \\ -i\sin(\theta/2) & 0 & 0 & \cos(\theta/2) \end{bmatrix}\quad`
 | |RYY|                                                       | ``RYY``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & 0 & i\sin(\theta/2)  \\ 0 & \cos(\theta/2) & -i\sin(\theta/2) & 0 \\ 0 & -i\sin(\theta/2) & \cos(\theta/2) & 0 \\ i\sin(\theta/2) & 0 & 0 & \cos(\theta/2) \end{bmatrix}\quad`
 | |RZZ|                                                       | ``RZZ``                   | :math:`\begin{bmatrix} \exp(-i\theta/2) & 0 & 0 & 0  \\ 0 & \exp(i\theta/2) & 0 & 0 \\ 0 & 0 & \exp(i\theta/2) & 0 \\ 0 & 0 & 0 & \exp(-i\theta/2) \end{bmatrix}\quad`
 | |RZX|                                                       | ``RZX``                   | :math:`\begin{bmatrix} \cos(\theta/2) & 0 & -i\sin(\theta/2) & 0  \\ 0 & \cos(\theta/2) & 0 & i\sin(\theta/2) \\ -i\sin(\theta/2) & 0 & \cos(\theta/2) & 0 \\ 0 & i\sin(\theta/2) & 0 & \cos(\theta/2) \end{bmatrix}\quad`
@@ -274,14 +274,14 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
          rx_control = RX(qubits[2], np.pi)
          rx_control.set_control(qvec)
 
-pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑门的操作
+pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑门的操作。
 
 单门操作：
 
       .. code-block:: python
 
-         cir = H(qubits)
-         print(cir)
+          cir = H(qubits)
+          print(cir)
 
       .. code-block:: python
 
@@ -316,10 +316,41 @@ pyqpanda 还封装了一些比较方便的接口，会简化一些量子逻辑�
                                 └────┘
     对多个量子比特添加CNOT门
 
+pyqpanda 还封装了自定义的QOracle逻辑门，通过传入一个由酉矩阵和对应的比特来构建一个QOracle逻辑门。
+
+.. code-block:: python
+         
+    from pyqpanda import *
+
+    if __name__ == "__main__":
+        qvm = CPUQVM()
+        qvm.init_qvm()
+        qubits = qvm.qAlloc_many(3)
+        prog1 = QProg()
+        prog1 <<H(qubits[0]) <<CNOT(qubits[1],qubits[2])
+        mat = get_matrix(prog1,True)
+        prog = QProg()
+        prog << QOracle([qubits[0],qubits[1],qubits[2]],mat)
+
+        res1 = qvm.prob_run_dict(prog1,qubits)
+        res2 = qvm.prob_run_dict(prog,qubits)
+
+        # 打印测量结果
+        print(res1)
+        print(res2)
+
+计算结果如下：
+
+    .. code-block:: python
+        
+      {'000': 0.5000000000000001, '001': 0.5000000000000001, '010': 0.0, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}
+      {'000': 0.4999999999999999, '001': 0.4999999999999999, '010': 0.0, '011': 0.0, '100': 0.0, '101': 0.0, '110': 0.0, '111': 0.0}
+
+
 实例
 ----------------
 
-以下实例主要是向您展现QGate类型接口的使用方式.
+以下实例主要是向您展现QGate类型接口的使用方式。
 
    .. code-block:: python
 

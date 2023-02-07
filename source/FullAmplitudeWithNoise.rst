@@ -33,8 +33,11 @@
 表示系统最终的状态，50%的概率处于 :math:`|0\rangle`, 50%的概率处于 :math:`|1\rangle`。
 多次重复测量得到的结果与态 :math:`\frac{1}{\sqrt 2}|0\rangle + \frac{1}{\sqrt 2}|1\rangle` 相同，但两者的量子态却完全不同。
 
-密度矩阵
+.. _密度矩阵介绍:
+
+密度矩阵介绍
 >>>>>>>>>>>>>
+
 对于混合态，态矢已难以完整的表示系统的量子态，一般使用密度矩阵来描述：
 
 .. math::
@@ -131,7 +134,7 @@
 
 我们可以用一个简单的模型来等效演示
 
-初始态两比特为 :math:`|\psi_{1}\psi_0\rangle` 其中，:math:`|\psi_0\rangle` 代表我们的量子计算机系统， :math:`|\psi_1\rangle` 表示外界。当外界对计算机无干扰时，:math:`|\psi_0\rangle` 是个孤立系统，当逻辑门施加在 :math:`|\psi_0\rangle` 上时，其始终为纯态。
+初始态两比特为 :math:`|\psi_{1}\psi_0\rangle` ，其中，:math:`|\psi_0\rangle` 代表我们的量子计算机系统， :math:`|\psi_1\rangle` 表示外界。当外界对计算机无干扰时，:math:`|\psi_0\rangle` 是个孤立系统，当逻辑门施加在 :math:`|\psi_0\rangle` 上时，其始终为纯态。
 如果模拟外界对量子计算机的干扰，将两个比特制备为纠缠态，即外界对计算机造成了噪声干扰。对于两个比特的整个系统来讲，仍然处于纯态。此时整个系统处于
 
 .. math:: 
@@ -223,7 +226,7 @@ DEPOLARIZING_KRAUS_OPERATOR去极化噪声模型，即单量子比特有一定�
 
 其中I、X、Y、Z分别代表其量子逻辑门对应的矩阵
 
-需要一个参数
+需要一个噪声参数
 
 BITFLIP_KRAUS_OPERATOR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -325,7 +328,7 @@ p0 表示重置到 :math:`\left|0\right\rangle` 的概率，p1表示重置到 :m
 
 .. code-block:: python
 
-    def add_readout_error(self, prob_list: List[List[float]], qubits: QVec = ...) -> None:
+    def set_readout_error(self, prob_list: List[List[float]], qubits: QVec = ...) -> None:
 
 :code:`probs_list` 为四个元素，两两一组，如 :code:`probs_list = {{f0, 1 - f0},{1 - f1, f1}};`， 
 表示当测量终态为 :math:`\left|0\right\rangle` ，读出为0的概率为f0，读出为1的概率为1-f0；当测量终态为 :math:`\left|1\right\rangle` 时，读出为0的概率为1-f1，读出为1的概率为f1。

@@ -5,15 +5,15 @@
 在 ``QPanda`` 中我们称它们为 :math:`X`  门，:math:`Y` 门，:math:`Z` 门。
 它们对应的矩阵形式如下表所示。
 
-.. |X| image:: images/X.png
+.. |X| image:: images/QGate_X.png
    :width: 50px
    :height: 50px
 
-.. |Y| image:: ./images/Y.png
+.. |Y| image:: ./images/QGate_Y.png
    :width: 50px
    :height: 50px
    
-.. |Z| image:: images/Z.png
+.. |Z| image:: images/QGate_Z.png
    :width: 50px
    :height: 50px
 
@@ -119,12 +119,12 @@
 
     b = PauliOperator("X5 Y6", 3)
 
-    index_map = []
-    c = b.remapQubitIndex(index_map)
+    index_map = {}
+    a = b.remapQubitIndex(index_map)
     
-    # 输出的值为7
+    # 输出的值为 6
     print(b.getMaxIndex())
-    # 输出的值为2
+    # 输出的值为 1
     print(a.getMaxIndex())
 
 
@@ -158,4 +158,27 @@
         print("remap_pauli : ", remap_pauli)
         print("Index : ", remap_pauli.getMaxIndex())
 
-.. image:: images/PauliOperatorTest.png
+输出结果如下：
+            
+    .. code-block:: python
+
+        a + b =  {
+        "Z0 Z1" : 2.000000,
+        "X5 Y6" : 3.000000
+        }
+        
+        a - b =  {
+        "Z0 Z1" : 2.000000,
+        "X5 Y6" : -3.000000
+        }
+
+        a * b =  {
+        "Z0 Z1 X5 Y6" : 6.000000
+        }
+
+        Index :  6
+        remap_pauli :  {
+        "Z0 Z1 X2 Y3" : 6.000000
+        }
+
+        Index :  3

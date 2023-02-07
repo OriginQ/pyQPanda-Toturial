@@ -5,7 +5,6 @@
 通过该功能模块，你可以解析通过QPanda2构建的量子程序，将其中包含的量子比特信息以及量子逻辑门操作信息提取出来，得到按固定格式存储的QASM指令集。
 
 .. _QASM介绍:
-.. _IBM Q Experience量子云平台: https://quantumexperience.ng.bluemix.net/qx/editor
 
 QASM介绍
 >>>>>>>>>>>>>>>
@@ -42,8 +41,6 @@ QASM(Quantum Assembly Language)是IBM公司提出的量子汇编语言，与 :re
  - QRunes支持对量子逻辑门与量子线路施加控制操作，而QASM不支持，在对量子程序转化QASM指令集之前，会对其中包含的控制操作进行分解。
 
 
-关于QASM更多详细信息的介绍、使用与体验请参考 `IBM Q Experience量子云平台`_
-
 QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用非常简单，具体可参考下方示例程序。
 
 实例
@@ -75,13 +72,13 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
 
 具体步骤如下:
 
- - 首先在主程序中用 ``init_quantum_machine`` 初始化一个量子虚拟机对象，用于管理后续一系列行为
+ - 首先在主程序中用 ``init_quantum_machine`` 初始化一个量子虚拟机对象，用于管理后续一系列行为。
 
- - 接着用 ``qAlloc_many`` 和 ``cAlloc_many`` 初始化量子比特与经典寄存器数目
+ - 接着用 ``qAlloc_many`` 和 ``cAlloc_many`` 初始化量子比特与经典寄存器数目。
 
- - 然后调用 ``QProg`` 构建量子程序
+ - 然后调用 ``QProg`` 构建量子程序。
 
- - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集。``finalize()`` 用于释放系统资源
+ - 最后调用接口 ``convert_qprog_to_qasm`` 输出QASM指令集。``finalize()`` 用于释放系统资源。
 
 
 运行结果如下：

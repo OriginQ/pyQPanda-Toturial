@@ -15,3 +15,4 @@
    SingleAmplitude
    PartialAmplitude
    MPS
+   DensityMatrix

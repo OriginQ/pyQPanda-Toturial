@@ -21,7 +21,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 进行量子门操作组合 :math:`Q=\left.(H\otimes I^{\otimes n})\left(C-U\right)(H\otimes I^{\otimes n}\right)`\
 ，其中 :math:`C-U` 表示基于幺正算符 :math:`U` 的受控门。
 
-输出结果及推广
+输出结果及推导
 ++++
 
 对Hadamard Test量子线路的输出结果进行推导，有如下结论：

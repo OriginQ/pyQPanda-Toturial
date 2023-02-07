@@ -1,208 +1,33 @@
 Change Log
+>>>>>>>>>>>>>>>>>>>>>>>>
 
-3.7.3 - 2021-1-7
+3.7.16 - 2023-1-12
+********
 
-add
-*******
+新增功能
+========
 
-1.添加保真度算法
-2.添加逻辑门取消控制qubit接口
-3.添加BMT映射算法代码
-4.添加MPS单个振幅测量接口
-5.添加 convert_originir_str_to_qprog 接口，实现originir直接到Qprog的转换
-6.添加MPS噪声算法
-7.添加pyqpanda的依赖库
-9.虚拟机添加屏障
+1.新增密度矩阵模拟器，适用于小型量子系统下的密度矩阵模拟，同时提供约化密度矩阵，概率分布，哈密顿量期望以及噪声线路模拟等接口，具体可以参考 :ref:`密度矩阵模拟器` 。 
 
-update
-***********
+2.优化了泡利算符的构造方式，新增了通过矩阵来构造泡利算符的接口。
 
-1. 更新统计时序接口
-2.修改了请求接口的超时设置
-3.修改qubit释放错误问题
-4.优化PyQPanda字符画接口
-5.优化分层代码，提高分层效率
-6.优化芯片拓扑接口json配置方法及相关读取接口
-7.解决连续X门合并抵消优化错误问题
-8.修改含噪声虚拟机算法及接口
-9.修改异常字符串包含编译文件绝对路径问题
-10.修改var
-11.量子线路字符画CR门显示格式修改
-12.量子线路优化接口python接口，通过list传递组合优化模式
+3.优化了泡利算符的构造方式，新增了形如 ``operator = 1.5 * x(0) + 0.6 * y(1) + 2.1 * z(2)`` 的更简洁的构造方式。
 
+4.单振幅虚拟机添加获取对应振幅接口。
 
-3.7.2 - 2020-06-01
+其他更新
+========
 
-add
-*******
+1.修复在只有measure线路等情况下，输出latex信息显示和转换失败的问题。
 
-1. QAdder 量子加法器功能
-2. amplitude_encode实现经典数据的量子态振幅编码
-3. run_with_configuration 添加测量次数的接口
-4. QCodar一种用于各种NISQ设备的上下文持续时间
+2.更新变分组件，添加三角函数相关接口。
 
-update
-***********
+3.优化了获取矩阵接口，现在可以添加了量子比特可选参数，获取一个量子线路中指定比特对应的矩阵。
 
-1. 感知的Qubit映射
-2. 修改 QCloudMachine 接口
-3. 修改 SQISWAP 、U2 、U3 门中的bug
-4. 调整 topology_match 功能，使QVec完成物理比特映射
+4.修复退相干噪声计算错误的问题。
 
-3.7.1 - 2020-03-15
-==============================
+5.修复某些情况下GPU模拟器运行错误问题。
 
-add
-*******
+6.修复ISWAP门默认参数未统一的问题。
 
-1. QCloudMachine 添加商业云功能
-2. ChemiQ可以生成动态库
-
-update
-***********
-
-1. 修改GTEST测试框架
-2. 修改NoiseQVM中的算法错误
-3. 修改QIF和QWHILE中的执行错误
-4. 修改注释部分的乱码引起的编译错误
-
-3.7.0 - 2020-11-8
-===========================
-
-add
-*******
-
-1. 添加逻辑门：I门
-2. 添加接口：fill_qprog_by_I：通过I门填充QProg
-3. 添加接口：cast_qprog_qgate：转换Qprog到Qgate
-4. 添加接口：cast_qprog_qmeasure：转换Qprog到Qmeasure
-5. 添加接口：cast_qprog_qcircuit：转换Qprog到QCircuit，遇到流控节点或者测量节点，返回false
-6. 添加接口：NoiseModel::set_noise_model():设置NoiseModel配置接口
-7. 添加接口：flatten()：添加展开量子程序中的嵌套节点的功能
-8. 添加功能：单振幅量子虚拟机中添加SWAP门
-9. 添加接口：convert_qprog_to_binary：转换QProg到二进制
-10. 添加接口：convert_binary_data_to_qprog：转换二进制到QProg
-11. 添加接口：convert_originir_to_qprog：转换Qoriginir到QProg
-12. 添加接口：convert_qasm_to_qprog：新增QASM转QProg的方法
-13. 添加接口：convert_qprog_to_originir：转换QProg到Qoriginir
-14. 添加接口：convert_qprog_to_quil：转换QProg到QUil
-15. 添加接口：convert_qprog_to_qasm：转换QProg到QASM
-
-
-update
-***********
-
-1. 调整QPanda2 的Utilities目录：Compiler：存放QProg到其他平台的适配转换，QProgInfo：存放线路信息查询相关接口，QProgTransform：Qprog的其他形式转换比如有向无环图，Tools：存放其他工具类接口
-2. 调整接口：原字符画接口print_prog改为：draw_qprog
-3. 修改接口名：QVM::setConfigure为 QVM::setConfig
-4. 添加新的含噪声虚拟机模型:DECOHERENCE_KRAUS_OPERATOR_P1_P2, BITFLIP_KRAUS_OPERATOR, DEPOLARIZING_KRAUS_OPERATOR, BIT_PHASE_FLIP_OPRATOR, PHASE_DAMPING_OPRATOR
-5. 调整接口：通过重载std::cout，直接输出目标线路的字符画
-
-2.0.0 - 2019-9-30
-===========================
-
-add
-*******
-
-1. 添加接口createEmptyCircuit：创建空的量子线路
-2. 添加接口QWhile::getClassicalCondition： 获得经典表达式
-3. 添加接口createWhileProg：创建QWhile
-4. 添加接口createIfProg： 创建QIf
-5. 添加接口createEmptyQProg：创建量子程序
-6. 添加接口 QVM::setConfigure: 设置比特数和经典寄存器数
-7. 添加接口QVM:: qAlloc: 申请量子比特
-8. 添加接口QVM::qAllocMany：申请多个量子比特
-9. 添加接口QVM::getAllocateQubitNum：获取申请的量子比特数
-10. 添加接口QVM::getAllocateCMemNum 获取申请的经典寄存器数
-11. 添加接口QVM::cAlloc: 申请一个经典寄存器
-12. 添加接口QVM::cAllocMany：申请多个经典寄存器
-13. 添加接口SingleAmplitudeQVM：pMeasureBinIndex： 通过二进制下标进行PMeasure操作
-14. 添加接口SingleAmplitudeQVM：pMeasureDecIndex： 通过十进制下标进行PMeasure操作
-15. 添加接口CPUQVM:: pMeasureNoIndex: PMeasure操作
-16. 添加接口validateSingleQGateType： 验证单量子逻辑门有效性
-17. 添加接口validateDoubleQGateType：验证双量子逻辑门有效性
-18. 添加接口getUnsupportQGateNum：统计量子程序（包含量子线路、QIF、QWHILE）中不支持的逻辑门的数量
-19. 添加接口getQGateNum：统计量子程序（包含量子线路、QIF、QWHILE）中逻辑门的数量
-20. 添加接口transformBinaryDataToQProg： 解析二进制数据转化为量子程序
-21. 添加接口transformQProgToBinary：量子程序转化为二进制数据
-
-update
-***********
-
-1. QPanda重构了项目框架把QPanda分为Applications、QAlg、Components、Core四层。
-
-================
-1.3.4 - 2019-08-05
-1、接口 QProgToBinary名改变为qProgToBinary
-2、接口getQProgClockCycle的参数顺序改变(QuantumMachine *qm, QProg &prog)->(QProg &prog, QuantumMachine *qm)
-3、QPanda和pyqpanda 添加apply_Gate 接口；
-4、更新DJ算法和Grove算法；
-5、更新量子程序遍历框架；
-6、添加部分振幅取任意振幅子集的接口
-7、pyqpanda 添加设置setConfig的接口
-8、pyqpanda QVec添加append 、pop接口
-9、pyqpanda 修改Measure_all接口名为measure_all
-10、pyqpanda 修改Measure接口名为measure
-1.3.3 - 2019-06-20
-单振幅和部分振幅虚拟机支持更多的量子比特；QIf和QWhile接口重构；更新DJ算法；QStat精度兼容double和float类型
-1.3.2 - 2019-05-27
-添加量子线路深拷贝功能，修改部分程序bug
-1.3.1 - 2019-05-07
-修复量子程序转换的bug 修复QCloudMachine编译问题
-1.3.0 - 2019-04-28 
--------------------------
-add
-*******
-1. 添加量子机器学习框架VQNet。
-2. 添加部分振幅量子虚拟机PartialAmplitudeQVM。
-3. 添加单振幅量子虚拟机SingleAmplitudeQVM。
-4. 添加含噪声量子虚拟机NoiseQVM。
-5. 添加云虚拟机QCloudQVM。
-6. 添加量子程序持久化存储功能QProgStored
-7. 添加解析持久化存储的量子程序文件QProgDataParse
-8. 添加统计量子程序中逻辑门个数的功能QGateCounter
-
-update
-***********
-
-1. 更新QProgToQASM的对外接口为transformQProgToQASM
-2. 更新QProgToQRunes的对外接口为transformQProgToQRunes
-3. 更新量子虚拟机部分对外接口
-
-
-1.2.0 - 2019-01-18 
--------------------------
-add
-*******
-
-1. 用户可使用QProg()、QCircuit()、QWhileProg(...)、QIfProg(...)构造相关对象。
-2. 对外隐藏CBit类型，统一替换为ClassicalCondition。
-3. 实现ClassicalCondition 的+,-,*,/，>,>=,<,<=,=,==功能。
-4. 实现经典运算在量子虚拟机使用的左值和右值引用功能；实现在量子程序中插入经典运算的功能。
-5. 实现在操作量子逻辑门时，目标量子比特集合下边可为变量的功能。
-6. 添加qAllocMany接口。此接口可以申请多个量子比特，输入参数为量子比特数，返回值类型修改为QVec。
-7. 添加cAllocMany接口，此接口可以申请多个经典寄存器，返回值类型修改为std::vector<ClassicalCondition>。
-8. cFreeAll的输入参数类型修改为std::vector<ClassicalCondition>。
-9. 添加getProbTupleList接口。使用PMEASURE获取量子程序结果，并返回pair<量子态，概率>类型的vector。
-10. 添加getProbList接口。使用PMEASURE获取量子程序结果，并返回概率值的vector。
-11. 添加getProbDict接口。使用PMEASURE获取量子程序结果，并返回pair<量子态，概率>类型的map。
-12. 添加probRunTupleList接口，根据输入的量子程序，使用PMEASURE获取量子程序结果，并返回pair<量子态，概率>类型的vector。
-13. 添加probRunList接口，根据输入的量子程序，使用PMEASURE获取量子程序结果，并返回概率的vector。
-14. 添加probRunDict接口，根据输入的量子程序，使用PMEASURE获取量子程序结果，并返回pair<量子态，概率>类型的map。
-15. 添加runWithConfiguration接口，根据输入的量子程序和循环次数，统计测量结果，并返回pari<量子态，概率>的map。
-16. 添加MeasureAll接口，返回一个量子程序，该量子程序对输入的所有量子比特进行Measure操作。
-17. 添加initQuantumMachine接口，此接口可根据输入的QuantumMachine_type返回一个QuantumMachine类型的虚拟机指针。
-
-update
-***********
-
-1. cAlloc和cAlloc(size_t)返回值修类型修改为ClassicalCondition
-2. cFree的输入参数类型改为ClassicalCondition&
-3. 删除getCBitValue接口
-4. PMeasure接口的qubit_vector参数数据类型改为QVec
-5. PMeasure_no_index接口的qubit_vector参数数据类型改为QVec
-6. quick_measure接口的qubit_vector参数数据类型改为QVec
-7. init接口添加QuantumMachine_type参数，可以设置生成的量子虚拟机的类型
-8. CreateHadamardQCircuit接口的输入参数pQubitVector数据类型改为QVec
-
-
+7.删除Encode类中归一化函数，并修改为入参检测归一化。

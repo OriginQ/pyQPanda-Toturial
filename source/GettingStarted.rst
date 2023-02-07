@@ -26,7 +26,7 @@ Windows
     * - `Microsoft Visual C++ Redistributable x64`_ 
       - 2013 
     * - Python
-      - >= 3.7.0 && <= 3.9
+      - >= 3.7 && <= 3.9
 
 Linux
 ---------------------
@@ -38,7 +38,7 @@ Linux
     * - GCC
       - >= 5.4.0 
     * - Python
-      - >= 3.7.0 && <= 3.9.0
+      - >= 3.7 && <= 3.9
 
 
 下载pyqpanda

@@ -43,6 +43,14 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
         qvm.init_qvm()
 
 .. note:: 调用 ``init`` 和 ``init_quantum_machine`` 接口， 就不需要初始化了。
+全振幅虚拟机支持计算float与double精度的数据，设置方式如下：
+    
+    .. code-block:: python
+
+        qvm = CPUQVM()
+        #True: double精度， False: float精度
+        qvm.init_qvm(True)
+
 
 下面我们就需要去申请量子比特和经典寄存器。
 
@@ -102,7 +110,7 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
 
         result = qvm.run_with_configuration(prog, cbits, shots)
 
-一种方法中 ``prog`` 为量子程序， ``cbits`` 为 ClassicalCondition list，  ``shots`` 是一个整形数据，为量子程序运行次数。
+一种方法中 ``prog`` 为量子程序， ``cbits`` 为 ClassicalCondition list，  ``shots`` 是一个整型数据，为量子程序运行次数。
 
     .. code-block:: python
 
