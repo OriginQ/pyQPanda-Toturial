@@ -58,7 +58,7 @@ pyqpanda中设计了 ``matrix_decompose`` 接口用于进行酉矩阵分解，�
             print("source_matrix : ")
             print(source_matrix)
 
-            out_cir = pq.matrix_decompose(q,np.array(source matrix).reshape(4,4))
+            out_cir = pq.matrix_decompose(q,np.array(source_matrix).reshape(4,4))
             circuit_matrix = pq.get_matrix(out_cir)
 
             print("the decomposed matrix : ")
