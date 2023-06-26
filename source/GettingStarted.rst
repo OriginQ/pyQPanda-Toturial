@@ -2,7 +2,7 @@
 =========================
 
 .. _QPanda2: https://qpanda-tutorial.readthedocs.io/zh/latest/index.html
-.. _`Microsoft Visual C++ Redistributable x64`: https://download.microsoft.com/download/0/5/6/056DCDA9-D667-4E27-8001-8A0C6971D6B1/vcredist_x64.exe
+.. _`Microsoft Visual C++ Redistributable x64`: https://aka.ms/vs/17/release/vc_redist.x64.exe
 
 
 为了兼容 \ **高效**\与\ **便捷**\，QPanda2提供了C++ 和 Python两个版本，本文中主要介绍python版本的使用。
@@ -24,9 +24,9 @@ Windows
     * - software
       - version
     * - `Microsoft Visual C++ Redistributable x64`_ 
-      - 2013 
+      - 2015
     * - Python
-      - >= 3.7 && <= 3.9
+      - >= 3.9 && <= 3.11
 
 Linux
 ---------------------
@@ -38,7 +38,7 @@ Linux
     * - GCC
       - >= 5.4.0 
     * - Python
-      - >= 3.7 && <= 3.9
+      - >= 3.8 && <= 3.11
 
 
 下载pyqpanda

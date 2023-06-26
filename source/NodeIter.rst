@@ -1,12 +1,10 @@
 NodeIter
 ==============
-----
 
 NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，我们可以通过NodeIter很方便的管理我们的量子程序。
 
 接口介绍
 >>>>>>>>>>>>>>>>
-----
 
 目前NodeIter主要提供以下几种操作：
 获取下一个节点
@@ -78,7 +76,6 @@ NodeIter，是pyQPanda对外提供的 QProg 或者 QCircuit 遍历迭代器，�
         
 实例
 >>>>>>>>>>
-----
 
 以下实例程序是通过 NodeIter 实现遍历一个QProg，并输出各个节点逻辑门类型的功能：
 

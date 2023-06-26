@@ -27,7 +27,7 @@ e^{2\pi i\varphi}\left|\psi\right\rangle` 中的 :math:`\varphi`，\
 ****
 
 特征量子态与特征值相位提取
-++++
++++++++++++++++++++++++++++
 
 由特征量子态的定义有 :math:`U\left|\psi\right\rangle = e^{2\pi i\varphi}\left|\psi\right\rangle`，
 
@@ -41,7 +41,7 @@ e^{2\pi i\varphi}\left|\psi\right\rangle` 中的 :math:`\varphi`，\
 特征值相位 :math:`\varphi` 通过这种受控变换可以提取到振幅中。
 
 特征值相位由振幅转移到基向量
-++++
+++++++++++++++++++
 
 选取一组初始化为最大叠加态的辅助比特，通过受控量子门可以将特征值相位提取到振幅中：
 
@@ -59,7 +59,7 @@ e^{2\pi i\varphi}\left|\psi\right\rangle` 中的 :math:`\varphi`，\
    ^{2^n-1}e^{-\frac{2\pi ik}{2^n}\left(x-2^n\varphi\right)}\left|x\right\rangle.
    \end{aligned}
 含特征值相位的基向量测量
-++++
++++++++++++++++++++++++++++++++
 
 对得到的结果量子态进行测量，结果可以分为两类：
 

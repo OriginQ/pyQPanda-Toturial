@@ -6,7 +6,7 @@ try:
     from matplotlib import get_backend
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
     from mpl_toolkits.mplot3d import Axes3D
-    plt.switch_backend('TKAgg')
+    plt.switch_backend('agg')
 except:
     pass
 
@@ -406,7 +406,8 @@ def plot_density_matrix(M, xlabels=None, ylabels=None,
 
     if axis_vals is None:
         fig = plt.figure()
-        axis_vals = Axes3D(fig, azim=-35, elev=35)
+        axis_vals = fig.add_subplot(projection="3d")
+        # axis_vals = Axes3D(fig, azim=-35, elev=35)
 
     axis_vals.bar3d(position_x, position_y, zpos, dx, dy, dz, color=colors)
 

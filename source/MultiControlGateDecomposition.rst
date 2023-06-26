@@ -4,7 +4,7 @@
 在量子算法实现过程中，经常会用到多控门，如下图所示：
     
 
- .. code-block:: python
+.. code-block:: python
 
               ┌─┐ ┌─┐     ┌─┐ ┌─┐
     q_0:  |0>─┤H├ ┤X├ ─■─ ┤H├ ┤X├
@@ -37,6 +37,7 @@
 对应的接口如下：
 
     .. code-block:: python
+
         decompose_multiple_control_qgate(prog, qvm, 'QPandaConfig.json')
     
     
@@ -46,7 +47,6 @@
 
 实例
 >>>>>>>>>>
-----
 
 .. _多控门分解示例程序:
 
@@ -55,24 +55,30 @@
     .. code-block:: python
   
         from pyqpanda import *
+        import numpy as np
 
         if __name__ == "__main__":
             qvm = CPUQVM()
             qvm.init_qvm()
-            q = qvm.qAlloc_many(6)
-            c = qvm.cAlloc_many(6)
+            q = qvm.qAlloc_many(3)
+            c = qvm.cAlloc_many(3)
 
             #构造测试量子线路
             prog = QProg()
-            prog << H(q[1]) << H(q[2]) << Z(q[0]).control([q[1],q[2]])
+            prog << X(q[0]).control([q[1],q[2]])
             print("SrcProg: ", prog)
             src_mat = get_matrix(prog)
+
             #执行多控门分解操作
             after_prog = decompose_multiple_control_qgate(prog, qvm)
             print("after decompose_multiple_control_qgate prog: ", after_prog)
             after_mat = get_matrix(after_prog)
+            print("====================: ")
 
-            if(src_mat == after_mat):
+            src_mat  = np.round(np.array(src_mat),3)
+            after_mat = np.round(np.array(after_mat),3)
+
+            if np.all(src_mat == after_mat):
                 print("The multi-control gate was successfully decomposed.")
             else:
                 print("Decompose error !")
