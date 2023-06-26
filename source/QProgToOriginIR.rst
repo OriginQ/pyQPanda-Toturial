@@ -10,7 +10,6 @@
 
 OriginIR介绍
 >>>>>>>>>>>>>>>>>
-----
 
 OriginIR是基于QPanda的量子程序中间表示，对QPanda各种特性的支持有非常重要的作用。OriginIR不仅可以表示绝大部分量子逻辑门类型，表示针对量子线路的dagger操作，为量子线路添加控制比特，还可以支持QPanda独有的Qif、QWhile，可以实现量子程序内嵌经典程序。
 
@@ -277,7 +276,6 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
 
 实例
 >>>>>>>>>>>>>>
-----
 
 下面的例程通过简单的接口调用演示了量子程序转化OriginIR的过程
 

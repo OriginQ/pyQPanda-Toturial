@@ -22,7 +22,7 @@ def draw_probaility(list):
     plt.bar(x, y1, align="center", color="b", alpha=0.6)
     plt.ylabel("Probabilities")
     plt.grid(True, axis="y", ls=":", color="r", alpha=0.3)
-    # plt.show()
+    plt.show()
 
 
 def draw_probaility_dict(prob_dict):
@@ -48,4 +48,4 @@ def draw_probaility_dict(prob_dict):
     plt.yticks(size=15)
     plt.xticks(size=15)
 
-    # plt.show()
+    plt.show()

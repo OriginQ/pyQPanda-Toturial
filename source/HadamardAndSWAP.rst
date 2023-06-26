@@ -22,7 +22,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 ，其中 :math:`C-U` 表示基于幺正算符 :math:`U` 的受控门。
 
 输出结果及推导
-++++
+++++++++++++++++++++++++++++++++
 
 对Hadamard Test量子线路的输出结果进行推导，有如下结论：
 
@@ -51,7 +51,7 @@ Hadamard Test的量子线路图结构简单，如下所示。
 将图中测量之前的 :math:`H` 门换成 :math:`RX(\frac{\pi}{2})` 门，则可以得到概率与投影期望虚部相关的结果量子态。
 
 代码实例
-++++
+++++++++++++++++++++++++++++++++
 
 取 :math:`\left|\psi\right\rangle=\frac{\left|0\right\rangle+\left|1\right\rangle}{\sqrt2},U=H`，\
 Hadamard Test的一个代码实例如下：
@@ -128,7 +128,8 @@ SWAP Test作为Hadamard的一种特殊形式，它对两个给定量子态给出
    \end{aligned}
 
 代码实例
-++++
+++++++++++++++++++++++++++++++++
+
 
 SWAP Test的代码实例与Hadamard Test有细微区别。
 

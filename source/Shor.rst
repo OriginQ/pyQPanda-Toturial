@@ -42,7 +42,7 @@ Shor分解算法的具体步骤如下：
 限于篇幅，第一部分中的前置引理将只作介绍而不加以证明。
 
 前置引理
-++++
+++++++++++++++++++++++
 
 定义
 
@@ -73,7 +73,7 @@ Shor分解算法的具体步骤如下：
 以及阶 :math:`r` 通过量子傅里叶变换/逆变换、:math:`\left|u_s\right\rangle` 的定义变换/逆变换全部关联起来。
 
 构造模乘量子门
-++++
+++++++++++++++++++++++
 
 定义量子门操作 :math:`U^j\left|y\right\rangle=\left|yx^j\ modN\right\rangle`。
 
@@ -86,7 +86,7 @@ Shor分解算法的具体步骤如下：
 由上式可以利用模乘量子门来实现模指操作。
 
 求解阶寻找问题
-++++
+++++++++++++++++++++++
 
 考察两个寄存器组成的量子态 :math:`\left|0\right\rangle^{\otimes t}(\left|0\right\rangle^{\otimes L-1}
 \left|1\right\rangle){=\left|0\right\rangle^{\otimes t}\left|1\right\rangle}_L`，将第一个寄存器初始化为最大叠加态，有

@@ -165,19 +165,19 @@ class PauliOperator:
         ...
 
     @overload
-    def __init__(self, arg0: numpy.ndarray[float64[m,n]]) -> None:
+    def __init__(self, matrix: numpy.ndarray[numpy.float64[m,n]], is_reduce_duplicates: bool = False) -> None:
         """
         """
         ...
 
     @overload
-    def __init__(self, arg0: str, arg1: complex) -> None:
+    def __init__(self, key: str, value: complex, is_reduce_duplicates: bool = False) -> None:
         """
         """
         ...
 
     @overload
-    def __init__(self, arg0: Dict[str,complex]) -> None:
+    def __init__(self, pauli_map: Dict[str,complex], is_reduce_duplicates: bool = False) -> None:
         """
         """
         ...
@@ -227,6 +227,11 @@ class PauliOperator:
         """
         ...
 
+    def reduce_duplicates(self) -> None:
+        """
+        """
+        ...
+
     def remapQubitIndex(self, arg0: Dict[int,int]) -> PauliOperator:
         """
         """
@@ -262,7 +267,7 @@ class PauliOperator:
         """
         ...
 
-    def to_matrix(self) -> numpy.ndarray[complex128[m,n]]:
+    def to_matrix(self) -> numpy.ndarray[numpy.complex128[m,n]]:
         """
         """
         ...
@@ -743,7 +748,7 @@ def i(arg0: int) -> PauliOperator:
     """
     ...
 
-def matrix_decompose_hamiltonian(arg0, arg1: numpy.ndarray[float64[m,n]], arg2: PauliOperator) -> None:
+def matrix_decompose_hamiltonian(arg0: numpy.ndarray[numpy.float64[m,n]]) -> PauliOperator:
     """
     decompose matrix into hamiltonian
     

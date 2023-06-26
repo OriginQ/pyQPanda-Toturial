@@ -25,7 +25,7 @@
 只需要 :math:`\lceil\log_2(N)\rceil` 个比特就可以将其绑定到基向量上。
 
 存储比特与索引比特
-++++
+++++++++++++++++++++
 
 对于上限均为N的k个经典数据，需要 :math:`\lceil\log_2(N)\rceil` 个存储量子比特和 :math:`\lceil\log_2(k)]\rceil` 个\
 索引量子比特将其编码到量子态基向量，每个数据均需要 :math:`\lceil\log_2(N)\rceil` 个条件非量子门。

@@ -16,3 +16,4 @@
    PartialAmplitude
    MPS
    DensityMatrix
+   Stabilizer

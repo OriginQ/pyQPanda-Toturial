@@ -16,7 +16,7 @@ from .quantum_state_plot import state_to_density_matrix
 from pyqpanda import circuit_layer
 from math import sin, cos, acos, sqrt
 from .bloch import Bloch
-
+import matplotlib
 
 def count_pauli(i):
 
@@ -374,11 +374,20 @@ def plot_bloch_circuit(circuit,
         raise RuntimeError("Nothing to visualize.")
 
     starting_pos = normalize(np.array([0, 0, 1]))
-
+    view=[-60,30]
     fig = plt.figure(figsize=(6, 6))
-    _ax = Axes3D(fig)
-    _ax.set_xlim(-10, 10)
-    _ax.set_ylim(-10, 10)
+    if tuple(int(x) for x in matplotlib.__version__.split(".")) >= (3, 4, 0):
+        _ax = Axes3D(
+            fig, azim=view[0], elev=view[1], auto_add_to_figure=False
+        )
+        fig.add_axes(_ax)
+    else:
+        _ax = Axes3D(
+            fig,
+            azim=view[0],
+            elev=view[1],
+        )
+
     sphere = Bloch(axes=_ax)
 
     class PlotParams:

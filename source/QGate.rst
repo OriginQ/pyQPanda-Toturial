@@ -268,6 +268,7 @@ pyqpanda中支持的双门不含角度的逻辑门有： ``CNOT``、``CZ`` 、``
          rx_control = RX(qubits[2], np.pi).control(qvec)
 
 或：
+
       .. code-block:: python
 
          qvec = [qubits[0], qubits[1]]

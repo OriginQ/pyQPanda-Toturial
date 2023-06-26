@@ -117,14 +117,9 @@ WUYUAN_3: ChipID
 X_HALF_PI: GateType
 Y_HALF_PI: GateType
 Z_HALF_PI: GateType
-computing: task_status
-failed: task_status
-finished: task_status
 origin_wuyuan_d3: real_chip_type
 origin_wuyuan_d4: real_chip_type
 origin_wuyuan_d5: real_chip_type
-queuing: task_status
-waiting: task_status
 
 class AbstractOptimizer:
     """
@@ -255,37 +250,37 @@ class Ansatz:
     """
     quantum ansatz class
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QGate) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: AnsatzGate) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, ansatz: List[AnsatzGate], thetas: List[float] = []) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, ansatz_circuit: Ansatz, thetas: List[float] = []) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, circuit: QCircuit, thetas: List[float] = []) -> None:
         """
         """
@@ -301,31 +296,31 @@ class Ansatz:
         """
         ...
 
-    
+    @overload
     def insert(self, gate: QGate) -> None:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, gate: AnsatzGate) -> None:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, gate: List[AnsatzGate]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, gate: QCircuit) -> None:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, gate: Ansatz, thetas: List[float] = []) -> None:
         """
         """
@@ -336,25 +331,25 @@ class Ansatz:
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QGate) -> Ansatz:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: List[AnsatzGate]) -> Ansatz:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QCircuit) -> Ansatz:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: AnsatzGate) -> Ansatz:
         """
         """
@@ -369,19 +364,19 @@ class AnsatzGate:
     target: int
     theta: float
     type: AnsatzGateType
-    
+    @overload
     def __init__(self, arg0: AnsatzGateType, arg1: int) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: AnsatzGateType, arg1: int, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: AnsatzGateType, arg1: int, arg2: float, arg3: int) -> None:
         """
         """
@@ -412,22 +407,22 @@ class AnsatzGateType:
     AGT_RZ: ClassVar[AnsatzGateType] = ...
     AGT_X: ClassVar[AnsatzGateType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -442,18 +437,20 @@ class AnsatzGateType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class BackendType:
     """
@@ -479,22 +476,22 @@ class BackendType:
     MPS: ClassVar[BackendType] = ...
     NOISE: ClassVar[BackendType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -509,18 +506,20 @@ class BackendType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class CBit:
     """
@@ -561,13 +560,13 @@ class CPUQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def init_qvm(self, arg0: bool) -> None:
         """
         """
         ...
 
-    
+    @overload
     def init_qvm(self) -> None:
         """
         """
@@ -585,37 +584,37 @@ class CPUQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> Dict[str,float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> Dict[str,float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_list(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> List[float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_list(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> List[float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_tuple_list(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> List[Tuple[int,float]]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_tuple_list(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> List[Tuple[int,float]]:
         """
         """
@@ -669,37 +668,37 @@ class CPUSingleThreadQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> Dict[str,float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> Dict[str,float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_list(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> List[float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_list(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> List[float]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_tuple_list(self, program: QProg, qubit_list: QVec, select_max: int = -1) -> List[Tuple[int,float]]:
         """
         """
         ...
 
-    
+    @overload
     def prob_run_tuple_list(self, program: QProg, qubit_addr_list: List[int], select_max: int = -1) -> List[Tuple[int,float]]:
         """
         """
@@ -732,22 +731,22 @@ class ChipID:
     WUYUAN_2: ClassVar[ChipID] = ...
     WUYUAN_3: ClassVar[ChipID] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -762,23 +761,26 @@ class ChipID:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class ClassicalCondition:
     """
     Classical condition class  Proxy class of cexpr class
     """
+    __hash__: ClassVar[None] = ...
     def __init__(self, *args, **kwargs) -> None:
         """
         """
@@ -796,115 +798,115 @@ class ClassicalCondition:
         """
         ...
 
-    
+    @overload
     def __add__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __add__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __eq__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __eq__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __eq__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __ge__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __ge__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __ge__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __gt__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __gt__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __gt__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __le__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __le__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __le__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __lt__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __lt__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __lt__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __mul__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __mul__(self, arg0: int) -> ClassicalCondition:
         """
         """
@@ -930,25 +932,25 @@ class ClassicalCondition:
         """
         ...
 
-    
+    @overload
     def __sub__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __sub__(self, arg0: int) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __truediv__(self, arg0: ClassicalCondition) -> ClassicalCondition:
         """
         """
         ...
 
-    
+    @overload
     def __truediv__(self, arg0: int) -> ClassicalCondition:
         """
         """
@@ -983,22 +985,22 @@ class ComplexVertexSplitMethod:
     METHOD_UNDEFINED: ClassVar[ComplexVertexSplitMethod] = ...
     RING: ClassVar[ComplexVertexSplitMethod] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -1013,18 +1015,20 @@ class ComplexVertexSplitMethod:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class DAGNodeType:
     """
@@ -1050,22 +1054,22 @@ class DAGNodeType:
     QUBIT: ClassVar[DAGNodeType] = ...
     RESET: ClassVar[DAGNodeType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -1080,18 +1084,20 @@ class DAGNodeType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class DecompositionMode:
     """
@@ -1104,29 +1110,32 @@ class DecompositionMode:
       HOUSEHOLDER_QR
     
       QSDecomposition
+    
+      CSDecomposition
     """
     __doc__: ClassVar[str] = ...  # read-only
     __members__: ClassVar[dict] = ...  # read-only
+    CSDecomposition: ClassVar[DecompositionMode] = ...
     HOUSEHOLDER_QR: ClassVar[DecompositionMode] = ...
     QR: ClassVar[DecompositionMode] = ...
     QSDecomposition: ClassVar[DecompositionMode] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -1141,18 +1150,20 @@ class DecompositionMode:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class DensityMatrixSimulator(QuantumMachine):
     """
@@ -1163,7 +1174,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    def get_density_matrix(self, prog: QProg) -> numpy.ndarray[complex128[m,n]]:
+    def get_density_matrix(self, prog: QProg) -> numpy.ndarray[numpy.complex128[m,n]]:
         """
         Run quantum program and get full density matrix
         
@@ -1178,7 +1189,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_expectation(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qubits: QVec) -> float:
         """
         Run quantum program and hamiltonian expection for current qubits
@@ -1197,7 +1208,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_expectation(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qubits: List[int]) -> float:
         """
         Run quantum program and hamiltonian expection for current qubits
@@ -1215,7 +1226,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probabilities(self, prog: QProg) -> List[float]:
         """
         Run quantum program and get all indices probabilities
@@ -1232,7 +1243,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probabilities(self, prog: QProg, qubits: QVec) -> List[float]:
         """
         Run quantum program and get all indices probabilities for current qubits
@@ -1250,7 +1261,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probabilities(self, prog: QProg, qubits: List[int]) -> List[float]:
         """
         Run quantum program and get all indices probabilities for current qubits
@@ -1268,7 +1279,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probabilities(self, prog: QProg, indices: List[str]) -> List[float]:
         """
         Run quantum program and get all indices probabilities for current binary indices
@@ -1285,7 +1296,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probability(self, prog: QProg, index: int) -> float:
         """
         Run quantum program and get index probability
@@ -1303,7 +1314,7 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_probability(self, prog: QProg, index: str) -> float:
         """
         Run quantum program and get index probability
@@ -1320,8 +1331,8 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
-    def get_reduced_density_matrix(self, prog: QProg, qubits: QVec) -> numpy.ndarray[complex128[m,n]]:
+    @overload
+    def get_reduced_density_matrix(self, prog: QProg, qubits: QVec) -> numpy.ndarray[numpy.complex128[m,n]]:
         """
         Run quantum program and get density matrix for current qubits
         
@@ -1338,8 +1349,8 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
-    def get_reduced_density_matrix(self, prog: QProg, qubits: List[int]) -> numpy.ndarray[complex128[m,n]]:
+    @overload
+    def get_reduced_density_matrix(self, prog: QProg, qubits: List[int]) -> numpy.ndarray[numpy.complex128[m,n]]:
         """
         Run quantum program and get density matrix for current qubits
         
@@ -1361,61 +1372,61 @@ class DensityMatrixSimulator(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: float, arg4: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float, arg5: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: float, arg4: float, arg5: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float, arg5: List[QVec]) -> None:
         """
         """
@@ -1437,22 +1448,22 @@ class DoubleGateTransferType:
     DOUBLE_BIT_GATE: ClassVar[DoubleGateTransferType] = ...
     DOUBLE_GATE_INVALID: ClassVar[DoubleGateTransferType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -1467,18 +1478,20 @@ class DoubleGateTransferType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class Encode:
     """
@@ -1489,25 +1502,25 @@ class Encode:
         """
         ...
 
-    
+    @overload
     def amplitude_encode(self, qubit: QVec, data: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def amplitude_encode(self, qubit: QVec, data: List[complex]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def amplitude_encode_recursive(self, qubit: QVec, data: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def amplitude_encode_recursive(self, qubit: QVec, data: List[complex]) -> None:
         """
         """
@@ -1518,13 +1531,13 @@ class Encode:
         """
         ...
 
-    
+    @overload
     def approx_mps(self, qubit: QVec, data: List[float], layers: int = 3, sweeps: int = 100, double2float: bool = False) -> None:
         """
         """
         ...
 
-    
+    @overload
     def approx_mps(self, qubit: QVec, data: List[complex], layers: int = 3, sweeps: int = 100) -> None:
         """
         """
@@ -1550,49 +1563,49 @@ class Encode:
         """
         ...
 
-    
+    @overload
     def ds_quantum_state_preparation(self, qubit: QVec, data: Dict[str,float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def ds_quantum_state_preparation(self, qubit: QVec, data: Dict[str,complex]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def ds_quantum_state_preparation(self, qubit: QVec, data: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def ds_quantum_state_preparation(self, qubit: QVec, data: List[complex]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def efficient_sparse(self, qubit: QVec, data: Dict[str,float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def efficient_sparse(self, qubit: QVec, data: Dict[str,complex]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def efficient_sparse(self, qubit: QVec, data: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def efficient_sparse(self, qubit: QVec, data: List[complex]) -> None:
         """
         """
@@ -1603,19 +1616,19 @@ class Encode:
         """
         ...
 
-    
+    @overload
     def get_fidelity(self, data: List[float]) -> float:
         """
         """
         ...
 
-    
+    @overload
     def get_fidelity(self, data: List[complex]) -> float:
         """
         """
         ...
 
-    
+    @overload
     def get_fidelity(self, data: List[float]) -> float:
         """
         """
@@ -1636,25 +1649,25 @@ class Encode:
         """
         ...
 
-    
+    @overload
     def sparse_isometry(self, qubit: QVec, data: Dict[str,float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def sparse_isometry(self, qubit: QVec, data: Dict[str,complex]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def sparse_isometry(self, qubit: QVec, data: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def sparse_isometry(self, qubit: QVec, data: List[complex]) -> None:
         """
         """
@@ -1793,22 +1806,22 @@ class ErrorCode:
     ORIGINIR_ERROR: ClassVar[ErrorCode] = ...
     UNDEFINED_ERROR: ClassVar[ErrorCode] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -1823,18 +1836,20 @@ class ErrorCode:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class Fusion:
     """
@@ -1845,13 +1860,13 @@ class Fusion:
         """
         ...
 
-    
+    @overload
     def aggregate_operations(self, circuit: QCircuit) -> None:
         """
         """
         ...
 
-    
+    @overload
     def aggregate_operations(self, qprog: QProg) -> None:
         """
         """
@@ -1993,22 +2008,22 @@ class GateType:
     Y_HALF_PI: ClassVar[GateType] = ...
     Z_HALF_PI: ClassVar[GateType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -2023,18 +2038,20 @@ class GateType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class HHLAlg:
     """
@@ -2105,22 +2122,22 @@ class LATEX_GATE_TYPE:
     GENERAL_GATE: ClassVar[LATEX_GATE_TYPE] = ...
     SWAP_GATE: ClassVar[LATEX_GATE_TYPE] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -2135,18 +2152,20 @@ class LATEX_GATE_TYPE:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class LatexMatrix:
     """
@@ -2237,13 +2256,13 @@ class MPSQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def add_single_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_single_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float) -> None:
         """
         """
@@ -2450,61 +2469,61 @@ class MPSQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, arg0: NoiseModel, arg1: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, arg0: NoiseModel, arg1: float, arg2: float, arg3: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[float], arg3: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float, arg5: List[QVec]) -> None:
         """
         """
@@ -2569,13 +2588,13 @@ class NodeInfo:
     m_node_type: NodeType
     m_params: List[float]
     m_target_qubits: QVec
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, iter: NodeIter, target_qubits: QVec, control_qubits: QVec, type: int, dagger: bool) -> None:
         """
         """
@@ -2591,6 +2610,7 @@ class NodeIter:
     """
     quantum node iter
     """
+    __hash__: ClassVar[None] = ...
     def __init__(self) -> None:
         """
         """
@@ -2688,22 +2708,22 @@ class NodeType:
     RESET_NODE: ClassVar[NodeType] = ...
     WHILE_START_NODE: ClassVar[NodeType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -2718,18 +2738,20 @@ class NodeType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class Noise:
     """
@@ -2740,91 +2762,91 @@ class Noise:
         """
         ...
 
-    
+    @overload
     def add_mixed_unitary_error(self, gate_types: GateType, unitary_matrices: List[List[complex]], probs: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_mixed_unitary_error(self, gate_types: GateType, unitary_matrices: List[List[complex]], probs: List[float], qubits: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_mixed_unitary_error(self, gate_types: GateType, unitary_matrices: List[List[complex]], probs: List[float], qubits: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, prob: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_types: List[GateType], prob: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, prob: float, qubits: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_types: List[GateType], prob: float, qubits: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, prob: float, qubits: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, t1: float, t2: float, t_gate: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_types: List[GateType], t1: float, t2: float, t_gate: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, t1: float, t2: float, t_gate: float, qubits: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_types: List[GateType], t1: float, t2: float, t_gate: float, qubits: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def add_noise_model(self, noise_model: NoiseModel, gate_type: GateType, t1: float, t2: float, t_gate: float, qubits: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, noise_model: NoiseModel, prob: float, qubits: QVec = ...) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, noise_model: NoiseModel, t1: float, t2: float, t_gate: float, qubits: QVec = ...) -> None:
         """
         """
@@ -2879,22 +2901,22 @@ class NoiseModel:
     PAULI_KRAUS_MAP: ClassVar[NoiseModel] = ...
     PHASE_DAMPING_OPRATOR: ClassVar[NoiseModel] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -2909,18 +2931,20 @@ class NoiseModel:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class NoiseQVM(QuantumMachine):
     """
@@ -2937,7 +2961,7 @@ class NoiseQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def init_qvm(self, json_config: dict) -> None:
         """
         init quantum virtual machine
@@ -2945,7 +2969,7 @@ class NoiseQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def init_qvm(self) -> None:
         """
         init quantum virtual machine
@@ -2958,91 +2982,91 @@ class NoiseQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, model: NoiseModel, prob: float, qubits: QVec = ...) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_measure_error(self, model: NoiseModel, T1: float, T2: float, t_gate: float, qubits: QVec = ...) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[float]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[float], arg3: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_mixed_unitary_error(self, arg0: GateType, arg1: List[List[complex]], arg2: List[float], arg3: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: List[QVec]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: float, arg4: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float, arg5: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: List[GateType], arg2: float, arg3: float, arg4: float, arg5: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_noise_model(self, arg0: NoiseModel, arg1: GateType, arg2: float, arg3: float, arg4: float, arg5: List[QVec]) -> None:
         """
         """
@@ -3098,7 +3122,7 @@ class OptimizerFactory:
         """
         ...
 
-    
+    @overload
     def makeOptimizer(self) -> AbstractOptimizer:
         """
         Please input OptimizerType 
@@ -3106,7 +3130,7 @@ class OptimizerFactory:
         """
         ...
 
-    
+    @overload
     def makeOptimizer(self) -> AbstractOptimizer:
         """
         Please input the Optimizer's name(string)
@@ -3123,22 +3147,22 @@ class OptimizerMode:
     __doc__: ClassVar[str] = ...  # read-only
     __members__: ClassVar[dict] = ...  # read-only
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -3153,18 +3177,20 @@ class OptimizerMode:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class OptimizerType:
     """
@@ -3184,32 +3210,32 @@ class OptimizerType:
     NELDER_MEAD: ClassVar[OptimizerType] = ...
     POWELL: ClassVar[OptimizerType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __ge__(self, other) -> Any:
+    def __ge__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __gt__(self, other) -> Any:
+    def __gt__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -3224,28 +3250,30 @@ class OptimizerType:
         """
         ...
 
-    def __le__(self, other) -> Any:
+    def __le__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __lt__(self, other) -> Any:
+    def __lt__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class OriginCMem:
     """
@@ -3256,13 +3284,13 @@ class OriginCMem:
         """
         ...
 
-    
+    @overload
     def Allocate_CBit(self) -> CBit:
         """
         """
         ...
 
-    
+    @overload
     def Allocate_CBit(self, cbit_num: int) -> CBit:
         """
         """
@@ -3273,13 +3301,13 @@ class OriginCMem:
         """
         ...
 
-    
+    @overload
     def cAlloc(self) -> CBit:
         """
         """
         ...
 
-    
+    @overload
     def cAlloc(self, cbit_num: int) -> CBit:
         """
         """
@@ -3295,13 +3323,13 @@ class OriginCMem:
         """
         ...
 
-    
+    @overload
     def cFree_all(self, classical_cond_list: List[ClassicalCondition]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def cFree_all(self) -> None:
         """
         """
@@ -3348,13 +3376,13 @@ class OriginCollection:
     """
     A relatively free data collection class for saving data
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, file_name: str) -> None:
         """
         Construct a new Origin Collection by read a json file
@@ -3362,7 +3390,7 @@ class OriginCollection:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: OriginCollection) -> None:
         """
         """
@@ -3392,7 +3420,7 @@ class OriginCollection:
         """
         ...
 
-    
+    @overload
     def getValueByKey(self, key_value: str) -> str:
         """
         Get Value by key value
@@ -3400,7 +3428,7 @@ class OriginCollection:
         """
         ...
 
-    
+    @overload
     def getValueByKey(self, key_value: int) -> str:
         """
         Get Value by key value
@@ -3511,13 +3539,13 @@ class OriginQubitPool:
         """
         ...
 
-    
+    @overload
     def qFree_all(self, arg0: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def qFree_all(self) -> None:
         """
         """
@@ -3620,7 +3648,7 @@ class PartialAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def run(self, qprog: QProg, noise_model: Noise = NoiseModel()) -> None:
         """
         run the quantum program
@@ -3638,7 +3666,7 @@ class PartialAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def run(self, qprog: QCircuit, noise_model: Noise = NoiseModel()) -> None:
         """
         run the quantum program
@@ -3692,13 +3720,13 @@ class QCircuit:
     """
     quantum circuit node
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: NodeIter) -> None:
         """
         """
@@ -3729,13 +3757,13 @@ class QCircuit:
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QCircuit) -> QCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QGate) -> QCircuit:
         """
         """
@@ -3761,13 +3789,13 @@ class QCircuit:
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QCircuit) -> QCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QGate) -> QCircuit:
         """
         """
@@ -3798,22 +3826,22 @@ class QCircuitOPtimizerMode:
     Merge_RZ: ClassVar[QCircuitOPtimizerMode] = ...
     Merge_U3: ClassVar[QCircuitOPtimizerMode] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -3828,7 +3856,7 @@ class QCircuitOPtimizerMode:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
@@ -3839,13 +3867,15 @@ class QCircuitOPtimizerMode:
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class QCloud(QuantumMachine):
     """
@@ -3866,16 +3896,6 @@ class QCloud(QuantumMachine):
         """
         ...
 
-    def full_amplitude_measure_batch_commit(self, prog_array: List[QProg], shot: int, status: task_status, task_name: str = 'QPanda Experiment') -> Dict[int,str]:
-        """
-        """
-        ...
-
-    def full_amplitude_measure_batch_query(self, taskid_map: Dict[int,str]) -> Dict[int,Dict[str,float]]:
-        """
-        """
-        ...
-
     def full_amplitude_pmeasure(self, prog: QProg, qvec: List[int], task_name: str = 'QPanda Experiment') -> Dict[str,float]:
         """
         """
@@ -3886,49 +3906,17 @@ class QCloud(QuantumMachine):
         """
         ...
 
-    def full_amplitude_pmeasure_batch_commit(self, prog_array: List[QProg], qvec: List[int], status: task_status, task_name: str = 'QPanda Experiment') -> Dict[int,str]:
-        """
-        """
-        ...
-
-    def full_amplitude_pmeasure_batch_query(self, taskid_map: Dict[int,str]) -> Dict[int,Dict[str,float]]:
-        """
-        """
-        ...
-
-    
-    def get_expectation(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qvec: QVec, status: task_status, task_name: str = 'QPanda Experiment') -> float:
-        """
-        """
-        ...
-
-    
     def get_expectation(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qvec: QVec, task_name: str = 'QPanda Experiment') -> float:
         """
         """
         ...
 
-    def get_expectation_commit(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qvec: QVec, status: task_status, task_name: str = 'QPanda Experiment') -> str:
+    def get_state_fidelity(self, prog: QProg, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> float:
         """
         """
         ...
 
-    def get_expectation_exec(self, taskid: str, status: task_status) -> float:
-        """
-        """
-        ...
-
-    def get_expectation_query(self, taskid: str, status: task_status) -> float:
-        """
-        """
-        ...
-
-    def get_state_fidelity(self, prog: QProg, shot: int, chip_id: real_chip_type = real_chip_type.origin_wuyuan_d5, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> float:
-        """
-        """
-        ...
-
-    def get_state_tomography_density(self, prog: QProg, shot: int, chip_id: real_chip_type = real_chip_type.origin_wuyuan_d5, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> List[List[complex]]:
+    def get_state_tomography_density(self, prog: QProg, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> List[List[complex]]:
         """
         """
         ...
@@ -3959,42 +3947,12 @@ class QCloud(QuantumMachine):
         """
         ...
 
-    def real_chip_measure(self, prog: QProg, shot: int, chip_id: real_chip_type = real_chip_type.origin_wuyuan_d5, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> Dict[str,float]:
+    def real_chip_measure(self, prog: QProg, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> Dict[str,float]:
         """
         """
         ...
 
     def real_chip_measure_batch(self, prog_array: List[QProg], shot: int, chip_id: real_chip_type = real_chip_type.origin_wuyuan_d3, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> List[Dict[str,float]]:
-        """
-        """
-        ...
-
-    def real_chip_measure_batch_commit(self, prog_array: List[QProg], shot: int, status: task_status, chip_id: real_chip_type = real_chip_type.origin_wuyuan_d3, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, task_name: str = 'QPanda Experiment') -> Dict[int,str]:
-        """
-        """
-        ...
-
-    def real_chip_measure_batch_query(self, taskid_map: Dict[int,str]) -> Dict[int,Dict[str,float]]:
-        """
-        """
-        ...
-
-    def set_batch_compute_url(self, arg0: str) -> None:
-        """
-        """
-        ...
-
-    def set_batch_inquire_url(self, arg0: str) -> None:
-        """
-        """
-        ...
-
-    def set_compute_url(self, arg0: str) -> None:
-        """
-        """
-        ...
-
-    def set_inquire_url(self, arg0: str) -> None:
         """
         """
         ...
@@ -4062,22 +4020,22 @@ class QError:
     qubitError: ClassVar[QError] = ...
     runProgramError: ClassVar[QError] = ...
     setComputeUnitError: ClassVar[QError] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -4092,18 +4050,20 @@ class QError:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class QGate:
     """
@@ -4264,7 +4224,7 @@ class QITE:
         """
         ...
 
-    def set_pauli_matrix(self, arg0: QuantumMachine, arg1: numpy.ndarray[float64[m,n]]) -> None:
+    def set_pauli_matrix(self, arg0: QuantumMachine, arg1: numpy.ndarray[numpy.float64[m,n]]) -> None:
         """
         """
         ...
@@ -4284,19 +4244,19 @@ class QIfProg:
     """
     quantum if prog node
     """
-    
+    @overload
     def __init__(self, arg0: NodeIter) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, classical_cond: ClassicalCondition, true_branch_qprog: QProg) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, classical_cond: ClassicalCondition, true_branch_qprog: QProg, false_branch_qprog: QProg) -> None:
         """
         """
@@ -4339,22 +4299,22 @@ class QMachineType:
     GPU: ClassVar[QMachineType] = ...
     NOISE: ClassVar[QMachineType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -4369,18 +4329,20 @@ class QMachineType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class QMeasure:
     """
@@ -4396,19 +4358,19 @@ class QOperator:
     """
     quantum operator class
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QGate) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QCircuit) -> None:
         """
         """
@@ -4455,7 +4417,7 @@ class QPilotMachine:
         """
         ...
 
-    def execute_callback_full_amplitude_expectation(self, prog_str: str, hamiltonian, qubit_vec: List[int], cb_func: Callable[[ErrorCode,float],None], chip_id: int = 33554433) -> ErrorCode:
+    def execute_callback_full_amplitude_expectation(self, prog_str: str, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_vec: List[int], cb_func: Callable[[ErrorCode,float],None], chip_id: int = 33554433) -> ErrorCode:
         """
         """
         ...
@@ -4490,7 +4452,7 @@ class QPilotMachine:
         """
         ...
 
-    def execute_full_amplitude_expectation(self, prog_str: str, hamiltonian, qubit_vec: List[int], chip_id: int = 33554433) -> float:
+    def execute_full_amplitude_expectation(self, prog_str: str, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_vec: List[int], chip_id: int = 33554433) -> float:
         """
         """
         ...
@@ -4545,7 +4507,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def cAlloc(self) -> ClassicalCondition:
         """
         Allocate a cbit
@@ -4553,7 +4515,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def cAlloc(self, cbit: int) -> ClassicalCondition:
         """
         Allocate a cbit
@@ -4572,7 +4534,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def cFree_all(self, cbit_list: List[ClassicalCondition]) -> None:
         """
         Free a list of cbits
@@ -4580,7 +4542,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def cFree_all(self) -> None:
         """
         Free all of cbits
@@ -4641,7 +4603,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def qFree_all(self, qubit_list: QVec) -> None:
         """
         Free a list of qubits
@@ -4649,7 +4611,7 @@ class QPilotOSMachine:
         """
         ...
 
-    
+    @overload
     def qFree_all(self, arg0: QVec) -> None:
         """
         Free all of qubits
@@ -4661,7 +4623,7 @@ class QPilotOSMachine:
         """
         ...
 
-    def runWithConfiguration(self, prog: QProg, shots: int = 1000, noise_model: Noise = ..., backendID: int = 33554433) -> Dict[str,int]:
+    def runWithConfiguration(self, prog: QProg, shots: int, backend_id: int, noise_model: Noise = ...) -> Dict[str,int]:
         """
         """
         ...
@@ -4671,13 +4633,13 @@ class QProg:
     """
     Quantum program,can construct quantum circuit,data struct is linked list
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QProg) -> None:
         """
         construct a prog node
@@ -4690,7 +4652,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QCircuit) -> None:
         """
         construct a prog node from QCircuit node
@@ -4704,7 +4666,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QIfProg) -> None:
         """
         construct a prog node from QIfProg node
@@ -4718,7 +4680,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QWhileProg) -> None:
         """
         construct a prog node from QWhileProg node
@@ -4732,7 +4694,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QGate) -> None:
         """
         construct a prog node from QGate node
@@ -4746,7 +4708,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QMeasure) -> None:
         """
         construct a prog node from QMeasure node
@@ -4760,7 +4722,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QReset) -> None:
         """
         construct a prog node from QReset node
@@ -4774,7 +4736,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: ClassicalCondition) -> None:
         """
         construct a prog node from ClassicalCondition node
@@ -4788,7 +4750,7 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: NodeIter) -> None:
         """
         construct a prog node from ClassicalCondition node
@@ -4838,49 +4800,49 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QGate) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QCircuit) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QIfProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QWhileProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QMeasure) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QReset) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: ClassicalCondition) -> QProg:
         """
         """
@@ -4901,49 +4863,49 @@ class QProg:
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QGate) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QCircuit) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QIfProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QWhileProg) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QMeasure) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QReset) -> QProg:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: ClassicalCondition) -> QProg:
         """
         """
@@ -5052,25 +5014,25 @@ class QVec:
     """
     Qubit vector basic class
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, qubit_list: List[Qubit]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, qvec: QVec) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, qubit: Qubit) -> None:
         """
         """
@@ -5091,13 +5053,13 @@ class QVec:
         """
         ...
 
-    
+    @overload
     def __getitem__(self, qubit_addr: int) -> Qubit:
         """
         """
         ...
 
-    
+    @overload
     def __getitem__(self, classical_cond) -> Qubit:
         """
         """
@@ -5113,13 +5075,13 @@ class QWhileProg:
     """
     quantum while node
     """
-    
+    @overload
     def __init__(self, arg0: NodeIter) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: ClassicalCondition, arg1: QProg) -> None:
         """
         """
@@ -5186,7 +5148,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def cAlloc(self) -> ClassicalCondition:
         """
         Allocate a CBit
@@ -5200,7 +5162,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def cAlloc(self, cbit: int) -> ClassicalCondition:
         """
         Allocate a CBit
@@ -5239,7 +5201,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def cFree_all(self, cbit_list: List[ClassicalCondition]) -> None:
         """
         Free all cbits
@@ -5254,7 +5216,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def cFree_all(self) -> None:
         """
         Free all cbits
@@ -5415,7 +5377,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def get_expectation(self, qprog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_list: QVec) -> float:
         """
         get expectation of current hamiltonian
@@ -5435,7 +5397,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def get_expectation(self, qprog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_list: QVec, shots: int) -> float:
         """
         get expectation of current hamiltonian
@@ -5581,7 +5543,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def qFree_all(self, qubit_list: QVec) -> None:
         """
         Free all cbits
@@ -5596,7 +5558,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def qFree_all(self, arg0: QVec) -> None:
         """
         Free all qubits
@@ -5610,7 +5572,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def run_with_configuration(self, qprog: QProg, cbit_list: List[ClassicalCondition], data: dict, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
         """
         Run quantum program with configuration
@@ -5630,7 +5592,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def run_with_configuration(self, qprog: QProg, cbit_list: List[ClassicalCondition], shot: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
         """
         Run quantum program with configuration
@@ -5650,7 +5612,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def run_with_configuration(self, qprog: QProg, shot: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
         """
         Run quantum program with configuration
@@ -5669,7 +5631,7 @@ class QuantumMachine:
         """
         ...
 
-    
+    @overload
     def run_with_configuration(self, qprog: QProg, cbit_list: List[int], shot: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
         """
         Run quantum program with configuration
@@ -5720,7 +5682,7 @@ class QuantumStateTomography:
         """
         ...
 
-    
+    @overload
     def combine_qprogs(self, circuit: QProg, qlist: QVec) -> List[QProg]:
         """
         Return a list of quantum state tomography quantum programs.
@@ -5728,7 +5690,7 @@ class QuantumStateTomography:
         """
         ...
 
-    
+    @overload
     def combine_qprogs(self, circuit: QCircuit, qlist: QVec) -> List[QProg]:
         """
         Return a list of quantum state tomography quantum programs.
@@ -5736,7 +5698,7 @@ class QuantumStateTomography:
         """
         ...
 
-    
+    @overload
     def combine_qprogs(self, circuit: QProg, qlist: List[int]) -> List[QProg]:
         """
         Return a list of quantum state tomography quantum programs.
@@ -5744,7 +5706,7 @@ class QuantumStateTomography:
         """
         ...
 
-    
+    @overload
     def combine_qprogs(self, circuit: QCircuit, qlist: List[int]) -> List[QProg]:
         """
         Return a list of quantum state tomography quantum programs.
@@ -5823,7 +5785,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_prob_dict(self, arg0: QVec) -> Dict[str,float]:
         """
         Get pmeasure result as dict
@@ -5840,7 +5802,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def get_prob_dict(self, arg0: List[int]) -> Dict[str,float]:
         """
         Get pmeasure result as dict
@@ -5927,7 +5889,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, arg0: QProg, arg1: QVec) -> Dict[str,float]:
         """
         Run quantum program and get pmeasure result as dict
@@ -5945,7 +5907,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def prob_run_dict(self, arg0: QProg, arg1: List[int]) -> Dict[str,float]:
         """
         Run quantum program and get pmeasure result as dict
@@ -5962,7 +5924,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def run(self, prog: QProg, qv: QVec, max_rank: int = 30, alloted_time: int = 5) -> None:
         """
         run the quantum program
@@ -5982,7 +5944,7 @@ class SingleAmpQVM(QuantumMachine):
         """
         ...
 
-    
+    @overload
     def run(self, arg0: QProg, arg1: QVec, arg2: int, arg3: List[List[Tuple[int,bool]]]) -> None:
         """
         run the quantum program
@@ -6026,22 +5988,22 @@ class SingleGateTransferType:
     SINGLE_CONTINUOUS_DISCRETE: ClassVar[SingleGateTransferType] = ...
     SINGLE_GATE_INVALID: ClassVar[SingleGateTransferType] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -6056,18 +6018,20 @@ class SingleGateTransferType:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class SparseQVM(QuantumMachine):
     """
@@ -6075,6 +6039,36 @@ class SparseQVM(QuantumMachine):
     """
     def __init__(self) -> None:
         """
+        """
+        ...
+
+    def directlyRun(self, arg0: QProg) -> Dict[str,bool]:
+        """
+        Run quantum program and get pmeasure result as dict
+        
+        Args:
+            qprog: quantum program
+        
+        Returns:
+             Dict[str, bool]: result of quantum program execution one shot.
+        Raises:
+            run_fail: An error occurred in measure quantum program
+        
+        """
+        ...
+
+    def directly_run(self, arg0: QProg) -> Dict[str,bool]:
+        """
+        Run quantum program and get pmeasure result as dict
+        
+        Args:
+            qprog: quantum program
+        
+        Returns:
+            measure result of quantum machine
+        Raises:
+            run_fail: An error occurred in measure quantum program
+        
         """
         ...
 
@@ -6121,6 +6115,54 @@ class SparseQVM(QuantumMachine):
         ...
 
 
+class Stabilizer(QuantumMachine):
+    """
+    simulator for basic clifford simulator
+    """
+    def __init__(self) -> None:
+        """
+        """
+        ...
+
+    def init_qvm(self) -> None:
+        """
+        init quantum virtual machine
+        """
+        ...
+
+    def prob_run_dict(self, qprog: QProg, qubits: QVec, select_max: int = -1) -> Dict[str,float]:
+        """
+        Run quantum program and get probabilities
+        
+        Args:
+            prog: quantum program 
+            qubits: pmeasure qubits
+        
+        Returns:
+            probabilities result of quantum program 
+        Raises:
+            run_fail: An error occurred in prob_run_dict
+        
+        """
+        ...
+
+    def run_with_configuration(self, qprog: QProg, shot: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
+        """
+        Run quantum program and get shots result 
+        
+        Args:
+            prog: quantum program 
+            int: measure shots
+        
+        Returns:
+            shots result of quantum program 
+        Raises:
+            run_fail: An error occurred in run_with_configuration
+        
+        """
+        ...
+
+
 class UpdateMode:
     """
     quantum imaginary time evolution update mode
@@ -6136,32 +6178,32 @@ class UpdateMode:
     GD_DIRECTION: ClassVar[UpdateMode] = ...
     GD_VALUE: ClassVar[UpdateMode] = ...
     __entries: ClassVar[dict] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __ge__(self, other) -> Any:
+    def __ge__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __gt__(self, other) -> Any:
+    def __gt__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -6176,28 +6218,30 @@ class UpdateMode:
         """
         ...
 
-    def __le__(self, other) -> Any:
+    def __le__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __lt__(self, other) -> Any:
+    def __lt__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class VanillaGradientDescentOptimizer:
     """
@@ -6233,13 +6277,13 @@ class VariationalQuantumCircuit:
     """
     variational quantum CIRCUIT class
     """
-    
+    @overload
     def __init__(self) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: QCircuit) -> None:
         """
         """
@@ -6255,13 +6299,13 @@ class VariationalQuantumCircuit:
         """
         ...
 
-    
+    @overload
     def feed(self) -> QCircuit:
         """
         """
         ...
 
-    
+    @overload
     def feed(self, arg0) -> QCircuit:
         """
         """
@@ -6272,175 +6316,175 @@ class VariationalQuantumCircuit:
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_I) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_H) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_X) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_Y) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_T) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_S) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_Z) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_X1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_Y1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_Z1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_U1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_U2) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_U3) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_U4) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_RX) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_RY) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_RZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CNOT) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CR) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CRX) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CRY) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_CRZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_SWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_iSWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumGate_SqiSWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: VariationalQuantumCircuit) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QCircuit) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def insert(self, arg0: QGate) -> VariationalQuantumCircuit:
         """
         """
@@ -6461,175 +6505,175 @@ class VariationalQuantumCircuit:
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_I) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_H) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_X) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_Y) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_T) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_S) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_Z) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_X1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_Y1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_Z1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_U1) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_U2) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_U3) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_U4) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_RX) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_RY) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_RZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CNOT) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CR) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CRX) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CRY) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_CRZ) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_SWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_iSWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumGate_SqiSWAP) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: VariationalQuantumCircuit) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QCircuit) -> VariationalQuantumCircuit:
         """
         """
         ...
 
-    
+    @overload
     def __lshift__(self, arg0: QGate) -> VariationalQuantumCircuit:
         """
         """
@@ -6705,19 +6749,19 @@ class VariationalQuantumGate_CR(VariationalQuantumGate):
     """
     variational quantum CR gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: Qubit, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: Qubit, arg2: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: VariationalQuantumGate_CR) -> None:
         """
         """
@@ -6738,19 +6782,19 @@ class VariationalQuantumGate_CRX(VariationalQuantumGate):
     """
     variational quantum CRX gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: VariationalQuantumGate_CRX) -> None:
         """
         """
@@ -6771,19 +6815,19 @@ class VariationalQuantumGate_CRY(VariationalQuantumGate):
     """
     variational quantum CRY gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: VariationalQuantumGate_CRY) -> None:
         """
         """
@@ -6804,19 +6848,19 @@ class VariationalQuantumGate_CRZ(VariationalQuantumGate):
     """
     variational quantum CRZ gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: QVec, arg2: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: VariationalQuantumGate_CRZ) -> None:
         """
         """
@@ -6837,19 +6881,19 @@ class VariationalQuantumGate_CU(VariationalQuantumGate):
     """
     variational quantum CU gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: Qubit, arg2: float, arg3: float, arg4: float, arg5: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: Qubit, arg2: var, arg3: var, arg4: var, arg5: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: VariationalQuantumGate_CU) -> None:
         """
         """
@@ -6930,13 +6974,13 @@ class VariationalQuantumGate_RX(VariationalQuantumGate):
     """
     variational quantum RX gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float) -> None:
         """
         """
@@ -6957,13 +7001,13 @@ class VariationalQuantumGate_RY(VariationalQuantumGate):
     """
     variational quantum RY gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float) -> None:
         """
         """
@@ -6984,13 +7028,13 @@ class VariationalQuantumGate_RZ(VariationalQuantumGate):
     """
     variational quantum RZ gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float) -> None:
         """
         """
@@ -7091,13 +7135,13 @@ class VariationalQuantumGate_U1(VariationalQuantumGate):
     """
     variational quantum U1 gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float) -> None:
         """
         """
@@ -7118,13 +7162,13 @@ class VariationalQuantumGate_U2(VariationalQuantumGate):
     """
     variational quantum U2 gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var, arg2: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float, arg2: float) -> None:
         """
         """
@@ -7145,13 +7189,13 @@ class VariationalQuantumGate_U3(VariationalQuantumGate):
     """
     variational quantum U3 gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var, arg2: var, arg3: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float, arg2: float, arg3: float) -> None:
         """
         """
@@ -7172,13 +7216,13 @@ class VariationalQuantumGate_U4(VariationalQuantumGate):
     """
     variational quantum U4 gate class
     """
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: var, arg2: var, arg3: var, arg4: var) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: Qubit, arg1: float, arg2: float, arg3: float, arg4: float) -> None:
         """
         """
@@ -7344,14 +7388,14 @@ class expression:
         """
         ...
 
-    
-    def backprop(self, arg0: Dict[var,numpy.ndarray[float64[m,n]]]) -> None:
+    @overload
+    def backprop(self, arg0: Dict[var,numpy.ndarray[numpy.float64[m,n]]]) -> None:
         """
         """
         ...
 
-    
-    def backprop(self, arg0: Dict[var,numpy.ndarray[float64[m,n]]], arg1: Set[var]) -> None:
+    @overload
+    def backprop(self, arg0: Dict[var,numpy.ndarray[numpy.float64[m,n]]], arg1: Set[var]) -> None:
         """
         """
         ...
@@ -7371,14 +7415,14 @@ class expression:
         """
         ...
 
-    
-    def propagate(self) -> numpy.ndarray[float64[m,n]]:
+    @overload
+    def propagate(self) -> numpy.ndarray[numpy.float64[m,n]]:
         """
         """
         ...
 
-    
-    def propagate(self, arg0: List[var]) -> numpy.ndarray[float64[m,n]]:
+    @overload
+    def propagate(self, arg0: List[var]) -> numpy.ndarray[numpy.float64[m,n]]:
         """
         """
         ...
@@ -7412,89 +7456,22 @@ class real_chip_type:
     origin_wuyuan_d3: ClassVar[real_chip_type] = ...
     origin_wuyuan_d4: ClassVar[real_chip_type] = ...
     origin_wuyuan_d5: ClassVar[real_chip_type] = ...
-    def __init__(self, arg0: int) -> None:
+    def __init__(self, value: int) -> None:
         """
         """
         ...
 
-    def __eq__(self, other) -> Any:
+    def __eq__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __getstate__(self) -> Any:
+    def __getstate__(self) -> int:
         """
         """
         ...
 
-    def __hash__(self) -> Any:
-        """
-        """
-        ...
-
-    def __index__(self) -> int:
-        """
-        """
-        ...
-
-    def __int__(self) -> int:
-        """
-        """
-        ...
-
-    def __ne__(self, other) -> Any:
-        """
-        """
-        ...
-
-    def __setstate__(self, state) -> Any:
-        """
-        """
-        ...
-
-    @property
-    def name(self) -> str: ...
-
-class task_status:
-    """
-    origin quantum cloud task status
-    
-    Members:
-    
-      waiting
-    
-      computing
-    
-      finished
-    
-      failed
-    
-      queuing
-    """
-    __doc__: ClassVar[str] = ...  # read-only
-    __members__: ClassVar[dict] = ...  # read-only
-    __entries: ClassVar[dict] = ...
-    computing: ClassVar[task_status] = ...
-    failed: ClassVar[task_status] = ...
-    finished: ClassVar[task_status] = ...
-    queuing: ClassVar[task_status] = ...
-    waiting: ClassVar[task_status] = ...
-    def __init__(self, arg0: int) -> None:
-        """
-        """
-        ...
-
-    def __eq__(self, other) -> Any:
-        """
-        """
-        ...
-
-    def __getstate__(self) -> Any:
-        """
-        """
-        ...
-
-    def __hash__(self) -> Any:
+    def __hash__(self) -> int:
         """
         """
         ...
@@ -7509,43 +7486,46 @@ class task_status:
         """
         ...
 
-    def __ne__(self, other) -> Any:
+    def __ne__(self, other: object) -> bool:
         """
         """
         ...
 
-    def __setstate__(self, state) -> Any:
+    def __setstate__(self, state: int) -> None:
         """
         """
         ...
 
     @property
     def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
 
 class var:
     """
     quantum variational class
     """
-    
+    __hash__: ClassVar[None] = ...
+    @overload
     def __init__(self, arg0: float) -> None:
         """
         """
         ...
 
-    
-    def __init__(self, arg0: numpy.ndarray[float64[m,n],flags.writeable]) -> None:
+    @overload
+    def __init__(self, arg0: numpy.ndarray[numpy.float64[m,n],flags.writeable]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __init__(self, arg0: float, arg1: bool) -> None:
         """
         """
         ...
 
-    
-    def __init__(self, arg0: numpy.ndarray[float64[m,n],flags.writeable], arg1: bool) -> None:
+    @overload
+    def __init__(self, arg0: numpy.ndarray[numpy.float64[m,n],flags.writeable], arg1: bool) -> None:
         """
         """
         ...
@@ -7555,30 +7535,30 @@ class var:
         """
         ...
 
-    def get_value(self) -> numpy.ndarray[float64[m,n]]:
+    def get_value(self) -> numpy.ndarray[numpy.float64[m,n]]:
         """
         """
         ...
 
-    
-    def set_value(self, arg0: numpy.ndarray[float64[m,n]]) -> None:
+    @overload
+    def set_value(self, arg0: numpy.ndarray[numpy.float64[m,n]]) -> None:
         """
         """
         ...
 
-    
+    @overload
     def set_value(self, arg0: float) -> None:
         """
         """
         ...
 
-    
+    @overload
     def __add__(self, arg0: var) -> var:
         """
         """
         ...
 
-    
+    @overload
     def __add__(self, arg0: float) -> var:
         """
         """
@@ -7594,13 +7574,13 @@ class var:
         """
         ...
 
-    
+    @overload
     def __mul__(self, arg0: var) -> var:
         """
         """
         ...
 
-    
+    @overload
     def __mul__(self, arg0: float) -> var:
         """
         """
@@ -7626,32 +7606,32 @@ class var:
         """
         ...
 
-    
+    @overload
     def __sub__(self, arg0: var) -> var:
         """
         """
         ...
 
-    
+    @overload
     def __sub__(self, arg0: float) -> var:
         """
         """
         ...
 
-    
+    @overload
     def __truediv__(self, arg0: var) -> var:
         """
         """
         ...
 
-    
+    @overload
     def __truediv__(self, arg0: float) -> var:
         """
         """
         ...
 
 
-
+@overload
 def BARRIER(qubit: Qubit) -> QGate:
     """
     Create a BARRIER gate
@@ -7665,7 +7645,7 @@ def BARRIER(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def BARRIER(qubit_list: int) -> QGate:
     """
     Create a BARRIER gate
@@ -7679,7 +7659,7 @@ def BARRIER(qubit_list: int) -> QGate:
     """
     ...
 
-
+@overload
 def BARRIER(qubit_list: QVec) -> QGate:
     """
     Create a BARRIER gate
@@ -7693,7 +7673,7 @@ def BARRIER(qubit_list: QVec) -> QGate:
     """
     ...
 
-
+@overload
 def BARRIER(qubit_addr_list: List[int]) -> QGate:
     """
     Create a BARRIER gate
@@ -7706,7 +7686,7 @@ def BARRIER(qubit_addr_list: List[int]) -> QGate:
     """
     ...
 
-
+@overload
 def CNOT(control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     Returns:
@@ -7718,7 +7698,7 @@ def CNOT(control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def CNOT(control_qubit_list: QVec, target_qubit_list: QVec) -> QCircuit:
     """
     Returns:
@@ -7730,13 +7710,13 @@ def CNOT(control_qubit_list: QVec, target_qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def CNOT(control_qubit_addr: int, target_qubit_addr: int) -> QGate:
     """
     """
     ...
 
-
+@overload
 def CNOT(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int]) -> QCircuit:
     """
     Returns:
@@ -7747,7 +7727,7 @@ def CNOT(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int]) 
     """
     ...
 
-
+@overload
 def CP(control_qubit: Qubit, target_qubit: Qubit, theta_angle: float) -> QGate:
     """
     Returns:
@@ -7759,7 +7739,7 @@ def CP(control_qubit: Qubit, target_qubit: Qubit, theta_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def CP(control_qubit_list: QVec, target_qubit_list: QVec, theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -7771,7 +7751,7 @@ def CP(control_qubit_list: QVec, target_qubit_list: QVec, theta_angle: float) ->
     """
     ...
 
-
+@overload
 def CP(control_qubit_addr: int, target_qubit_addr: int, theta_angle: float) -> QGate:
     """
     Returns:
@@ -7783,7 +7763,7 @@ def CP(control_qubit_addr: int, target_qubit_addr: int, theta_angle: float) -> Q
     """
     ...
 
-
+@overload
 def CP(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -7794,7 +7774,7 @@ def CP(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], th
     """
     ...
 
-
+@overload
 def CR(control_qubit: Qubit, target_qubit: Qubit, theta_angle: float) -> QGate:
     """
     Returns:
@@ -7806,7 +7786,7 @@ def CR(control_qubit: Qubit, target_qubit: Qubit, theta_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def CR(control_qubit_list: QVec, target_qubit_list: QVec, theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -7818,7 +7798,7 @@ def CR(control_qubit_list: QVec, target_qubit_list: QVec, theta_angle: float) ->
     """
     ...
 
-
+@overload
 def CR(control_qubit_addr: int, target_qubit_addr: int, theta_angle: float) -> QGate:
     """
     Returns:
@@ -7830,7 +7810,7 @@ def CR(control_qubit_addr: int, target_qubit_addr: int, theta_angle: float) -> Q
     """
     ...
 
-
+@overload
 def CR(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -7841,7 +7821,7 @@ def CR(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], th
     """
     ...
 
-
+@overload
 def CU(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float, control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     Create a CU gate
@@ -7860,7 +7840,7 @@ def CU(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: f
     """
     ...
 
-
+@overload
 def CU(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float, control_qubit_list: QVec, target_qubi_list: QVec) -> QCircuit:
     """
     Create a CU gate
@@ -7879,7 +7859,7 @@ def CU(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: f
     """
     ...
 
-
+@overload
 def CU(matrix: List[complex], control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     Create a CU gate
@@ -7895,7 +7875,7 @@ def CU(matrix: List[complex], control_qubit: Qubit, target_qubit: Qubit) -> QGat
     """
     ...
 
-
+@overload
 def CU(matrix: List[complex], control_qubit_list: QVec, target_qubit_list: QVec) -> QCircuit:
     """
     Create a CU gate
@@ -7911,7 +7891,7 @@ def CU(matrix: List[complex], control_qubit_list: QVec, target_qubit_list: QVec)
     """
     ...
 
-
+@overload
 def CU(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float) -> QGate:
     """
     Create a CU gate
@@ -7930,7 +7910,7 @@ def CU(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float, beta_angle
     """
     ...
 
-
+@overload
 def CU(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float) -> QCircuit:
     """
     Create a CU gate
@@ -7949,7 +7929,7 @@ def CU(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float, be
     """
     ...
 
-
+@overload
 def CU(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float) -> QGate:
     """
     Create a CU gate
@@ -7968,7 +7948,7 @@ def CU(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float, beta
     """
     ...
 
-
+@overload
 def CU(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float) -> QCircuit:
     """
     Create a CU gate
@@ -7987,7 +7967,7 @@ def CU(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], al
     """
     ...
 
-
+@overload
 def CU(control_qubit: Qubit, target_qubit: Qubit, matrix: List[complex]) -> QGate:
     """
     Create a CU gate
@@ -8003,7 +7983,7 @@ def CU(control_qubit: Qubit, target_qubit: Qubit, matrix: List[complex]) -> QGat
     """
     ...
 
-
+@overload
 def CU(control_qubit_list: QVec, target_qubit_list: QVec, matrix: List[complex]) -> QCircuit:
     """
     Create a CU gate
@@ -8019,7 +7999,7 @@ def CU(control_qubit_list: QVec, target_qubit_list: QVec, matrix: List[complex])
     """
     ...
 
-
+@overload
 def CU(control_qubit_addr: int, target_qubit_addr: int, matrix: List[complex]) -> QGate:
     """
     Create a CU gate
@@ -8035,7 +8015,7 @@ def CU(control_qubit_addr: int, target_qubit_addr: int, matrix: List[complex]) -
     """
     ...
 
-
+@overload
 def CU(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], matrix: List[complex]) -> QCircuit:
     """
     Create a CU gate
@@ -8050,7 +8030,7 @@ def CU(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], ma
     """
     ...
 
-
+@overload
 def CZ(control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     Returns:
@@ -8062,7 +8042,7 @@ def CZ(control_qubit: Qubit, target_qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def CZ(control_qubit_list: QVec, target_qubit_list: QVec) -> QCircuit:
     """
     Returns:
@@ -8074,13 +8054,13 @@ def CZ(control_qubit_list: QVec, target_qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def CZ(control_qubit_addr: int, target_qubit_addr: int) -> QGate:
     """
     """
     ...
 
-
+@overload
 def CZ(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int]) -> QCircuit:
     """
     Returns:
@@ -8115,7 +8095,7 @@ def CreateEmptyQProg() -> QProg:
     """
     ...
 
-
+@overload
 def CreateIfProg(classical_condition: ClassicalCondition, true_node: QProg) -> QIfProg:
     """
     Create a classical quantum IfProg
@@ -8130,7 +8110,7 @@ def CreateIfProg(classical_condition: ClassicalCondition, true_node: QProg) -> Q
     """
     ...
 
-
+@overload
 def CreateIfProg(classical_condition: ClassicalCondition, true_node: QProg, false_node: QProg) -> QIfProg:
     """
     Create a classical quantum IfProg
@@ -8174,7 +8154,7 @@ def Grover(*args, **kwargs) -> Any:
     """
     ...
 
-
+@overload
 def Grover_search(list: List[int], Classical_condition: ClassicalCondition, QuantumMachine: QuantumMachine, data: int = 2) -> list:
     """
     use Grover algorithm to search target data, return QProg and search_result
@@ -8182,14 +8162,14 @@ def Grover_search(list: List[int], Classical_condition: ClassicalCondition, Quan
     """
     ...
 
-
+@overload
 def Grover_search(list: List[str], Classical_condition: str, QuantumMachine: QuantumMachine, data: int = 2) -> list:
     """
     use Grover algorithm to search target data, return QProg and search_result
     """
     ...
 
-
+@overload
 def H(qubit: Qubit) -> QGate:
     """
     Create a H gate
@@ -8206,7 +8186,7 @@ def H(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def H(qubit_list: QVec) -> QCircuit:
     """
     Create a H gate
@@ -8223,7 +8203,7 @@ def H(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def H(qubit_addr: int) -> QGate:
     """
     Create a H gate
@@ -8240,7 +8220,7 @@ def H(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def H(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a H gate
@@ -8276,7 +8256,7 @@ def HHL_solve_linear_equations(matrix_A: List[complex], data_b: List[float], pre
     """
     ...
 
-
+@overload
 def I(qubit: Qubit) -> QGate:
     """
     Create a I gate
@@ -8293,7 +8273,7 @@ def I(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def I(qubit_list: QVec) -> QCircuit:
     """
     Create a I gate
@@ -8310,7 +8290,7 @@ def I(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def I(qubit_addr: int) -> QGate:
     """
     Create a I gate
@@ -8327,7 +8307,7 @@ def I(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def I(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a I gate
@@ -8355,7 +8335,7 @@ def MAJ2(arg0: QVec, arg1: QVec, arg2: Qubit) -> QCircuit:
     """
     ...
 
-
+@overload
 def Measure(qubit: Qubit, cbit: ClassicalCondition) -> QMeasure:
     """
     Create an measure node
@@ -8370,7 +8350,7 @@ def Measure(qubit: Qubit, cbit: ClassicalCondition) -> QMeasure:
     """
     ...
 
-
+@overload
 def Measure(qubit: Qubit, cbit: CBit) -> QMeasure:
     """
     Create an measure node
@@ -8385,7 +8365,7 @@ def Measure(qubit: Qubit, cbit: CBit) -> QMeasure:
     """
     ...
 
-
+@overload
 def Measure(qubit_addr: int, cbit_addr: int) -> QMeasure:
     """
     Create an measure node
@@ -8416,7 +8396,7 @@ def OBMT_mapping(prog: QProg, quantum_machine: QuantumMachine, b_optimization: b
     """
     ...
 
-
+@overload
 def P(qubit: Qubit, angle: float) -> QGate:
     """
     Returns:
@@ -8428,7 +8408,7 @@ def P(qubit: Qubit, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def P(qubit_list: QVec, angle: float) -> QCircuit:
     """
     Create a P gate
@@ -8445,7 +8425,7 @@ def P(qubit_list: QVec, angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def P(qubit_addr: int, angle: float) -> QGate:
     """
     Create a P gate
@@ -8462,7 +8442,7 @@ def P(qubit_addr: int, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def P(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     Create a P gate
@@ -8555,7 +8535,7 @@ def QDividerWithAccuracy(a: QVec, b: QVec, c: QVec, k: QVec, f: QVec, s: List[Cl
     """
     ...
 
-
+@overload
 def QDouble(first_qubit: Qubit, second_qubit: Qubit, matrix: List[complex]) -> QGate:
     """
     Returns:
@@ -8567,7 +8547,7 @@ def QDouble(first_qubit: Qubit, second_qubit: Qubit, matrix: List[complex]) -> Q
     """
     ...
 
-
+@overload
 def QDouble(first_qubit_list: QVec, second_qubit_list: QVec, matrix: List[complex]) -> QCircuit:
     """
     Returns:
@@ -8579,7 +8559,7 @@ def QDouble(first_qubit_list: QVec, second_qubit_list: QVec, matrix: List[comple
     """
     ...
 
-
+@overload
 def QDouble(first_qubit_addr: int, second_qubit_addr: int, matrix: List[complex]) -> QGate:
     """
     Returns:
@@ -8591,7 +8571,7 @@ def QDouble(first_qubit_addr: int, second_qubit_addr: int, matrix: List[complex]
     """
     ...
 
-
+@overload
 def QDouble(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int], matrix: List[complex]) -> QCircuit:
     """
     Returns:
@@ -8629,7 +8609,7 @@ def QMultiplier(arg0: QVec, arg1: QVec, arg2: QVec, arg3: QVec) -> QCircuit:
     """
     ...
 
-def QOracle(qubit_list: QVec, matrix: numpy.ndarray[complex128[m,n]], tol: float) -> QGate:
+def QOracle(qubit_list: QVec, matrix: numpy.ndarray[numpy.complex128[m,n]], tol: float = 1e-10) -> QGate:
     """
     Generate QOracle Gate
     
@@ -8664,7 +8644,7 @@ def QSub(arg0: QVec, arg1: QVec, arg2: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def RX(qubit: Qubit, angle: float) -> QGate:
     """
     Returns:
@@ -8676,7 +8656,7 @@ def RX(qubit: Qubit, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RX(qubit_list: QVec, angle: float) -> QCircuit:
     """
     Create a RX gate
@@ -8693,7 +8673,7 @@ def RX(qubit_list: QVec, angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RX(qubit_addr: int, angle: float) -> QGate:
     """
     Create a RX gate
@@ -8710,7 +8690,7 @@ def RX(qubit_addr: int, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RX(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     Create a RX gate
@@ -8726,7 +8706,7 @@ def RX(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RXX(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     Create a RXX gate
@@ -8745,7 +8725,7 @@ def RXX(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RXX(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -> QCircuit:
     """
     Create a RXX gate
@@ -8764,7 +8744,7 @@ def RXX(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -
     """
     ...
 
-
+@overload
 def RXX(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> QGate:
     """
     Create a RXX gate
@@ -8783,7 +8763,7 @@ def RXX(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> 
     """
     ...
 
-
+@overload
 def RXX(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], alpha_angle: float) -> QCircuit:
     """
     Create a RXX gate
@@ -8801,7 +8781,7 @@ def RXX(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], a
     """
     ...
 
-
+@overload
 def RY(qubit: Qubit, angle: float) -> QGate:
     """
     Returns:
@@ -8813,7 +8793,7 @@ def RY(qubit: Qubit, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RY(qubit_list: QVec, angle: float) -> QCircuit:
     """
     Create a RY gate
@@ -8830,7 +8810,7 @@ def RY(qubit_list: QVec, angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RY(qubit_addr: int, angle: float) -> QGate:
     """
     Create a RY gate
@@ -8847,7 +8827,7 @@ def RY(qubit_addr: int, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RY(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     Create a RY gate
@@ -8863,7 +8843,7 @@ def RY(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RYY(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     Create a RYY gate
@@ -8882,7 +8862,7 @@ def RYY(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RYY(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -> QCircuit:
     """
     Create a RYY gate
@@ -8901,7 +8881,7 @@ def RYY(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -
     """
     ...
 
-
+@overload
 def RYY(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> QGate:
     """
     Create a RYY gate
@@ -8920,7 +8900,7 @@ def RYY(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> 
     """
     ...
 
-
+@overload
 def RYY(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], alpha_angle: float) -> QCircuit:
     """
     Create a RYY gate
@@ -8938,7 +8918,7 @@ def RYY(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], a
     """
     ...
 
-
+@overload
 def RZ(qubit: Qubit, angle: float) -> QGate:
     """
     Returns:
@@ -8950,7 +8930,7 @@ def RZ(qubit: Qubit, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RZ(qubit_list: QVec, angle: float) -> QCircuit:
     """
     Create a RZ gate
@@ -8967,7 +8947,7 @@ def RZ(qubit_list: QVec, angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RZ(qubit_addr: int, angle: float) -> QGate:
     """
     Create a RZ gate
@@ -8984,7 +8964,7 @@ def RZ(qubit_addr: int, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RZ(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     Create a RZ gate
@@ -9000,7 +8980,7 @@ def RZ(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def RZX(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     Create a RZX gate
@@ -9019,7 +8999,7 @@ def RZX(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RZX(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -> QCircuit:
     """
     Create a RZX gate
@@ -9038,7 +9018,7 @@ def RZX(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -
     """
     ...
 
-
+@overload
 def RZX(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> QGate:
     """
     Create a RZX gate
@@ -9057,7 +9037,7 @@ def RZX(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> 
     """
     ...
 
-
+@overload
 def RZX(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], alpha_angle: float) -> QCircuit:
     """
     Create a RZX gate
@@ -9075,7 +9055,7 @@ def RZX(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], a
     """
     ...
 
-
+@overload
 def RZZ(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     Create a RZZ gate
@@ -9094,7 +9074,7 @@ def RZZ(control_qubit: Qubit, target_qubit: Qubit, alpha_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def RZZ(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -> QCircuit:
     """
     Create a RZZ gate
@@ -9113,7 +9093,7 @@ def RZZ(control_qubit_list: QVec, target_qubit_list: QVec, alpha_angle: float) -
     """
     ...
 
-
+@overload
 def RZZ(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> QGate:
     """
     Create a RZZ gate
@@ -9132,7 +9112,7 @@ def RZZ(control_qubit_addr: int, target_qubit_addr: int, alpha_angle: float) -> 
     """
     ...
 
-
+@overload
 def RZZ(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], alpha_angle: float) -> QCircuit:
     """
     Create a RZZ gate
@@ -9150,7 +9130,7 @@ def RZZ(control_qubit_addr_list: List[int], target_qubit_addr_list: List[int], a
     """
     ...
 
-
+@overload
 def Reset(qubit: Qubit) -> QReset:
     """
     Create a Reset node
@@ -9158,14 +9138,14 @@ def Reset(qubit: Qubit) -> QReset:
     """
     ...
 
-
+@overload
 def Reset(qubit_addr: int) -> QReset:
     """
     Create a Reset node
     """
     ...
 
-
+@overload
 def S(qubit: Qubit) -> QGate:
     """
     Create a S gate
@@ -9182,7 +9162,7 @@ def S(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def S(qubit_list: QVec) -> QCircuit:
     """
     Create a S gate
@@ -9199,7 +9179,7 @@ def S(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def S(qubit_addr: int) -> QGate:
     """
     Create a S gate
@@ -9216,7 +9196,7 @@ def S(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def S(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a S gate
@@ -9232,7 +9212,7 @@ def S(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def SWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     Returns:
@@ -9244,7 +9224,7 @@ def SWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def SWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     Returns:
@@ -9256,13 +9236,13 @@ def SWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def SWAP(first_qubit_addr: int, second_qubit_addr: int) -> QGate:
     """
     """
     ...
 
-
+@overload
 def SWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int]) -> QCircuit:
     """
     Returns:
@@ -9279,7 +9259,7 @@ def Shor_factorization(arg0: int) -> Tuple[bool,Tuple[int,int]]:
     """
     ...
 
-
+@overload
 def SqiSWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     Returns:
@@ -9291,7 +9271,7 @@ def SqiSWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def SqiSWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     Returns:
@@ -9303,13 +9283,13 @@ def SqiSWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def SqiSWAP(first_qubit_addr: int, second_qubit_addr: int) -> QGate:
     """
     """
     ...
 
-
+@overload
 def SqiSWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int]) -> QCircuit:
     """
     Returns:
@@ -9320,7 +9300,7 @@ def SqiSWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int])
     """
     ...
 
-
+@overload
 def T(qubit: Qubit) -> QGate:
     """
     Create a T gate
@@ -9337,7 +9317,7 @@ def T(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def T(qubit_list: QVec) -> QCircuit:
     """
     Create a T gate
@@ -9354,7 +9334,7 @@ def T(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def T(qubit_addr: int) -> QGate:
     """
     Create a T gate
@@ -9371,7 +9351,7 @@ def T(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def T(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a T gate
@@ -9387,7 +9367,7 @@ def T(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def Toffoli(control_qubit_first: Qubit, control_qubit_second: Qubit, target_qubit: Qubit) -> QGate:
     """
     Create a Toffoli gate
@@ -9395,14 +9375,14 @@ def Toffoli(control_qubit_first: Qubit, control_qubit_second: Qubit, target_qubi
     """
     ...
 
-
+@overload
 def Toffoli(control_qubit_addr_first: int, control_qubit_addr_second: int, target_qubit_addr: int) -> QGate:
     """
     Create a Toffoli gate
     """
     ...
 
-
+@overload
 def U1(qubit: Qubit, angle: float) -> QGate:
     """
     Returns:
@@ -9414,7 +9394,7 @@ def U1(qubit: Qubit, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def U1(qubit_list: QVec, angle: float) -> QCircuit:
     """
     Create a U1 gate
@@ -9431,7 +9411,7 @@ def U1(qubit_list: QVec, angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def U1(qubit_addr: int, angle: float) -> QGate:
     """
     Create a U1 gate
@@ -9448,7 +9428,7 @@ def U1(qubit_addr: int, angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def U1(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     Create a U1 gate
@@ -9464,7 +9444,7 @@ def U1(qubit_addr_list: List[int], angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def U2(qubit: Qubit, phi_angle: float, lambda_angle: float) -> QGate:
     """
     Returns:
@@ -9476,7 +9456,7 @@ def U2(qubit: Qubit, phi_angle: float, lambda_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def U2(qubit_list: QVec, phi_angle: float, lambda_angle: float) -> QCircuit:
     """
     Create a U2 gate
@@ -9493,7 +9473,7 @@ def U2(qubit_list: QVec, phi_angle: float, lambda_angle: float) -> QCircuit:
     """
     ...
 
-
+@overload
 def U2(qubit_addr: int, phi_angle: float, lambda_angle: float) -> QGate:
     """
     Create a U2 gate
@@ -9510,7 +9490,7 @@ def U2(qubit_addr: int, phi_angle: float, lambda_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def U2(qubit_addr_list: List[int], phi_angle: float, lambda_angle: float) -> QCircuit:
     """
     Create a U2 gate
@@ -9526,7 +9506,7 @@ def U2(qubit_addr_list: List[int], phi_angle: float, lambda_angle: float) -> QCi
     """
     ...
 
-
+@overload
 def U3(qubit: Qubit, theta_angle: float, phi_angle: float, lambda_angle: float) -> QGate:
     """
     Returns:
@@ -9538,7 +9518,7 @@ def U3(qubit: Qubit, theta_angle: float, phi_angle: float, lambda_angle: float) 
     """
     ...
 
-
+@overload
 def U3(qubit_list: QVec, theta_angle: float, phi_angle: float, lambda_angle: float) -> QCircuit:
     """
     Create a U3 gate
@@ -9555,7 +9535,7 @@ def U3(qubit_list: QVec, theta_angle: float, phi_angle: float, lambda_angle: flo
     """
     ...
 
-
+@overload
 def U3(qubit_addr: int, theta_angle: float, phi_angle: float, lambda_angle: float) -> QGate:
     """
     Create a U3 gate
@@ -9572,7 +9552,7 @@ def U3(qubit_addr: int, theta_angle: float, phi_angle: float, lambda_angle: floa
     """
     ...
 
-
+@overload
 def U3(qubit_addr_list: List[int], theta_angle: float, phi_angle: float, lambda_angle: float) -> QCircuit:
     """
     Create a U3 gate
@@ -9588,7 +9568,7 @@ def U3(qubit_addr_list: List[int], theta_angle: float, phi_angle: float, lambda_
     """
     ...
 
-
+@overload
 def U4(matrix: List[complex], qubit: Qubit) -> QGate:
     """
     Create a U4 gate
@@ -9603,7 +9583,7 @@ def U4(matrix: List[complex], qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def U4(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float, qubit: Qubit) -> QGate:
     """
     Create a U4 gate
@@ -9621,7 +9601,7 @@ def U4(alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: f
     """
     ...
 
-
+@overload
 def U4(qubit: Qubit, matrix: List[complex]) -> QGate:
     """
     Create a U4 gate
@@ -9636,7 +9616,7 @@ def U4(qubit: Qubit, matrix: List[complex]) -> QGate:
     """
     ...
 
-
+@overload
 def U4(qubit_list: QVec, matrix: List[complex]) -> QCircuit:
     """
     Create a U4 gate
@@ -9651,7 +9631,7 @@ def U4(qubit_list: QVec, matrix: List[complex]) -> QCircuit:
     """
     ...
 
-
+@overload
 def U4(qubit_addr: int, matrix: List[complex]) -> QGate:
     """
     Create a U4 gate
@@ -9666,7 +9646,7 @@ def U4(qubit_addr: int, matrix: List[complex]) -> QGate:
     """
     ...
 
-
+@overload
 def U4(qubit_addr_list: List[int], matrix: List[complex]) -> QCircuit:
     """
     Create a U4 gate
@@ -9681,7 +9661,7 @@ def U4(qubit_addr_list: List[int], matrix: List[complex]) -> QCircuit:
     """
     ...
 
-
+@overload
 def U4(qubit: Qubit, alpha_anlge: float, beta_anlge: float, gamma_anlge: float, delta_anlge: float) -> QGate:
     """
     Create a U4 gate
@@ -9699,7 +9679,7 @@ def U4(qubit: Qubit, alpha_anlge: float, beta_anlge: float, gamma_anlge: float, 
     """
     ...
 
-
+@overload
 def U4(qubit_list: QVec, alpha_angle: float, beta_angle: float, gamma_angle: float, delta_angle: float) -> QCircuit:
     """
     Create a U4 gate
@@ -9717,7 +9697,7 @@ def U4(qubit_list: QVec, alpha_angle: float, beta_angle: float, gamma_angle: flo
     """
     ...
 
-
+@overload
 def U4(qubit_addr: int, alpha_anlge: float, beta_anlge: float, gamma_anlge: float, delta_anlge: float) -> QGate:
     """
     Create a U4 gate
@@ -9735,7 +9715,7 @@ def U4(qubit_addr: int, alpha_anlge: float, beta_anlge: float, gamma_anlge: floa
     """
     ...
 
-
+@overload
 def U4(qubit_addr_list: List[int], alpha_anlge: float, beta_anlge: float, gamma_anlge: float, delta_anlge: float) -> QCircuit:
     """
     Create a U4 gate
@@ -9878,7 +9858,7 @@ def VQG_iSWAP_batch(*args, **kwargs) -> Any:
     """
     ...
 
-
+@overload
 def X(qubit: Qubit) -> QGate:
     """
     Create a X gate
@@ -9895,7 +9875,7 @@ def X(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def X(qubit_list: QVec) -> QCircuit:
     """
     Create a X gate
@@ -9912,7 +9892,7 @@ def X(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def X(qubit_addr: int) -> QGate:
     """
     Create a X gate
@@ -9929,7 +9909,7 @@ def X(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def X(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a X gate
@@ -9945,7 +9925,7 @@ def X(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def X1(qubit: Qubit) -> QGate:
     """
     Create a X1 gate
@@ -9962,7 +9942,7 @@ def X1(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def X1(qubit_list: QVec) -> QCircuit:
     """
     Create a X1 gate
@@ -9979,7 +9959,7 @@ def X1(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def X1(qubit_addr: int) -> QGate:
     """
     Create a X1 gate
@@ -9996,7 +9976,7 @@ def X1(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def X1(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a X1 gate
@@ -10012,7 +9992,7 @@ def X1(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def Y(qubit: Qubit) -> QGate:
     """
     Create a Y gate
@@ -10029,7 +10009,7 @@ def Y(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def Y(qubit_list: QVec) -> QCircuit:
     """
     Create a Y gate
@@ -10046,7 +10026,7 @@ def Y(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def Y(qubit_addr: int) -> QGate:
     """
     Create a Y gate
@@ -10063,7 +10043,7 @@ def Y(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def Y(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a Y gate
@@ -10079,7 +10059,7 @@ def Y(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def Y1(qubit: Qubit) -> QGate:
     """
     Create a Y1 gate
@@ -10096,7 +10076,7 @@ def Y1(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def Y1(qubit_list: QVec) -> QCircuit:
     """
     Create a Y1 gate
@@ -10113,7 +10093,7 @@ def Y1(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def Y1(qubit_addr: int) -> QGate:
     """
     Create a Y1 gate
@@ -10130,7 +10110,7 @@ def Y1(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def Y1(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a Y1 gate
@@ -10146,7 +10126,7 @@ def Y1(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def Z(qubit: Qubit) -> QGate:
     """
     Create a Z gate
@@ -10163,7 +10143,7 @@ def Z(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def Z(qubit_list: QVec) -> QCircuit:
     """
     Create a Z gate
@@ -10180,7 +10160,7 @@ def Z(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def Z(qubit_addr: int) -> QGate:
     """
     Create a Z gate
@@ -10197,7 +10177,7 @@ def Z(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def Z(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a Z gate
@@ -10213,7 +10193,7 @@ def Z(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
+@overload
 def Z1(qubit: Qubit) -> QGate:
     """
     Create a Z1 gate
@@ -10230,7 +10210,7 @@ def Z1(qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def Z1(qubit_list: QVec) -> QCircuit:
     """
     Create a Z1 gate
@@ -10247,7 +10227,7 @@ def Z1(qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def Z1(qubit_addr: int) -> QGate:
     """
     Create a Z1 gate
@@ -10264,7 +10244,7 @@ def Z1(qubit_addr: int) -> QGate:
     """
     ...
 
-
+@overload
 def Z1(qubit_addr_list: List[int]) -> QCircuit:
     """
     Create a Z1 gate
@@ -10280,26 +10260,26 @@ def Z1(qubit_addr_list: List[int]) -> QCircuit:
     """
     ...
 
-
-def _back(arg0: expression, arg1: Dict[var,numpy.ndarray[float64[m,n]]], arg2: Set[var]) -> None:
+@overload
+def _back(arg0: expression, arg1: Dict[var,numpy.ndarray[numpy.float64[m,n]]], arg2: Set[var]) -> None:
     """
     """
     ...
 
-
-def _back(arg0: expression, arg1: Dict[var,numpy.ndarray[float64[m,n]]]) -> None:
+@overload
+def _back(arg0: expression, arg1: Dict[var,numpy.ndarray[numpy.float64[m,n]]]) -> None:
     """
     """
     ...
 
-
-def _back(arg0: var, arg1: Dict[var,numpy.ndarray[float64[m,n]]]) -> None:
+@overload
+def _back(arg0: var, arg1: Dict[var,numpy.ndarray[numpy.float64[m,n]]]) -> None:
     """
     """
     ...
 
-
-def _back(arg0: var, arg1: Dict[var,numpy.ndarray[float64[m,n]]], arg2: Set[var]) -> None:
+@overload
+def _back(arg0: var, arg1: Dict[var,numpy.ndarray[numpy.float64[m,n]]], arg2: Set[var]) -> None:
     """
     """
     ...
@@ -10351,19 +10331,19 @@ def acos(arg0: var) -> var:
     """
     ...
 
-
+@overload
 def add(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def add(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def add(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
@@ -10386,7 +10366,7 @@ def all_cut_of_graph(adjacent_matrix: List[List[float]], all_cut_list: List[floa
     """
     ...
 
-
+@overload
 def amplitude_encode(qubit: QVec, data: List[float], b_need_check_normalization: bool = True) -> QCircuit:
     """
     Encode the input double data to the amplitude of qubits
@@ -10405,7 +10385,7 @@ def amplitude_encode(qubit: QVec, data: List[float], b_need_check_normalization:
     """
     ...
 
-
+@overload
 def amplitude_encode(qubit: QVec, data: List[complex]) -> QCircuit:
     """
     Encode the input double data to the amplitude of qubits
@@ -10422,7 +10402,7 @@ def amplitude_encode(qubit: QVec, data: List[complex]) -> QCircuit:
     """
     ...
 
-
+@overload
 def apply_QGate(qubit_list: QVec, func_obj: Callable[[Qubit],QGate]) -> QCircuit:
     """
     Apply QGate to qubits
@@ -10437,7 +10417,7 @@ def apply_QGate(qubit_list: QVec, func_obj: Callable[[Qubit],QGate]) -> QCircuit
     """
     ...
 
-
+@overload
 def apply_QGate(qubit_addr_list: List[int], func_obj: Callable[[int],QGate]) -> QCircuit:
     """
     Apply QGate to qubits
@@ -10456,13 +10436,13 @@ def asin(arg0: var) -> var:
     """
     ...
 
-
+@overload
 def assign(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def assign(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
@@ -10473,8 +10453,8 @@ def atan(arg0: var) -> var:
     """
     ...
 
-
-def average_gate_fidelity(state1: numpy.ndarray[complex128[m,n]], state2: List[complex]) -> float:
+@overload
+def average_gate_fidelity(state1: numpy.ndarray[numpy.complex128[m,n]], state2: List[complex]) -> float:
     """
     compare two quantum states , Get the state fidelity
     
@@ -10488,8 +10468,8 @@ def average_gate_fidelity(state1: numpy.ndarray[complex128[m,n]], state2: List[c
     """
     ...
 
-
-def average_gate_fidelity(state1: numpy.ndarray[complex128[m,n]], state2: numpy.ndarray[complex128[m,n]]) -> float:
+@overload
+def average_gate_fidelity(state1: numpy.ndarray[numpy.complex128[m,n]], state2: numpy.ndarray[numpy.complex128[m,n]]) -> float:
     """
     compare two quantum states , Get the state fidelity
     
@@ -10569,7 +10549,7 @@ def build_HHL_circuit(matrix_A: List[complex], data_b: List[float], qvm: Quantum
     """
     ...
 
-
+@overload
 def cAlloc() -> ClassicalCondition:
     """
     Allocate a CBit
@@ -10581,7 +10561,7 @@ def cAlloc() -> ClassicalCondition:
     """
     ...
 
-
+@overload
 def cAlloc(cbit_addr: int) -> ClassicalCondition:
     """
     Allocate a CBit
@@ -10620,7 +10600,7 @@ def cFree(cbit: ClassicalCondition) -> None:
     """
     ...
 
-
+@overload
 def cFree_all() -> None:
     """
     Free all cbits
@@ -10635,7 +10615,7 @@ def cFree_all() -> None:
     """
     ...
 
-
+@overload
 def cFree_all(cbit_list: List[ClassicalCondition]) -> None:
     """
     Free all cbits
@@ -10649,7 +10629,7 @@ def cFree_all(cbit_list: List[ClassicalCondition]) -> None:
     """
     ...
 
-
+@overload
 def calculate_quantum_volume(noise_qvm: NoiseQVM, qubit_list: List[List[int]], ntrials: int, shots: int = 1000) -> int:
     """
     calculate quantum volume
@@ -10669,7 +10649,7 @@ def calculate_quantum_volume(noise_qvm: NoiseQVM, qubit_list: List[List[int]], n
     """
     ...
 
-
+@overload
 def calculate_quantum_volume(cloud_qvm: QCloud, qubit_list: List[List[int]], ntrials: int, shots: int = 1000) -> int:
     """
     calculate quantum volume
@@ -10868,7 +10848,7 @@ def convert_qasm_to_qprog(file_path: str, machine: QuantumMachine) -> list:
     """
     ...
 
-
+@overload
 def convert_qprog_to_binary(qprog: QProg, machine: QuantumMachine) -> List[int]:
     """
     Trans quantum program to binary data
@@ -10883,7 +10863,7 @@ def convert_qprog_to_binary(qprog: QProg, machine: QuantumMachine) -> List[int]:
     """
     ...
 
-
+@overload
 def convert_qprog_to_binary(qprog: QProg, machine: QuantumMachine, fname: str) -> None:
     """
     Store quantum program in binary file 
@@ -10944,7 +10924,7 @@ def cos(arg0: var) -> var:
     """
     ...
 
-
+@overload
 def count_gate(quantum_prog: QProg) -> int:
     """
     Count quantum gate num under quantum program, quantum circuit
@@ -10960,7 +10940,7 @@ def count_gate(quantum_prog: QProg) -> int:
     """
     ...
 
-
+@overload
 def count_gate(quantum_circuit: QCircuit) -> int:
     """
     Count quantum gate num under quantum program, quantum circuit
@@ -10974,8 +10954,8 @@ def count_gate(quantum_circuit: QCircuit) -> int:
     """
     ...
 
-
-def count_qgate_num(quantum_prog: QProg, gtype: GateType = GateType.GATE_UNDEFINED) -> int:
+@overload
+def count_qgate_num(quantum_prog: QProg, gtype: GateType = -1) -> int:
     """
     Count quantum gate num under quantum program
     
@@ -10989,8 +10969,8 @@ def count_qgate_num(quantum_prog: QProg, gtype: GateType = GateType.GATE_UNDEFIN
     """
     ...
 
-
-def count_qgate_num(quantum_circuit: QCircuit, gtype: GateType = GateType.GATE_UNDEFINED) -> int:
+@overload
+def count_qgate_num(quantum_circuit: QCircuit, gtype: GateType = -1) -> int:
     """
     Count quantum gate num under quantum circuit
     
@@ -11027,7 +11007,7 @@ def create_empty_qprog() -> QProg:
     """
     ...
 
-
+@overload
 def create_if_prog(classical_condition: ClassicalCondition, true_node: QProg) -> QIfProg:
     """
     Create a classical quantum IfProg
@@ -11042,7 +11022,7 @@ def create_if_prog(classical_condition: ClassicalCondition, true_node: QProg) ->
     """
     ...
 
-
+@overload
 def create_if_prog(classical_condition: ClassicalCondition, true_node: QProg, false_node: QProg) -> QIfProg:
     """
     Create a classical quantum IfProg
@@ -11089,43 +11069,43 @@ def decompose_multiple_control_qgate(qprog: QProg, machine: QuantumMachine, conf
     """
     ...
 
-
+@overload
 def deep_copy(node: QProg) -> QProg:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: QCircuit) -> QCircuit:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: QGate) -> QGate:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: QMeasure) -> QMeasure:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: ClassicalProg) -> ClassicalProg:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: QIfProg) -> QIfProg:
     """
     """
     ...
 
-
+@overload
 def deep_copy(node: QWhileProg) -> QWhileProg:
     """
     """
@@ -11211,19 +11191,19 @@ def directly_run(qprog: QProg, noise_model: Noise = NoiseModel()) -> Dict[str,bo
     """
     ...
 
-
+@overload
 def div(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def div(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def div(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
@@ -11234,7 +11214,7 @@ def dot(arg0: var, arg1: var) -> var:
     """
     ...
 
-
+@overload
 def double_gate_xeb(cloud_qvm: QCloud, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, gate_type: GateType = GateType.CZ_GATE) -> Dict[int,float]:
     """
     double gate xeb with WU YUAN chip
@@ -11257,7 +11237,7 @@ def double_gate_xeb(cloud_qvm: QCloud, qubit0: Qubit, qubit1: Qubit, clifford_ra
     """
     ...
 
-
+@overload
 def double_gate_xeb(noise_qvm: NoiseQVM, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, gate_type: GateType = GateType.CZ_GATE) -> Dict[int,float]:
     """
     double gate xeb with WU YUAN chip
@@ -11279,7 +11259,7 @@ def double_gate_xeb(noise_qvm: NoiseQVM, qubit0: Qubit, qubit1: Qubit, clifford_
     """
     ...
 
-
+@overload
 def double_qubit_rb(qvm: NoiseQVM, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
     """
     double qubit rb with noise quantum virtual machine
@@ -11302,7 +11282,7 @@ def double_qubit_rb(qvm: NoiseQVM, qubit0: Qubit, qubit1: Qubit, clifford_range:
     """
     ...
 
-
+@overload
 def double_qubit_rb(qvm: QCloud, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
     """
     double qubit rb with WU YUAN chip
@@ -11403,19 +11383,19 @@ def dropout(arg0: var, arg1: var) -> var:
     """
     ...
 
-
+@overload
 def equal(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def equal(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def equal(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
@@ -11436,14 +11416,14 @@ def estimate_topology(topo_data: List[List[int]]) -> float:
     """
     ...
 
-
-def eval(arg0: var, arg1: bool) -> numpy.ndarray[float64[m,n]]:
+@overload
+def eval(arg0: var, arg1: bool) -> numpy.ndarray[numpy.float64[m,n]]:
     """
     """
     ...
 
-
-def eval(arg0: var) -> numpy.ndarray[float64[m,n]]:
+@overload
+def eval(arg0: var) -> numpy.ndarray[numpy.float64[m,n]]:
     """
     """
     ...
@@ -11453,13 +11433,13 @@ def exp(arg0: var) -> var:
     """
     ...
 
-def expMat(arg0: complex, arg1: numpy.ndarray[complex128[m,n]], arg2: float) -> numpy.ndarray[complex128[m,n]]:
+def expMat(arg0: complex, arg1: numpy.ndarray[numpy.complex128[m,n]], arg2: float) -> numpy.ndarray[numpy.complex128[m,n]]:
     """
     calculate the matrix power of e
     """
     ...
 
-
+@overload
 def expand_linear_equations(matrix: List[complex], list: List[float]) -> list:
     """
     Extending linear equations to N dimension, N = 2 ^ n
@@ -11471,7 +11451,7 @@ def expand_linear_equations(matrix: List[complex], list: List[float]) -> list:
     """
     ...
 
-
+@overload
 def expand_linear_equations(matrix: List[complex], list: List[float]) -> list:
     """
     Extending linear equations to N dimension, N = 2 ^ n
@@ -11524,7 +11504,7 @@ def fit_to_gbk(utf8_str: str) -> str:
     """
     ...
 
-
+@overload
 def flatten(qprog: QProg) -> None:
     """
     Flatten quantum program
@@ -11539,7 +11519,7 @@ def flatten(qprog: QProg) -> None:
     """
     ...
 
-
+@overload
 def flatten(qcircuit: QCircuit) -> None:
     """
     Flatten quantum circuit
@@ -11805,7 +11785,7 @@ def get_prob_list(qubit_list: QVec, select_max: int = -1) -> List[float]:
     """
     ...
 
-
+@overload
 def get_qgate_num(quantum_prog: QProg) -> int:
     """
     Count quantum gate num under quantum program, quantum circuit
@@ -11820,7 +11800,7 @@ def get_qgate_num(quantum_prog: QProg) -> int:
     """
     ...
 
-
+@overload
 def get_qgate_num(quantum_circuit: QCircuit) -> int:
     """
     Count quantum gate num under quantum program, quantum circuit
@@ -11836,7 +11816,7 @@ def get_qgate_num(quantum_circuit: QCircuit) -> int:
     """
     ...
 
-
+@overload
 def get_qgate_num(qprog: QProg) -> int:
     """
     Count quantum gate num under quantum program
@@ -11864,13 +11844,13 @@ def get_qprog_clock_cycle(qprog: QProg, machine: QuantumMachine, optimize: bool 
     """
     ...
 
-
+@overload
 def get_qstate() -> List[complex]:
     """
     """
     ...
 
-
+@overload
 def get_qstate() -> Any:
     """
     """
@@ -11953,7 +11933,7 @@ def getstat(*args, **kwargs) -> Any:
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     Returns:
@@ -11965,7 +11945,7 @@ def iSWAP(first_qubit: Qubit, second_qubit: Qubit) -> QGate:
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     Returns:
@@ -11977,13 +11957,13 @@ def iSWAP(first_qubit_list: QVec, second_qubit_list: QVec) -> QCircuit:
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_addr: int, second_qubit_addr: int) -> QGate:
     """
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int]) -> QCircuit:
     """
     Returns:
@@ -11995,7 +11975,7 @@ def iSWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int]) -
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit: Qubit, second_qubit: Qubit, theta_angle: float) -> QGate:
     """
     Returns:
@@ -12007,7 +11987,7 @@ def iSWAP(first_qubit: Qubit, second_qubit: Qubit, theta_angle: float) -> QGate:
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_list: QVec, second_qubit_list: QVec, theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -12019,7 +11999,7 @@ def iSWAP(first_qubit_list: QVec, second_qubit_list: QVec, theta_angle: float) -
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_addr: int, second_qubit_addr: int, theta_angle: float) -> QGate:
     """
     Returns:
@@ -12031,7 +12011,7 @@ def iSWAP(first_qubit_addr: int, second_qubit_addr: int, theta_angle: float) -> 
     """
     ...
 
-
+@overload
 def iSWAP(first_qubit_addr_list: List[int], second_qubit_addr_list: List[int], theta_angle: float) -> QCircuit:
     """
     Returns:
@@ -12158,8 +12138,8 @@ def log(arg0: var) -> var:
     """
     ...
 
-
-def matrix_decompose(qubits: QVec, matrix: numpy.ndarray[complex128[m,n]], mode: DecompositionMode = DecompositionMode.QSD, b_positive_seq: bool = True) -> QCircuit:
+@overload
+def matrix_decompose(qubits: QVec, matrix: numpy.ndarray[numpy.complex128[m,n]], mode: DecompositionMode = DecompositionMode.QSD, b_positive_seq: bool = True) -> QCircuit:
     """
     Matrix decomposition
     
@@ -12175,7 +12155,7 @@ def matrix_decompose(qubits: QVec, matrix: numpy.ndarray[complex128[m,n]], mode:
     """
     ...
 
-
+@overload
 def matrix_decompose(qubits: QVec, matrix: List[complex], mode: DecompositionMode = DecompositionMode.QSD, b_positive_seq: bool = True) -> QCircuit:
     """
     Matrix decomposition
@@ -12191,8 +12171,8 @@ def matrix_decompose(qubits: QVec, matrix: List[complex], mode: DecompositionMod
     """
     ...
 
-
-def matrix_decompose_paulis(arg0: QuantumMachine, arg1: numpy.ndarray[float64[m,n]]) -> List[Tuple[float,QCircuit]]:
+@overload
+def matrix_decompose_paulis(arg0: QuantumMachine, arg1: numpy.ndarray[numpy.float64[m,n]]) -> List[Tuple[float,QCircuit]]:
     """
     decompose matrix into paulis combination
     
@@ -12206,8 +12186,8 @@ def matrix_decompose_paulis(arg0: QuantumMachine, arg1: numpy.ndarray[float64[m,
     """
     ...
 
-
-def matrix_decompose_paulis(arg0: QVec, arg1: numpy.ndarray[float64[m,n]]) -> List[Tuple[float,QCircuit]]:
+@overload
+def matrix_decompose_paulis(arg0: QVec, arg1: numpy.ndarray[numpy.float64[m,n]]) -> List[Tuple[float,QCircuit]]:
     """
     decompose matrix into paulis combination
     
@@ -12220,7 +12200,7 @@ def matrix_decompose_paulis(arg0: QVec, arg1: numpy.ndarray[float64[m,n]]) -> Li
     """
     ...
 
-
+@overload
 def measure_all(qubit_list: QVec, cbit_list: List[ClassicalCondition]) -> QProg:
     """
     Create a list of measure node
@@ -12235,7 +12215,7 @@ def measure_all(qubit_list: QVec, cbit_list: List[ClassicalCondition]) -> QProg:
     """
     ...
 
-
+@overload
 def measure_all(qubit_addr_list: List[int], cbit_addr_list: List[int]) -> QProg:
     """
     Create a list of measure node
@@ -12249,19 +12229,19 @@ def measure_all(qubit_addr_list: List[int], cbit_addr_list: List[int]) -> QProg:
     """
     ...
 
-
+@overload
 def mul(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def mul(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def mul(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
@@ -12395,7 +12375,7 @@ def prob_run_tuple_list(qptog: QProg, qubit_list: QVec, select_max: int = -1) ->
     """
     ...
 
-
+@overload
 def qAlloc() -> Qubit:
     """
     Create a qubit
@@ -12407,7 +12387,7 @@ def qAlloc() -> Qubit:
     """
     ...
 
-
+@overload
 def qAlloc(qubit_addr: int) -> Qubit:
     """
     Allocate a qubits
@@ -12447,7 +12427,7 @@ def qFree(qubit: Qubit) -> None:
     """
     ...
 
-
+@overload
 def qFree_all() -> None:
     """
     Free all qubits
@@ -12462,7 +12442,7 @@ def qFree_all() -> None:
     """
     ...
 
-
+@overload
 def qFree_all(qubit_list: QVec) -> None:
     """
     Free a list of qubits
@@ -12476,13 +12456,13 @@ def qFree_all(qubit_list: QVec) -> None:
     """
     ...
 
-
+@overload
 def qop(VariationalQuantumCircuit: VariationalQuantumCircuit, Hamiltonian, QuantumMachine: QuantumMachine, qubitList: List[Qubit]) -> var:
     """
     """
     ...
 
-
+@overload
 def qop(VariationalQuantumCircuit: VariationalQuantumCircuit, Hamiltonian, QuantumMachine: QuantumMachine, qubitList: Dict[int,Qubit]) -> var:
     """
     """
@@ -12607,7 +12587,7 @@ def replace_complex_points(src_topo_data: List[List[int]], max_connect_degree: i
     """
     ...
 
-
+@overload
 def run_with_configuration(program: QProg, cbit_list: List[ClassicalCondition], shots: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
     """
     Run quantum program with configuration
@@ -12627,7 +12607,7 @@ def run_with_configuration(program: QProg, cbit_list: List[ClassicalCondition], 
     """
     ...
 
-
+@overload
 def run_with_configuration(program: QProg, shots: int, noise_model: Noise = NoiseModel()) -> Dict[str,int]:
     """
     Run quantum program with configuration
@@ -12656,7 +12636,7 @@ def sin(arg0: var) -> var:
     """
     ...
 
-
+@overload
 def single_qubit_rb(qvm: NoiseQVM, qubit: Qubit, clifford_range: List[int], num_circuits: int, shots: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
     """
     Single qubit rb with noise quantum virtual machine
@@ -12678,7 +12658,7 @@ def single_qubit_rb(qvm: NoiseQVM, qubit: Qubit, clifford_range: List[int], num_
     """
     ...
 
-
+@overload
 def single_qubit_rb(qvm: QCloud, qubit: Qubit, clifford_range: List[int], num_circuits: int, shots: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
     """
     Single qubit rb with WU YUAN chip
@@ -12727,7 +12707,7 @@ def stack(arg0: int, *args) -> var:
     """
     ...
 
-
+@overload
 def state_fidelity(state1: List[complex], state2: List[complex]) -> float:
     """
     compare two quantum states , Get the state fidelity
@@ -12742,7 +12722,7 @@ def state_fidelity(state1: List[complex], state2: List[complex]) -> float:
     """
     ...
 
-
+@overload
 def state_fidelity(matrix1: List[List[complex]], matrix2: List[List[complex]]) -> float:
     """
     compare two quantum states matrix, Get the state fidelity
@@ -12757,7 +12737,7 @@ def state_fidelity(matrix1: List[List[complex]], matrix2: List[List[complex]]) -
     """
     ...
 
-
+@overload
 def state_fidelity(state1: List[complex], state2: List[List[complex]]) -> float:
     """
     compare two quantum states , Get the state fidelity
@@ -12772,7 +12752,7 @@ def state_fidelity(state1: List[complex], state2: List[List[complex]]) -> float:
     """
     ...
 
-
+@overload
 def state_fidelity(state1: List[List[complex]], state2: List[complex]) -> float:
     """
     compare two quantum states , Get the state fidelity
@@ -12786,19 +12766,19 @@ def state_fidelity(state1: List[List[complex]], state2: List[complex]) -> float:
     """
     ...
 
-
+@overload
 def sub(arg0: ClassicalCondition, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def sub(arg0: ClassicalCondition, arg1: int) -> ClassicalCondition:
     """
     """
     ...
 
-
+@overload
 def sub(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
     """
     """
@@ -12814,12 +12794,12 @@ def tan(arg0: var) -> var:
     """
     ...
 
-def tensor3xd(arg0: numpy.ndarray[float64]) -> numpy.ndarray[float64]:
+def tensor3xd(arg0: numpy.ndarray[numpy.float64]) -> numpy.ndarray[numpy.float64]:
     """
     """
     ...
 
-def tensor4xd(arg0: numpy.ndarray[float64]) -> numpy.ndarray[float64]:
+def tensor4xd(arg0: numpy.ndarray[numpy.float64]) -> numpy.ndarray[numpy.float64]:
     """
     """
     ...
@@ -12837,7 +12817,7 @@ def to_Quil(qprog: QProg, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QProg, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12852,7 +12832,7 @@ def to_originir(qprog: QProg, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QCircuit, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12867,7 +12847,7 @@ def to_originir(qprog: QCircuit, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QGate, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12882,7 +12862,7 @@ def to_originir(qprog: QGate, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QIfProg, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12897,7 +12877,7 @@ def to_originir(qprog: QIfProg, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QWhileProg, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12912,7 +12892,7 @@ def to_originir(qprog: QWhileProg, machine: QuantumMachine) -> str:
     """
     ...
 
-
+@overload
 def to_originir(qprog: QMeasure, machine: QuantumMachine) -> str:
     """
     Transform QProg to OriginIR string
@@ -12969,7 +12949,7 @@ def transform_originir_to_qprog(fname: str, machine: QuantumMachine) -> QProg:
     """
     ...
 
-
+@overload
 def transform_qprog_to_binary(qprog: QProg, machine: QuantumMachine) -> List[int]:
     """
     Get quantum program binary data
@@ -12984,7 +12964,7 @@ def transform_qprog_to_binary(qprog: QProg, machine: QuantumMachine) -> List[int
     """
     ...
 
-
+@overload
 def transform_qprog_to_binary(qprog: QProg, machine: QuantumMachine, fname: str) -> None:
     """
     Save quantum program to file as binary data
@@ -13042,7 +13022,6 @@ def transfrom_pauli_operator_to_matrix(arg0) -> List[complex]:
     transfrom pauli operator to matrix
     
     Args:
-        quantum_machine: quantum machine
         matrix: 2^N *2^N double matrix 
     
     Returns:
@@ -13097,7 +13076,7 @@ def vector_dot(x: List[float], y: List[float]) -> float:
     """
     ...
 
-def virtual_z_transform(prog: QProg, quantum_machine: QuantumMachine, b_del_rz_gate: bool = False, config_data: str = 'QPandaConfig.json') -> None:
+def virtual_z_transform(prog: QProg, quantum_machine: QuantumMachine, b_del_rz_gate: bool = False, config_data: str = 'QPandaConfig.json') -> QProg:
     """
     virtual z transform
     
