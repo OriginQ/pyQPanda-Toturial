@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
@@ -24,3 +24,5 @@ source/build
 /pyqpanda/Operator/__pycache__/*
 /pyqpanda/Visualization/__pycache__/*
 /pyqpanda/ChemiQ/pyQPandaChemiQ.pyd
+pyqpanda/libcrypto-3-x64.dll
+pyqpanda/Variational/__pycache__/__init__.cpython-39.pyc
