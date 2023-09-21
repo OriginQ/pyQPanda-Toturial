@@ -23,101 +23,69 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
    
 .. toctree::
     :maxdepth: 2
-    :caption: 基础介绍
+    :caption: 量子计算入门
 
-    GettingStarted
-    ChangeLog
-
-.. toctree::
-    :caption: 深入学习
-    :maxdepth: 2
-
-    QGate
-    QCircuit
-    QWhile
-    QIf
-    QProg
-    QuantumMachine
-    QubitPool
-    Measure
-    PMeasure
-    QCloudServer
+    ./1.量子计算入门/index
 
 .. toctree::
-    :caption: 量子程序编译及优化
     :maxdepth: 2
-    
-    QProgToQASM
-    QASMToQProg
-    QProgToQuil
-    QProgStored
-    QProgDataParse
-    OriginIRToQProg
-    QProgToOriginIR
-    MatrixDecompostion
-    GraphMatch
-    ..QCodarMatch
+    :caption: pyqpanda简介
+
+    ./2.pyqpanda简介/index
 
 .. toctree::
-    :caption: 量子程序分析
     :maxdepth: 2
+    :caption: 量子操作总结
 
-    NodeIter
-    QGateCounter
-    QProgClockCycle
-    QCircuitInfo
-    MultiControlGateDecomposition
-    DrawQProg
-    PlotApi
-    ..QGateValidity
-    QuantumVolume
-    RandomizedBenchmarking
-    CrossEntropyBenchmarking
-	
-.. .. toctree:
-..     :caption: 实用工具
-..     :maxdepth: 2
-    
-..     GraphMatch
-..     FillQProgByI
-..     MatrixDecompostion
+    ./3.量子操作总结/index
 
 .. toctree::
-    :caption: 组件
     :maxdepth: 2
+    :caption: 可视化
 
-    PauliOperator
-    FermionOperator
-    Optimizer
-    HamiltonianSimulation
+    ./4.可视化/index
 
 .. toctree::
-    :caption: VQNet
     :maxdepth: 2
-    
-    Var
-    VarOperator
-    VQG
-    VQC
-    GradientOptimizer
-    VQNetExample
-    
+    :caption: 模拟器
+
+    ./5.模拟器/index
+
 .. toctree::
-    :caption: 量子算法基础
     :maxdepth: 2
-    
-    QubitAndQGate
-    QPreparation
-    QuantumStatePreparation
-    HadamardAndSWAP
-    AmplitudeAmplification
-    QFT
-    QPE
-    QArithmetic
-    HHL
-    Grover
-    Shor
-    QITE
+    :caption: 量子云与真实计算计算服务
+
+    ./6.量子云与真实计算计算服务/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Operators
+
+    ./7.Operators/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 量子线路编译
+
+    ./8.量子计算编译优化/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 量子线路转译
+
+    ./9.量子线路转译/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 量子计算机基准测试与校准
+
+    ./10.量子计算机基准测试与校准/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 量子算法组件
+
+    ./11.量子算法组件/index
 
 .. toctree::
     :caption: API接口

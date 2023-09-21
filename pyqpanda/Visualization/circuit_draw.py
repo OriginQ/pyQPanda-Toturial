@@ -2,6 +2,7 @@ from pyqpanda import circuit_layer
 from pyqpanda import draw_qprog_text
 from pyqpanda import draw_qprog_latex
 from pyqpanda import fit_to_gbk
+from pyqpanda import count_prog_info
 from .matplotlib_draw import *
 
 
@@ -76,3 +77,35 @@ def draw_qprog(prog, output=None, scale=0.7, filename=None, with_logo=False, lin
                 prog, line_length, filename, with_logo, NodeIter_first, prog.end())
 
     return text_pic
+
+def show_prog_info_count(prog,optimize=False):
+
+    info_count = count_prog_info(prog, optimize)
+
+    labels_node = ['Single Gate Node', 'Double Gate Node', 'Other Nodes']
+    sizes_node = [info_count.single_gate_num, info_count.double_gate_num, info_count.node_num - info_count.single_gate_num - info_count.double_gate_num]
+
+    labels_layer = ['Single Gate Layer', 'Double Gate Layer', 'Other Layers']
+    sizes_layer = [info_count.single_gate_layer_num, info_count.double_gate_layer_num, info_count.layer_num - info_count.single_gate_layer_num - info_count.double_gate_layer_num]
+
+    fig, axes = plt.subplots(nrows=2, figsize=(6, 8))
+    plt.subplots_adjust(hspace=0.2)
+
+    total_node_num = info_count.node_num
+    wedges_node, texts_node, autotexts_node = axes[0].pie(sizes_node, labels=labels_node, autopct='%.1f%%', startangle=140, wedgeprops={'linewidth': 1, 'edgecolor': 'white'})
+    axes[0].set_title(f'Total Nodes Distribution (Total Nodes: {total_node_num})', fontsize=14)
+    axes[0].set_aspect('equal')
+
+    for i, (label, size) in enumerate(zip(labels_node, sizes_node)):
+        texts_node[i].set_text(f'{label} ({size})')
+
+    total_layer_num = info_count.layer_num
+    wedges_layer, texts_layer, autotexts_layer = axes[1].pie(sizes_layer, labels=labels_layer, autopct='%.1f%%', startangle=140, wedgeprops={'linewidth': 1, 'edgecolor': 'white'})
+    axes[1].set_title(f'Total Layers Distribution (Total Layers: {total_layer_num})', fontsize=14)
+    axes[1].set_aspect('equal')
+
+    for i, (label, size) in enumerate(zip(labels_layer, sizes_layer)):
+        texts_layer[i].set_text(f'{label} ({size})')
+
+    plt.show()
+    
