@@ -91,7 +91,7 @@ QPanda 2提供了OriginIR文件转换工具接口 ``convert_originir_to_qprog`` 
         X q[2]
         CONTROL q[1],q[2]
         RY q[0],(1.047198)
-        ENCONTROL
+        ENDCONTROL
         ENDDAGGER
         MEASURE q[0],c[0]
         QIF c[0]

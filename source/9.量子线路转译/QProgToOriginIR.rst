@@ -252,11 +252,11 @@ QPE算法
     H q[1]
     CONTROL q[1]
     RX q[2],(-3.141593)
-    ENCONTROL
+    ENDCONTROL
     CONTROL q[0]
     RX q[2],(-3.141593)
     RX q[2],(-3.141593)
-    ENCONTROL
+    ENDCONTROL
     DAGGER
     H q[1]
     CR q[0],q[1],(1.570796)
