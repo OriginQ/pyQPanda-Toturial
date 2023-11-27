@@ -35,57 +35,172 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
 
 .. toctree::
     :maxdepth: 2
+    :caption: 量子编程基础
+
+    ./3.量子编程基础/index
+
+.. toctree::
+    :maxdepth: 2
     :caption: 量子操作总结
 
-    ./3.量子操作总结/index
+    ./4.量子操作总结/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 可视化
 
-    ./4.可视化/index
+    ./5.可视化/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 模拟器
 
-    ./5.模拟器/index
+    ./6.模拟器/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 量子云与真实计算计算服务
 
-    ./6.量子云与真实计算计算服务/index
+    ./7.量子云与真实计算计算服务/index
 
 .. toctree::
     :maxdepth: 2
     :caption: Operators
 
-    ./7.Operators/index
+    ./8.Operators/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 量子线路编译
 
-    ./8.量子计算编译优化/index
+    ./16.量子计算编译优化/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 量子线路转译
 
-    ./9.量子线路转译/index
+    ./10.量子线路编译/index
+
+.. .. toctree::
+..     :maxdepth: 2
+..     :caption: 量子线路优化
+
+..     ./11.量子线路优化/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 量子计算机基准测试与校准
 
-    ./10.量子计算机基准测试与校准/index
+    ./12.量子计算机基准测试与校准/index
 
 .. toctree::
     :maxdepth: 2
     :caption: 量子算法组件
 
-    ./11.量子算法组件/index
+    ./13.量子算法组件/index
+
+.. .. toctree::
+..     :maxdepth: 2
+..     :caption: 量子算法应用
+
+..     ./14.量子算法应用/index
+
+.. .. toctree::
+..     :maxdepth: 2
+..     :caption: 量子计算编译优化
+
+..     ./16.量子计算编译优化/index
+
+.. .. toctree::
+..     :caption: 深入学习
+..     :maxdepth: 2
+
+..     QGate
+..     QCircuit
+..     QWhile
+..     QIf
+..     QProg
+..     QuantumMachine
+..     QubitPool
+..     Measure
+..     PMeasure
+..     QCloudServer
+
+.. .. toctree::
+..     :caption: 量子程序编译及优化
+..     :maxdepth: 2
+    
+..     QProgToQASM
+..     QASMToQProg
+..     QProgToQuil
+..     QProgStored
+..     QProgDataParse
+..     OriginIRToQProg
+..     QProgToOriginIR
+..     MatrixDecompostion
+..     GraphMatch
+..     ..QCodarMatch
+
+.. .. toctree::
+..     :caption: 量子程序分析
+..     :maxdepth: 2
+
+..     NodeIter
+..     QGateCounter
+..     QProgInfoCount
+..     QCircuitInfo
+..     MultiControlGateDecomposition
+..     DrawQProg
+..     PlotApi
+..     ..QGateValidity
+..     QuantumVolume
+..     RandomizedBenchmarking
+..     CrossEntropyBenchmarking
+	
+.. .. toctree:
+..     :caption: 实用工具
+..     :maxdepth: 2
+    
+..     GraphMatch
+..     FillQProgByI
+..     MatrixDecompostion
+
+.. .. toctree::
+..     :caption: 组件
+..     :maxdepth: 2
+
+..     PauliOperator
+..     FermionOperator
+..     Optimizer
+..     HamiltonianSimulation
+
+.. .. toctree::
+..     :caption: VQNet
+..     :maxdepth: 2
+    
+..     Var
+..     VarOperator
+..     VQG
+..     VQC
+..     GradientOptimizer
+..     VQNetExample
+    
+.. .. toctree::
+..     :caption: 量子算法基础
+..     :maxdepth: 2
+    
+..     QubitAndQGate
+..     QPreparation
+..     QuantumStatePreparation
+..     HadamardAndSWAP
+..     AmplitudeAmplification
+..     QFT
+..     QPE
+..     QArithmetic
+..     HHL
+..     Grover
+..     Shor
+..     QITE
 
 .. toctree::
     :caption: API接口
@@ -94,3 +209,5 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     autoapi/pyqpanda/pyQPanda/index
     autoapi/pyqpanda/utils/index
     autoapi/pyqpanda/Visualization/index
+
+

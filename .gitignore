@@ -26,3 +26,5 @@ source/build
 /pyqpanda/ChemiQ/pyQPandaChemiQ.pyd
 pyqpanda/libcrypto-3-x64.dll
 pyqpanda/Variational/__pycache__/__init__.cpython-39.pyc
+
+

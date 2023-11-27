@@ -62,7 +62,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'sphinx.ext.inheritance_diagram',
+    #'sphinx.ext.inheritance_diagram',
     'sphinx.ext.graphviz'
     # 'rst2pdf.pdfbuilder'
 ]
@@ -72,7 +72,7 @@ autoapi_type = 'python'
 autoapi_dirs = ['../pyqpanda']
 autoapi_options = ['members', 'undoc-members', 'private-members',
                    'show-inheritance', 'show-module-summary',
-                   'special-members', 'imported-members', 'show-inheritance-diagram']
+                   'special-members', 'imported-members']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['.templates']
