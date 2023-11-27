@@ -7,32 +7,32 @@
 量子态
 >>>>>>>>>>>>
 
-量子（quantum）是现代物理学的重要概念. 即一个物理量如果存在最小的不可分割的基本单位，此最小单位称为量子. 量子具有四个基本特性，了解其特性也有助于我们更好地理解量子的本质.
+量子（quantum）是现代物理学的重要概念。即一个物理量如果存在最小的不可分割的基本单位，此最小单位称为量子. 量子具有四个基本特性，了解其特性也有助于我们更好地理解量子的本质。
 
 量子具有如下特性:
- * 量子化: 描述物体长度时，一定会遇到最小的不可分割的基本单位，这一现象也称为量子化
- * 跃迁:当一个原子中的电子获得来自原子外的能量时，它就有可能克服能级之间的能量差距，跳到另外一个态上面
+ * 量子化：描述物体长度时，一定会遇到最小的不可分割的基本单位，这一现象也称为量子化
+ * 跃迁：当一个原子中的电子获得来自原子外的能量时，它就有可能克服能级之间的能量差距，跳到另外一个态上面
  * 量子叠加态：对于量子本身，它能同时存在于很多状态的叠加上
- * 测量和坍塌： 测量会影响这个粒子本身的状态
+ * 测量和坍塌：测量会影响这个粒子本身的状态
 
-量子态是一个微观粒子的状态. 可用线性代数中的向量来描述量子态.在量子理论
-中，描述量子态的向量称为态矢，态矢分为左矢和右矢
+量子态是一个微观粒子的状态。可用线性代数中的向量来描述量子态，在量子理论
+中，描述量子态的向量称为态矢，态矢分为左矢和右矢。
 
 .. math::
 
-    \begin{align*}
-    \text{右矢(ket)} : & |\psi\rangle =[c_{1},c_{2},\cdots, c_{n}]^{T}\\
-    \text{左矢(bra)} : & \langle\psi| =[c_{1}^{*},c_{2}^{*},\cdots, c_{n}^{*}]
-    \end{align*}
+    \begin{aligned}
+    \text{ket} & |\psi\rangle =[c_{1},c_{2},\cdots, c_{n}]^{T}\\
+    \text{bra} & \langle\psi| =[c_{1}^{*},c_{2}^{*},\cdots, c_{n}^{*}]
+    \end{aligned}
 
 相应地，内积与外积定义为：设 :math:`|\alpha\rangle=[a_{1},a_{2},\cdots, a_{n}]^{T}` ， :math:`|\beta\rangle=[b_{1},b_{2},\cdots, b_{n}]^{T}` ，
 
 .. math::
 
-    \begin{align*}
-    \text{内积} : & \langle\alpha \vert\beta\rangle =\sum_{i=1}^{n}a_{i}b_{i}\\
-    \text{外积} : & |\alpha\rangle \langle\beta| =\left[a_{i}b_{j}^{*}\right]_{n\times n}
-    \end{align*}
+    \begin{aligned}
+    \text{} & \langle\alpha \vert\beta\rangle =\sum_{i=1}^{n}a_{i}b_{i}\\
+    \text{} & |\alpha\rangle \langle\beta| =\left[a_{i}b_{j}^{*}\right]_{n\times n}
+    \end{aligned}
 
 量子比特
 >>>>>>>>>>>>
@@ -41,9 +41,9 @@
 
 .. math::
 
-    \begin{equation}\label{equ:Psi}
+    \begin{aligned}\label{equ:Psi}
         |\psi\rangle=\alpha|0\rangle+\beta|1\rangle,
-    \end{equation}
+    \end{aligned}
 
 
 其中，:math:`\alpha,\beta\in\mathbb{C}` 且 :math:`(\alpha,\beta)\ne (0,0)` ， :math:`\vert\alpha\vert^2+\vert\beta\vert^2=1` ， :math:`\alpha,\beta` 称为振幅。
@@ -55,15 +55,15 @@
 我们看到的具有精确已知状态的量子系统均是纯态（pure state）。
 所以纯态 :math:`|\psi\rangle` 可以用向量表示，且其密度矩阵表示为 :math:`\rho=|\psi\rangle\langle\psi|` ，以100%的概率处在状态 :math:`|\psi\rangle` 。
 
-如果系统并非处于一个态中，而是以 :math:`p_{i}` 的概率处于 :math:`|\psi_{i}\rangle(i=1,\cdots,n)` ，这种状态无法用一个态矢量来描述，称之为混合态. 其密度矩阵表示为：
+如果系统并非处于一个态中，而是以 :math:`p_{i}` 的概率处于 :math:`|\psi_{i}\rangle(i=1,\cdots,n)` ，这种状态无法用一个态矢量来描述，称之为混合态。其密度矩阵表示为：
 
 .. math::
 
-    \begin{equation*}
+    \begin{aligned}
         \rho_{mix}=\sum_{i} p_{i}|\psi_{i}\rangle\langle\psi_{i}|.
-    \end{equation*}
+    \end{aligned}
 
-综上所述，对于纯态它可以借助向量和密度矩阵两种形式进行描述；但是对于混合态，只能借助密度矩阵的形式进行描述。易知混合态不是叠加态，叠加态不是混合态；纯态可以是本征态，也可以是叠加态.
+综上所述，对于纯态它可以借助向量和密度矩阵两种形式进行描述。但是对于混合态，只能借助密度矩阵的形式进行描述。易知混合态不是叠加态，叠加态不是混合态；纯态可以是本征态，也可以是叠加态。
 
 纯态具有如下性质：
 
@@ -77,7 +77,7 @@
  - 1.密度矩阵 :math:`\rho_{mix}` 是非幂等的，即 :math:`\rho_{mix}^{2}\ne\rho_{mix}`
  - 2.在任意正交基下的 :math:`\rho_{mix}` 的迹 :math:`tr(\rho_{mix})=1` （所有可能的测量结果的相加）
  - 3.满足 :math:`tr(\rho_{mix}^{2})< 1` (证明过程中用Schwartz不等式即可证得)
- - 4.厄米特性与半正定性.
+ - 4.厄米特性与半正定性
 
 通过布洛赫球，可以更直观地理解纯态与混合态。球面上每一个点都能映射到一个纯态, 球内每一个点都能映射到混合态，完全混合
 态（也称为最大混合态）是球心，它意味着这里不存在任何量子叠加性，具体可见下图
@@ -127,25 +127,25 @@
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
         p(i)=\langle \psi|M_{i}^{\dagger}M_{i}|\psi\rangle
-    \end{equation}
+    \end{aligned}
 
 并且测量后的系统状态转变为
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
         \dfrac{M_{i}|\psi\rangle}{\sqrt{\langle\psi|M_{i}^{\dagger}M_{i}|\psi}\rangle}
-    \end{equation}
+    \end{aligned}
 
 由于所有可能情况的概率和为1，即
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
       \sum_{i}p(i)=\sum_{i}\langle \psi|M_{i}^{\dagger}M_{i}|\psi\rangle=1
-    \end{equation}
+    \end{aligned}
 
 则测量算子需满足
 
@@ -162,26 +162,26 @@
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
       \Lambda=\sum_{i}\lambda_{i}P_{i}
-    \end{equation}
+    \end{aligned}
 
 这里 :math:`\Lambda_{i}` 是 :math:`\Lambda` 在特征值 :math:`\lambda_{i}` 对应的特征空间上的投影. 在对状态 :math:`|\psi\rangle` 
 测量之后，得到结果i的概率为
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
         p(i)=p(\lambda=\lambda_{i})=\langle\psi|P_{i}|\psi\rangle
-    \end{equation}
+    \end{aligned}
 
 若测量后，结果i发生，则量子系统最新的状态为
 
 .. math::
 
-    \begin{equation}
+    \begin{aligned}
         \dfrac{\Lambda_{i}|\psi\rangle}{\sqrt{p_{i}}}
-    \end{equation}
+    \end{aligned}
 
 投影测量有一个重要的特征就是很容易计算投影测量的平均值以及标准差：
 
@@ -198,13 +198,13 @@
 
 .. math::
 
-    p(0)=\langle\psi|M_{0}^{\dagger}M_{0}|\psi\rangle=\langle\psi|M_{0}|\psi\rangle=\vert \alpha \vert^{2}.
+    p(0)=\langle\psi|M_{0}^{\dagger}M_{0}|\psi\rangle=\langle\psi|M_{0}|\psi\rangle=\vert \alpha \vert^{2}
 
 对应测量后的状态为
 
 .. math::
 
-    \dfrac{M_{0}|\psi\rangle}{\sqrt{\langle\psi|M_{0}^{\dagger}M_{0}|\psi}\rangle}=\dfrac{M_{0}|\psi\rangle}{|\alpha|}=\dfrac{\alpha}{|\alpha|}|0\rangle.
+    \dfrac{M_{0}|\psi\rangle}{\sqrt{\langle\psi|M_{0}^{\dagger}M_{0}|\psi}\rangle}=\dfrac{M_{0}|\psi\rangle}{|\alpha|}=\dfrac{\alpha}{|\alpha|}|0\rangle
 
 同理可得到以概率 :math:`\vert \beta \vert^2` 处于 :math:`|1\rangle` ，对应测量后的状态为 :math:`\frac{\beta}{|\beta|}|1\rangle` 。
 
@@ -218,14 +218,14 @@
 
 .. math::
 
-    \begin{equation*}
-        \dfrac{P_{1}|\psi\rangle}{\sqrt{p_{1}}}=\frac{\sqrt{2}}{2}(|0\rangle+|1\rangle)=|+\rangle.
-    \end{equation*}
+    \begin{aligned}
+        \dfrac{P_{1}|\psi\rangle}{\sqrt{p_{1}}}=\frac{\sqrt{2}}{2}(|0\rangle+|1\rangle)=|+\rangle
+    \end{aligned}
 
 结果2发生，则量子系统最新的状态为
 
 .. math::
 
-    \begin{equation*}
-        \dfrac{P_{2}|\psi\rangle}{\sqrt{p_{2}}}=\frac{\sqrt{2}}{2}(|0\rangle-|1\rangle)=|-\rangle.
-    \end{equation*}
+    \begin{aligned}
+        \dfrac{P_{2}|\psi\rangle}{\sqrt{p_{2}}}=\frac{\sqrt{2}}{2}(|0\rangle-|1\rangle)=|-\rangle
+    \end{aligned}

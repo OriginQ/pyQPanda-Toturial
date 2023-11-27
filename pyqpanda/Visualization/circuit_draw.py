@@ -6,17 +6,18 @@ from pyqpanda import count_prog_info
 from .matplotlib_draw import *
 
 
-def draw_circuit_pic(prog, pic_name, verbose=False):
+def draw_circuit_pic(prog, pic_name, scale = 0.7,verbose=False,fold = 30):
     layer_info = circuit_layer(prog)
     qcd = MatplotlibDrawer(
-        qregs=layer_info[1], cregs=layer_info[2], ops=layer_info[0], scale=0.7)
+        qregs=layer_info[1], cregs=layer_info[2], ops=layer_info[0], scale = scale,fold = fold)
     qcd.draw(pic_name, verbose)
 
 
-def draw_qprog(prog, output=None, scale=0.7, filename=None, with_logo=False, line_length=100, NodeIter_first=None,
+def draw_qprog(prog, output=None, scale=0.7, fold =30, filename=None, with_logo=False, line_length=100, NodeIter_first=None,
                NodeIter_second=None, console_encode_type='utf8'):
     """Draw a quantum circuit to different formats (set by output parameter):
 
+    **text**: ASCII art TextDrawing that can be printed in the console.
     **text**: ASCII art TextDrawing that can be printed in the console.
 
     **pic**: images with color rendered purely in Python.
@@ -26,6 +27,7 @@ def draw_qprog(prog, output=None, scale=0.7, filename=None, with_logo=False, lin
     Args:
         prog : the quantum circuit to draw
         scale (float): scale of image to draw (shrink if < 1). Only used by the ``pic`` outputs.
+        flod (int): x_max_size of image to draw. dOnly used by the ``pic`` outputs. Default is 30.
         filename (str): file path to save image to
         NodeIter_first: circuit printing start position.
         NodeIter_second: circuit printing end position.
@@ -46,7 +48,7 @@ def draw_qprog(prog, output=None, scale=0.7, filename=None, with_logo=False, lin
     if output == 'pic':
         if filename is None:
             filename = 'QCircuit_pic.jpg'
-        draw_circuit_pic(prog, filename)
+        draw_circuit_pic(prog,filename,scale,fold = fold)
     elif output == 'text':
         if filename is None:
             filename = ''

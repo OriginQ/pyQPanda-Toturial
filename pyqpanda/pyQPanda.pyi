@@ -786,6 +786,35 @@ class ClassicalCondition:
         """
         ...
 
+    @overload
+    def c_and(self, arg0: int) -> ClassicalCondition:
+        """
+        """
+        ...
+
+    @overload
+    def c_and(self, arg0: ClassicalCondition) -> ClassicalCondition:
+        """
+        """
+        ...
+
+    def c_not(self) -> ClassicalCondition:
+        """
+        """
+        ...
+
+    @overload
+    def c_or(self, arg0: int) -> ClassicalCondition:
+        """
+        """
+        ...
+
+    @overload
+    def c_or(self, arg0: ClassicalCondition) -> ClassicalCondition:
+        """
+        """
+        ...
+
     def get_val(self) -> int:
         """
         get value
@@ -1379,7 +1408,19 @@ class DensityMatrixSimulator(QuantumMachine):
         ...
 
     @overload
+    def set_noise_model(self, arg0: numpy.ndarray[numpy.complex128[m,n]], arg1: List[GateType]) -> None:
+        """
+        """
+        ...
+
+    @overload
     def set_noise_model(self, arg0: List[numpy.ndarray[numpy.complex128[m,n]]]) -> None:
+        """
+        """
+        ...
+
+    @overload
+    def set_noise_model(self, arg0: List[numpy.ndarray[numpy.complex128[m,n]]], arg1: List[GateType]) -> None:
         """
         """
         ...
@@ -2658,51 +2699,6 @@ class MPSQVM(QuantumMachine):
         ...
 
     def set_rotation_error(self, param: float) -> None:
-        """
-        """
-        ...
-
-
-class Mitigation:
-    """
-    quantum error mitigation
-    """
-    def __init__(self, Qubits: QVec, QVM, shots: int) -> None:
-        """
-        """
-        ...
-
-    def add_measure(self, Prog: QProg) -> QProg:
-        """
-        """
-        ...
-
-    def get_miti_prob(self) -> List[float]:
-        """
-        """
-        ...
-
-    def get_prog_from_layer(self, Prog, start: int, end: int) -> QCircuit:
-        """
-        """
-        ...
-
-    def get_state_size(self) -> int:
-        """
-        """
-        ...
-
-    def remove_measure(self, Prog: QProg) -> QProg:
-        """
-        """
-        ...
-
-    def zne_circuit(self, Prog: QProg, amplify_factors: List[Tuple[int,int,int]], random: bool, detail: bool = False) -> List[List[float]]:
-        """
-        """
-        ...
-
-    def zne_mitigation(self, order: List[float], error_results: List[List[float]]) -> None:
         """
         """
         ...
@@ -4671,34 +4667,63 @@ class QPilotOSMachine(QuantumMachine):
         """
         ...
 
-    def async_em_compute(self, qcir: str, noiseLearningResultFile: str, noiseStrength: float = 1.0, loops: int = 100, shot: int = 256) -> str:
+    def async_em_compute(self, parameter_json: str) -> str:
         """
         """
         ...
 
-    def async_noise_learning(self, script: str, ir: str, shots: int = 1000, samples: int = 256, circuitDepthList: List[int] = [], isCommon: bool = True, isEMCompute: bool = True) -> str:
-        """
-        """
-        ...
-
-    def async_real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> str:
-        """
-        """
-        ...
-
-    def async_real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> str:
+    def async_real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
         """
         """
         ...
 
     @overload
-    def async_real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> str:
+    def async_real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
         """
         """
         ...
 
     @overload
-    def async_real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> str:
+    def async_real_chip_measure(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst_density(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst_fidelity(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
         """
         """
         ...
@@ -4745,12 +4770,7 @@ class QPilotOSMachine(QuantumMachine):
         """
         ...
 
-    def em_compute(self, qcir: str, noiseLearningResultFile: str, noiseStrength: float = 1.0, loops: int = 100, shot: int = 256) -> str:
-        """
-        """
-        ...
-
-    def em_compute_new(self, parameter_json: str) -> str:
+    def em_compute(self, parameter_json: str) -> List[float]:
         """
         """
         ...
@@ -4761,27 +4781,57 @@ class QPilotOSMachine(QuantumMachine):
         """
         ...
 
-    def init(self, url: str = '', log_cout: bool = False, api_key: str = '') -> None:
+    def get_expectation_result(self, task_id: str) -> list:
         """
         """
         ...
 
-    def init_old(self, url: str = '', log_cout: bool = False, username: str = '', password: str = '') -> None:
+    @overload
+    def get_measure_result(self, task_id: str) -> list:
         """
         """
         ...
 
-    def init_qvm(self, url: str = '', log_cout: bool = False, api_key: str = '') -> None:
+    @overload
+    def get_measure_result(self, task_id: str) -> list:
         """
         """
         ...
 
-    def noise_learning(self, script: str, ir: str, shots: int = 1000, samples: int = 256, circuitDepthList: List[int] = [], isCommon: bool = True, isEMCompute: bool = True) -> str:
+    def get_qst_density_result(self, task_id: str) -> list:
         """
         """
         ...
 
-    def noise_learning_new(self, parameter_json: str = True) -> str:
+    def get_qst_fidelity_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def get_qst_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    @overload
+    def init(self) -> None:
+        """
+        """
+        ...
+
+    @overload
+    def init(self, url: str, log_cout: bool = False, api_key: str = None) -> None:
+        """
+        """
+        ...
+
+    @overload
+    def init(self, url: str, log_cout: bool = False, username: str = None, password: str = None) -> None:
+        """
+        """
+        ...
+
+    def noise_learning(self, parameter_json: str = True) -> str:
         """
         """
         ...
@@ -4801,6 +4851,34 @@ class QPilotOSMachine(QuantumMachine):
         """
         ...
 
+    def parse_prob_counts_result(self, result_str: List[str]) -> List[Dict[str,int]]:
+        """
+        Parse result str to map<string, double>
+        Args:
+            result_str: Taeget result string
+        
+        Returns:
+            array: vector<map<string, double>>
+        Raises:
+            none
+        
+        """
+        ...
+
+    def parse_probability_result(self, result_str: List[str]) -> List[Dict[str,float]]:
+        """
+        Parse result str to map<string, double>
+        Args:
+            result_str: Taeget result string
+        
+        Returns:
+            array: vector<map<string, double>>
+        Raises:
+            none
+        
+        """
+        ...
+
     def parse_task_result(self, result_str: str) -> Dict[str,float]:
         """
         Parse result str to map<string, double>
@@ -4809,37 +4887,6 @@ class QPilotOSMachine(QuantumMachine):
         
         Returns:
             dict: map<string, double>
-        Raises:
-            none
-        
-        """
-        ...
-
-    @overload
-    def parse_task_result_vec(self, result_str: List[str]) -> List[Dict[str,float]]:
-        """
-        Parse result str to map<string, double>
-        Args:
-            result_str: Taeget result string
-        
-        Returns:
-            array: vector<map<string, double>>
-        Raises:
-            none
-        
-        
-        """
-        ...
-
-    @overload
-    def parse_task_result_vec(self, result_str: List[str]) -> List[Dict[str,int]]:
-        """
-        Parse result str to map<string, double>
-        Args:
-            result_str: Taeget result string
-        
-        Returns:
-            array: vector<map<string, double>>
         Raises:
             none
         
@@ -4933,24 +4980,67 @@ class QPilotOSMachine(QuantumMachine):
         """
         ...
 
-    def real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> float:
-        """
-        """
-        ...
-
-    def real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> Dict[str,float]:
+    def real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> float:
         """
         """
         ...
 
     @overload
-    def real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> List[Dict[str,float]]:
+    def real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,float]:
         """
         """
         ...
 
     @overload
-    def real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = []) -> List[Dict[str,float]]:
+    def real_chip_measure(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,float]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,int]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,int]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,int]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,int]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
         """
         """
         ...
@@ -12917,6 +13007,11 @@ def prob_run_tuple_list(qptog: QProg, qubit_list: QVec, select_max: int = -1) ->
     ...
 
 def prog_layer(*args, **kwargs) -> Any:
+    """
+    """
+    ...
+
+def prog_to_dag(prog: QProg) -> QProgDAG:
     """
     """
     ...

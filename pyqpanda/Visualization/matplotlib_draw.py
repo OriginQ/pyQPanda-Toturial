@@ -62,7 +62,7 @@ class Anchor:
         self.gate_anchor = 0
         self.b_fold = False
         self.last_h_pos = 0.0
-        self.max_x_pos = 30.0
+        self.max_x_pos = fold
         self.__flod_cnt = 0
 
     def get_fold_info(self):
@@ -507,7 +507,7 @@ class MatplotlibDrawer:
             color_str = 'X'
         elif tmp_op_name in ['I']:
             color_str = 'I'
-        elif tmp_op_name in ['X1', 'Y1', 'Z1', 'RX', 'RY', 'RZ']:
+        elif tmp_op_name in ['X1', 'Y1', 'Z1', 'RX', 'RY', 'RZ', 'RPhi']:
             color_str = 'X1'
         elif tmp_op_name in ['CNOT', 'CPHASE', 'CZ']:
             color_str = 'CNOT'
@@ -852,7 +852,7 @@ class MatplotlibDrawer:
 
         # lf line
         if feedline_r:
-            # self._linefeed_mark((self.fold + self.x_offset + 1 - 0.1 + self.layer_offset_recode[n_fold],
+            #self._linefeed_mark((self.fold + self.x_offset + 1 - 0.1 + self.layer_offset_recode[n_fold],
             #                      - n_fold * (self._cond['n_lines'] + 1)))
             self._linefeed_mark((self._cond['xmax'],
                                  - n_fold * (self._cond['n_lines'] + 1)))
@@ -923,7 +923,7 @@ class MatplotlibDrawer:
         _wide_gate = [GateType.RX_GATE, GateType.RY_GATE, GateType.RZ_GATE, GateType.U1_GATE, GateType.U2_GATE,
                       GateType.U3_GATE, GateType.U4_GATE, GateType.CU_GATE, GateType.CPHASE_GATE, GateType.ISWAP_THETA_GATE,
                       GateType.U3_GATE, GateType.U4_GATE, GateType.CU_GATE, GateType.CPHASE_GATE, GateType.ISWAP_THETA_GATE,
-                      GateType.RXX_GATE, GateType.RYY_GATE, GateType.RZZ_GATE, GateType.RZX_GATE]
+                      GateType.RXX_GATE, GateType.RYY_GATE, GateType.RZZ_GATE, GateType.RZX_GATE, GateType.RPHI_GATE]
         _barriers = {'coord': [], 'group': []}
 
         #
@@ -1481,8 +1481,8 @@ class MatplotlibDrawer:
         # n_fold = max(0, max_anc - 1) // self.fold
         # window size
         if max_anc > self.fold > 0:
-            #self._cond['xmax'] = self.fold + 1 + self.x_offset + my_offset
-            self._cond['xmax'] = 30.0
+            self._cond['xmax'] = self.fold + 1 + self.x_offset + my_offset
+            #self._cond['xmax'] = 30.0
             self._cond['ymax'] = (n_fold + 1) * (self._cond['n_lines'] + 1) - 1
         else:
             self._cond['xmax'] = max_anc + 1 + self.x_offset + my_offset

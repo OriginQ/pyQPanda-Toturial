@@ -1,10 +1,123 @@
 更新日志
 ============
 
-3.7.17.1 - 2023-7-25
-************************
+3.8.0 - 2023-10-31
+-------------------------
 
-本次小版本更新重点解决的问题如下:
+.. _`pyqpanda-algorithm`: https://pyqpanda-algorithm-tutorial.readthedocs.io/en/latest
+
+**更新和代码改动内容：**
+
+1.新增量子程序关于单双门数、层数、总逻辑门数量相关的统计接口 ``count_prog_info`` ,示例
+
+    .. code-block:: python
+
+        # 统计 QProg 的信息
+        prog_info = count_prog_info(my_qprog)
+
+        # 统计 QCircuit 的信息，并启用优化
+        optimized_info = count_prog_info(my_qcircuit, optimize=True)
+
+        # 获取统计结果的各种属性
+        num_layers = prog_info.layer_num
+        num_gates = prog_info.gate_num
+        num_double_gates = prog_info.double_gate_num
+        # ... 其他属性获取
+    
+    基于分层统计的量子程序数据分析，可用于评估量子程序的运行时间、深度及复杂度，有利于更好的对量子算法进行改进，
+    该接口同时提供了较为全面的可视化输出接口，具体可参考 :ref:`QProgInfoCount` 
+
+2. 基于Clifford的 ``stabilizer`` 模拟器添加了噪声模拟，目前仅支持比特翻转,相位反转,比特相位反转,去极化以及相位阻尼这五个噪声模型，具体可以参考下面的代码和 :ref:`Stabilizer` 中的接口介绍。
+
+    .. code-block:: python
+
+        from pyqpanda import *
+
+        machine = Stabilizer()
+        machine.set_configure(72,72)
+
+        machine.init_qvm()
+
+        qlist = machine.qAlloc_many(6)
+        clist = machine.cAlloc_many(6)
+
+        measure_prog = QProg()
+        measure_prog << X(qlist[0])\
+                    << X(qlist[1])\
+                    << CNOT(qlist[1], qlist[2])\
+                    << CNOT(qlist[2], qlist[3])\
+                    << measure_all(qlist, clist)
+
+        machine.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR,GateType.PAULI_X_GATE,0.2)
+        print(machine.run_with_configuration(measure_prog,10000))
+
+3. 将pyqpanda中关于算法部分全部移植到 ``pyqpanda-algorithm`` 算法库，这个是一个独立于pyqpanda的算法模块包，详细模块和接口功能具体可见 `pyqpanda-algorithm`_
+
+
+4. 密度矩阵噪声设置现在可以正确叠加，参考如下代码:
+   
+    .. code-block:: python
+
+        machine = DensityMatrixSimulator()
+        machine.init_qvm()
+
+        prog = QProg()
+        q = machine.qAlloc_many(2)
+        c = machine.cAlloc_many(2)
+
+        prog.insert(X(q[0]))\
+            .insert(CNOT(q[0], q[1]))
+
+        density_matrix1 = machine.get_density_matrix(prog)
+
+        # case 1 expectation: 00 -> 0.42 , 11 -> 0.58
+        machine.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.3)
+        machine.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.3)
+        density_matrix2 = machine.get_density_matrix(prog)
+
+5. ClassicalCondition添加c_and、c_or、c_not功能，用于构建量子逻辑分支程序时实现复杂的表达式判断，可以参考下面的代码
+
+    .. code-block:: python
+
+        p = QProg();
+        p << H(qubits[0]) \
+            << CNOT(qubits[0], qubits[1]) \
+            << H(qubits[2]) \
+            << Measure(qubits[0], cbits[0])\
+            << Measure(qubits[1], cbits[1])\
+            << Measure(qubits[2], cbits[2])
+
+        true_prog1 = QProg();
+        true_prog2 = QProg();
+        true_prog3 = QProg();
+        true_prog4 = QProg();
+
+        true_prog3 << X(qubits[2]);
+
+        if_prog3 = create_if_prog((cbits[0] == 0).c_and(cbits[1] == 0).c_and(cbits[2] == 0), true_prog3)
+
+**修复和解决的问题：**
+
+1. 修复量子态编码中关于复数数据重载函数在python中调用出现丢失虚部，导致只索引double类型接口错误。
+
+2. 解决某些使用GPU虚拟机情况下，cuda与Eigen3的运行冲突问题
+
+3. 修改了经典寄存器部分情况下有误，造成无法使用qif和qwhile的问题
+
+4. 优化了量子线路映射和转化过程中的错误
+   
+5. 解决CPUQVM部分初始化和虚拟机释放场景下使用引入的内存泄漏问题  
+   
+6. 解决了部分映射接口在使用时异常出现程序崩溃和死循环的错误
+
+7. 修改了所有模拟器可能在计算含有BARRIER的量子程序过程中出错的问题
+
+8. 解决控制swap逻辑门，进行多控门分解时，控制信息丢失问题
+    
+3.7.17.1 - 2023-7-25
+-------------------------
+
+**本次小版本更新重点解决的问题如下: **
 
 1.量子门统计相关接口，添加对枚举和整型的兼容性支持
 
@@ -81,10 +194,9 @@
         #本次更新结果 : 每次的线路完全相同
 
 3.7.17 - 2023-5-22
-************************
-
-新增功能和重要更新
 --------------------
+
+**新增功能和重要更新：**
 
 1.新增 ``Clifford模拟器`` ，主要用于基础量子纠错场景以及高比特且稀疏的Clifford门集构成的量子线路模拟，具体接口可以参考 :ref:`Stabilizer` 。 
 
@@ -203,8 +315,7 @@
         operator = pq.PauliOperator(np.array([0, 1, 1, 0]).reshape(2, 2), True)
         operator = pq.PauliOperator("X0 X1", 0.122, True)
 
-其他更新
---------
+**其他更新：**
 
 1.修复在某些情况下，GPU虚拟机无法在linux下运行的问题
 
@@ -220,10 +331,9 @@
 
 
 3.7.16 - 2023-1-12
-************************
-
-新增功能和重要更新
 --------------------
+
+**新增功能和重要更新:**
 
 1.新增 ``密度矩阵模拟器`` ，适用于小型量子系统下的密度矩阵模拟，同时提供约化密度矩阵，概率分布，哈密顿量期望以及噪声线路模拟等接口，具体可以参考 :ref:`密度矩阵模拟器` 。 
 
