@@ -27,7 +27,7 @@ QPanda 2提供了QASM文件转换工具接口 ``convert_qasm_to_qprog`` 该接�
 
         # 初始化 QuantumMachine 实例
         machine = CPUQVM()
-        qvm.init_qvm()
+        machine.init_qvm()
         
         # 将 QASM 文件转换为 QProg
         result = convert_qasm_to_qprog("my_circuit.qasm", machine)

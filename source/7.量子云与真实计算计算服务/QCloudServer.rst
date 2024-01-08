@@ -8,8 +8,8 @@
 .. image:: ./images/qcloud.png
    :align: center
 
-pyqpanda封装了量子云虚拟机，可以向本源量子的计算服务器集群或量子真实芯片发送计算指令，并获取计算结果，在使用下文介绍的各种虚拟机之前，需要确保已开通对应的虚拟机产品。
+pyqpanda封装了多种量子计算服务，可以向本源量子的计算服务器集群或量子真实芯片发送计算指令，并获取计算结果，具体见下图。
 
-.. image:: ./images/products.png
+.. image:: ./images/2024cloud.png
    :align: center
  

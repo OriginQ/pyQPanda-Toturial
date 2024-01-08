@@ -706,6 +706,7 @@ class MatplotlibDrawer:
         fig_h = _yt - _yb
         if self._style.figwidth < 0.0:
             self._style.figwidth = fig_w * self._scale * self._style.fs / 72 / WID
+            #self._style.figwidth = self.fold+5
         self.figure.set_size_inches(
             self._style.figwidth, self._style.figwidth * fig_h / fig_w)
 
@@ -790,7 +791,7 @@ class MatplotlibDrawer:
     def _draw_regs_sub(self, n_fold, feedline_l=False, feedline_r=False):
         if n_fold < len(self.layer_offset_recode):
             #self._cond['xmax'] = self.fold + self.x_offset + 1 - 0.1 + self.layer_offset_recode[n_fold] + 1.5
-            self._cond['xmax'] = 30.5
+            self._cond['xmax'] = self.fold+0.5
 
         # quantum register
         for qreg in self._qreg_dict.values():
@@ -1368,6 +1369,9 @@ class MatplotlibDrawer:
                         disp = op.m_name
                         self._custom_multiqubit_gate(q_xy, c_xy, wide=True,
                                                      text=disp, subtext=str(param))
+                    elif op.m_gate_type in [GateType.MS_GATE]:
+                        self._custom_multiqubit_gate(q_xy, c_xy, wide=True,
+                                                     text=op.m_name)
 
                     else:
                         self._custom_multiqubit_gate(q_xy, c_xy, wide=True,
@@ -1481,12 +1485,12 @@ class MatplotlibDrawer:
         # n_fold = max(0, max_anc - 1) // self.fold
         # window size
         if max_anc > self.fold > 0:
-            self._cond['xmax'] = self.fold + 1 + self.x_offset + my_offset
+            self._cond['xmax'] = self.fold + 1
             #self._cond['xmax'] = 30.0
             self._cond['ymax'] = (n_fold + 1) * (self._cond['n_lines'] + 1) - 1
         else:
-            self._cond['xmax'] = max_anc + 1 + self.x_offset + my_offset
-            self._cond['ymax'] = self._cond['n_lines']
+            self._cond['xmax'] = max_anc + 1 
+            self._cond['ymax'] = (n_fold + 1) * (self._cond['n_lines'] + 1) - 1
         # add horizontal lines
         for ii in range(n_fold + 1):
             feedline_r = (n_fold > 0 and n_fold > ii)

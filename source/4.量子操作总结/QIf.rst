@@ -163,6 +163,31 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
         :type other: Union[ClassicalCondition, int]
         :return: 计算结果作为新的经典条件
 
+    .. method:: c_and(arg0: Union[ClassicalCondition, int]) -> ClassicalCondition
+
+      执行与其他经典条件或整数的逻辑与操作。
+
+      :param arg0: 用于逻辑与操作的其他经典条件或整数。
+      :type arg0: Union[ClassicalCondition, int]
+      :return: 作为新的经典条件的与操作结果。
+      :rtype: ClassicalCondition
+
+   .. method:: c_not() -> ClassicalCondition
+
+      执行逻辑非操作。
+
+      :return: 作为新的经典条件的非操作结果。
+      :rtype: ClassicalCondition
+
+   .. method:: c_or(arg0: Union[ClassicalCondition, int]) -> ClassicalCondition
+
+      执行与其他经典条件或整数的逻辑或操作。
+
+      :param arg0: 用于逻辑或操作的其他经典条件或整数。
+      :type arg0: Union[ClassicalCondition, int]
+      :return: 作为新的经典条件的或操作结果。
+      :rtype: ClassicalCondition
+
 .. _api_introduction:
 
 接口介绍
@@ -280,42 +305,7 @@ QIf表示量子程序条件判断操作，输入参数为条件判断表达式�
         [(0, 0.4999999999999999), (7, 0.4999999999999999), (1, 0.0), (2, 0.0), (3, 0.0), (4, 0.0), (5, 0.0), (6, 0.0)]
 
 
-经典寄存器可以同时实现一些经典的判断表达式或者逻辑语句，例如经典逻辑中的and和or，相关模块定义如下
-
-.. class:: ClassicalCondition
-
-   经典条件类 - cexpr 类的代理类
-
-   .. method:: __init__(*args, **kwargs)
-
-      初始化 ClassicalCondition 类实例。
-
-   .. method:: c_and(arg0: Union[ClassicalCondition, int]) -> ClassicalCondition
-
-      执行与其他经典条件或整数的逻辑与操作。
-
-      :param arg0: 用于逻辑与操作的其他经典条件或整数。
-      :type arg0: Union[ClassicalCondition, int]
-      :return: 作为新的经典条件的与操作结果。
-      :rtype: ClassicalCondition
-
-   .. method:: c_not() -> ClassicalCondition
-
-      执行逻辑非操作。
-
-      :return: 作为新的经典条件的非操作结果。
-      :rtype: ClassicalCondition
-
-   .. method:: c_or(arg0: Union[ClassicalCondition, int]) -> ClassicalCondition
-
-      执行与其他经典条件或整数的逻辑或操作。
-
-      :param arg0: 用于逻辑或操作的其他经典条件或整数。
-      :type arg0: Union[ClassicalCondition, int]
-      :return: 作为新的经典条件的或操作结果。
-      :rtype: ClassicalCondition
-
-代码示例如下：
+经典寄存器可以同时实现一些经典的判断表达式或者逻辑语句，例如经典逻辑中的and和or，代码示例如下：
 
     .. code-block:: python
 

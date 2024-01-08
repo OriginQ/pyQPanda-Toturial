@@ -1,6 +1,187 @@
 更新日志
 ============
 
+3.8.2 - 2023-01-05
+--------------------
+
+**新增功能和重要更新：**
+
+1.量子计算服务适配了本源悟空芯片上线，并且可以支持originir量子程序参数， ``real_chip_type.origin_72`` 即为72比特芯片类型，使用方法可以参考 :ref:`真实芯片计算服务` 
+
+    .. code-block:: python
+
+        machine = QCloud()
+        machine.set_configure(72,72);
+
+        # online, xxx 替换为实际的用户api_token
+        machine.init_qvm("XXX",False)
+
+        qlist = machine.qAlloc_many(6)
+        clist = machine.cAlloc_many(6)
+
+        # 构建量子程序，可以手动输入，也可以来自OriginIR或QASM语法文件等
+        measure_prog = QProg()
+        measure_prog << H(qlist[0])\
+                    << CNOT(qlist[0], qlist[1])\
+                    << CNOT(qlist[1], qlist[2])\
+                    << Measure(qlist[0], clist[0])\
+                    << Measure(qlist[1], clist[1])\
+                    << Measure(qlist[2], clist[2])
+
+        batch_prog = [measure_prog for _ in range (6)]
+
+        pmeasure_prog = QProg()
+        pmeasure_prog << H(qlist[0])\
+                    << CNOT(qlist[0], qlist[1])\
+                    << CNOT(qlist[1], qlist[2])
+        
+        prog_string = convert_qprog_to_originir(measure_prog, machine)
+        originir_list = [convert_qprog_to_originir(prog, machine) for prog in batch_prog]
+
+        real_chip_measure_result = machine.real_chip_measure(measure_prog, 1000, real_chip_type.origin_72)
+        originir_result =  machine.real_chip_measure(prog_string, 1000, real_chip_type.origin_72)
+
+        print(real_chip_measure_result)
+        print(originir_result)
+
+2.ldd多控门分解接口( ``ldd_decompose`` )适配了RXX,RYY,RZX,RZZ,MS等特殊双门以及 ``QOracle`` 的受控形式，示例程序如下
+
+    .. code-block:: python
+
+        from pyqpanda import *
+        from scipy.stats import unitary_group
+
+        machine = CPUQVM()
+        machine.init_qvm()
+        q = machine.qAlloc_many(5)
+        c = machine.cAlloc_many(5)
+
+        prog = QProg()
+        prog << random_qcircuit(q, 10)
+
+        # 生成任意酉矩阵
+        unitary_matrix = unitary_group.rvs(2**2,random_state=169384)
+
+        prog << X([q[2], q[3], q[4]])\
+            << RXX(q[0], q[1], 1).control([q[2], q[3], q[4]])\
+            << RYY(q[0], q[1], 2).control([q[2], q[3], q[4]])\
+            << QOracle([q[0], q[1]], unitary_matrix).control([q[2], q[3], q[4]])
+
+        in_matrix = get_unitary(prog)
+
+        def compare_complex_lists(list1, list2, tolerance=1e-6):
+            array1 = np.array(list1)
+            array2 = np.array(list2)
+
+            real_close = np.allclose(array1.real, array2.real, atol=tolerance)
+            imag_close = np.allclose(array1.imag, array2.imag, atol=tolerance)
+            return real_close and imag_close
+
+        out_matrix = get_unitary(ldd_decompose(prog))
+
+        import numpy as np
+        if(compare_complex_lists(in_matrix, out_matrix)):
+            print("ldd_decompose success.")
+
+**其他更新：**
+
+1.修复了ISWAP的dagger形式在多个虚拟机下的计算结果错误
+2.修复了部分情况下pyqpanda导入依旧需要libcurl的问题
+
+3.8.1 - 2023-12-25
+--------------------
+
+**新增功能和重要更新：**
+
+1.新增了稀疏态量子态初态接口，用于稀疏方式进行初态制备，需要满足初态归一化条件，代码示例：
+
+    .. code-block:: python
+
+        machine = CPUQVM()
+        machine.set_configure(72,72);
+
+        machine.init_qvm()
+
+        qlist = machine.qAlloc_many(6)
+        clist = machine.cAlloc_many(6)
+
+        sparse_state = {'000000' : 0.5 + 0.5j, '000001' : 0.5 + 0.5j}
+        machine.init_sparse_state(sparse_state, qlist)
+
+        prog = QProg()
+        prog << I(qlist[0])
+
+        machine.directly_run(prog)  
+        probs = machine.get_qstate();
+
+        print(probs)
+
+2.量子云虚拟机添加了批量任务提交，目前仅可用于芯片任务的批量任务提交。
+
+    .. code-block:: python
+
+        machine = QCloud()
+        machine.set_configure(72,72);
+
+        #xxx替换为量子云用户token
+        machine.init_qvm("XXX", True) 
+
+        qlist = machine.qAlloc_many(6)
+        clist = machine.cAlloc_many(6)
+
+        measure_prog = QProg()
+        measure_prog << hadamard_circuit(qlist)\
+                    << CZ(qlist[0], qlist[1])\
+                    << Measure(qlist[0], clist[0])\
+                    << Measure(qlist[1], clist[1])\
+                    << Measure(qlist[2], clist[2])
+
+        batch_prog = [measure_prog for _ in range (6)]
+
+        pmeasure_prog = QProg()
+        pmeasure_prog  << hadamard_circuit(qlist)\
+                    << CZ(qlist[0], qlist[1])
+
+        batch_measure_result = machine.real_chip_measure_batch(batch_prog, 1000, real_chip_type.origin_72);
+        print(batch_measure_result)
+
+
+3.虚拟机计算模拟和originir指令添加了Mlmer–Srensen"逻辑门（MS门）
+
+    .. code-block:: python
+
+        MS q[0],q[1]
+
+4.新增了CircuitComposer，用于优化打印时的信息显示
+
+    .. code-block:: python
+
+        import pyqpanda as pq
+        from pyqpanda import circuit_composer
+
+        def test_append():
+            circ1 = CircuitComposer(n_qubits)
+            circuit = pq.QCircuit()
+            circuit << pq.H(q[0]) << pq.CNOT(q[0], q[1]) << pq.CNOT(q[1], q[2])
+            circ1.append(circuit)
+            circ1 << pq.BARRIER(q)
+            circ1.append(pq.QFT(q[3:]), "QFT")
+
+            print(circ1)
+            print(circ1.circuit)
+
+        if __name__ == '__main__':
+            n_qubits = 6
+            qvm = pq.CPUQVM()
+            qvm.init_qvm()
+            q = qvm.qAlloc_many(n_qubits)
+
+            test_append()
+
+**其他更新：**
+
+1.修复量子虚拟机set_configure设置与init的冲突，该问题会导致部分情况下的内存泄露
+
 3.8.0 - 2023-10-31
 -------------------------
 
@@ -27,7 +208,7 @@
     基于分层统计的量子程序数据分析，可用于评估量子程序的运行时间、深度及复杂度，有利于更好的对量子算法进行改进，
     该接口同时提供了较为全面的可视化输出接口，具体可参考 :ref:`QProgInfoCount` 
 
-2. 基于Clifford的 ``stabilizer`` 模拟器添加了噪声模拟，目前仅支持比特翻转,相位反转,比特相位反转,去极化以及相位阻尼这五个噪声模型，具体可以参考下面的代码和 :ref:`Stabilizer` 中的接口介绍。
+1. 基于Clifford的 ``stabilizer`` 模拟器添加了噪声模拟，目前仅支持比特翻转,相位反转,比特相位反转,去极化以及相位阻尼这五个噪声模型，具体可以参考下面的代码和 :ref:`Stabilizer` 中的接口介绍。
 
     .. code-block:: python
 
@@ -51,10 +232,10 @@
         machine.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR,GateType.PAULI_X_GATE,0.2)
         print(machine.run_with_configuration(measure_prog,10000))
 
-3. 将pyqpanda中关于算法部分全部移植到 ``pyqpanda-algorithm`` 算法库，这个是一个独立于pyqpanda的算法模块包，详细模块和接口功能具体可见 `pyqpanda-algorithm`_
+2. 将pyqpanda中关于算法部分全部移植到 ``pyqpanda-algorithm`` 算法库，这个是一个独立于pyqpanda的算法模块包，详细模块和接口功能具体可见 `pyqpanda-algorithm`_
 
 
-4. 密度矩阵噪声设置现在可以正确叠加，参考如下代码:
+3. 密度矩阵噪声设置现在可以正确叠加，参考如下代码:
    
     .. code-block:: python
 
@@ -75,7 +256,7 @@
         machine.set_noise_model(NoiseModel.BITFLIP_KRAUS_OPERATOR, GateType.PAULI_X_GATE, 0.3)
         density_matrix2 = machine.get_density_matrix(prog)
 
-5. ClassicalCondition添加c_and、c_or、c_not功能，用于构建量子逻辑分支程序时实现复杂的表达式判断，可以参考下面的代码
+4. ClassicalCondition添加c_and、c_or、c_not功能，用于构建量子逻辑分支程序时实现复杂的表达式判断，可以参考下面的代码
 
     .. code-block:: python
 

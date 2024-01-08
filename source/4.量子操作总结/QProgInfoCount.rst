@@ -150,6 +150,7 @@ pyqpanda中可以使用 ``count_prog_info`` 对层数和节点数进行统计。
         all gate num :  54
         all layer num :  26
         single gate num :  18
+        double gate num :  36
         single gate layer num :  3
         double gate layer num :  11
         selected_gate_nums :  {<GateType.HADAMARD_GATE: 10>: 18}
