@@ -401,22 +401,9 @@ U门
    \begin{aligned}
       U1(\lambda) &= P(\lambda) = U(0, 0, \lambda) \\
       U2(\phi, \lambda) &= U(\frac{\pi}{2}, \phi, \lambda)\\ 
-      U3(\theta, \phi, \lambda) &= U(\theta, \phi, \lambda)
+      U3(\theta, \phi, \lambda) &= U(\theta, \phi, \lambda)\\
+      U4(\alpha, \beta, \gamma, \delta) &= e^{-i*(\alpha+(\beta+\delta)/2)}U3(\gamma, \delta, \lambda)
    \end{aligned}
-
-其中，:math:`U_4` 门是一个通用的单比特旋转门，允许在量子比特上进行任意的单比特操作。:math:`U_4` 门的参数通常被表示为 :math:`(\alpha, \beta, \gamma, \delta)` 。让我们逐步来理解这些参数的含义：
-
- :math:`\alpha` ：控制绕Z轴的旋转相位
-参数 :math:`\alpha`  旋转轴相位，控制绕Z轴的旋转角度。
-
- :math:`\beta` ：控制绕Y轴的旋转相位
-参数 :math:`\beta` 旋转轴相位，控制绕Y轴的旋转角度。
-
- :math:`\gamma` ：旋转角度
-参数 :math:`\gamma` 旋转的角度，控制旋转的大小。它影响着整个旋转操作的幅度。
-
- :math:`\delta` ：全局相位
-参数 :math:`\delta` 全局相位系数。
 
 .. tabularcolumns:: |m{0.06\textwidth}<{\centering}|c|c|
 

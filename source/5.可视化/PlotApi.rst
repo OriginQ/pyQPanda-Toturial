@@ -245,7 +245,6 @@ Bloch球轨迹
     .. code-block:: python
 
         from pyqpanda import *
-        import numpy as np
 
         machine = CPUQVM()
         machine.init_qvm()

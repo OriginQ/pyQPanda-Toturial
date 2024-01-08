@@ -80,12 +80,15 @@ def draw_qprog(prog, output=None, scale=0.7, fold =30, filename=None, with_logo=
 
     return text_pic
 
-def show_prog_info_count(prog,optimize=False):
+def show_prog_info_count(prog):
 
-    info_count = count_prog_info(prog, optimize)
+    info_count = count_prog_info(prog)
 
-    labels_node = ['Single Gate Node', 'Double Gate Node', 'Other Nodes']
-    sizes_node = [info_count.single_gate_num, info_count.double_gate_num, info_count.node_num - info_count.single_gate_num - info_count.double_gate_num]
+    labels_node = ['Single Gate Node', 'Double Gate Node', 'Multi Control Gate Node', 'Other Nodes']
+    sizes_node = [info_count.single_gate_num, 
+                  info_count.double_gate_num, 
+                  info_count.multi_control_gate_num, 
+                  info_count.node_num - info_count.single_gate_num - info_count.double_gate_num - info_count.multi_control_gate_num]
 
     labels_layer = ['Single Gate Layer', 'Double Gate Layer', 'Other Layers']
     sizes_layer = [info_count.single_gate_layer_num, info_count.double_gate_layer_num, info_count.layer_num - info_count.single_gate_layer_num - info_count.double_gate_layer_num]

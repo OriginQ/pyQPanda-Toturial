@@ -198,7 +198,6 @@ PHASE_DAMPING_OPRATOR是相位阻尼噪声模型，它的kraus算符和表示方
             DECOHERENCE_KRAUS_OPERATOR
             DEPHASING_KRAUS_OPERATOR
             DEPOLARIZING_KRAUS_OPERATOR
-            PAULI_KRAUS_MAP
             PHASE_DAMPING_OPRATOR
 
 使用 :code:`Noise` 类接口设置噪声模型参数：

@@ -1,8 +1,5 @@
 .. _QASM介绍:
 
-QASM介绍
----------
-
 QASM(Quantum Assembly Language)是IBM公司提出的量子汇编语言，与 :ref:`QRunes介绍` 中的语法规则类似，一段QASM代码如下所示：
 
     :: 
