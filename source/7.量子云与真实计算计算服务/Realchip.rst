@@ -65,7 +65,7 @@
         :type shot: int
         :param chip_id: 远程计算集群上的芯片ID，正确默认为2（本源悟源芯片5号）。
         :type chip_id: int, optional
-        :param is_amend: 是否自动修正电路。
+        :param is_amend: 是否开启读取保真度修正。
         :type is_amend: bool, optional
         :param is_mapping: 是否进行电路映射。
         :type is_mapping: bool, optional
@@ -87,7 +87,7 @@
         :type shot: int
         :param chip_id: 远程计算集群上的芯片ID，正确默认为2（本源悟源芯片5号）。
         :type chip_id: int, optional
-        :param is_amend: 是否自动修正电路。
+        :param is_amend: 是否开启读取保真度修正。
         :type is_amend: bool, optional
         :param is_mapping: 是否进行电路映射。
         :type is_mapping: bool, optional
@@ -121,7 +121,7 @@
         :type shot: int
         :param chip_id: 实际芯片ID，正确默认为2（本源悟源芯片5号）。
         :type chip_id: int, optional
-        :param is_amend: 是否自动修正电路，默认为True。
+        :param is_amend: 是否开启读取保真度修正，默认为True。
         :type is_amend: bool, optional
         :param is_mapping: 是否进行电路映射，默认为True。
         :type is_mapping: bool, optional
@@ -144,7 +144,7 @@
         :type shot: int
         :param chip_id: 实际芯片ID，默认为2（本源悟源芯片5号）。
         :type chip_id: int, optional
-        :param is_amend: 是否自动修正电路，默认为True。
+        :param is_amend: 是否开启读取保真度修正，默认为True。
         :type is_amend: bool, optional
         :param is_mapping: 是否进行电路映射，默认为True。
         :type is_mapping: bool, optional
