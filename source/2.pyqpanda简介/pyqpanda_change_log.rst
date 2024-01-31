@@ -1,6 +1,43 @@
 更新日志
 ============
 
+3.8.2.3 - 2024-01-05
+--------------------
+
+**新增功能和重要更新：**
+
+1.量子云计算服务芯片任务添加了相关限制，单个任务的层数不能超过 **500** 层，并且单门控制比特数量不能超过 **2** 个（Toffoli门除外），
+双门不支持添加控制比特，如果量子线路中有相关计算需求，需要先调用多控门分解接口 **ldd_decompose** ，参考如下代码：
+
+    .. code-block:: python
+
+        import numpy as np
+        from pyqpanda import *
+
+        online_api_key = "XXX"
+    
+        machine = QCloud()
+        machine.set_configure(72,72);
+
+        # online
+        machine.init_qvm(online_api_key,True)
+
+        q = machine.qAlloc_many(6)
+        c = machine.cAlloc_many(6)
+
+        measure_prog = QProg()
+        measure_prog << X(q[1])\
+                    << X(q[2])\
+                    << H(q[0]).control([q[1], q[2], q[3]])\
+                    << CNOT(q[0], q[1])\
+                    << CNOT(q[1], q[2]).control([q[1], q[2], q[3]])\
+                    << Measure(q[0], c[0])
+        
+        decomposed_prog = ldd_decompose(measure_prog)
+        measure_result = machine.real_chip_measure(decomposed_prog, 1000, real_chip_type.origin_72)
+
+        print(measure_result)
+
 3.8.2 - 2024-01-05
 --------------------
 
