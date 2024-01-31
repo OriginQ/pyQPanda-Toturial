@@ -37,7 +37,7 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     :maxdepth: 2
     :caption: 量子编程基础
 
-    ./3.量子编程基础/index
+    # ./3.量子编程基础/index
 
 .. toctree::
     :maxdepth: 2

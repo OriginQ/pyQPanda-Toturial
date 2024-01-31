@@ -111,7 +111,7 @@
         :param request_time_out: 请求超时时间，以秒为单位（默认为 100）。
         :type request_time_out: int, optional
 
-    .. method:: real_chip_measure(prog, shot, chip_id=2, is_amend=True, is_mapping=True, is_optimization=True, compile_level=3, task_name='QPanda Experiment')
+    .. method:: real_chip_measure(prog, shot, chip_id=2, is_amend=True, is_mapping=True, is_optimization=True, task_name='QPanda Experiment')
 
         在真实量子计算芯片上进行量子测量。
 
@@ -127,14 +127,12 @@
         :type is_mapping: bool, optional
         :param is_optimization: 是否进行优化，默认为True。
         :type is_optimization: bool, optional
-        :param compile_level: 编译级别，默认为3。
-        :type compile_level: int, optional
         :param task_name: 任务名称，默认为'QPanda Experiment'。
         :type task_name: str, optional
         :return: 测量结果字典，包含各个测量结果的概率。
         :rtype: Dict[str, float]
 
-    .. method:: async_real_chip_measure(prog, shot, chip_id=2, is_amend=True, is_mapping=True, is_optimization=True, compile_level=3, task_name='QPanda Experiment')
+    .. method:: async_real_chip_measure(prog, shot, chip_id=2, is_amend=True, is_mapping=True, is_optimization=True, task_name='QPanda Experiment')
 
         异步在真实量子计算芯片上进行量子测量，后续查询计算结果需要配合query_task_state_result使用
 
@@ -150,14 +148,12 @@
         :type is_mapping: bool, optional
         :param is_optimization: 是否进行优化，默认为True。
         :type is_optimization: bool, optional
-        :param compile_level: 编译级别，默认为3。
-        :type compile_level: int, optional
         :param task_name: 任务名称，默认为'QPanda Experiment'。
         :type task_name: str, optional
         :return: 测量结果字典，包含各个测量结果的概率。
         :rtype: Dict[str, float]
 
-    .. method:: async_batch_real_chip_measure(prog_array, shot, chip_id=real_chip_type.origin_72, is_amend=True, is_mapping=True, is_optimization=True, compile_level=3)
+    .. method:: async_batch_real_chip_measure(prog_array, shot, chip_id=real_chip_type.origin_72, is_amend=True, is_mapping=True, is_optimization=True)
 
         在真实量子计算芯片上批量进行量子测量，后续查询计算结果需要配合query_batch_task_state_result使用
 
@@ -173,12 +169,10 @@
         :type is_mapping: bool, optional
         :param is_optimization: 是否进行门融合优化，默认为True。
         :type is_optimization: bool, optional
-        :param compile_level: 编译级别，默认为3。
-        :type compile_level: int, optional
         :return: 批量任务ID。
         :rtype: str
 
-    .. method:: batch_real_chip_measure(prog_array, shot, chip_id=real_chip_type.origin_72, is_amend=True, is_mapping=True, is_optimization=True, compile_level=3)
+    .. method:: batch_real_chip_measure(prog_array, shot, chip_id=real_chip_type.origin_72, is_amend=True, is_mapping=True, is_optimization=True)
 
         在真实量子计算芯片上批量进行量子测量。
 
@@ -194,8 +188,6 @@
         :type is_mapping: bool, optional
         :param is_optimization: 是否进行门融合优化，默认为True。
         :type is_optimization: bool, optional
-        :param compile_level: 编译级别，默认为3。
-        :type compile_level: int, optional
         :return: 包含每个程序测量结果概率的字典列表。
         :rtype: List[Dict[str, float]]
 
@@ -370,7 +362,7 @@
 
     **batch_real_chip_measure** 同时支持List[QProg]和List[originir_str]两种参数方式。
 
--  **2.异步批量任务提交接口：**  是 ``batch_real_chip_measure`` 接口会一直等待结果返回,使用示例如下：
+-  **2.异步批量任务提交接口：**  是 ``async_batch_real_chip_measure`` 接口会一直等待结果返回,使用示例如下：
  
     .. code-block:: python
 
@@ -415,5 +407,6 @@
     **batch_real_chip_measure** 也是同时支持List[QProg]和List[originir_str]两种参数方式，需要配合 ``query_batch_task_state_result`` 使用，该接口返回的是元组类型，包含任务状态和结果。
 
 .. note:: 
+            - 一次批量计算任务的数量最大上限是 **200** ，超过这个数值需要拆分成多次提交。
             - 使用前需要确保用户已经开通相关权限，并且有足够的算力资源，否则会出现没有权限或者计算资源不足等出错信息。详见 https://qcloud.originqc.com.cn/zh/computerServices
             - 在使用时遇到任何问题，请给我们提交 `用户反馈 <https://forum.originqc.com.cn/rostrum/questionIndex.html>`_ ，我们看到后会尽快解决你的问题。
