@@ -61,30 +61,25 @@ XEB 实验收集了执行随机电路时受到噪声影响的数据。应用带�
 接口说明
 --------------
 
-.. function:: double_gate_xeb(qvm: QuantumMachine, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, gate_type: GateType = GateType.CZ_GATE) -> Dict[int, float]
+.. function:: double_gate_xeb(config: QCloudTaskConfig, qubit0: int, qubit1: int, clifford_range: List[int], num_circuits: int, gate_type: GateType = GateType.CZ_GATE) -> Dict[int,float]
 
-    **双量子门交叉熵基准测试** ，该函数用于量子计算芯片或噪声的双门交叉熵基准测试保真度计算，以评估量子门的性能和噪声水平。
-
-    :param qvm: 量子机器，可以是量子计算机芯片或噪声模拟器。
-    :type qvm: QuantumMachine
-    :param qubit0: 双量子门的第一个量子比特。
-    :type qubit0: Qubit
-    :param qubit1: 双量子门的第二个量子比特。
-    :type qubit1: Qubit
-    :param clifford_range: Clifford门的范围列表，用于构建测试电路。
+    此函数用于执行双比特交叉熵基准（Double Gate XEB）实验。
+    
+    :param config: QCloudTaskConfig 对象，表示云量子任务的配置。
+    :type config: QCloudTaskConfig
+    :param qubit0: 双比特门的第一个量子比特索引。
+    :type qubit0: int
+    :param qubit1: 双比特门的第二个量子比特索引。
+    :type qubit1: int
+    :param clifford_range: 包含 Clifford 门的序列长度范围的列表，用于指定不同长度的 Clifford 门序列。
     :type clifford_range: List[int]
-    :param num_circuits: 待测试电路的数量。
+    :param num_circuits: 要执行的电路数量。
     :type num_circuits: int
-    :param shots: 测量次数。
-    :type shots: int
-    :param chip_id: 芯片编号，可选。默认为 2（本源悟源芯片5号）。
-    :type chip_id: int, optional
-    :param gate_type: 量子门类型，可选。默认为 CZ 门。
+    :param gate_type: 双比特门类型，默认为 CZ_GATE。
     :type gate_type: GateType, optional
-    :return: 包含结果数据的字典，键为 Clifford 为线路层数，值为对应符合期望概率的大小。
-    :rtype: Dict[int, float]
-    :raises run_fail: 双量子门交叉熵基准测试失败。
-
+    :return: 包含双比特门交叉熵基准实验结果的字典，其中键是 Clifford 门序列长度，值是误差概率。
+    :rtype: Dict[int,float]
+    :raises run_fail: 执行双比特门交叉熵基准实验失败。
 
 实例
 --------------
@@ -94,33 +89,24 @@ XEB 实验收集了执行随机电路时受到噪声影响的数据。应用带�
 
     if __name__=="__main__":
 
-        # 构建噪声虚拟机，调整噪声模拟真实芯片
-        qvm = NoiseQVM()
-        qvm.init_qvm()
-        qv = qvm.qAlloc_many(4)
-
-        # 设置噪声参数
-        qvm.set_noise_model(NoiseModel.DEPOLARIZING_KRAUS_OPERATOR, GateType.CZ_GATE, 0.1)
-        
-        # 同样可以申请云计算机器（采用真实芯片）
-        # qvm =  QCloud()
-        # qvm.init_qvm("898D47CF515A48CEAA9F2326394B85C6")
-
         # 设置不同层数组合
         range = [2,4,6,8,10]
-        # 现在可测试双门类型主要为CZ CNOT SWAP ISWAP SQISWAP
-        res = double_gate_xeb(qvm, qv[0], qv[1], range, 10, 1000, GateType.CZ_GATE)
+        # 现在可测试双门类型主要为 CZ CNOT SWAP ISWAP SQISWAP
+
+        #设置用户真实apikey，需要确保有足够算力资源
+        online_api_key = "XXX"
+        
+        #配置量子计算任务参数
+        config = QCloudTaskConfig()
+        config.cloud_token = online_api_key
+        config.chip_id = origin_72
+        config.open_amend = False
+        config.open_mapping = False
+        config.open_optimization = False
+        config.shots = 1000
+
+        res = double_gate_xeb(config, 0, 1, range, 20, GateType.CZ_GATE)
         # 对应的数值随噪声影响，噪声数值越大，所得结果越小，且层数增多，结果数值越小。
-
-        print(res)
-
-        qvm.finalize()
-
-运行结果：
-::
-
-   {2: 0.9922736287117004, 4: 0.9303175806999207, 6: 0.7203856110572815, 8: 0.7342230677604675, 10: 0.7967881560325623}
-
 
 参考文献
 ----

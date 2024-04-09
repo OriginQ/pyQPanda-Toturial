@@ -24,8 +24,7 @@ def draw_probaility(list):
     plt.grid(True, axis="y", ls=":", color="r", alpha=0.3)
     plt.show()
 
-
-def draw_probaility_dict(prob_dict):
+def draw_probability_dict(prob_dict):
     """Draw a quantum state probaility dict
 
     Args:

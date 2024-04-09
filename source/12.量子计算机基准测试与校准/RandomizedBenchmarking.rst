@@ -66,69 +66,45 @@
 
 1.单门随机基准测试： ``single_qubit_rb`` 。
 
-.. function:: single_qubit_rb(qvm: QuantumMachine, qubit: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, interleaved_gates: List[QGate] = []) -> Dict[int, float]
+.. function:: single_qubit_rb(config: QCloudTaskConfig, qubit: int, clifford_range: List[int], num_circuits: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]
 
-    该函数用于在量子芯片上进行单比特随机基准测试。通过对指定的单比特量子线路进行随机化的 Clifford 门序列操作，以评估量子设备的性能。
-
-    :param qvm: 量子机器对象，可以是芯片实际或模拟量子机器。
-    :type qvm: QuantumMachine
-    :param qubit: 待测试的单比特量子比特。
-    :type qubit: Qubit
-    :param clifford_range: Clifford 门序列的范围列表，用于构建随机序列。
+    此函数用于执行单比特随机电路基准（Single Qubit Randomized Benchmarking）实验。
+    
+    :param config: QCloudTaskConfig 对象，表示云量子任务的配置。
+    :type config: QCloudTaskConfig
+    :param qubit: 单比特量子比特索引。
+    :type qubit: int
+    :param clifford_range: 包含 Clifford 门的序列长度范围的列表，用于指定不同长度的 Clifford 门序列。
     :type clifford_range: List[int]
-    :param num_circuits: 随机序列的数量，用于统计结果。
+    :param num_circuits: 要执行的电路数量。
     :type num_circuits: int
-    :param shots: 每个序列的测量次数，用于获取统计概率。
-    :type shots: int
-    :param chip_id: 芯片标识，默认为 2（本源悟源5号）。
-    :type chip_id: int, optional
-    :param interleaved_gates: 用于插入随机序列的门操作列表，默认为空列表。
+    :param interleaved_gates: 包含插入在 Clifford 门序列中的额外门的列表，默认为空列表。
     :type interleaved_gates: List[QGate], optional
-    :return: 包含测试结果数据的字典，键为 Clifford 门序列长度，值为对应的指数衰减指数。
-    :rtype: Dict[int, float]
-    :raises run_fail: 单比特随机基准测试运行失败。
-
-    示例用法::
-
-        # 在量子芯片上对单比特进行随机基准测试
-        result_dict = single_qubit_rb(my_qvm, qubit=qubit_0, clifford_range=[1, 10, 20], num_circuits=100, shots=1024)
-
-        # 在量子芯片上对单比特进行随机基准测试，插入额外的门操作
-        result_dict = single_qubit_rb(my_qvm, qubit=qubit_1, clifford_range=[1, 5, 10], num_circuits=50, shots=512, interleaved_gates=[H(qubit_1)])
+    :return: 包含单比特随机电路基准实验结果的字典，其中键是 Clifford 门序列长度，值是误差概率。
+    :rtype: Dict[int,float]
+    :raises run_fail: 执行单比特随机电路基准实验失败。
 
 2.双门随机基准测试： ``double_qubit_rb`` 。
 
-.. function:: double_qubit_rb(qvm: QuantumMachine, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, interleaved_gates: List[QGate] = []) -> Dict[int, float]
+.. function:: double_qubit_rb(config: QCloudTaskConfig, qubit0: int, qubit1: int, clifford_range: List[int], num_circuits: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]
 
-    该函数用于在给定的双量子比特上进行随机基准测试，测试芯片或量子模拟器的噪声水平。
+    此函数用于执行双比特随机电路基准（Double Qubit Randomized Benchmarking）实验。
     
-    :param qvm: 量子机器。
-    :type qvm: QuantumMachine
-    :param qubit0: 第一个双量子比特。
-    :type qubit0: Qubit
-    :param qubit1: 第二个双量子比特。
-    :type qubit1: Qubit
-    :param clifford_range: Clifford序列的长度范围列表。
+    :param config: QCloudTaskConfig 对象，表示云量子任务的配置。
+    :type config: QCloudTaskConfig
+    :param qubit0: 双比特第一个量子比特索引。
+    :type qubit0: int
+    :param qubit1: 双比特第二个量子比特索引。
+    :type qubit1: int
+    :param clifford_range: 包含 Clifford 门的序列长度范围的列表，用于指定不同长度的 Clifford 门序列。
     :type clifford_range: List[int]
-    :param num_circuits: 测试电路数量。
+    :param num_circuits: 要执行的电路数量。
     :type num_circuits: int
-    :param shots: 测量的次数。
-    :type shots: int
-    :param chip_id: 芯片标识，默认为2（本源悟源5号）。
-    :type chip_id: int, optional
-    :param interleaved_gates: 交错门列表，默认为空列表。
+    :param interleaved_gates: 包含插入在 Clifford 门序列中的额外门的列表，默认为空列表。
     :type interleaved_gates: List[QGate], optional
-    :return: 包含测试结果的字典，键为Clifford序列的长度，值为对应的测试结果（成功概率）。
-    :rtype: Dict[int, float]
-    :raises run_fail: 双量子比特随机基准测试失败。
-
-    示例用法（不插入门操作）::
-
-        # 在量子芯片上对双量子比特进行随机基准测试
-        result_dict = double_qubit_rb(my_qvm, qubit0, qubit1, clifford_range=[1, 10, 20], num_circuits=100, shots=1024)
-
-        # 在量子芯片上对双量子比特进行随机基准测试，并插入额外的CZ门操作
-        result_dict = double_qubit_rb(my_qvm, qubit0, qubit1, clifford_range=[1, 10, 20], num_circuits=100, shots=1024, interleaved_gates=[CZ(qubit0, qubit1)])
+    :return: 包含双比特随机电路基准实验结果的字典，其中键是 Clifford 门序列长度，值是误差概率。
+    :rtype: Dict[int,float]
+    :raises run_fail: 执行双比特随机电路基准实验失败。
 
 实例
 --------------
@@ -138,37 +114,35 @@
     from pyqpanda import *
 
     if __name__=="__main__":  
-        # 构建噪声虚拟机，调整噪声模拟真实芯片
-        qvm = NoiseQVM()
-        qvm.init_qvm()
-        qvm.set_noise_model(NoiseModel.DEPOLARIZING_KRAUS_OPERATOR, GateType.CZ_GATE, 0.005)
-        qvm.set_noise_model(NoiseModel.DEPOLARIZING_KRAUS_OPERATOR, GateType.PAULI_Y_GATE, 0.005)
-        qv = qvm.qAlloc_many(4)
-
-        # 同样可以申请云计算机器（采用真实芯片）
-        # qvm =  QCloud()
-        # qvm.init_qvm("898D47CF515A48CEAA9F2326394B85C6")
 
         # 设置随机线路中clifford门集数量
         range = [ 5,10,15 ]
 
-        # 测量单比特随机基准
-        res = single_qubit_rb(qvm, qv[0], range, 10, 1000)
+        #设置用户真实apikey，需要确保有足够算力资源
+        online_api_key = "XXX"
 
-        # 同样可以测量两比特随机基准
-        #res = double_qubit_rb(qvm, qv[0], qv[1], range, 10, 1000)
-       
-        # 对应的数值随噪声影响，噪声数值越大，所得结果越小，且随clifford门集数量增多，结果数值越小。
-        print(res)
+        #配置量子计算任务参数
+        config = QCloudTaskConfig()
+        config.cloud_token = online_api_key
+        config.chip_id = origin_72
+        config.open_amend = False
+        config.open_mapping = False
+        config.open_optimization = False
+        config.shots = 1000
 
-        qvm.finalize()
+        #测量单比特随机基准
+        single_rb_result = single_qubit_rb(config, 0, range, 20)
 
-运行结果：
+        #同样可以测量两比特随机基准
+        double_rb_result = double_qubit_rb(config, 0, 1, range, 20)
+        
+        #对应的数值随设备噪声影响，噪声数值越大，所得结果越小，且随clifford门集数量增多，结果数值越小。
+        print(single_rb_result)
+        print(double_rb_result)
 
-::
-    
-    {5: 0.9996, 10: 0.9999, 15: 0.9993000000000001}
-
+        #运行结果：
+        # {5: 0.464, 10: 0.4535, 15: 0.437}
+        # {5: 0.1675, 10: 0.20750000000000002, 15: 0.198}
 
 参考文献
 ----
