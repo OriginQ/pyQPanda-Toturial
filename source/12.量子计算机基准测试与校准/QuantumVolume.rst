@@ -1,4 +1,7 @@
 
+.. _量子芯片基准测试:
+
+
 量子体积
 ==========================
 
@@ -27,18 +30,16 @@ Volume**\ ）[1]，是一个用于评估量子计算系统性能的协议。它�
 接口说明
 --------------
 
-.. function:: calculate_quantum_volume(QuantumMachine: QVM, qubit_list: List[List[int]], ntrials: int, shots: int = 1000) -> int
+.. function:: calculate_quantum_volume(config: QCloudTaskConfig, qubit_list: List[List[int]], ntrials: int) -> int
 
-    此函数用于对噪声量子机器或云量子计算机进行量子体积的计算。
-
-    :param QuantumMachine: 噪声量子机器或云量子计算机。
-    :type noise_qvm: NoiseQVM or QCloud
-    :param qubit_list: 量子比特列表。
+    此函数用于计算量子体积。
+    
+    :param config: QCloudTaskConfig 对象，表示云量子任务的配置。
+    :type config: QCloudTaskConfig
+    :param qubit_list: 包含量子比特索引的列表，用于定义量子电路的结构。
     :type qubit_list: List[List[int]]
-    :param ntrials: 实验次数。
+    :param ntrials: 执行量子体积计算的实验次数。
     :type ntrials: int
-    :param shots: 测量次数。默认为 1000。
-    :type shots: int, optional
     :return: 计算得到的量子体积。
     :rtype: int
     :raises run_fail: 计算量子体积失败。
@@ -51,34 +52,30 @@ Volume**\ ）[1]，是一个用于评估量子计算系统性能的协议。它�
     from pyqpanda import *
 
     if __name__=="__main__":
-        #构建噪声虚拟机，设置噪声参数
-        qvm = NoiseQVM()
-        qvm.init_qvm()
-        qvm.set_noise_model(NoiseModel.DEPOLARIZING_KRAUS_OPERATOR, GateType.CZ_GATE, 0.005)
 
-        #同样可以申请云计算机器（采用真实芯片），采用真实芯片要考虑芯片构造
-        #qvm = QCloud()
-        #qvm.init_qvm("898D47CF515A48CEAA9F2326394B85C6")
-        
-        #构建待测量的量子比特组合， 这里比特组合为2组，其中 量子比特3、4为一组；量子比特2，3，5为一组
-        qubit_lists = [[3,4], [2,3,5]] 
+        #构建待测量的量子比特组合， 这里比特组合为2组，其中 量子比特31、31为一组；量子比特0，6，12为一组
+        qubit_lists = [[31, 32], [0, 6, 12]] 
 
         #设置随机迭代次数
-        ntrials = 100
+        ntrials = 10
+
+        #设置用户真实apikey，需要确保有足够算力资源
+        online_api_key = "XXX"
         
-        #设置测量次数,即真实芯片或者噪声虚拟机shots数值
-        shots = 2000
-        qv_result = calculate_quantum_volume(qvm, qubit_lists, ntrials, shots)
+        #配置量子计算任务参数
+        config = QCloudTaskConfig()
+        config.cloud_token = online_api_key
+        config.chip_id = origin_72
+        config.open_amend = False
+        config.open_mapping = False
+        config.open_optimization = False
+        config.shots = 1000
+
+        qv_result = calculate_quantum_volume(config, qubit_lists, ntrials)
         print("Quantum Volume : ", qv_result)
-        qvm.finalize()
 
-
-运行结果：
-
-::
-
-    Quantum Volume ： 8
-
+        #运行结果：
+        # Quantum Volume ： 4
 
 参考文献
 ----

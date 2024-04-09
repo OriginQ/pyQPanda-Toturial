@@ -35,7 +35,7 @@
         machine = QCloud()
         machine.set_configure(72,72);
 
-        machine.init_qvm("502e020100301006072ce3d020106052b8101c04150201010410b6d33ad8772eb9705e844394453a3c8a/6327",False)
+        machine.init_qvm("502e0201003016072ce3d020106052b8101c04150201010410b6d33ad8772eb9705e844394453a3c8a/6327",False)
 
 量子云组件 ``QCloud`` 的其他接口介绍如下：
 
@@ -98,7 +98,7 @@
         :return: 计算得到的态密度矩阵。
         :rtype: List[List[complex]]
 
-    .. method:: init_qvm(token: str, is_logged: bool = False, use_bin_or_hex: bool = True, request_time_out: int = 100)
+    .. method:: init_qvm(token: str, is_logged: bool = False, use_bin_or_hex: bool = True, enable_pqc_encryption = False, request_time_out: int = 100)
 
         该方法用于初始化 QVM 服务，提供必要的用户身份验证令牌和其他参数。可选参数用于配置 QVM 的行为，例如是否记录操作，以及在处理二进制和十六进制字符串时是否使用默认设置。
 
@@ -107,6 +107,8 @@
         :param is_logged: 是否在控制台上记录 QVM 操作（默认为 False）。
         :type is_logged: bool, optional
         :param use_bin_or_hex: 是否在处理二进制和十六进制字符串时使用默认设置（默认为 True）。
+        :type use_bin_or_hex: bool, optional
+        :param enable_pqc_encryption: 是否启用混合加密算法对数据传输进行加密（默认为 False）
         :type use_bin_or_hex: bool, optional
         :param request_time_out: 请求超时时间，以秒为单位（默认为 100）。
         :type request_time_out: int, optional
@@ -218,8 +220,8 @@
         # 通过QCloud()创建量子云虚拟机
         qm = QCloud()
 
-        # 通过传入当前用户的token来初始化
-        qm.init_qvm("302e020100301006072a8648ce3d020106052b8104001c041730150201010410634a5b6d0a2a9a2b03b9d7c17c57405f/13082")
+        # 通过传入当前用户的token来初始化,需要确保当前用户有足够算力资源
+        qm.init_qvm("302e02010001006072a8648ce3d020106052b810400104173015020100410634a5b6d0a2a9a2b03b9d7c17c57405f/13082")
 
         qlist = qm.qAlloc_many(6)
         clist = qm.cAlloc_many(6)
@@ -231,7 +233,7 @@
             << Measure(qlist[0], clist[0])\
             << Measure(qlist[1], clist[1])
 
-        # 调用真实芯片计算接口，需要量子程序和测量次数两个参数
+        # 调用真实芯片计算接口，至少需要量子程序和测量次数两个参数
         result = qm.real_chip_measure(prog, 1000, real_chip_type.origin_72)
         print(result)
         qm.finalize()

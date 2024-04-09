@@ -93,7 +93,7 @@ Z旋转门的形式如下：
     from pyqpanda import *
     import numpy as np
     from scipy.stats import unitary_group
-    
+
     if __name__ == "__main__":
         machine = CPUQVM()
         machine.init_qvm()
@@ -102,13 +102,63 @@ Z旋转门的形式如下：
 
         # 生成任意酉矩阵
         unitary_matrix = unitary_group.rvs(2**3,random_state=169384)
-        
+
         # 输入需要被分解的线路
         prog = QProg()
         prog<<matrix_decompose(q,unitary_matrix,mode=DecompositionMode.QSDecomposition)
-        virtual_prog = pq.virtual_z_transform(after_prog, machine)
+        virtual_prog = virtual_z_transform(prog, machine)
         draw_qprog(prog, "pic")
 
 
 .. image:: images/QCircuit_virtualz.jpg
     :align: center
+
+基础逻辑门转换
+--------------
+
+在量子计算的量子线路设计中，基础逻辑门的标准表示形式是量子门集合的一种形式。这些基础门包括Hadamard门（H门）、Pauli门（X门、Y门、Z门）、CNOT门等。然而，在实际的量子线路设计和优化过程中，经常需要进行基础逻辑门的转换，以便更好地适应特定的硬件或算法需求。
+
+一个常见的转换任务是将带有角度参数的单比特门（例如相位门）转换为通用的单比特门形式，如U3门。U3门是一个通用的单比特量子门，可以表示任意的单比特旋转操作。这样的转换可以提高线路的灵活性，使得线路更容易优化和映射到不同的量子硬件上。
+
+作为基础逻辑门转换的接口，我们提供了一组功能强大的工具，用于将不同形式的基础门相互转换。用户可以使用这些接口来实现自定义的门转换策略，以满足其特定的设计需求。这些接口支持将门转换为等效的门序列，同时保留线路的功能等效性。这样的门转换工具对于量子编译器和量子线路优化的各个阶段都具有重要的作用。
+
+我们使用 **transform_to_base_qgate** 进行基础门转换，接口定义如下
+
+transform_to_base_qgate
+=======================
+
+.. function:: transform_to_base_qgate(qprog: QProg, machine: QuantumMachine, convert_single_gates: List[str], convert_double_gates: List[str]) -> QProg
+
+   Basic quantum gate conversion
+
+   Args:
+       qprog (QProg): Quantum program
+       machine (QuantumMachine): Quantum machine
+       convert_single_gates (List[str]): List of quantum single gates to convert
+       convert_double_gates (List[str]): List of quantum double gates to convert
+
+   Returns:
+       QProg: A new quantum program after the transformation
+
+    
+    This function performs basic quantum gate conversion on the given quantum program using the specified quantum machine. It allows the conversion of specific sets of single and double gates, as defined by the lists `convert_single_gates` and `convert_double_gates`, respectively.
+
+    Usage Example
+    -------------
+
+    .. code-block:: python
+
+        from pyqpanda import *
+        from typing import List
+
+        qprog = QProg()
+        machine = QuantumMachine()
+        convert_single_gates = ["H", "T"]
+        convert_double_gates = ["CNOT", "CZ"]
+
+        # Perform quantum gate conversion
+        new_qprog = transform_to_base_qgate(qprog, machine, convert_single_gates, convert_double_gates)
+
+        # Print the new quantum program
+        print(new_qprog)
+

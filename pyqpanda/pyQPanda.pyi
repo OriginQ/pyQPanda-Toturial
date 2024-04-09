@@ -1001,6 +1001,20 @@ class ClassicalProg:
         ...
 
 
+class CommProtocolConfig:
+    """
+    """
+    circuits_num: int
+    open_error_mitigation: bool
+    open_mapping: bool
+    optimization_level: int
+    shots: int
+    def __init__(self) -> None:
+        """
+        """
+        ...
+
+
 class ComplexVertexSplitMethod:
     """
     quantum complex vertex split method
@@ -1402,7 +1416,6 @@ class DensityMatrixSimulator(QuantumMachine):
 
     def init_qvm(self, is_double_precision: bool = True) -> None:
         """
-        init quantum virtual machine
         """
         ...
 
@@ -3718,9 +3731,8 @@ class PartialAmpQVM(QuantumMachine):
         """
         ...
 
-    def init_qvm(self, type: BackendType = BackendType.CPU) -> None:
+    def init_qvm(self, backend_type: int = 0) -> None:
         """
-        init quantum virtual machine
         """
         ...
 
@@ -4038,10 +4050,19 @@ class QCloudService(QuantumMachine):
     """
     batch_compute_url: str
     batch_inquire_url: str
+    big_data_batch_compute_url: str
     compute_url: str
+    configuration_header_data: str
     estimate_url: str
     inquire_url: str
     measure_qubits_num: List[int]
+    pqc_batch_compute_url: str
+    pqc_batch_inquire_url: str
+    pqc_compute_url: str
+    pqc_init_url: str
+    pqc_inquire_url: str
+    pqc_keys_url: str
+    use_compress_data: bool
     user_token: str
     def __init__(self) -> None:
         """
@@ -4073,24 +4094,24 @@ class QCloudService(QuantumMachine):
         """
         ...
 
-    def build_get_state_fidelity(self, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, compile_level: int = 3) -> str:
+    def build_get_state_fidelity(self, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True) -> str:
         """
         """
         ...
 
-    def build_get_state_tomography_density(self, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, compile_level: int = 3) -> str:
-        """
-        """
-        ...
-
-    @overload
-    def build_init_object(self, arg0: QProg, arg1: str) -> None:
+    def build_get_state_tomography_density(self, shot: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True) -> str:
         """
         """
         ...
 
     @overload
-    def build_init_object(self, arg0: str, arg1: str) -> None:
+    def build_init_object(self, arg0: QProg, arg1: str, arg2: int) -> None:
+        """
+        """
+        ...
+
+    @overload
+    def build_init_object(self, arg0: str, arg1: str, arg2: int) -> None:
         """
         """
         ...
@@ -4110,19 +4131,19 @@ class QCloudService(QuantumMachine):
         """
         ...
 
-    def build_real_chip_measure(self, shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, compile_level: int = 3) -> str:
+    def build_real_chip_measure(self, shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True) -> str:
         """
         """
         ...
 
     @overload
-    def build_real_chip_measure_batch(self, prog_list: List[str], shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, compile_level: int = 3) -> str:
+    def build_real_chip_measure_batch(self, prog_list: List[str], shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, enable_compress_check: bool = False, batch_id: str = '', task_from: int = 4) -> str:
         """
         """
         ...
 
     @overload
-    def build_real_chip_measure_batch(self, prog_list: List[QProg], shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, compile_level: int = 3) -> str:
+    def build_real_chip_measure_batch(self, prog_list: List[QProg], shots: int, chip_id: int = 2, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, enable_compress_check: bool = False, batch_id: str = '', task_from: int = 4) -> str:
         """
         """
         ...
@@ -4187,7 +4208,22 @@ class QCloudService(QuantumMachine):
         """
         ...
 
-    def set_qcloud_api(self, cloud_url: str) -> None:
+    def set_qcloud_url(self, cloud_url: str) -> None:
+        """
+        """
+        ...
+
+
+class QCloudTaskConfig:
+    """
+    """
+    chip_id: real_chip_type
+    cloud_token: str
+    open_amend: bool
+    open_mapping: bool
+    open_optimization: bool
+    shots: int
+    def __init__(self) -> None:
         """
         """
         ...
@@ -4618,11 +4654,173 @@ class QOptimizationResult:
         ...
 
 
+class QPilotMachine:
+    """
+    pliot machine
+    """
+    def __init__(self) -> None:
+        """
+        """
+        ...
+
+    def build_noise_params(self, nose_model_type: int, single_params: List[float], double_params: List[float]) -> PilotNoiseParams:
+        """
+        """
+        ...
+
+    def execute_callback_full_amplitude_expectation(self, prog_str: str, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_vec: List[int], cb_func: Callable[[ErrorCode,float],None], chip_id: int = 33554433) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_full_amplitude_measure_task(self, prog_str: str, cb_func: Callable[[ErrorCode,Dict[str,float]],None], chip_id: int = 33554433, shots: int = 1000) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_full_amplitude_pmeasure_task(self, prog_str: str, qubit_vec: List[int], cb_func: Callable[[ErrorCode,Dict[str,float]],None], chip_id: int = 33554433) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_measure_task(self, prog_str: str, cb_func: Callable[[ErrorCode,Dict[str,float]],None], chip_id: int = 33554432, b_mapping: bool = True, b_optimization: bool = True, shots: int = 1000, specified_block: List[int] = []) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_noise_measure_task(self, prog_str: str, noise_params: PilotNoiseParams, cb_func: Callable[[ErrorCode,Dict[str,float]],None], chip_id: int = 33554433, shots: int = 1000) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_partial_amplitude_task(self, prog_str: str, target_amplitude_vec: List[str], cb_func: Callable[[ErrorCode,Dict[str,complex]],None], chip_id: int = 33554433) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_callback_single_amplitude_task(self, prog_str: str, target_amplitude: str, cb_func: Callable[[ErrorCode,complex],None], chip_id: int = 33554433) -> ErrorCode:
+        """
+        """
+        ...
+
+    def execute_full_amplitude_expectation(self, prog_str: str, hamiltonian: List[Tuple[Dict[int,str],float]], qubit_vec: List[int], chip_id: int = 33554433) -> float:
+        """
+        """
+        ...
+
+    def execute_full_amplitude_measure_task(self, prog_str: str, chip_id: int = 33554433, shots: int = 1000) -> Dict[str,float]:
+        """
+        """
+        ...
+
+    def execute_full_amplitude_pmeasure_task(self, prog_str: str, qubit_vec: List[int], chip_id: int = 33554433) -> Dict[str,float]:
+        """
+        """
+        ...
+
+    def execute_measure_task(self, prog_str: str, chip_id: int = 33554432, b_mapping: bool = True, b_optimization: bool = True, shots: int = 1000, specified_block: List[int] = []) -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    def execute_noise_measure_task(self, prog_str: str, noise_params: PilotNoiseParams, chip_id: int = 33554433, shots: int = 1000) -> Dict[str,float]:
+        """
+        """
+        ...
+
+    def execute_partial_amplitude_task(self, prog_str: str, target_amplitude_vec: List[str], chip_id: int = 33554433) -> Dict[str,complex]:
+        """
+        """
+        ...
+
+    def execute_single_amplitude_task(self, prog_str: str, target_amplitude: str, chip_id: int = 33554433) -> complex:
+        """
+        """
+        ...
+
+    def init(self, pilot_url: str, log_cout: bool = False) -> bool:
+        """
+        """
+        ...
+
+    def init_withconfig(self, config_path: str = 'pilotmachine.conf') -> bool:
+        """
+        """
+        ...
+
+
 class QPilotOSService(QuantumMachine):
     """
     origin quantum pilot OS Machine
     """
     def __init__(self, machine_type: str = 'CPU') -> None:
+        """
+        """
+        ...
+
+    def async_em_compute(self, parameter_json: str) -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure(self, prog: List[QProg], config_str: str) -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    @overload
+    def async_real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], is_prob_counts: bool = True, describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst_density(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
+        """
+        """
+        ...
+
+    def async_real_chip_qst_fidelity(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
         """
         """
         ...
@@ -4684,9 +4882,46 @@ class QPilotOSService(QuantumMachine):
         """
         ...
 
+    def em_compute(self, parameter_json: str) -> List[float]:
+        """
+        """
+        ...
+
     def finalize(self) -> None:
         """
         finalize
+        """
+        ...
+
+    def get_expectation_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    @overload
+    def get_measure_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    @overload
+    def get_measure_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def get_qst_density_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def get_qst_fidelity_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def get_qst_result(self, task_id: str) -> list:
+        """
         """
         ...
 
@@ -4695,12 +4930,45 @@ class QPilotOSService(QuantumMachine):
         """
         ...
 
+    @overload
     def init(self) -> None:
         """
         """
         ...
 
+    @overload
+    def init(self, url: str, log_cout: bool = False, api_key: str = None) -> None:
+        """
+        """
+        ...
+
+    @overload
+    def init(self, url: str, log_cout: bool = False, username: str = None, password: str = None) -> None:
+        """
+        """
+        ...
+
     def init_config(self, url: str, log_cout: bool) -> None:
+        """
+        """
+        ...
+
+    def noise_learning(self, parameter_json: str = True) -> str:
+        """
+        """
+        ...
+
+    def output_version(self) -> str:
+        """
+        """
+        ...
+
+    def pMeasureBinindex(self, prog: QProg, index: str, backendID: int = 33554433) -> float:
+        """
+        """
+        ...
+
+    def pMeasureDecindex(self, prog: QProg, index: str, backendID: int = 33554433) -> float:
         """
         """
         ...
@@ -4752,6 +5020,16 @@ class QPilotOSService(QuantumMachine):
         """
         ...
 
+    def pmeasure_subset(self, prog: QProg, amplitude: List[str], backendID: int = 33554433) -> Dict[str,complex]:
+        """
+        """
+        ...
+
+    def probRunDict(self, prog: QProg, qubit_vec: List[int], backendID: int = 33554433) -> Dict[str,float]:
+        """
+        """
+        ...
+
     def qAlloc(self) -> Qubit:
         """
         Allocate a qubit
@@ -4782,6 +5060,134 @@ class QPilotOSService(QuantumMachine):
     def qFree_all(self, arg0: QVec) -> None:
         """
         Free all of qubits
+        """
+        ...
+
+    def query_compile_prog(self, task_id: str, without_compensate: bool = True) -> list:
+        """
+        Query Task compile prog by task_id
+        Args:
+            without_compensate: whether return the prog without angle compensate
+        
+        Returns:
+            bool: whether find compile prog success
+        Raises:
+            none
+        
+        """
+        ...
+
+    @overload
+    def query_task_state(self, task_id: str) -> list:
+        """
+        Query Task State by task_id
+        Args:
+            task_id: Taeget task id, got by async_real_chip_measure
+        
+        Returns:
+            string: task state: 2: Running; 3: Finished; 4: Failed
+            string: task result string
+        Raises:
+            none
+        
+        
+        """
+        ...
+
+    @overload
+    def query_task_state(self, task_id: str, is_save: bool, file_path: str = '') -> list:
+        """
+        """
+        ...
+
+    def query_task_state_vec(self, task_id: str) -> list:
+        """
+        Query Task State by task_id
+        Args:
+            task_id: Taeget task id, got by async_real_chip_measure
+        
+        Returns:
+            string: task state: 2: Running; 3: Finished; 4: Failed
+            array: task result array
+        Raises:
+            none
+        
+        """
+        ...
+
+    def real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> float:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,float]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,float]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure(self, prog: List[QProg], config_str: str) -> str:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, ir: str, shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,int]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> Dict[str,int]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,int]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_prob_count(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,int]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_vec(self, prog: List[QProg], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    @overload
+    def real_chip_measure_vec(self, ir: List[str], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> List[Dict[str,float]]:
+        """
+        """
+        ...
+
+    def runWithConfiguration(self, prog: QProg, shots: int = 1000, backend_id: int = 33554433, noise_model: Noise = ...) -> Dict[str,int]:
+        """
         """
         ...
 
@@ -11037,6 +11443,64 @@ def cFree_all(cbit_list: List[ClassicalCondition]) -> None:
     """
     ...
 
+@overload
+def calculate_quantum_volume(noise_qvm: NoiseQVM, qubit_list: List[List[int]], ntrials: int, shots: int = 1000) -> int:
+    """
+    calculate quantum volume
+    
+    Args:
+        noise_qvm: noise quantum machine
+        qubit_list: qubit list 
+        ntrials: ntrials
+        shots: measure shots
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in calculate_quantum_volume
+    
+    
+    """
+    ...
+
+@overload
+def calculate_quantum_volume(cloud_qvm, qubit_list: List[List[int]], ntrials: int, shots: int = 1000) -> int:
+    """
+    calculate quantum volume
+    
+    Args:
+        noise_qvm: noise quantum machine
+        qubit_list: qubit list 
+        ntrials: ntrials
+        shots: measure shots
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in calculate_quantum_volume
+    
+    
+    """
+    ...
+
+@overload
+def calculate_quantum_volume(config: QCloudTaskConfig, qubit_list: List[List[int]], ntrials: int) -> int:
+    """
+    calculate quantum volume
+    
+    Args:
+        config: QCloudTaskConfig
+        qubit_list: qubit list 
+        ntrials: ntrials
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in calculate_quantum_volume
+    
+    """
+    ...
+
 def cast_qprog_qcircuit(qprog: QProg) -> QCircuit:
     """
     Cast QProg to QCircuit
@@ -11122,6 +11586,56 @@ def circuit_optimizer_by_config(qprog: QProg, config_file: str = 'QPandaConfig.j
     
     Returns:
         a new prog after optimize
+    """
+    ...
+
+def comm_protocol_decode(encode_data: bytes, machine: QuantumMachine) -> Tuple[List[QProg],CommProtocolConfig]:
+    """
+    decode binary data to comm protocol prog list
+    
+    Args:
+        encode_data: quantum prog_list encode data
+    
+    Returns:
+        result prog list
+    Raises:
+        run_fail: An error occurred in comm_protocol_decode
+    
+    """
+    ...
+
+@overload
+def comm_protocol_encode(prog: QProg, config: CommProtocolConfig = ...) -> bytes:
+    """
+    encode comm protocol data to binary data
+    
+    Args:
+        prog: quantum prog
+        config: comm_protocol config
+    
+    Returns:
+        result data list
+    Raises:
+        run_fail: An error occurred in comm_protocol_encode
+    
+    
+    """
+    ...
+
+@overload
+def comm_protocol_encode(prog_list: List[QProg], config: CommProtocolConfig = ...) -> bytes:
+    """
+    encode comm protocol data to binary data
+    
+    Args:
+        prog_list: quantum prog_list
+        config: comm_protocol config
+    
+    Returns:
+        result data list
+    Raises:
+        run_fail: An error occurred in comm_protocol_encode
+    
     """
     ...
 
@@ -11487,6 +12001,7 @@ def crossEntropy(arg0: var, arg1: var) -> var:
     """
     ...
 
+@overload
 def decompose_multiple_control_qgate(qprog: QProg, machine: QuantumMachine, config_file: str = 'QPandaConfig.json') -> QProg:
     """
     Decompose multiple control QGate
@@ -11495,6 +12010,24 @@ def decompose_multiple_control_qgate(qprog: QProg, machine: QuantumMachine, conf
         qprog: quantum program
         machine: quantum machine
         config_file: config file
+    
+    Returns:
+        a new prog after decomposition
+    
+    """
+    ...
+
+@overload
+def decompose_multiple_control_qgate(qprog: QProg, machine: QuantumMachine, convert_single_gates: List[str], convert_double_gates: List[str], b_transform_to_base_qgate: bool = True) -> QProg:
+    """
+    Decompose multiple control QGate
+    
+    Args:
+        qprog: quantum program
+        machine: quantum machine
+        convert_single_gates: quantum single gates sets
+        convert_double_gates: quantum double gates sets
+        transform_to_base_qgate:  transform to base qgate sets
     
     Returns:
         a new prog after decomposition
@@ -11643,6 +12176,94 @@ def div(arg0: int, arg1: ClassicalCondition) -> ClassicalCondition:
 
 def dot(arg0: var, arg1: var) -> var:
     """
+    """
+    ...
+
+@overload
+def double_gate_xeb(config: QCloudTaskConfig, qubit0: int, qubit1: int, clifford_range: List[int], num_circuits: int, gate_type: GateType = GateType.CZ_GATE) -> Dict[int,float]:
+    """
+    double gate xeb
+    
+    Args:
+        qvm: quantum machine
+        qubit0: double qubit 0
+        qubit1: double qubit 1
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in double_gate_xeb
+    
+    
+    """
+    ...
+
+@overload
+def double_gate_xeb(qvm: QuantumMachine, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, gate_type: GateType = GateType.CZ_GATE) -> Dict[int,float]:
+    """
+    double gate xeb
+    
+    Args:
+        qvm: quantum machine
+        qubit0: double qubit 0
+        qubit1: double qubit 1
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        shots: measure shots
+        chip type: RealChipType
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in double_gate_xeb
+    
+    """
+    ...
+
+@overload
+def double_qubit_rb(qvm: QuantumMachine, qubit0: Qubit, qubit1: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
+    """
+    double qubit rb with WU YUAN chip
+    Args:
+        qvm: quantum machine
+        qubit0: double qubit 0
+        qubit1: double qubit 1
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        shots: measure shots
+        chip type: RealChipType
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in double_qubit_rb
+    
+    
+    """
+    ...
+
+@overload
+def double_qubit_rb(config: QCloudTaskConfig, qubit0: int, qubit1: int, clifford_range: List[int], num_circuits: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
+    """
+    double qubit rb with origin chip
+    Args:
+        config: QCloudTaskConfig
+        qubit0: double qubit 0
+        qubit1: double qubit 1
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in double_qubit_rb
+    
     """
     ...
 
@@ -13089,6 +13710,49 @@ def sin(arg0: var) -> var:
     """
     ...
 
+@overload
+def single_qubit_rb(qvm: QuantumMachine, qubit: Qubit, clifford_range: List[int], num_circuits: int, shots: int, chip_id: int = 2, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
+    """
+    Single qubit rb with WU YUAN chip
+    
+    Args:
+        qvm: quantum machine
+        qubit: single qubit
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        shots: measure shots
+        chip type: RealChipType
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in single_qubit_rb
+    
+    
+    """
+    ...
+
+@overload
+def single_qubit_rb(config: QCloudTaskConfig, qubit: int, clifford_range: List[int], num_circuits: int, interleaved_gates: List[QGate] = []) -> Dict[int,float]:
+    """
+    Single qubit rb with origin chip
+    
+    Args:
+        config: quantum QCloudTaskConfig
+        qubit: single qubit
+        clifford_range: clifford range list
+        num_circuits: the num of circuits
+        interleaved_gates: interleaved gates list
+    
+    Returns:
+        result data dict
+    Raises:
+        run_fail: An error occurred in single_qubit_rb
+    
+    """
+    ...
+
 def softmax(arg0: var) -> var:
     """
     """
@@ -13403,6 +14067,7 @@ def transform_qprog_to_quil(qprog: QProg, machine: QuantumMachine) -> str:
     """
     ...
 
+@overload
 def transform_to_base_qgate(qprog: QProg, machine: QuantumMachine, config_file: str = 'QPandaConfig.json') -> QProg:
     """
     Basic quantum - gate conversion
@@ -13411,6 +14076,23 @@ def transform_to_base_qgate(qprog: QProg, machine: QuantumMachine, config_file: 
         qprog: quantum program
         machine: quantum machine
         config_file: config file
+    
+    Returns:
+        a new prog after transform_to_base_qgate
+    
+    """
+    ...
+
+@overload
+def transform_to_base_qgate(qprog: QProg, machine: QuantumMachine, convert_single_gates: List[str], convert_double_gates: List[str]) -> QProg:
+    """
+    Basic quantum - gate conversion
+    
+    Args:
+        qprog: quantum program
+        machine: quantum machine
+        convert_single_gates: quantum single gates sets
+        convert_double_gates: quantum double gates sets
     
     Returns:
         a new prog after transform_to_base_qgate

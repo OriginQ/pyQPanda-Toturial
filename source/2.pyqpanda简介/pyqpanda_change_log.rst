@@ -1,6 +1,81 @@
 更新日志
 ============
 
+3.8.3.2 - 2024-04-03
+--------------------
+
+**新增功能和重要更新：**
+
+1.调整了基准测试三个算法接口参数和用法，包括 ``单双门随机基准测试`` , ``双门交叉熵基准测试`` ,和 ``量子体积QV`` ，具体可以参考 :ref:`量子芯片基准测试` 
+
+2.本源量子云计算服务新增了混合加密配置使用选项，用于对量子计算任务传输和通信中的任务数据开启 **混合加密** 从而保护数据安全和隐私，可以根据需要选择开启或打开。
+
+开启方式为：将 **QCloud** 初始化函数的参数 ``enable_pqc_encryption`` 设置为 ``True`` 即可，默认为 ``False`` 不开启。
+
+    .. code-block:: python
+
+        from pyqpanda import *
+
+        machine = QCloud()
+        machine.set_configure(72,72)
+
+        machine.init_qvm(token=my_api_key, enable_pqc_encryption=True)
+
+当今，随着量子计算机在硬件技术、纠错方法、算法理论与应用等多个维度的不断进步，传统的公钥算法由于无法抵御量子计算机的攻击逐渐变得脆弱，面临着被未来量子计算机攻击的风险。为了提供更强大的安全保护，本源量子云平台引入了一种端到端的 **后量子(PQC)混合加密** 方法，以保护云服务的用户端和服务端之间的信息传输，在有效抵御量子计算机的各种攻击的同时考虑了现有后量子密码极低但潜在的风险，并借助融合传统公钥密钥(RSA类、ECC类)算法规避了这一隐患。
+
+     **混合加密**： 混合加密是一种结合了两种密码算法的模式，该模式或部分或完整地继承各部分密码模块的某些特性，用于混合的两个功能相近的算法可以均为经典密码算法，也可以同时来自PQC。考虑到现有公钥密码算法面对量子计算机的脆弱性以及现阶段PQC算法潜在的风险，混合算法的两部分“原料”一般一半来自经典，一半来自PQC。例如，苹果于最近推出的iMessage加密方案以及谷歌在其浏览器中部署的混合加密方案均为Kyber(PQC的一种)与ECC类算法的混合。
+
+本源量子云采用的混合加密方法来自NIST将要形成标准的 ``格基密码算法Kyber`` 以及 ``ECC类算法`` ，并且在具体的实现过程中尽量采用国家认证的SM系列算法，例如，ECC类算法选取SM2算法，混合流程中用以密钥导出的函数(KDF)选用SM3算法，建立会话密钥后后续加解密采用SM4算法，并使用了安全度较高的CBC模式。
+
+3.解决了部分情况下由于全局虚拟机导致的originir转换异常
+
+4.电路模块可视化完善，包括：
+     - 修复导出text偶尔丢失量子逻辑门的错误
+     - 对png格式下自定义名称过长进行限制
+
+3.8.3 - 2024-03-01
+--------------------
+
+**新增功能和重要更新：**
+
+1.量子线路可视化新增模块化导出接口，支持线路模块化命名、展示和输出
+
+    .. code-block:: python
+
+        import pyqpanda as pq
+        from ..pyqpanda.Visualization.circuit_composer import CircuitComposer
+
+        def test_append():
+            circ1 = CircuitComposer(n_qubits)
+            circuit = pq.QCircuit()
+            circuit << pq.H(q[0]) << pq.CNOT(q[0], q[1]) << pq.CNOT(q[1], q[2])
+            circ1.append(circuit)
+            circ1 << pq.BARRIER(q)
+            circ1.append(pq.QFT(q[3:]), "QFT")
+            circ1.append(pq.deep_copy(circ1))
+            print(circ1)
+            print(circ1.circuit)
+
+            a = circ1.draw_circuit("pic", "test.png")
+            b = circ1.draw_circuit("latex")
+            c = circ1.draw_circuit("text")
+            print(b)
+            print(c)
+
+        if __name__ == '__main__':
+            n_qubits = 6
+            qvm = pq.CPUQVM()
+            qvm.init_qvm()
+            q = qvm.qAlloc_many(n_qubits)
+
+            test_append()
+
+2.修改了量子虚拟机初始化错误，该错误会导致多个量子虚拟机重复初始化过程引发未知异常，涉及到的虚拟机有张量网络虚拟机,部分振幅虚拟机，单振幅虚拟机，密度矩阵模拟器和Clifford模拟器等
+
+3.解决了mac部分python环境（3.10,3.11）下的包的导入异常问题
+
+4.修改了量子比特池初始化和清空操作不彻底的错误，该错误会导致清空后设置最大容量时内存异常
+
 3.8.2.3 - 2024-01-05
 --------------------
 

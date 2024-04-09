@@ -7,6 +7,7 @@ import json
 import gzip
 import time
 import os
+import bz2
 
 class QPilotOSMachine(QPilotOSService):
     """This class can submit Quantum Program to PilotOS.
@@ -79,6 +80,95 @@ class QPilotOSMachine(QPilotOSService):
 
         """
         return super().build_task_msg(prog, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+    
+    def _real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
+                               shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
+                               is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> float:
+        """Build submit Quantum expectation task request json str, however this is a private method.
+
+        Parameters
+        ----------
+        prog : QProg
+            The quantum program you want to compute.
+        hamiltonian : 
+            Hamiltonian parameters.
+        qubits : 
+            measurement qubit 
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        task_describe : str
+            The detailed infomation to describe your quantum program.
+
+        Returns
+        -------
+        float
+
+        """
+        if type(prog) == str:
+            prog = convert_originir_str_to_qprog(prog, self)[0]
+        return super().real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+    
+    def _async_real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
+                               shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
+                               is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
+        """Build submit Quantum expectation task request json str, however this is a private method.
+
+        Parameters
+        ----------
+        prog : QProg
+            The quantum program you want to compute.
+        hamiltonian : 
+            Hamiltonian parameters.
+        qubits : 
+            measurement qubit 
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        task_describe : str
+            The detailed infomation to describe your quantum program.
+
+        Returns
+        -------
+        float
+
+        """
+        if type(prog) == str:
+            prog = convert_originir_str_to_qprog(prog, self)[0]
+        return super().async_real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+
+    def get_expectation_result(self, task_id : str) -> list:
+        """ get expectation task result
+
+        Parameters
+        ----------
+        task_id : str
+            expectation task id.
+
+        Returns
+        -------
+        list
+            expectation task result.
+        """
+        return super().get_expectation_result(task_id)
 
     def _build_query_msg(self, task_id : str) ->str:
         """Build Query Quantum compute task result request json str, however this is a private method.
@@ -143,12 +233,12 @@ class QPilotOSMachine(QPilotOSService):
 
         Returns
         -------
-        list
+        bool
 
         """   
         headers = {
             'Accept': 'application/json, text/plain, */*',
-            'Compress-Type': 'gzip',
+            'Content-Encoding': 'bz2',
             'Connection': 'keep-alive',
             'Content-Type': 'application/json',
         }
@@ -159,22 +249,30 @@ class QPilotOSMachine(QPilotOSService):
         #    with open('request.gz', 'rb') as f:
         #        req = f.read()
 
-        response = requests.post(url = str_url, headers = headers, data = req, verify = False, timeout = 70)
+        compressed_req = bz2.compress(req.encode())
+
+        try:            
+            response = requests.post(url = str_url, headers = headers, data = compressed_req, verify = False, timeout = 70)
+        except Exception as e:
+            print("An error occurred:", e)
+            return False
 
         # response check
         if response.status_code == 200:
-            if response.headers.get('Compress-Type') == 'gzip':
-                with gzip.GzipFile(fileobj=BytesIO(response.content)) as f:
-                    decompressed_data = f.read()
+            if response.headers.get('Content-Encoding') == 'bz2':
+                # Decompress bz2 response
+                decompressed_data = bz2.decompress(response.content)
+                # with gzip.GzipFile(fileobj=BytesIO(response.content)) as f:
+                #     decompressed_data = f.read()
                 resp.append(decompressed_data.decode('utf-8'))
                 #print(decompressed_data.decode('utf-8'))
-                with open('decompressed_response.txt', 'wb') as file:
-                    file.write(decompressed_data)
+                #with open('decompressed_response.txt', 'wb') as file:
+                    #file.write(decompressed_data)
             else:
                 resp.append(response.text)
                 #print(response.text)
-                with open('response.txt', 'w') as file:
-                    file.write(response.text)
+                #with open('response.txt', 'w') as file:
+                    #file.write(response.text)
             #print("Response written to file 'response.txt'")
             return True
         else:
@@ -374,8 +472,21 @@ class QPilotOSMachine(QPilotOSService):
                 result = self._parser_sync_result(task_resp[1])
                 return result[0]
             else:
-                print(task_resp[1])
-                return task_resp[1]
+                while True:
+                    query_result = self.query_task_state(self, task_id)               
+                    if query_result[0] == '3':
+                        pass
+                    elif query_result[0] == '4' or query_result[0] == '35':
+                        print(f"state: {query_result[0]}")
+                        print(f"errCode: {query_result[2]}")
+                        print(f"errInfo: {query_result[3]}")
+                        #print(f"Task measure failed Please measure later, errInfo:{query_result[1]}")
+                        break
+                    else:
+                        print(f"state: {query_result[0]}")
+                        time.sleep(1) #延时2秒
+                        continue
+                    return task_resp[1]
 
     def async_real_chip_measure(self, prog : Union[List[str], List[QProg], str, QProg], shot = 1000, chip_id = None, 
                         is_amend = True, is_mapping = True, is_optimization = True, 
@@ -430,9 +541,83 @@ class QPilotOSMachine(QPilotOSService):
                 task_id = parsed_data['taskId']
                 return task_id
             else:
-                print('The taskId key is not present in the JSON data.')
-                return 'The taskId key is not present in the JSON data.'
-            
+                print(f'The taskId key is not present in the JSON data. reply: {parsed_data}')
+                return parsed_data
+    
+    def real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
+                               shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
+                               is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> float:
+        """submit Quantum expectation task, and get the expectation result.    
+
+        Parameters
+        ----------
+        prog : QProg
+            The quantum program you want to compute.
+        hamiltonian : 
+            Hamiltonian parameters.
+        qubits : 
+            measurement qubit 
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        task_describe : str
+            The detailed infomation to describe your quantum program, such as which kind of algorithm, what can this program compute.
+
+        Returns
+        -------
+        float
+            expectation task result
+        """
+        return self._real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization,
+                                              specified_block, task_describe)
+        
+
+    def async_real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
+                                    shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
+                                    is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
+        """async submit Quantum expectation task, and return the task id.    
+
+        Parameters
+        ----------
+        prog : QProg
+            The quantum program you want to compute.
+        hamiltonian : 
+            Hamiltonian parameters.
+        qubits : 
+            measurement qubit 
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        task_describe : str
+            The detailed infomation to describe your quantum program, such as which kind of algorithm, what can this program compute.
+
+        Returns
+        -------
+        str
+            return expectation task id, you need query task result by using task id.
+        """
+        
+        return self._async_real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization,
+                                              specified_block, task_describe)
+        
     def query_task_state(self, task_id : str, file_path : str = None) -> list:
         """Query task result from task_id.
 
@@ -527,13 +712,14 @@ class QPilotOSMachine(QPilotOSService):
                             file_path += '/'
                         
                         timestamp_milliseconds = int(time.time() * 1000)
-                        file_name = str(timestamp_milliseconds) + '.json'
+                        # file_name = str(timestamp_milliseconds) + '.json'
+                        file_name = 'result.json'
                         file_path = os.path.join(file_path, file_name)
                         print("result save path: " + file_path)
 
                         if len(file_path) > 15:
                             os.makedirs(os.path.dirname(file_path), exist_ok=True)
-                        with open(file_path, 'a') as file:
+                        with open(file_path, 'w') as file:
                             file.write(resp[0])
 
                 task_result = parsed_data['taskResult']
@@ -604,7 +790,55 @@ class QPilotOSMachine(QPilotOSService):
         return super().parse_probability_result(result_str)
 
 
+    def quantum_chip_config_query(self, chip_ids : str) -> str:
+        """Get quantum chip config
+        
+        Parameters
+        ----------
+        chip_ids : str
+            the json str contains chip id, it must be int or array, -1 represents all chips
 
+        Returns
+        -------
+        str
+            return quantum chip configuration
+
+        Examples
+        --------
+        >>> chipID_1 = {"ChipID":-1} 
+        >>> chipID_2 = {"ChipID":[5,6,7]}
+        >>> config_1 = qm.quantum_chip_config_query(chipID_1)
+        >>> config_2 = qm.quantum_chip_config_query(chipID_2)
+        >>> print(config_1)
+        >>> print(config_2)
+        
+        """
+        req_url = self.PilotURL + '/task/realQuantum/chip_config_query'
+        req_str = json.dumps(chip_ids)
+        
+        resp =[]
+        send_ok = self._send_request(req_url, req_str, resp)
+        if not send_ok:
+            print('Error: Send request failed!')
+            exit(0)
+        else:
+            try:
+                indent = '    '
+                chip_config_query_result = str()
+                parsed_data = json.loads(resp[0])
+                result_len = len(parsed_data["configuration"])
+                print("get {} chip configuration(s).".format(result_len))
+                for i in range(result_len):
+                    data_parsed = json.loads(parsed_data["configuration"][i]["data"])
+                    chip_config_query_result = chip_config_query_result + "\n" + (
+                        "configuration:\n"
+                        + indent + "file: " + "\"" + parsed_data['configuration'][i]['file'] + "\"\n"
+                        + indent + "data:\n" + indent + json.dumps(data_parsed, indent=4) + "\n"
+                    )
+                return chip_config_query_result
+            except IndexError as e1:
+                print("Cannot find configuration related to this chip ID")
+                return resp[0]
 
         
 
