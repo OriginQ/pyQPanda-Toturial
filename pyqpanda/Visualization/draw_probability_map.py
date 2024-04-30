@@ -4,7 +4,7 @@ import matplotlib as mpl
 plt.switch_backend('agg')
 
 
-def draw_probaility(list):
+def draw_probability(list):
     """Draw a quantum state probaility dict
 
     Args:

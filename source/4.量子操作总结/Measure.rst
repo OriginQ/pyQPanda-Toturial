@@ -119,6 +119,13 @@
     示例用法::
 
         from pyqpanda import *
+        
+        machine = CPUQVM()
+        machine.init_qvm()
+
+        qubits = machine.qAlloc_many(3)
+        cbits = machine.cAlloc_many(3)
+
         prog = QProg()
         prog << H(qubits[0])\
              << H(qubits[0])\

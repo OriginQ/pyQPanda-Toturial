@@ -12,15 +12,13 @@
 
 """ Origin Quantum Computing Cloud Service ToolKit."""
 
+import os
 import json
 import time
 import requests
 
 from typing import List, Dict, Union, Optional, Tuple
 from pyqpanda import QCloudService, QProg, QVec, NoiseModel, real_chip_type
-
-# from pyqpanda import dec_hybrid, enc_hybrid, xor_hex_strings, sm4_encode
-from pyqpanda import Kyber
 
 class QCloud(QCloudService):
     """
@@ -70,11 +68,12 @@ class QCloud(QCloudService):
         except json.JSONDecodeError as e:
             raise RuntimeError("pqc_init json error: " + str(e))
 
-        cipher0, cipher1, sym_key, iv = Kyber.enc_hybrid(pk0_value)
+        cipher0, cipher1, sym_key, iv = super().enc_hybrid(pk0_value, self.pqc_random_seed)
 
         keys_data = {
-            "cipher1": cipher0.decode('utf-8'),
-            "cipher2": cipher1.decode('utf-8')
+            "cipher1": cipher0,
+            "cipher2": cipher1,
+            "pkId": data["obj"]["pkId"]
         }
 
         keys_data_json_str = json.dumps(keys_data)
@@ -100,11 +99,37 @@ class QCloud(QCloudService):
             print("iv : " , iv)
             print("sym_key : " , sym_key)
 
+    from typing import Union
+    def _random_num_process(self, data: Union[bytes, str]) -> str:
+        
+        if isinstance(data, bytes):
+            if len(data) > 96:
+                data = data[:96]
+            elif len(data) < 96:
+                data += b'\x00' * (96 - len(data))
+            processed_data = data.hex()
+            
+        elif isinstance(data, str):
+            
+            if all(c in '0123456789abcdefABCDEF' for c in data):
+                if len(data) > 192:
+                    data = data[:192]
+                elif len(data) < 192:
+                    data += '0' * (192 - len(data))
+                processed_data = data
+            else:
+                raise ValueError("Provided string is not a valid hexadecimal string")
+        else:
+            raise TypeError("Input must be either bytes or string")
+        
+        return processed_data
+    
     def init_qvm(self, 
                  token: str, 
                  is_logged: bool = False,
                  use_bin_or_hex = True,
                  enable_pqc_encryption = False,
+                 random_num : Union[bytes, str] = os.urandom(96),
                  request_time_out = 100):
         
         """
@@ -112,6 +137,7 @@ class QCloud(QCloudService):
         """
 
         self.pqc_init_completed = False
+        self.pqc_random_seed = self._random_num_process(random_num)  
         self.enable_pqc_encryption = enable_pqc_encryption
 
         self.use_bin_or_hex = use_bin_or_hex
@@ -142,18 +168,28 @@ class QCloud(QCloudService):
                     hex_str = hex_str[2:]
                 binary_str = bin(int(hex_str, 16))[2:]
                 return binary_str.zfill(binary_length)
-
-            result_dict = {}
-            for key, value in input_dict.items():
-                key = key.upper()
-                if key.startswith('0X'):  # Check if the key is a hex string
-                    result_dict[hex_to_binary(key, binary_size)] = value
-                else:
-                    result_dict[key] = value
             
-            return result_dict
+            if(self.enable_pqc_encryption):
+                result_dict = {}
+                for key, value in input_dict.items():
+                    result_dict[hex_to_binary(key, binary_size)] = value
+                return result_dict
+            
+            else:
+                result_dict = {}
+                for key, value in input_dict.items():
+                    key = key.upper()
+                    if key.startswith('0X'):  # Check if the key is a hex string
+                        result_dict[hex_to_binary(key, binary_size)] = value
+                    else:
+                        result_dict[key] = value
+                
+                return result_dict
 
         else:
+            
+            if(self.enable_pqc_encryption):
+                return input_dict
 
             # convert from bin -> hex
             def binary_to_hex(binary_str):
@@ -309,15 +345,12 @@ class QCloud(QCloudService):
         if not recv_doc["success"]:
             raise Exception("recv json parsed failed : ", recv_doc["message"])
         
-        # pqc decode 
-        task_data = json.loads(Kyber.sm4_decode(self.sym_key, 
-                                                self.iv, 
-                                                recv_doc["obj"]["task"]))
+        task_data = recv_doc["obj"]
         task_status = int(task_data['taskStatus'])
 
         if task_status == self.TaskStatus.FINISHED.value:
 
-            result_string = Kyber.sm4_decode(self.sym_key, 
+            result_string = super().sm4_decode(self.sym_key, 
                                              self.iv, 
                                              recv_doc["obj"]["taskResult"])
 
@@ -384,10 +417,7 @@ class QCloud(QCloudService):
             raise Exception("recv json parsed failed : ", recv_doc["message"])
         
         # pqc decode 
-        task_data = json.loads(Kyber.sm4_decode(self.sym_key, 
-                                                self.iv, 
-                                                recv_doc["obj"]["task"]))
-        
+        task_data = recv_doc["obj"]
         task_status = int(task_data['taskStatus'])
 
         # CloudQMchineType only in REAL_CHIP    
@@ -399,13 +429,13 @@ class QCloud(QCloudService):
                 qubit_addr = int(qubit_size)
                 measure_qubits_num.append(qubit_addr)
 
+            result_string = super().sm4_decode(self.sym_key, 
+                                               self.iv, 
+                                               recv_doc["obj"]["taskResult"])
+            
             result_string_array = []
-            for item in recv_doc["obj"]["taskResult"]:
-                result_string = Kyber.sm4_decode(self.sym_key, 
-                                                 self.iv, 
-                                                 item)
-                
-                result_string_array.append(result_string)
+            for item in json.loads(result_string):
+                result_string_array.append(json.dumps(item))
 
             origin_result = super().query_prob_dict_result_batch(result_string_array)
 
@@ -631,7 +661,7 @@ class QCloud(QCloudService):
         Notes:
             This function combines submission and result querying for batch computations.
         """
-    
+     
         if self.is_logged:
             print("post url : ", batch_url)
             print("post json : ", task_msg)
@@ -657,22 +687,11 @@ class QCloud(QCloudService):
         # enable pqc encryption
         if self.enable_pqc_encryption:
 
-            if not self.pqc_init_completed:
-                self.pqc_init()
-                self.pqc_init_completed = True
-
-            response_string = self._request_post(super().pqc_inquire_url, json.dumps(obj))
-
-            if self.is_logged:
-                print("post url : ", super().pqc_inquire_url)
-                print("post json : ",json.dumps(obj))
-                print("post response_string : ", response_string)
+            task_status , batch_result =  self.query_batch_task_state_result(task_id)
+            current_result = {} if len(batch_result) == 0 else batch_result[0]
+            return task_status, current_result
         
-            return self._pqc_query(response_string)
-        
-
         # disable pqc encryption
-
         recv_json = self._request_post(super().inquire_url, json.dumps(obj))
 
         if self.is_logged:
@@ -1174,21 +1193,14 @@ class QCloud(QCloudService):
         
         # enable pqc encryption
         else:
-            if not self.pqc_init_completed:
-                self.pqc_init()
-                self.pqc_init_completed = True
-
-            pqc_task_msg = self.pqc_encrypt_and_combine_json(task_msg)
-
-            recv_string = self._request_post(super().pqc_compute_url, pqc_task_msg)
-
-            if self.is_logged:
-                print("post url : ", super().pqc_compute_url)
-                print("post json : ", task_msg)
-                print("post recv : ", recv_string)
-
-            task_id = super().parse_get_task_id(recv_string)
-            return task_id
+            
+            return self.async_batch_real_chip_measure(prog_array=[prog],
+                                                      shot=shot,
+                                                      chip_id=chip_id, 
+                                                      is_amend=is_amend, 
+                                                      is_mapping=is_mapping,
+                                                      is_optimization=is_optimization,
+                                                      task_from=task_from)
         
     def pqc_encrypt(self, data : str):
         """
@@ -1201,13 +1213,10 @@ class QCloud(QCloudService):
             str: The encrypted data.
         """
 
-        encrypted_data = Kyber.sm4_encode(self.sym_key, 
-                                          self.iv, 
-                                          data) 
-
+        encrypted_data = super().sm4_encode(self.sym_key,  self.iv, data) 
         return encrypted_data
 
-    def pqc_encrypt_and_combine_json(self,json_str : str):
+    def pqc_encrypt_and_combine_json(self, json_str : str):
         """
         Encrypts the 'code' field and the remaining JSON data, and combines them into a new JSON string.
 
@@ -1221,20 +1230,12 @@ class QCloud(QCloudService):
         json_data = json.loads(json_str)
         
         # Get the value of 'code' field and encrypt it
-        code_value = self.pqc_encrypt(json_data["code"])
+        encrypt_code_value = self.pqc_encrypt(json.dumps(json_data["code"]))
         
         # Remove the 'code' field from the dictionary
-        del json_data["code"]
+        json_data["code"] = encrypt_code_value
         
-        # Encrypt the remaining JSON data
-        remaining_json = self.pqc_encrypt(json.dumps(json_data))
-        
-        # Combine the encrypted 'code' value and encrypted remaining JSON data into a new JSON object
-        pqc_json = {"code": code_value, "task": remaining_json}
-        
-        # Convert the new JSON object to a JSON string
-        pqc_json_str = json.dumps(pqc_json)
-        
+        pqc_json_str = json.dumps(json_data)
         return pqc_json_str
     
     def pqc_encrypt_and_combine_batch_json(self,json_str : str):
@@ -1249,26 +1250,16 @@ class QCloud(QCloudService):
         """
         # Parse JSON string into dictionary
         json_data = json.loads(json_str)
-
-        code_value = []
-        for item in json_data["qprogArr"]:
-            # Get the value of 'code' field and encrypt it
-            code_value.append(self.pqc_encrypt(item)) 
         
-        # Remove the 'code' field from the dictionary
+        encrypt_code_array_value = self.pqc_encrypt(json.dumps(json_data["qprogArr"]))
+        
+        json_data["qprogStr"] = encrypt_code_array_value
+        
         del json_data["qprogArr"]
         
-        # Encrypt the remaining JSON data
-        remaining_json = self.pqc_encrypt(json.dumps(json_data))
-        
-        # Combine the encrypted 'code' value and encrypted remaining JSON data into a new JSON object
-        pqc_json = {"code": code_value, "task": remaining_json}
-        
         # Convert the new JSON object to a JSON string
-        pqc_json_str = json.dumps(pqc_json)
-        
+        pqc_json_str = json.dumps(json_data)
         return pqc_json_str
-
 
     def real_chip_measure(self, 
                           prog: Union[QProg, str], 
@@ -1313,6 +1304,17 @@ class QCloud(QCloudService):
         
         # enable pqc encryption
         else:
+            
+            batch_result = self.batch_real_chip_measure(prog_array=[prog],
+                                                        shot=shot, 
+                                                        chip_id=chip_id, 
+                                                        is_amend=is_amend, 
+                                                        is_mapping=is_mapping,
+                                                        is_optimization=is_optimization,
+                                                        task_from = task_from)
+            
+            return batch_result[0]
+            
             if not self.pqc_init_completed:
                 self.pqc_init()
                 self.pqc_init_completed = True
@@ -1490,7 +1492,6 @@ class QCloud(QCloudService):
 
             pqc_batch_task_msg = self.pqc_encrypt_and_combine_batch_json(task_msg)
             return self._pqc_batch_submit_and_query(pqc_batch_task_msg)
-
 
     def set_noise_model(self, 
                         model: NoiseModel, 

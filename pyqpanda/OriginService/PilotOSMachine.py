@@ -48,6 +48,8 @@ class QPilotOSMachine(QPilotOSService):
         self.PilotURL = ''
         self.PilotIp = ''
         self.PilotPort = ''
+        self.APIKey = ''
+        self.LogCout = ''
         return super().__init__(name)
     
     def _build_task_msg(self, prog : List[QProg] = None, shot : int = None, 
@@ -80,48 +82,11 @@ class QPilotOSMachine(QPilotOSService):
 
         """
         return super().build_task_msg(prog, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
-    
-    def _real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
-                               shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
-                               is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> float:
-        """Build submit Quantum expectation task request json str, however this is a private method.
 
-        Parameters
-        ----------
-        prog : QProg
-            The quantum program you want to compute.
-        hamiltonian : 
-            Hamiltonian parameters.
-        qubits : 
-            measurement qubit 
-        shot : int
-            Repeate run quantum program times.
-        chip_id : int
-            The quantum chip ID .
-        is_amend : bool
-            Whether amend task result.
-        is_mapping : bool
-            Whether mapping logical Qubit to Physical Qubit.
-        is_optimization : bool
-            Whether optimize your quantum program.
-        specified_block : List[int]
-            Your specifed Qubit block .
-        task_describe : str
-            The detailed infomation to describe your quantum program.
-
-        Returns
-        -------
-        float
-
-        """
-        if type(prog) == str:
-            prog = convert_originir_str_to_qprog(prog, self)[0]
-        return super().real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
-    
-    def _async_real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
+    def _build_expectation_task_msg(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
                                shot : int = None, chip_id : int = None, is_amend : bool = True, is_mapping : bool = True, 
                                is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
-        """Build submit Quantum expectation task request json str, however this is a private method.
+        """call C++ function to build expectation task message   
 
         Parameters
         ----------
@@ -130,7 +95,7 @@ class QPilotOSMachine(QPilotOSService):
         hamiltonian : 
             Hamiltonian parameters.
         qubits : 
-            measurement qubit 
+            measurement qubit.
         shot : int
             Repeate run quantum program times.
         chip_id : int
@@ -144,17 +109,46 @@ class QPilotOSMachine(QPilotOSService):
         specified_block : List[int]
             Your specifed Qubit block .
         task_describe : str
-            The detailed infomation to describe your quantum program.
+            The detailed infomation to describe your quantum program, such as which kind of algorithm, what can this program compute.
 
         Returns
         -------
-        float
-
+        string
+            if success, return expectation task message.
         """
-        if type(prog) == str:
-            prog = convert_originir_str_to_qprog(prog, self)[0]
-        return super().async_real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+        return super().build_expectation_task_msg(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+    
+    def _build_qst_task_msg(self, prog : QProg, shot : int = None, chip_id : int = None, is_amend : bool = True, 
+                            is_mapping : bool = True, is_optimization : bool = True, specified_block : List[int] = [], 
+                            task_describe : str = '') -> str:
+        """call C++ function to build qst task message   
 
+        Parameters
+        ----------
+        prog : QProg
+            The quantum program you want to compute.
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        task_describe : str
+            The detailed infomation to describe your quantum program, such as which kind of algorithm, what can this program compute.
+
+        Returns
+        -------
+        string
+            if success, return qst task message.
+        """
+        return super().build_qst_task_msg(prog, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+    
     def get_expectation_result(self, task_id : str) -> list:
         """ get expectation task result
 
@@ -184,9 +178,39 @@ class QPilotOSMachine(QPilotOSService):
 
         """
         return super().build_query_msg(task_id)
+    
+    def _retry_get_task_result(self, task_id : str, task_resp : list) -> None:
+        """if tcp connection is closed, use http method instead. It's should be a private method, used in _tcp_recv func.
+
+        Parameters
+        ----------
+        task_id : str
+            your task id
+        task_resp : list
+            task result
+        """
+        while True:
+            print("retry get task result...")
+            try :
+                query_result = self.query_task_state(task_id) 
+            except Exception as e : 
+                print(e)
+                continue
+                          
+            if query_result[0] == '3' or query_result[0] == '4' or query_result[0] == '35':
+                # Assemble the return message body
+                task_info_kv = "{{\"taskId\":\"{}\", \"errCode\":{}, \"errInfo\":\"{}\", \"taskResult\":{},\"probCount\":{}}}"          \
+                .format(task_id, query_result[2], query_result[3], json.dumps(query_result[1], indent=None), json.dumps(query_result[4], indent=None))
+                task_resp.append(True)
+                task_resp.append(task_info_kv)
+                break
+            else:
+                print(f"state : {query_result[0]}")
+                time.sleep(1)
+                continue
 
     def _tcp_recv(self, ip : str, port : int, task_id : str) -> list:
-        """Receive message using TCP protocol, however this is a private method.
+        """Receive task result message, if success, use tcp protocol, otherwise retry with http protocol.
 
         Parameters
         ----------
@@ -202,7 +226,14 @@ class QPilotOSMachine(QPilotOSService):
         list
 
         """
-        return super().tcp_recv(ip, port, task_id)
+        task_result = []
+        task_resp = super().tcp_recv(ip, port, task_id)
+        if task_resp[0] : # success, use tcp method
+            task_result = task_resp
+        else : # failed, use http mothod
+            self._retry_get_task_result(task_id, task_result)
+        
+        return task_result 
 
     def _parser_sync_result(self, json_str) -> list:
         """Parse sync compute task result to list, however this is a private method.
@@ -218,6 +249,40 @@ class QPilotOSMachine(QPilotOSService):
 
         """
         return super().parser_sync_result(json_str)
+    
+    def _parser_expectation_result(self, json_str) -> float:
+        """Parse expectation result, however this is a private method.
+
+        Parameters
+        ----------
+        json_str : str
+            The json str contains expectation task result.
+
+        Returns
+        -------
+        float
+            if success, return expectation result, else print error info and return none
+        """
+        result_str = json.loads(json_str)
+        if result_str['errCode'] != 0 :
+            print("error, " + result_str['errInfo'])
+            return
+        return float(result_str['taskResult'][0])
+    
+    def get_qst_result(self, task_id: str) -> list:
+        """ get qst task result through task_id
+
+        Parameters
+        ----------
+        task_id : str
+            the task_id you want to query
+
+        Returns
+        -------
+        list
+            The list contains the information of qst task.
+        """
+        return super()._get_qst_result(task_id)
 
     def _send_request(self, str_url : str = None, req : str = None, resp : list = None) -> bool:
         """Send request to PilotOS, however this is a private method.
@@ -359,6 +424,8 @@ class QPilotOSMachine(QPilotOSService):
             self.PilotURL = url
             self.PilotIp = parsed_url.hostname
             self.PilotPort = parsed_url.port
+            self.APIKey = api_key
+            self.LogCout = log_cout
 
             super().init_config(url,log_cout)
             login_req = super().build_init_msg(api_key)
@@ -457,36 +524,23 @@ class QPilotOSMachine(QPilotOSService):
         resp = []
         send_ok = self._send_request(url, req_str, resp)
         if not send_ok:
-            result = ['{"errCode": 3, "errInfo": "Error: Send request failed!"}']
-            print(result[0])
-            return result
+            print('{"errCode": 3, "errInfo": "Error: Send request failed!"}')
+            return
         else:
             parsed_data = json.loads(resp[0])
             if 'taskId' in parsed_data:
                 task_id = parsed_data['taskId']
+                task_resp = self._tcp_recv(self.PilotIp, int(self.PilotPort), task_id)
+                if task_resp[0]:
+                    result = self._parser_sync_result(task_resp[1])
+                else:
+                    print("the task result retrieval failed, please retry later")
+                    return
             else:
                 print('The taskId key is not present in the JSON data.')
-            task_resp = self._tcp_recv(self.PilotIp, int(self.PilotPort), task_id)
-            if task_resp[0]:
-                err_info = json.loads(task_resp[1])
-                result = self._parser_sync_result(task_resp[1])
-                return result[0]
-            else:
-                while True:
-                    query_result = self.query_task_state(self, task_id)               
-                    if query_result[0] == '3':
-                        pass
-                    elif query_result[0] == '4' or query_result[0] == '35':
-                        print(f"state: {query_result[0]}")
-                        print(f"errCode: {query_result[2]}")
-                        print(f"errInfo: {query_result[3]}")
-                        #print(f"Task measure failed Please measure later, errInfo:{query_result[1]}")
-                        break
-                    else:
-                        print(f"state: {query_result[0]}")
-                        time.sleep(1) #延时2秒
-                        continue
-                    return task_resp[1]
+                return
+            
+        return result[0]   
 
     def async_real_chip_measure(self, prog : Union[List[str], List[QProg], str, QProg], shot = 1000, chip_id = None, 
                         is_amend = True, is_mapping = True, is_optimization = True, 
@@ -551,11 +605,11 @@ class QPilotOSMachine(QPilotOSService):
 
         Parameters
         ----------
-        prog : QProg
+        prog : Union[QProg, str]
             The quantum program you want to compute.
-        hamiltonian : 
+        hamiltonian : str 
             Hamiltonian parameters.
-        qubits : 
+        qubits : List[int]
             measurement qubit 
         shot : int
             Repeate run quantum program times.
@@ -575,10 +629,32 @@ class QPilotOSMachine(QPilotOSService):
         Returns
         -------
         float
-            expectation task result
+            if success, return the expectation task result. Otherwise return empty.
         """
-        return self._real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization,
-                                              specified_block, task_describe)
+        if type(prog) == str:
+            prog = convert_originir_str_to_qprog(prog, self)[0]
+        req_str = self._build_expectation_task_msg(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+        url = self.PilotURL + '/task/realQuantum/run'
+        resp = []
+        send_ok = self._send_request(url, req_str, resp)
+        if not send_ok:
+            print('{"errCode": 3, "errInfo": "Error: Send request failed!"}')
+            return
+        else:
+            parsed_data = json.loads(resp[0])
+            if 'taskId' in parsed_data:
+                task_id = parsed_data['taskId']
+                task_resp = self._tcp_recv(self.PilotIp, int(self.PilotPort), task_id)
+                if task_resp[0]:  # success in acquiring task result
+                    result = self._parser_expectation_result(task_resp[1])
+                else: # failed in acquiring task result
+                    print("The task result retrieval failed, please retry later.")
+                    return
+            else:
+                print('The taskId key is not present in the JSON data.')
+                return
+            
+        return result
         
 
     def async_real_chip_expectation(self, prog : Union[QProg, str], hamiltonian : str, qubits : List[int] = None,
@@ -588,11 +664,11 @@ class QPilotOSMachine(QPilotOSService):
 
         Parameters
         ----------
-        prog : QProg
+        prog : Union[QProg, str]
             The quantum program you want to compute.
-        hamiltonian : 
+        hamiltonian : str 
             Hamiltonian parameters.
-        qubits : 
+        qubits : List[int] 
             measurement qubit 
         shot : int
             Repeate run quantum program times.
@@ -614,9 +690,76 @@ class QPilotOSMachine(QPilotOSService):
         str
             return expectation task id, you need query task result by using task id.
         """
+        if type(prog) == str:
+            prog = convert_originir_str_to_qprog(prog, self)[0]
+        proglist = self._get_prog(prog)
+        req_str = self._build_expectation_task_msg(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, task_describe)
+        url = self.PilotURL + '/task/realQuantum/run'
+        resp = []
+        send_ok = self._send_request(url, req_str, resp)
+        if not send_ok:
+            print('Error: Send request failed!')
+            return
+        else:
+            print(f"Receive: {resp[0]}")
+            parsed_data = json.loads(resp[0])
+            if 'taskId' in parsed_data:
+                task_id = parsed_data['taskId']
+            else:
+                print(f'The taskId key is not present in the JSON data. reply: {parsed_data}')
+                return
+
+        return task_id
         
-        return self._async_real_chip_expectation(prog, hamiltonian, qubits, shot, chip_id, is_amend, is_mapping, is_optimization,
-                                              specified_block, task_describe)
+    def async_real_chip_qst(self, prog : Union[str, QProg], shot = 1000, chip_id = None, 
+                        is_amend = True, is_mapping = True, is_optimization = True, 
+                        specified_block = [], describe = '') -> list:
+        """Using async way to compute QST task, then you need to query task result from task_id.
+
+        Parameters
+        ----------
+        prog : Union[str, QProg]
+            The quantum program you want to compute.
+        shot : int
+            Repeate run quantum program times.
+        chip_id : int
+            The quantum chip ID .
+        is_amend : bool
+            Whether amend task result.
+        is_mapping : bool
+            Whether mapping logical Qubit to Physical Qubit.
+        is_optimization : bool
+            Whether optimize your quantum program.
+        specified_block : List[int]
+            Your specifed Qubit block .
+        describe : str
+            The detailed infomation to describe your quantum program, such as which kind of algorithm, what can this program compute.
+
+        Returns
+        -------
+        str
+            your task id which can query task result
+        """
+        
+        if type(prog) == str:
+            prog = convert_originir_str_to_qprog(prog, self)[0]
+        req_str = self._build_qst_task_msg(prog, shot, chip_id, is_amend, is_mapping, is_optimization, specified_block, describe)
+        url = self.PilotURL + '/task/realQuantum/run'
+        resp = []
+        send_ok = self._send_request(url, req_str, resp)
+        if not send_ok:
+            print('Error: Send request failed!')
+            return
+        else:
+            print(f"Receive: {resp[0]}")
+            parsed_data = json.loads(resp[0])
+            if 'taskId' in parsed_data:
+                task_id = parsed_data['taskId']
+            else:
+                print(f'The taskId key is not present in the JSON data. reply: {parsed_data}')
+                return
+        
+        return task_id
         
     def query_task_state(self, task_id : str, file_path : str = None) -> list:
         """Query task result from task_id.
@@ -701,7 +844,7 @@ class QPilotOSMachine(QPilotOSService):
         send_ok = self._send_request(req_url, req_str, resp)
         if not send_ok:
             print('Error: Send request failed!')
-            return 'Error: Send request failed"}'
+            return ["connect failed"]
         else:
             parsed_data = json.loads(resp[0])
             if 'taskState' in parsed_data and 'taskResult' in parsed_data and 'errCode' in parsed_data and 'errInfo' in parsed_data:    
@@ -725,10 +868,14 @@ class QPilotOSMachine(QPilotOSService):
                 task_result = parsed_data['taskResult']
                 err_code = parsed_data['errCode']
                 err_info = parsed_data['errInfo']
-                res = [task_state, task_result, err_code, err_info]
-                return res
+                if "probCount" in parsed_data : 
+                    prob_count = '[' + parsed_data["probCount"][0] + ']'
+                else : 
+                    prob_count = "[]"
+                res = [task_state, task_result, err_code, err_info, prob_count]
             else:
                 print(f'Query task info error! reply str: {resp[0]}')
+        return res 
 
     def get_task_list_result(self, task_id : list, file_path : str = None) -> list:
         """Get task result through task id list.
@@ -765,9 +912,7 @@ class QPilotOSMachine(QPilotOSService):
             if single_result[0] == '3':
                 return_list.append({'task_id' : item, 'task_result' : single_result[1]})
 
-        return return_list    
-
-
+        return return_list     
 
     def parse_probability_result(self, result_str : list) -> list:
         """Parse async task probability result to a list contains dict.

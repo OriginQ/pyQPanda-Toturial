@@ -228,7 +228,7 @@ Bloch球轨迹
 概率分布
 =========
 
-在运行一个量子线路得到概率分布后，可以通过 ``draw_probaility`` 或 ``draw_probaility_dict`` 绘制具体的概率分布，
+在运行一个量子线路得到概率分布后，可以通过 ``draw_probability`` 或 ``draw_probability_dict`` 绘制具体的概率分布，
 他们的区别是第一个函数参数是dict类型，包含量子态二进制表示与对应的概率，另一个函数参数是list，表示量子态概率数组，运行示例如下：
 
 .. function:: draw_probability(probability_dict)
@@ -257,11 +257,11 @@ Bloch球轨迹
 
         machine.directly_run(prog)
         result_dict = machine.prob_run_dict(prog, qubits, -1)
-        draw_probaility_dict(result_dict)
+        draw_probability_dict(result_dict)
         machine.finalize()
 
 绘制的概率分布图如下：
 
-    .. image:: ./images/draw_probaility_dict.png
+    .. image:: ./images/draw_probability_dict.png
         :width: 300
         :align: center

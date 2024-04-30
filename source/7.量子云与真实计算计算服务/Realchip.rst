@@ -48,13 +48,6 @@
     :ivar origin quantum cloud machine: 该类用于管理远程量子云计算资源。
     :vartype origin quantum cloud machine: str
 
-    .. method:: __init__()
-
-        QCloud类的构造函数。
-
-        :return: 无返回值
-        :rtype: None
-
     .. method:: get_state_fidelity(prog, shot, chip_id=2, is_amend=True, is_mapping=True, is_optimization=True, task_name='QPanda Experiment')
 
         该方法将给定的量子线路提交到远程真实量子芯片上进行计算，然后返回计算得到的状态保真度。可以通过调整参数来控制计算的方式和行为。
@@ -98,7 +91,7 @@
         :return: 计算得到的态密度矩阵。
         :rtype: List[List[complex]]
 
-    .. method:: init_qvm(token: str, is_logged: bool = False, use_bin_or_hex: bool = True, enable_pqc_encryption = False, request_time_out: int = 100)
+    .. method:: init_qvm(token: str, is_logged: bool = False, use_bin_or_hex: bool = True, enable_pqc_encryption = False, random_num = os.random(96), request_time_out: int = 100)
 
         该方法用于初始化 QVM 服务，提供必要的用户身份验证令牌和其他参数。可选参数用于配置 QVM 的行为，例如是否记录操作，以及在处理二进制和十六进制字符串时是否使用默认设置。
 
@@ -109,7 +102,9 @@
         :param use_bin_or_hex: 是否在处理二进制和十六进制字符串时使用默认设置（默认为 True）。
         :type use_bin_or_hex: bool, optional
         :param enable_pqc_encryption: 是否启用混合加密算法对数据传输进行加密（默认为 False）
-        :type use_bin_or_hex: bool, optional
+        :type enable_pqc_encryption: bool, optional
+        :param random_num: 在enable_pqc_encryption生效的情况，传入的指定随机数，192字符大小的16进制字符串，或者96个字节
+        :type random_num: bytes | str, optional
         :param request_time_out: 请求超时时间，以秒为单位（默认为 100）。
         :type request_time_out: int, optional
 
@@ -193,12 +188,14 @@
         :return: 包含每个程序测量结果概率的字典列表。
         :rtype: List[Dict[str, float]]
 
-    .. method:: query_task_state_result(task_id: str)
+    .. method:: query_task_state_result(task_id: str, is_real_chip_task : bool = True)
 
-        该方法用于查询单个任务的状态和结果。如果任务成功完成，结果列表将包含任务状态和相应的测量结果或其他相关信息。
+        该方法用于查询单个任务的状态和结果。如果任务成功完成，结果列表将包含任务状态和相应的测量结果或其他相关信息，如果是集群任务，需要额外设置任务类型标识
 
         :param task_id: 要查询的任务ID。
         :type task_id: str
+        :param is_real_chip_task: 是否是芯片任务，默认为True
+        :type is_real_chip_task: bool
         :return: 包含任务状态和结果的列表。如果任务成功完成，结果将包含状态和相应的测量结果或其他相关信息。
         :rtype: List[Union[int, Any]]
 

@@ -62,16 +62,20 @@
         :return: 计算得到的期望值。
         :rtype: float
 
-    .. method:: init_qvm(token, is_logged=False)
+    .. method:: init_qvm(token: str, is_logged: bool = False, use_bin_or_hex: bool = True, enable_pqc_encryption = False, request_time_out: int = 100)
 
-        初始化量子虚拟机。
+        该方法用于初始化 QVM 服务，提供必要的用户身份验证令牌和其他参数。可选参数用于配置 QVM 的行为，例如是否记录操作，以及在处理二进制和十六进制字符串时是否使用默认设置。
 
-        :param token: 访问云服务所需的用户标识。
+        :param token: 用户身份验证令牌。
         :type token: str
-        :param is_logged: 是否输出日志，默认为 False。
+        :param is_logged: 是否在控制台上记录 QVM 操作（默认为 False）。
         :type is_logged: bool, optional
-        :return: 无返回值。
-        :rtype: None
+        :param use_bin_or_hex: 是否在处理二进制和十六进制字符串时使用默认设置（默认为 True）。
+        :type use_bin_or_hex: bool, optional
+        :param enable_pqc_encryption: 是否启用混合加密算法对数据传输进行加密（默认为 False）
+        :type use_bin_or_hex: bool, optional
+        :param request_time_out: 请求超时时间，以秒为单位（默认为 100）。
+        :type request_time_out: int, optional
 
     .. method:: noise_measure(prog, shot, task_name='QPanda Experiment')
 

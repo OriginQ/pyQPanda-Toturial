@@ -149,15 +149,25 @@ transform_to_base_qgate
     .. code-block:: python
 
         from pyqpanda import *
-        from typing import List
+        import numpy as np
+        from scipy.stats import unitary_group
 
-        qprog = QProg()
-        machine = QuantumMachine()
-        convert_single_gates = ["H", "T"]
+        machine = CPUQVM()
+        machine.init_qvm()
+
+        q = machine.qAlloc_many(3)
+        c = machine.cAlloc_many(3)
+
+        unitary_matrix = unitary_group.rvs(2**3,random_state=169384)
+
+        prog = QProg()
+        prog << matrix_decompose(q, unitary_matrix, mode=DecompositionMode.QSDecomposition)
+
+        convert_single_gates = ["H", "T", "RX", "RY", "RZ"]
         convert_double_gates = ["CNOT", "CZ"]
 
         # Perform quantum gate conversion
-        new_qprog = transform_to_base_qgate(qprog, machine, convert_single_gates, convert_double_gates)
+        new_qprog = transform_to_base_qgate(prog, machine, convert_single_gates, convert_double_gates)
 
         # Print the new quantum program
         print(new_qprog)

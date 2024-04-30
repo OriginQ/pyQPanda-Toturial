@@ -229,7 +229,7 @@ pyqpanda中可以使用 ``count_prog_info`` 对层数和节点数进行统计。
 
     .. code-block:: python
           
-        clock_cycle = get_qprog_clock_cycle(qvm, prog)
+        clock_cycle = get_qprog_clock_cycle(prog, qvm)
 
 实例
 --------------
