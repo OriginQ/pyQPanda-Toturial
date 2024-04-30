@@ -284,8 +284,10 @@ QPanda2提供了OriginIR转换工具接口 ``convert_qprog_to_originir`` 该接�
     示例用法::
 
         # 创建一个量子机器和一个量子程序
+        from pyqpanda import *
+
         machine = CPUQVM()
-        qvm.init_qvm()
+        machine.init_qvm()
 
         qprog = QProg()
 

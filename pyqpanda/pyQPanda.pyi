@@ -4105,13 +4105,13 @@ class QCloudService(QuantumMachine):
         ...
 
     @overload
-    def build_init_object(self, arg0: QProg, arg1: str, arg2: int) -> None:
+    def build_init_object(self, prog: QProg, task_name: str = 'QPanda Experiment', task_from: int = 4) -> None:
         """
         """
         ...
 
     @overload
-    def build_init_object(self, arg0: str, arg1: str, arg2: int) -> None:
+    def build_init_object(self, prog_str: str, task_name: str = 'QPanda Experiment', task_from: int = 4) -> None:
         """
         """
         ...
@@ -4155,6 +4155,12 @@ class QCloudService(QuantumMachine):
 
     def cyclic_query(self, arg0: str) -> Tuple[bool,str]:
         """
+        """
+        ...
+
+    def enc_hybrid(self, pk_str: str, rdnum: str) -> tuple:
+        """
+        Perform hybrid encryption and return a tuple
         """
         ...
 
@@ -4210,6 +4216,18 @@ class QCloudService(QuantumMachine):
 
     def set_qcloud_url(self, cloud_url: str) -> None:
         """
+        """
+        ...
+
+    def sm4_decode(self, key: str, IV: str, enc_data: str) -> str:
+        """
+        Decode data using SM4 algorithm
+        """
+        ...
+
+    def sm4_encode(self, key: str, IV: str, data: str) -> str:
+        """
+        Encode data using SM4 algorithm
         """
         ...
 
@@ -4758,6 +4776,21 @@ class QPilotOSService(QuantumMachine):
         """
         ...
 
+    def _get_qst_density_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def _get_qst_fidelity_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
+    def _get_qst_result(self, task_id: str) -> list:
+        """
+        """
+        ...
+
     def async_em_compute(self, parameter_json: str) -> str:
         """
         """
@@ -4765,6 +4798,7 @@ class QPilotOSService(QuantumMachine):
 
     def async_real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> str:
         """
+        deprecated, use request instead.
         """
         ...
 
@@ -4825,8 +4859,20 @@ class QPilotOSService(QuantumMachine):
         """
         ...
 
+    def build_expectation_task_msg(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], task_describe: str = '') -> str:
+        """
+        use C++ to build a expectation task body.
+        """
+        ...
+
     def build_init_msg(self, api_key: str) -> str:
         """
+        """
+        ...
+
+    def build_qst_task_msg(self, prog: QProg, shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], task_describe: str = '') -> str:
+        """
+        use C++ to build ordinary qst task msg body
         """
         ...
 
@@ -4837,6 +4883,7 @@ class QPilotOSService(QuantumMachine):
 
     def build_task_msg(self, prog: List[QProg], shot: int, chip_id: int, is_amend: bool, is_mapping: bool, is_optimization: bool, specified_block: List[int], task_describe: str) -> str:
         """
+        use c++ to build real chip measure task msg body.
         """
         ...
 
@@ -4906,21 +4953,6 @@ class QPilotOSService(QuantumMachine):
 
     @overload
     def get_measure_result(self, task_id: str) -> list:
-        """
-        """
-        ...
-
-    def get_qst_density_result(self, task_id: str) -> list:
-        """
-        """
-        ...
-
-    def get_qst_fidelity_result(self, task_id: str) -> list:
-        """
-        """
-        ...
-
-    def get_qst_result(self, task_id: str) -> list:
         """
         """
         ...
@@ -5012,6 +5044,12 @@ class QPilotOSService(QuantumMachine):
         Raises:
             none
         
+        """
+        ...
+
+    def parser_expectation_result(self, json_str: str) -> list:
+        """
+        deprecated, use Python's json lib.
         """
         ...
 
@@ -5117,6 +5155,7 @@ class QPilotOSService(QuantumMachine):
 
     def real_chip_expectation(self, prog: QProg, hamiltonian: str, qubits: List[int] = [], shot: int = 1000, chip_id: int = 33554432, is_amend: bool = True, is_mapping: bool = True, is_optimization: bool = True, specified_block: List[int] = [], describe: str = '') -> float:
         """
+        deprecated, use request instead.
         """
         ...
 
@@ -5940,7 +5979,7 @@ class QuantumMachine:
         """
         ...
 
-    def get_allocate_qubits(self) -> QVec:
+    def get_allocate_qubits(self) -> List[Qubit]:
         """
         Get allocated qubits of QuantumMachine
         
@@ -12536,7 +12575,7 @@ def get_adjacent_qgate_type(qprog: QProg, node_iter: NodeIter) -> List[NodeInfo]
     """
     ...
 
-def get_all_used_qubits(qprog: QProg) -> QVec:
+def get_all_used_qubits(qprog: QProg) -> List[Qubit]:
     """
     Get all the used quantum bits in the input prog
     Args:
@@ -12601,7 +12640,7 @@ def get_allocate_qubit_num() -> int:
     """
     ...
 
-def get_allocate_qubits() -> QVec:
+def get_allocate_qubits() -> List[Qubit]:
     """
     Get allocated qubits of QuantumMachine
     

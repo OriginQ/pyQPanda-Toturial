@@ -48,6 +48,8 @@ QPanda2提供了QASM转换工具接口 ``convert_qprog_to_qasm`` 该接口使用
     示例用法::
 
         # 创建一个量子机器
+        from pyqpanda import *
+
         qvm = CPUQVM()
         qvm.init_qvm()
 

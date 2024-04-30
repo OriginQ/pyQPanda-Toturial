@@ -1,6 +1,6 @@
-.. include:: QPE.rst
+.. .. include:: QPE.rst
 .. include:: QFT.rst
-.. include:: Optimizer.rst
+.. .. include:: Optimizer.rst
 .. .. include:: GradientOptimizer.rst
 .. .. include:: QArithmetic.rst
 .. .. include:: AmplitudeEncode.rst

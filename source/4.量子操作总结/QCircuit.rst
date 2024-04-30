@@ -104,7 +104,7 @@
 
     .. code-block:: python
 
-        prog = create_empty_qcircuit()
+        prog = create_empty_circuit()
 
 你可以通过如下方式向QCircuit尾部填充节点，在这里pyqpanda重载了 ``<<`` 运算符作为插入量子线路的方法
 
@@ -210,7 +210,7 @@ GHZ线路
             # 构建量子程序
             prog = QProg()
 
-            measure_node = Measure(qubit, cbit)
+            measure_node = Measure(qubits[0], cbits[0])
 
             或
 

@@ -1,6 +1,36 @@
 更新日志
 ============
 
+3.8.3.4 - 2024-04-30
+--------------------
+
+**新增功能和重要更新：**
+
+1.本源量子云计算服务初始化混合加密配置使用选项优化，新增了指定随机数功能，用于对量子计算任务传输和通信中的数据加密过程添加用户指定的随机数。
+
+设置方式为将 **QCloud** 初始化函数的参数 ``enable_pqc_encryption`` 设置为 ``True`` 即可，默认为 ``False`` 不开启，同时可以传入用户指定的随机数，接受 **192字符大小的16进制字符串，或者96个字节，默认为os.urandom(96)** ，如果参数长度不符合要求，内部会自动进行处理。
+
+    .. code-block:: python
+
+        from pyqpanda import *
+
+        machine = QCloud()
+        machine.set_configure(72,72)
+
+        machine.init_qvm(token=my_api_key, enable_pqc_encryption=True, random_num=os.urandom(96))
+
+2.修改了量子云计算服务12进制与二进制转换未正确生效以及结果前后不一致的问题
+
+**错误修改和优化**
+
+1.修改了绘制量子态概率分布接口 ``draw_probability`` 的拼写错误。
+
+2.修改了C++17标准导致的QVec数据结构，封装成对应的python数据结构在python环境下内存异常错误。
+
+3.修改了可视化模块的实际显示问题，包括数字偏移及换行乱码问题修复，以及latex可视化未添加measure操作会崩溃的bug。
+
+4.修改了几处由于C++17升级导致的GPU量子虚拟机运行异常错误
+
 3.8.3.2 - 2024-04-03
 --------------------
 
@@ -38,43 +68,11 @@
 
 **新增功能和重要更新：**
 
-1.量子线路可视化新增模块化导出接口，支持线路模块化命名、展示和输出
+1.修改了量子虚拟机初始化错误，该错误会导致多个量子虚拟机重复初始化过程引发未知异常，涉及到的虚拟机有张量网络虚拟机,部分振幅虚拟机，单振幅虚拟机，密度矩阵模拟器和Clifford模拟器等
 
-    .. code-block:: python
+2.解决了mac部分python环境（3.10,3.11）下的包的导入异常问题
 
-        import pyqpanda as pq
-        from ..pyqpanda.Visualization.circuit_composer import CircuitComposer
-
-        def test_append():
-            circ1 = CircuitComposer(n_qubits)
-            circuit = pq.QCircuit()
-            circuit << pq.H(q[0]) << pq.CNOT(q[0], q[1]) << pq.CNOT(q[1], q[2])
-            circ1.append(circuit)
-            circ1 << pq.BARRIER(q)
-            circ1.append(pq.QFT(q[3:]), "QFT")
-            circ1.append(pq.deep_copy(circ1))
-            print(circ1)
-            print(circ1.circuit)
-
-            a = circ1.draw_circuit("pic", "test.png")
-            b = circ1.draw_circuit("latex")
-            c = circ1.draw_circuit("text")
-            print(b)
-            print(c)
-
-        if __name__ == '__main__':
-            n_qubits = 6
-            qvm = pq.CPUQVM()
-            qvm.init_qvm()
-            q = qvm.qAlloc_many(n_qubits)
-
-            test_append()
-
-2.修改了量子虚拟机初始化错误，该错误会导致多个量子虚拟机重复初始化过程引发未知异常，涉及到的虚拟机有张量网络虚拟机,部分振幅虚拟机，单振幅虚拟机，密度矩阵模拟器和Clifford模拟器等
-
-3.解决了mac部分python环境（3.10,3.11）下的包的导入异常问题
-
-4.修改了量子比特池初始化和清空操作不彻底的错误，该错误会导致清空后设置最大容量时内存异常
+3.修改了量子比特池初始化和清空操作不彻底的错误，该错误会导致清空后设置最大容量时内存异常
 
 3.8.2.3 - 2024-01-05
 --------------------
@@ -121,6 +119,8 @@
 1.量子计算服务适配了本源悟空芯片上线，并且可以支持originir量子程序参数， ``real_chip_type.origin_72`` 即为72比特芯片类型，使用方法可以参考 :ref:`真实芯片计算服务` 
 
     .. code-block:: python
+
+        from pyqpanda import *
 
         machine = QCloud()
         machine.set_configure(72,72);
@@ -209,6 +209,8 @@
 
     .. code-block:: python
 
+        from pyqpanda import *
+
         machine = CPUQVM()
         machine.set_configure(72,72);
 
@@ -232,6 +234,8 @@
 
     .. code-block:: python
 
+        from pyqpanda import *
+
         machine = QCloud()
         machine.set_configure(72,72);
 
@@ -254,7 +258,7 @@
         pmeasure_prog  << hadamard_circuit(qlist)\
                     << CZ(qlist[0], qlist[1])
 
-        batch_measure_result = machine.real_chip_measure_batch(batch_prog, 1000, real_chip_type.origin_72);
+        batch_measure_result = machine.batch_real_chip_measure(batch_prog, 1000, real_chip_type.origin_72);
         print(batch_measure_result)
 
 
@@ -263,32 +267,6 @@
     .. code-block:: python
 
         MS q[0],q[1]
-
-4.新增了CircuitComposer，用于优化打印时的信息显示
-
-    .. code-block:: python
-
-        import pyqpanda as pq
-        from pyqpanda import circuit_composer
-
-        def test_append():
-            circ1 = CircuitComposer(n_qubits)
-            circuit = pq.QCircuit()
-            circuit << pq.H(q[0]) << pq.CNOT(q[0], q[1]) << pq.CNOT(q[1], q[2])
-            circ1.append(circuit)
-            circ1 << pq.BARRIER(q)
-            circ1.append(pq.QFT(q[3:]), "QFT")
-
-            print(circ1)
-            print(circ1.circuit)
-
-        if __name__ == '__main__':
-            n_qubits = 6
-            qvm = pq.CPUQVM()
-            qvm.init_qvm()
-            q = qvm.qAlloc_many(n_qubits)
-
-            test_append()
 
 **其他更新：**
 
@@ -351,6 +329,8 @@
    
     .. code-block:: python
 
+        from pyqpanda import *
+
         machine = DensityMatrixSimulator()
         machine.init_qvm()
 
@@ -372,7 +352,15 @@
 
     .. code-block:: python
 
-        p = QProg();
+        from pyqpanda import *
+
+        machine = CPUQVM()
+        machine.init_qvm()
+
+        qubits = machine.qAlloc_many(3)
+        cbits = machine.cAlloc_many(3)
+
+        p = QProg()
         p << H(qubits[0]) \
             << CNOT(qubits[0], qubits[1]) \
             << H(qubits[2]) \
