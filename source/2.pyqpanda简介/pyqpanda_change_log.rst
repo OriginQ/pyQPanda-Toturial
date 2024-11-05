@@ -15,7 +15,7 @@
 
 4.更新接口，补充功能，使得可以选择是否在可视化过程中隐藏含参门的全部参数。更多信息请参考 :ref:`DrawQProg` 。
 
-5.更新接口，完善了将QASM指令字符串转换为OriginIR指令字符串的的功能。支持转换的QASM指令字符串对应的操作有：barrer、ccx、ch、cp、crx、cry、crz、cswap、csx、cu、cx、cy、cz、h、id、measure、p、rccx、rx、ry、rz、reset、rzz、s、sx、sdg、sxdg、swap、t、tdg、u、x、y、z。请查看 :ref:`QASMToOriginIR` 部分获取更多信息。
+5.更新接口，完善了将QASM指令字符串转换为OriginIR指令字符串的的功能。支持转换的QASM指令字符串对应的操作有：barrier、ccx、ch、cp、crx、cry、crz、cswap、csx、cu、cx、cy、cz、h、id、measure、p、rccx、rx、ry、rz、reset、rzz、s、sx、sdg、sxdg、swap、t、tdg、u、x、y、z。请查看 :ref:`QASMToOriginIR` 部分获取更多信息。
 
 6.更新接口，完善了将QASM指令字符串转换为QProg对象的功能。支持转换的QASM指令字符串对应的操作有：barrer、ccx、ch、cp、crx、cry、crz、cswap、csx、cu、cx、cy、cz、h、id、measure、p、rccx、rx、ry、rz、reset、rzz、s、sx、sdg、sxdg、swap、t、tdg、u、x、y、z。请查看 :ref:`QASMToQProg` 部分获取更多信息。
 
