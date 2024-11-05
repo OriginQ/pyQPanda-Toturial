@@ -13,7 +13,7 @@ space = ' '
 class CircuitComposer(pq.QCircuit):
     """CircuitComposer for representing quantum circuit using ascii art.
 
-    Attributes
+    Args
     ----------
     n_qubits: int
         Number of qubits of quantum circuit.
@@ -84,7 +84,7 @@ class CircuitComposer(pq.QCircuit):
     def append(self, circ: pq.QCircuit, name: str = '') -> None:
         """Append a quantum circuit.
 
-        Parameters
+        Args
         ----------
         circ : pq.QCircuit
             Quantum circuit to be appended.

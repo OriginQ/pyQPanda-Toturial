@@ -209,5 +209,5 @@ QPanda 2作为本源量子计算系列软件的基础库，为OriginIR、Qurator
     autoapi/pyqpanda/pyQPanda/index
     autoapi/pyqpanda/utils/index
     autoapi/pyqpanda/Visualization/index
-
+    autoapi/pyqpanda/OriginService/index
 

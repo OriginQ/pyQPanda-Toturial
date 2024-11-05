@@ -12,7 +12,7 @@ import bz2
 class QPilotOSMachine(QPilotOSService):
     """This class can submit Quantum Program to PilotOS.
 
-    Attributes
+    Args
     ----------
     PilotURL : str
         Connect to the target PilotOS address.
@@ -28,9 +28,9 @@ class QPilotOSMachine(QPilotOSService):
 
         Note
         ----
-        Do not include the `self` parameter in the ``Parameters`` section.
+        Do not include the `self` parameter in the ``Args`` section.
 
-        Parameters
+        Args
         ----------
         name : str
             Quantum Machine type name.
@@ -57,7 +57,7 @@ class QPilotOSMachine(QPilotOSService):
                        is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
         """Build submit Quantum compute task request json str, however this is a private method.
 
-        Parameters
+        Args
         ----------
         prog : List[QProg]
             The quantum program you want to compute.
@@ -88,12 +88,12 @@ class QPilotOSMachine(QPilotOSService):
                                is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
         """call C++ function to build expectation task message   
 
-        Parameters
+        Args
         ----------
         prog : QProg
             The quantum program you want to compute.
         hamiltonian : 
-            Hamiltonian parameters.
+            Hamiltonian Args.
         qubits : 
             measurement qubit.
         shot : int
@@ -123,7 +123,7 @@ class QPilotOSMachine(QPilotOSService):
                             task_describe : str = '') -> str:
         """call C++ function to build qst task message   
 
-        Parameters
+        Args
         ----------
         prog : QProg
             The quantum program you want to compute.
@@ -152,7 +152,7 @@ class QPilotOSMachine(QPilotOSService):
     def get_expectation_result(self, task_id : str) -> list:
         """ get expectation task result
 
-        Parameters
+        Args
         ----------
         task_id : str
             expectation task id.
@@ -167,7 +167,7 @@ class QPilotOSMachine(QPilotOSService):
     def _build_query_msg(self, task_id : str) ->str:
         """Build Query Quantum compute task result request json str, however this is a private method.
 
-        Parameters
+        Args
         ----------
         task_id : str
             The task id of your task.
@@ -182,7 +182,7 @@ class QPilotOSMachine(QPilotOSService):
     def _retry_get_task_result(self, task_id : str, task_resp : list) -> None:
         """if tcp connection is closed, use http method instead. It's should be a private method, used in _tcp_recv func.
 
-        Parameters
+        Args
         ----------
         task_id : str
             your task id
@@ -212,7 +212,7 @@ class QPilotOSMachine(QPilotOSService):
     def _tcp_recv(self, ip : str, port : int, task_id : str) -> list:
         """Receive task result message, if success, use tcp protocol, otherwise retry with http protocol.
 
-        Parameters
+        Args
         ----------
         ip : str
             The PilotOS IP address.
@@ -238,7 +238,7 @@ class QPilotOSMachine(QPilotOSService):
     def _parser_sync_result(self, json_str) -> list:
         """Parse sync compute task result to list, however this is a private method.
 
-        Parameters
+        Args
         ----------
         json_str : str
             The json str contains task result key and value.
@@ -253,7 +253,7 @@ class QPilotOSMachine(QPilotOSService):
     def _parser_expectation_result(self, json_str) -> float:
         """Parse expectation result, however this is a private method.
 
-        Parameters
+        Args
         ----------
         json_str : str
             The json str contains expectation task result.
@@ -272,7 +272,7 @@ class QPilotOSMachine(QPilotOSService):
     def get_qst_result(self, task_id: str) -> list:
         """ get qst task result through task_id
 
-        Parameters
+        Args
         ----------
         task_id : str
             the task_id you want to query
@@ -287,7 +287,7 @@ class QPilotOSMachine(QPilotOSService):
     def _send_request(self, str_url : str = None, req : str = None, resp : list = None) -> bool:
         """Send request to PilotOS, however this is a private method.
 
-        Parameters
+        Args
         ----------
         str_url : str
             The http function you want to request.
@@ -350,7 +350,7 @@ class QPilotOSMachine(QPilotOSService):
     def _get_prog(self, prog : Union[List[str], List[QProg], str, QProg]) ->list:
         """Get QProg list from user input, however this is a private method.
 
-        Parameters
+        Args
         ----------
         prog : Union[List[str], List[QProg], str, QProg]
             The QProg or OriginIR, Is or not in list.
@@ -378,7 +378,7 @@ class QPilotOSMachine(QPilotOSService):
     def set_config(self, max_qubit : int = None, max_cbit : int = None) -> None: 
         """set Quantum Machine max Qubit and Cbit number function.
 
-        Parameters
+        Args
         ----------
         max_qubit : int
             The Quantum Machine max available qubits.
@@ -400,7 +400,7 @@ class QPilotOSMachine(QPilotOSService):
     def init(self, url: str = None, log_cout: bool = False, api_key: str = None) -> None:
         """Init Quantum Machine and connect to PilotOS.
 
-        Parameters
+        Args
         ----------
         url : str
             The Quantum Machine address you want to connnect.
@@ -444,7 +444,7 @@ class QPilotOSMachine(QPilotOSService):
     def qAlloc_many(self, qubit_num : int = None) -> list: 
         """Get Qubits to construct Quantum Circuit.
 
-        Parameters
+        Args
         ----------
         qubit_num : int
             The Qubits number you need to use in circuit.
@@ -464,7 +464,7 @@ class QPilotOSMachine(QPilotOSService):
     def cAlloc_many(self, cbit_num : int = None) -> list: 
         """Get Cbits to construct Quantum Circuit.
 
-        Parameters
+        Args
         ----------
         cbit_num : int
             The Cbits number you need to use in circuit.
@@ -486,7 +486,7 @@ class QPilotOSMachine(QPilotOSService):
                         specified_block = [], describe = '') -> list:
         """Using sync way to compute your Quantum Program  .
 
-        Parameters
+        Args
         ----------
         prog : Union[List[str], List[QProg], str, QProg]
             The quantum program you want to compute.
@@ -547,7 +547,7 @@ class QPilotOSMachine(QPilotOSService):
                         specified_block = [], describe = '') -> str:
         """Using async way to compute your Quantum Program, then you need to query task result from task_id.
 
-        Parameters
+        Args
         ----------
         prog : Union[List[str], List[QProg], str, QProg]
             The quantum program you want to compute.
@@ -603,12 +603,12 @@ class QPilotOSMachine(QPilotOSService):
                                is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> float:
         """submit Quantum expectation task, and get the expectation result.    
 
-        Parameters
+        Args
         ----------
         prog : Union[QProg, str]
             The quantum program you want to compute.
         hamiltonian : str 
-            Hamiltonian parameters.
+            Hamiltonian Args.
         qubits : List[int]
             measurement qubit 
         shot : int
@@ -662,12 +662,12 @@ class QPilotOSMachine(QPilotOSService):
                                     is_optimization : bool = True, specified_block : List[int] = [], task_describe : str = '') -> str:
         """async submit Quantum expectation task, and return the task id.    
 
-        Parameters
+        Args
         ----------
         prog : Union[QProg, str]
             The quantum program you want to compute.
         hamiltonian : str 
-            Hamiltonian parameters.
+            Hamiltonian Args.
         qubits : List[int] 
             measurement qubit 
         shot : int
@@ -716,7 +716,7 @@ class QPilotOSMachine(QPilotOSService):
                         specified_block = [], describe = '') -> list:
         """Using async way to compute QST task, then you need to query task result from task_id.
 
-        Parameters
+        Args
         ----------
         prog : Union[str, QProg]
             The quantum program you want to compute.
@@ -764,7 +764,7 @@ class QPilotOSMachine(QPilotOSService):
     def query_task_state(self, task_id : str, file_path : str = None) -> list:
         """Query task result from task_id.
 
-        Parameters
+        Args
         ----------
         task_id : str
             The task id you want to query.
@@ -880,7 +880,7 @@ class QPilotOSMachine(QPilotOSService):
     def get_task_list_result(self, task_id : list, file_path : str = None) -> list:
         """Get task result through task id list.
 
-        Parameters
+        Args
         ----------
         task_id : list
             The list of task id you want to query.
@@ -917,7 +917,7 @@ class QPilotOSMachine(QPilotOSService):
     def parse_probability_result(self, result_str : list) -> list:
         """Parse async task probability result to a list contains dict.
 
-        Parameters
+        Args
         ----------
         result_str : str
             The json str contains task result key and value.
@@ -938,7 +938,7 @@ class QPilotOSMachine(QPilotOSService):
     def quantum_chip_config_query(self, chip_ids : str) -> str:
         """Get quantum chip config
         
-        Parameters
+        Args
         ----------
         chip_ids : str
             the json str contains chip id, it must be int or array, -1 represents all chips

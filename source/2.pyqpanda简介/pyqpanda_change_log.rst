@@ -1,14 +1,38 @@
 更新日志
 ============
 
-3.8.3.4 - 2024-04-30
+
+3.8.4 - 2024-11-1
+--------------------
+
+**新增功能和重要更新：**
+
+1.添加接口，通过QuantumMachine获取哈密顿期望。请查看 :ref:`Measure` 部分获取更多信息。
+
+2.添加接口，通过QCloud获取哈密顿期望。请查看 :ref:`Measure` 部分获取更多信息。
+
+3.提供根据配置选择硬件计算资源运行全振幅虚拟机。更多信息请参考 :ref:`全振幅量子虚拟机` 。
+
+4.更新接口，补充功能，使得可以选择是否在可视化过程中隐藏含参门的全部参数。更多信息请参考 :ref:`DrawQProg` 。
+
+5.更新接口，完善了将QASM指令字符串转换为OriginIR指令字符串的的功能。支持转换的QASM指令字符串对应的操作有：barrer、ccx、ch、cp、crx、cry、crz、cswap、csx、cu、cx、cy、cz、h、id、measure、p、rccx、rx、ry、rz、reset、rzz、s、sx、sdg、sxdg、swap、t、tdg、u、x、y、z。请查看 :ref:`QASMToOriginIR` 部分获取更多信息。
+
+6.更新接口，完善了将QASM指令字符串转换为QProg对象的功能。支持转换的QASM指令字符串对应的操作有：barrer、ccx、ch、cp、crx、cry、crz、cswap、csx、cu、cx、cy、cz、h、id、measure、p、rccx、rx、ry、rz、reset、rzz、s、sx、sdg、sxdg、swap、t、tdg、u、x、y、z。请查看 :ref:`QASMToQProg` 部分获取更多信息。
+
+7.更新接口，完善了将Pyquil指令字符串转换为OriginIR指令字符串的功能。支持转换的Pyquil指令字符串对应的操作有：I、Z、Y、X、H、S、T、CZ、CNOT、SWAP、PSWAP、ISWAP、XY。请查看 :ref:`PyquilToOriginIR` 部分获取更多信息。
+
+8.更新接口，完善了将Pyquil指令字符串转换为QProg对象的功能。支持转换的Pyquil指令字符串对应的操作有：I、Z、Y、X、H、S、T、CZ、CNOT、SWAP、PSWAP、ISWAP、XY。请查看 :ref:`PyquilToQProg` 部分获取更多信息。
+
+
+
+3.8.3.4 - 2024-4-30
 --------------------
 
 **新增功能和重要更新：**
 
 1.本源量子云计算服务初始化混合加密配置使用选项优化，新增了指定随机数功能，用于对量子计算任务传输和通信中的数据加密过程添加用户指定的随机数。
 
-设置方式为将 **QCloud** 初始化函数的参数 ``enable_pqc_encryption`` 设置为 ``True`` 即可，默认为 ``False`` 不开启，同时可以传入用户指定的随机数，接受 **192字符大小的16进制字符串，或者96个字节，默认为os.urandom(96)** ，如果参数长度不符合要求，内部会自动进行处理。
+    设置方式为将 **QCloud** 初始化函数的参数 ``enable_pqc_encryption`` 设置为 ``True`` 即可，默认为 ``False`` 不开启，同时可以传入用户指定的随机数，接受 **192字符大小的16进制字符串，或者96个字节，默认为os.urandom(96)** ，如果参数长度不符合要求，内部会自动进行处理。
 
     .. code-block:: python
 
@@ -19,8 +43,6 @@
 
         machine.init_qvm(token=my_api_key, enable_pqc_encryption=True, random_num=os.urandom(96))
 
-2.修改了量子云计算服务12进制与二进制转换未正确生效以及结果前后不一致的问题
-
 **错误修改和优化**
 
 1.修改了绘制量子态概率分布接口 ``draw_probability`` 的拼写错误。
@@ -30,6 +52,86 @@
 3.修改了可视化模块的实际显示问题，包括数字偏移及换行乱码问题修复，以及latex可视化未添加measure操作会崩溃的bug。
 
 4.修改了几处由于C++17升级导致的GPU量子虚拟机运行异常错误
+
+5.修改了量子云计算服务12进制与二进制转换未正确生效以及结果前后不一致的问题
+
+3.8.3.3 - 2024-4-13
+--------------------
+
+**新增功能和重要更新：**
+
+1.本源量子云计算服务虚拟机初始化接口和经典量子混合加密使用方式调整。
+
+(1) **QCloud** 初始化函数的参数修改如下
+ 
+    .. code-block:: python
+
+        def init_qvm(self, 
+                user_token: str, 
+                enable_logging: bool = False,
+                log_to_console: bool = True,
+                use_bin_or_hex = True,
+                enable_pqc_encryption = False,
+                random_num : Union[bytes, str] = os.urandom(96),
+                request_time_out = 100):
+
+            """
+            Initialize the quantum virtual machine (QVM) with specific configurations.
+            
+            Parameters:
+            user_token (str): User authentication token.
+            enable_logging (bool): Whether to enable logging, default is False.
+            log_to_console (bool): Whether to log to the console, default is True.
+            use_bin_or_hex (bool): Whether to use binary or hexadecimal representation, default is True.
+            enable_pqc_encryption (bool): Whether to enable PQC encryption, default is False.
+            random_num (Union[bytes, str]): Random number used for encryption initialization, default is 96 bits of random bytes.
+            request_time_out (int): Timeout for HTTP requests, default is 100 seconds.
+            
+            """
+            
+            # init quantum virtual machine
+    
+    其中参数说明如下:
+
+    - **enable_logging** 用于控制是否记录日志，默认为False
+  
+    - **log_to_console** 用于控制在开启日志的情况下，将日志输出为文件或者是输出到控制台, 默认为True，即输出到控制台
+    
+    - **use_bin_or_hex** ，选择使用二进制还是十六进制表示，默认为True，即使用二进制表示。
+  
+    - **enable_pqc_encryption** ，用于控制是否开启PQC加密，默认为False，不开启。
+  
+    - **random_num** ，用于指定PQC加密的随机数，默认为96个字节的随机数。
+  
+    - **request_time_out** ，用于指定HTTP请求的超时时间，默认为100秒。
+
+(2) PQC加密初始化使用方式调整，以前由虚拟机内部获取并更新秘钥，现在必须手动获取pqc本地密钥以及手动更新,首先通过 **get_pqc_encryption** 获取一对密钥，然后通过 **update_pqc_keys** 更新。
+
+    .. code-block:: python
+
+        machine = QCloud()
+        machine.set_configure(72,72)
+
+        machine.init_qvm(user_token="your api token",
+                         enable_logging=True,
+                         log_to_console=True,
+                         use_bin_or_hex=True,
+                         enable_pqc_encryption=True)
+        
+        sym_iv, sym_kys = machine.get_pqc_encryption()
+        machine.update_pqc_keys(sym_iv, sym_kys)
+  
+
+(3) 量子云计算服务新增了获取芯片拓扑结构接口，并支持获取芯片的拓扑信息，或者输出图形化展示。
+
+    .. code-block:: python
+
+        machine = QCloud()
+        machine.set_configure(72,72)
+
+        realtime_topology = machine.get_realtime_topology(72)
+
+        machine.show_chip_topology(72)
 
 3.8.3.2 - 2024-04-03
 --------------------
@@ -640,3 +742,6 @@
 6.修复ISWAP门默认参数未统一的问题。
 
 7.删除Encode类中归一化函数，并修改为入参检测归一化。
+
+
+

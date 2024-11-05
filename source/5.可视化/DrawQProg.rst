@@ -1,3 +1,5 @@
+.. _DrawQProg:
+
 量子线路可视化
 ====================
 
@@ -14,7 +16,7 @@
 
 pyqpanda中可以直接通过 ``print`` 和 ``draw_qprog`` 来输出和保存量子线路可视化结果
 
-.. function:: draw_qprog(prog, output=None, scale=0.7, filename=None, with_logo=False, line_length=100, NodeIter_first=None, NodeIter_second=None, console_encode_type='utf8')
+.. function:: draw_qprog(prog, output=None, scale=0.7, fold=30, filename=None, with_logo=False, with_gate_params=False,line_length=100, NodeIter_first=None,NodeIter_second=None, console_encode_type='utf8')
 
     draw_qprog提供了一个便捷的方式将量子线路以多种不同的视觉格式呈现，通过控制台格式化输出或保存量子线路函数，具体有以下功能
     
@@ -34,6 +36,8 @@ pyqpanda中可以直接通过 ``print`` 和 ``draw_qprog`` 来输出和保存量
     :type filename: str, optional
     :param with_logo: 是否在图像中包含标识，仅在“pic”输出格式下使用。默认为 False。
     :type with_logo: bool, optional
+    :param with_gate_params: 如果值为True，则在可视化的过程中隐藏含参门的全部参数；否则，显示含参门的全部参数。
+    :type with_gate_params: bool
     :param NodeIter_first: 电路绘制的起始位置。默认为 None。
     :type NodeIter_first: int, optional
     :param NodeIter_second: 电路绘制的结束位置。默认为 None。

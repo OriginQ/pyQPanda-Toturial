@@ -2,7 +2,7 @@
 
 # This code is part of PyQpanda.
 #
-# (C) Copyright Origin Quantum 2018-2019\n
+# (C) Copyright Origin Quantum 2018-2024\n
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -31,9 +31,11 @@ class ParameterExpression():
         on other Parameter or ParameterExpression objects.
 
         Args:
-            symbol_map (dict): Mapping of Parameter instances to the sympy.Symbol
-                               serving as their placeholder in expr.
-            expr (sympy.Expr): Expression of sympy.Symbols.
+            symbol_map (dict): 
+                Mapping of Parameter instances to the sympy.Symbol
+                serving as their placeholder in expr.
+            expr (sympy.Expr): 
+                Expression of sympy.Symbols.
         """
         self._parameter_symbols = symbol_map
         self._symbol_expr = expr
@@ -47,18 +49,20 @@ class ParameterExpression():
         """Binds the provided set of parameters to their corresponding values.
 
         Args:
-            parameter_values (dict): Mapping of Parameter instances to the
-                                     numeric value to which they will be bound.
+            parameter_values (dict): 
+                Mapping of Parameter instances to the
+                numeric value to which they will be bound.
 
         Raises:
             CircuitError:
-                - If parameter_values contains Parameters outside those in self.
-                - If a non-numeric value is passed in parameter_values.
+                If parameter_values contains Parameters outside those in self.
+                If a non-numeric value is passed in parameter_values.
             ZeroDivisionError:
-                - If binding the provided values requires division by zero.
+                If binding the provided values requires division by zero.
 
         Returns:
-            ParameterExpression: a new expression parameterized by any parameters
+            ParameterExpression: 
+                a new expression parameterized by any parameters
                 which were not bound by parameter_values.
         """
 
@@ -90,14 +94,15 @@ class ParameterExpression():
         """Returns a new Expression with replacement Parameters.
 
         Args:
-            parameter_map (dict): Mapping from Parameters in self to the
-                                  Parameter instances with which they should be
-                                  replaced.
+            parameter_map (dict): 
+                Mapping from Parameters in self to the
+                Parameter instances with which they should be
+                replaced.
 
         Raises:
             CircuitError:
-                - If parameter_map contains Parameters outside those in self.
-                - If the replacement Parameters in parameter_map would result in
+                If parameter_map contains Parameters outside those in self.
+                If the replacement Parameters in parameter_map would result in
                   a name conflict in the generated expression.
 
         Returns:
@@ -160,21 +165,25 @@ class ParameterExpression():
         either a constant or a second ParameterExpression.
 
         Args:
-            operation (function): One of operator.{add,sub,mul,truediv}.
-            other (Parameter or numbers.Real): The second argument to be used
-               with self in operation.
-            reflected (bool): Optional - The default ordering is
+            operation (function): 
+                One of operator.{add,sub,mul,truediv}.
+            other (Parameter or numbers.Real): 
+                The second argument to be used
+                with self in operation.
+            reflected (bool): 
+                Optional - The default ordering is
                 "self operator other". If reflected is True, this is switched
                 to "other operator self". For use in e.g. __radd__, ...
 
         Raises:
             CircuitError:
-                - If parameter_map contains Parameters outside those in self.
-                - If the replacement Parameters in parameter_map would result in
-                  a name conflict in the generated expression.
+                If parameter_map contains Parameters outside those in self.
+                If the replacement Parameters in parameter_map would result in
+                a name conflict in the generated expression.
 
         Returns:
-            ParameterExpression: a new expression describing the result of the
+            ParameterExpression: 
+                a new expression describing the result of the
                 operation.
         """
 

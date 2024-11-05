@@ -1,4 +1,4 @@
-.. _QuantumMachine:
+.. _全振幅量子虚拟机:
 
 全振幅量子虚拟机
 ====================
@@ -66,7 +66,7 @@
     * - 26 
       - 1
     * - 27
-      - 1
+      - 2
     * - 28 
       - 4
     * - 29 
@@ -261,3 +261,63 @@ QPanda2中在构造量子虚拟机时有以下几种方式：
     .. code-block:: python
 
         {'0000': 484, '0001': 516}
+
+.. _`FullAmplitued(CPU/GPU)`:
+
+通过函数参数选择不同的硬件资源（CPU/GPU）
+-----------------------------------------
+
+    示例代码：
+
+    .. code-block:: python
+
+        from pyqpanda import *
+
+        def test_gpu():
+            print("test_gpu")
+            machine = FullAmplitudeQVM()
+            machine.set_configure(72, 72)
+            machine.init_qvm("GPU")
+
+            q = machine.qAlloc_many(2)
+            c = machine.cAlloc_many(2)
+
+            prog = QProg()
+            prog << RX(q[0], 1)
+            prog << U1(q[1], 2)
+
+            opt = PauliOperator({"Z0 Z1": 2, "X0 Y1": 3})
+            hamiltonian = opt.to_hamiltonian(False)
+            exp = machine.get_expectation(prog, hamiltonian,q)
+            print(exp)
+
+        def test_cpu():
+            print("test_cpu")
+            machine = FullAmplitudeQVM()
+            machine.set_configure(72, 72)
+            machine.init_qvm("CPU")
+
+            q = machine.qAlloc_many(2)
+            c = machine.cAlloc_many(2)
+
+            prog = QProg()
+            prog << RX(q[0], 1)
+            prog << U1(q[1], 2)
+
+            opt = PauliOperator({"Z0 Z1": 2, "X0 Y1": 3})
+            hamiltonian = opt.to_hamiltonian(False)
+            exp = machine.get_expectation(prog, hamiltonian,q)
+            print(exp)
+
+        if __name__ == "__main__":
+            test_gpu()
+            test_cpu()
+    
+    示例代码的运行结果：
+
+    .. code-block:: bash
+
+        test_gpu
+        1.0806046117362795
+        test_cpu
+        1.0806046117362795
