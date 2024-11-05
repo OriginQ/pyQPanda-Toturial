@@ -81,6 +81,25 @@ all_gate_types = [
 ]
 
 def get_gate_name(gate_type: pq.GateType):
+    """
+    Convert a quantum gate type from the pyQPanda package to its corresponding string representation.
+    
+    Args:
+        gate_type (pq.GateType): 
+            The enum representing the quantum gate type.
+        
+    Returns:
+        str: 
+            The string name of the quantum gate.
+        
+    Raises:
+        TypeError: 
+            If an unknown gate type is provided.
+        
+    Supported gates include Pauli gates, Hadamard, T, S, CNOT, CZ, SWAP, SQISWAP, Toffoli, single-qubit gates,
+    rotation gates, controlled gates, and multi-qubit gates. The function uses the enum values from the pq module
+    to determine the correct string representation of the gate.
+    """
     if gate_type == pq.GateType.PAULI_X_GATE:
         return 'X'
     elif gate_type == pq.GateType.PAULI_Y_GATE:
@@ -147,7 +166,23 @@ def get_gate_name(gate_type: pq.GateType):
         raise TypeError("Unknown gate type!")
 
 def get_circuit_info(circ: pq.QCircuit) -> None:
-    
+    """
+    Analyzes the provided quantum circuit and prints detailed information about it.
+
+    The function takes a quantum circuit object and outputs a string containing:
+    - The number of qubits in the circuit.
+    - A map of gate types to their respective counts.
+    - Total number of gates in the circuit.
+    - Count of parameterized gates and total number of parameters across these gates.
+
+    Args:
+        circ (pq.QCircuit): 
+            The quantum circuit to analyze.
+
+    Returns:
+        None: 
+            This function prints the analysis results directly and does not return a value.
+    """
     # number of qubits
     n_qubits = len(pq.get_all_used_qubits(circ))
 
@@ -213,6 +248,6 @@ def get_circuit_info(circ: pq.QCircuit) -> None:
     str_info += f'Gates info: {gate_name_cnt_map}\n'
     str_info += f'Gates: {n_gates}\n'
     str_info += f'Paramterized gates: {n_param_gates}\n'
-    str_info += f'Parameters: {n_parameters}\n'
+    str_info += f'Args: {n_parameters}\n'
     str_info += '#' * width
     return str_info

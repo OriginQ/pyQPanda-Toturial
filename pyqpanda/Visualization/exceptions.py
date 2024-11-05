@@ -2,7 +2,7 @@
 
 # This code is part of PyQpanda.
 #
-# (C) Copyright Origin Quantum 2018-2019\n
+# (C) Copyright Origin Quantum 2018-2024\n
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory

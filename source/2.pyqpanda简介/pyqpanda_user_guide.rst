@@ -24,7 +24,7 @@ Windows
     * - software
       - version
     * - `Microsoft Visual C++ Redistributable x64`_ 
-      - 2015
+      - 2019
     * - Python
       - >= 3.8 && <= 3.11
 
@@ -36,7 +36,7 @@ Linux
     * - software
       - version
     * - GCC
-      - >= 5.4.0 
+      - >= 7.5.0 
     * - Python
       - >= 3.8 && <= 3.11
 

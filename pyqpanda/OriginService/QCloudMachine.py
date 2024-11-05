@@ -1,6 +1,6 @@
 # This code is part of pyqpanda.
 #
-# (C) Copyright Origin Quantum 2023
+# (C) Copyright Origin Quantum 2024
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -153,8 +153,10 @@ class QCloud(QCloudService):
         convert result format from binary to hex 
 
         Args:
-            input_dict (dict): origin result dict
-            use_bin_or_hex (bool): True -> use binary result format, False -> Hex
+            input_dict (dict): 
+                origin result dict
+            use_bin_or_hex (bool): 
+                True -> use binary result format, False -> Hex
 
         Returns:
             result: dict.
@@ -212,15 +214,20 @@ class QCloud(QCloudService):
         Send a GET request with optional query parameters and headers.
 
         Args:
-            url (str): The URL to send the GET request to.
-            params (dict, optional): Query parameters to include in the request.
-            headers (dict, optional): Headers to include in the request.
+            url (str): 
+                The URL to send the GET request to.
+            params (dict, optional): 
+                Query parameters to include in the request.
+            headers (dict, optional): 
+                Headers to include in the request.
 
         Returns:
-            str: Response content if the request is successful, otherwise an error message.
+            str: 
+                Response content if the request is successful, otherwise an error message.
 
         Raises:
-            Exception: If the request fails.
+            Exception: 
+                If the request fails.
         """
         headers = {
             # 'Transfer-Encoding': 'chunked',
@@ -255,15 +262,20 @@ class QCloud(QCloudService):
         Sends a post request to the specified URL with JSON data.
 
         Args:
-            str_url (str): The URL to send the request to.
-            post_json (str): JSON data to be sent in the request body.
-            extra_headers (dict): Additional HTTP headers to be included.
+            str_url (str): 
+                The URL to send the request to.
+            post_json (str): 
+                JSON data to be sent in the request body.
+            extra_headers (dict): 
+                Additional HTTP headers to be included.
 
         Returns:
-            str: Response text from the server.
+            str: 
+                Response text from the server.
 
         Raises:
-            RuntimeError: If the request fails.
+            RuntimeError: 
+                If the request fails.
         """   
         headers = {
             # 'Transfer-Encoding': 'chunked',
@@ -306,10 +318,12 @@ class QCloud(QCloudService):
         Queries the result of a computation task using task ID.
 
         Args:
-            taskid (str): The task ID to query.
+            taskid (str): 
+                The task ID to query.
 
         Returns:
-            str: Result string of the computation.
+            str: 
+                Result string of the computation.
 
         Notes:
             This function polls the server until the computation is complete.
@@ -464,10 +478,12 @@ class QCloud(QCloudService):
         Queries the pqc task result of a computation task using task ID.
 
         Args:
-            taskid (str): The task ID to query.
+            taskid (str): 
+                The task ID to query.
 
         Returns:
-            str: Result string of the computation.
+            str: 
+                Result string of the computation.
 
         Notes:
             This function polls the server until the computation is complete.
@@ -496,10 +512,12 @@ class QCloud(QCloudService):
         Queries the pqc batch task result of a computation task using task ID.
 
         Args:
-            taskid (str): The task ID to query.
+            taskid (str): 
+                The task ID to query.
 
         Returns:
-            str: Result string of the computation.
+            str: 
+                Result string of the computation.
 
         Notes:
             This function polls the server until the computation is complete.
@@ -528,10 +546,12 @@ class QCloud(QCloudService):
         Queries the result of a batch computation task using task ID.
 
         Args:
-            taskid (str): The task ID to query.
+            taskid (str): 
+                The task ID to query.
 
         Returns:
-            List[str]: List of result strings for individual computations.
+            List[str]: 
+                List of result strings for individual computations.
 
         Notes:
             This function polls the server until the batch computation is complete.
@@ -565,10 +585,12 @@ class QCloud(QCloudService):
         Submits a computation task and queries the result.
 
         Args:
-            task_msg (str): Message containing the computation task details.
+            task_msg (str): 
+                Message containing the computation task details.
 
         Returns:
-            str: Result JSON of the computation.
+            str: 
+                Result JSON of the computation.
 
         Notes:
             This function combines submission and result querying.
@@ -595,10 +617,12 @@ class QCloud(QCloudService):
         Submits a pqc computation task and queries the result.
 
         Args:
-            task_msg (str): Message containing the computation task details.
+            task_msg (str): 
+                Message containing the computation task details.
 
         Returns:
-            str: Result JSON of the computation.
+            str: 
+                Result JSON of the computation.
 
         Notes:
             This function combines submission and result querying.
@@ -623,10 +647,12 @@ class QCloud(QCloudService):
         Submits a pqc computation batch task and queries the result.
 
         Args:
-            task_msg (str): Message containing the computation task details.
+            task_msg (str): 
+                Message containing the computation task details.
 
         Returns:
-            str: Result JSON of the computation.
+            str: 
+                Result JSON of the computation.
 
         Notes:
             This function combines submission and result querying.
@@ -653,10 +679,12 @@ class QCloud(QCloudService):
         Submits a batch computation task and queries the result.
 
         Args:
-            task_msg (str): Message containing the batch computation task details.
+            task_msg (str): 
+                Message containing the batch computation task details.
 
         Returns:
-            List[str]: List of result JSONs for individual computations in the batch.
+            List[str]: 
+                List of result JSONs for individual computations in the batch.
 
         Notes:
             This function combines submission and result querying for batch computations.
@@ -680,12 +708,12 @@ class QCloud(QCloudService):
 
         return result_json
     
-    def query_task_state_result(self, task_id : str):
+    def query_task_state_result(self, task_id : str, is_real_chip_task : bool = True):
     
         obj = {"taskId": task_id}
 
         # enable pqc encryption
-        if self.enable_pqc_encryption:
+        if self.enable_pqc_encryption and is_real_chip_task:
 
             task_status , batch_result =  self.query_batch_task_state_result(task_id)
             current_result = {} if len(batch_result) == 0 else batch_result[0]
@@ -710,7 +738,6 @@ class QCloud(QCloudService):
         status = int(result_list[0]["taskState"])
         backend_type = int(result_list[0]["rQMachineType"])
 
-        # 处理不同的任务状态
         if status == self.TaskStatus.FINISHED.value:  # TaskStatus::FINISHED
 
             measure_qubits_num = []
@@ -888,12 +915,16 @@ class QCloud(QCloudService):
         Execute a full amplitude measurement on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit to be measured.
-            shot (int): Number of measurements to perform.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit to be measured.
+            shot (int): 
+                Number of measurements to perform.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Task_id[str]: A task id for current task
+            Task_id[str]: 
+                A task id for current task
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_full_amplitude_measure(shot)
@@ -909,12 +940,16 @@ class QCloud(QCloudService):
         Execute a full amplitude measurement on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit to be measured.
-            shot (int): Number of measurements to perform.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit to be measured.
+            shot (int): 
+                Number of measurements to perform.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Dict[str, float]: Dictionary containing probabilities of measurement outcomes.
+            Dict[str, float]: 
+                Dictionary containing probabilities of measurement outcomes.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_full_amplitude_measure(shot)
@@ -932,12 +967,16 @@ class QCloud(QCloudService):
         Execute a full amplitude probability measurement on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit to be measured.
-            shot (int): Number of measurements to perform.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit to be measured.
+            shot (int): 
+                Number of measurements to perform.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Task_id[str]: A task id for current task
+            Task_id[str]: 
+                A task id for current task
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_full_amplitude_pmeasure(qubit_vec=qvec)
@@ -953,12 +992,16 @@ class QCloud(QCloudService):
         Execute a full amplitude probability measurement on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit to be measured.
-            qvec (List[int]): List of qubits to be measured.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit to be measured.
+            qvec (List[int]): 
+                List of qubits to be measured.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Dict[str, float]: Dictionary containing probabilities of measurement outcomes.
+            Dict[str, float]: 
+                Dictionary containing probabilities of measurement outcomes.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_full_amplitude_pmeasure(qvec)
@@ -977,13 +1020,18 @@ class QCloud(QCloudService):
         Calculate the expectation value of a Hamiltonian on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit for state preparation.
-            hamiltonian (List[Tuple[Dict[int, str], float]]): List of terms in the Hamiltonian along with their coefficients.
-            qvec (QVec): List of qubits representing the quantum state.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit for state preparation.
+            hamiltonian (List[Tuple[Dict[int, str], float]]): 
+                List of terms in the Hamiltonian along with their coefficients.
+            qvec (QVec): 
+                List of qubits representing the quantum state.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            float: Expectation value of the Hamiltonian.
+            float: 
+                Expectation value of the Hamiltonian.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_get_expectation(hamiltonian, qvec)
@@ -1004,16 +1052,24 @@ class QCloud(QCloudService):
         Get the state fidelity of the Quantum Real Chip.
 
         Args:
-            prog (QProg): Quantum program containing the circuit for state preparation.
-            shot (int): Number of measurements to perform.
-            chip_id (int, optional): ID of the quantum chip. Defaults to 2.
-            is_amend (bool, optional): Flag for amplitude amplification. Defaults to True.
-            is_mapping (bool, optional): Flag for qubit mapping. Defaults to True.
-            is_optimization (bool, optional): Flag for gate optimization. Defaults to True.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit for state preparation.
+            shot (int): 
+                Number of measurements to perform.
+            chip_id (int, optional): 
+                ID of the quantum chip. Defaults to 2.
+            is_amend (bool, optional): 
+                Flag for amplitude amplification. Defaults to True.
+            is_mapping (bool, optional): 
+                Flag for qubit mapping. Defaults to True.
+            is_optimization (bool, optional): 
+                Flag for gate optimization. Defaults to True.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            float: State fidelity value.
+            float: 
+                State fidelity value.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_get_state_fidelity(shot=shot,
@@ -1038,16 +1094,24 @@ class QCloud(QCloudService):
         Get the density matrix for state tomography on the Quantum Cloud Service.
 
         Args:
-            prog (QProg): Quantum program containing the circuit for state preparation.
-            shot (int): Number of measurements to perform.
-            chip_id (int, optional): ID of the quantum chip. Defaults to 2.
-            is_amend (bool, optional): Flag for amplitude amplification. Defaults to True.
-            is_mapping (bool, optional): Flag for qubit mapping. Defaults to True.
-            is_optimization (bool, optional): Flag for gate optimization. Defaults to True.
-            task_name (str, optional): Task name for identification. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                Quantum program containing the circuit for state preparation.
+            shot (int): 
+                Number of measurements to perform.
+            chip_id (int, optional): 
+                ID of the quantum chip. Defaults to 2.
+            is_amend (bool, optional): 
+                Flag for amplitude amplification. Defaults to True.
+            is_mapping (bool, optional): 
+                Flag for qubit mapping. Defaults to True.
+            is_optimization (bool, optional): 
+                Flag for gate optimization. Defaults to True.
+            task_name (str, optional): 
+                Task name for identification. Defaults to 'QPanda Experiment'.
 
         Returns:
-            List[List[complex]]: Density matrix representing the quantum state.
+            List[List[complex]]: 
+                Density matrix representing the quantum state.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_get_state_tomography_density(shot=shot,
@@ -1068,12 +1132,16 @@ class QCloud(QCloudService):
         Measure noise in the quantum computation.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            shot (int): The number of shots (measurement repetitions).
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                The quantum circuit to be executed.
+            shot (int): 
+                The number of shots (measurement repetitions).
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Task_id[str]: A task id for current task
+            Task_id[str]: 
+                A task id for current task
         """
 
         super().build_init_object(prog, task_name)
@@ -1090,12 +1158,16 @@ class QCloud(QCloudService):
         Measure noise in the quantum computation.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            shot (int): The number of shots (measurement repetitions).
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                The quantum circuit to be executed.
+            shot (int): 
+                The number of shots (measurement repetitions).
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Dict[str, float]: A dictionary containing measurement results.
+            Dict[str, float]: 
+                A dictionary containing measurement results.
         """
 
         super().build_init_object(prog, task_name)
@@ -1114,12 +1186,16 @@ class QCloud(QCloudService):
         Perform partial amplitude measurement in the quantum computation.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            amp_vec (List[str]): List of amplitude vectors to be measured.
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                The quantum circuit to be executed.
+            amp_vec (List[str]): 
+                List of amplitude vectors to be measured.
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Task_id[str]: A task id for current task
+            Task_id[str]: 
+                A task id for current task
         """
 
         super().build_init_object(prog, task_name)
@@ -1136,12 +1212,16 @@ class QCloud(QCloudService):
         Perform partial amplitude measurement in the quantum computation.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            amp_vec (List[str]): List of amplitude vectors to be measured.
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            prog (QProg): 
+                The quantum circuit to be executed.
+            amp_vec (List[str]): 
+                List of amplitude vectors to be measured.
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
 
         Returns:
-            Dict[str, complex]: A dictionary containing complex-valued measurement results.
+            Dict[str, complex]: 
+                A dictionary containing complex-valued measurement results.
         """
 
         super().build_init_object(prog, task_name)
@@ -1165,17 +1245,26 @@ class QCloud(QCloudService):
         Perform measurements on a real quantum chip.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            shot (int): The number of shots (measurement repetitions).
-            chip_id (int, optional): Identifier for the specific quantum chip. Defaults to 2.
-            is_amend (bool, optional): Flag indicating whether to perform amendments. Defaults to True.
-            is_mapping (bool, optional): Flag indicating whether to perform qubit mapping. Defaults to True.
-            is_optimization (bool, optional): Flag indicating whether to perform optimization. Defaults to True.
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
-            task_from (int): Task source identifier (default is 4, represented by QPanda/pyqpanda).
+            prog (QProg): 
+                The quantum circuit to be executed.
+            shot (int): 
+                The number of shots (measurement repetitions).
+            chip_id (int, optional): 
+                Identifier for the specific quantum chip. Defaults to 2.
+            is_amend (bool, optional): 
+                Flag indicating whether to perform amendments. Defaults to True.
+            is_mapping (bool, optional): 
+                Flag indicating whether to perform qubit mapping. Defaults to True.
+            is_optimization (bool, optional): 
+                Flag indicating whether to perform optimization. Defaults to True.
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            task_from (int): 
+                Task source identifier (default is 4, represented by QPanda/pyqpanda).
 
         Returns:
-            taskid[str]: real chip task id
+            taskid[str]: 
+                real chip task id
         """
 
         super().build_init_object(prog, task_name, task_from)
@@ -1207,10 +1296,12 @@ class QCloud(QCloudService):
         Encrypts the given data using the pqc encryption algorithm.
 
         Args:
-            data (str): The data to be encrypted.
+            data (str): 
+                The data to be encrypted.
 
         Returns:
-            str: The encrypted data.
+            str: 
+                The encrypted data.
         """
 
         encrypted_data = super().sm4_encode(self.sym_key,  self.iv, data) 
@@ -1221,10 +1312,12 @@ class QCloud(QCloudService):
         Encrypts the 'code' field and the remaining JSON data, and combines them into a new JSON string.
 
         Args:
-            json_str (str): The original JSON string.
+            json_str (str): 
+                The original JSON string.
 
         Returns:
-            str: The new JSON string with encrypted 'code' field and remaining JSON data.
+            str: 
+                The new JSON string with encrypted 'code' field and remaining JSON data.
         """
         # Parse JSON string into dictionary
         json_data = json.loads(json_str)
@@ -1243,10 +1336,12 @@ class QCloud(QCloudService):
         Encrypts the 'code' field and the remaining JSON data, and combines them into a new JSON string.
 
         Args:
-            json_str (str): The original JSON string.
+            json_str (str): 
+                The original JSON string.
 
         Returns:
-            str: The new JSON string with encrypted 'code' field and remaining JSON data.
+            str: 
+                The new JSON string with encrypted 'code' field and remaining JSON data.
         """
         # Parse JSON string into dictionary
         json_data = json.loads(json_str)
@@ -1274,17 +1369,26 @@ class QCloud(QCloudService):
         Perform measurements on a real quantum chip.
 
         Args:
-            prog (QProg): The quantum circuit to be executed.
-            shot (int): The number of shots (measurement repetitions).
-            chip_id (int, optional): Identifier for the specific quantum chip. Defaults to 2.
-            is_amend (bool, optional): Flag indicating whether to perform amendments. Defaults to True.
-            is_mapping (bool, optional): Flag indicating whether to perform qubit mapping. Defaults to True.
-            is_optimization (bool, optional): Flag indicating whether to perform optimization. Defaults to True.
-            task_name (str, optional): The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
-            task_from (int): Task source identifier (default is 4, represented by QPanda/pyqpanda).
+            prog (QProg): 
+                The quantum circuit to be executed.
+            shot (int): 
+                The number of shots (measurement repetitions).
+            chip_id (int, optional): 
+                Identifier for the specific quantum chip. Defaults to 2.
+            is_amend (bool, optional): 
+                Flag indicating whether to perform amendments. Defaults to True.
+            is_mapping (bool, optional): 
+                Flag indicating whether to perform qubit mapping. Defaults to True.
+            is_optimization (bool, optional): 
+                Flag indicating whether to perform optimization. Defaults to True.
+            task_name (str, optional): 
+                The name of the QPanda Experiment task. Defaults to 'QPanda Experiment'.
+            task_from (int): 
+                Task source identifier (default is 4, represented by QPanda/pyqpanda).
 
         Returns:
-            Dict[str, float]: A dictionary containing measurement results.
+            Dict[str, float]: 
+                A dictionary containing measurement results.
         """
 
         super().build_init_object(prog, task_name,task_from)
@@ -1313,14 +1417,8 @@ class QCloud(QCloudService):
                                                         is_optimization=is_optimization,
                                                         task_from = task_from)
             
-            return batch_result[0]
-            
-            if not self.pqc_init_completed:
-                self.pqc_init()
-                self.pqc_init_completed = True
-
-            pqc_task_msg = self.pqc_encrypt_and_combine_json(task_msg)
-            return self._pqc_submit_and_query(pqc_task_msg)
+            current_result = {} if len(batch_result) == 0 else batch_result[0]
+            return current_result
     
     def async_batch_real_chip_measure(self, 
                                       prog_array: Union[List[QProg], List[str]],
@@ -1334,22 +1432,31 @@ class QCloud(QCloudService):
         """
         Measure a batch of quantum programs on a real quantum chip.
 
-        Parameters:
-        - prog_array (List[QProg]): List of quantum programs to be executed.
-        - shot (int): Number of shots (measurements) to perform for each program.
-        - chip_id (real_chip_type, optional): ID of the real quantum chip to use (default is real_chip_type.origin_72).
-        - is_amend (bool, optional): Whether to perform amendment on the programs (default is True).
-        - is_mapping (bool, optional): Whether to perform qubit mapping (default is True).
-        - is_optimization (bool, optional): Whether to perform gate fusion optimization (default is True).
-        - task_from (int): Task source identifier (default is 4, represented by QPanda/pyqpanda).
-        - batch_id (str): The current batch number information for batch tasks, default to empty
+        Args:
+            prog_array (List[QProg]): 
+                List of quantum programs to be executed.
+            shot (int): 
+                Number of shots (measurements) to perform for each program.
+            chip_id (real_chip_type, optional): 
+                ID of the real quantum chip to use (default is real_chip_type.origin_72).
+            is_amend (bool, optional): 
+                Whether to perform amendment on the programs (default is True).
+            is_mapping (bool, optional): 
+                Whether to perform qubit mapping (default is True).
+            is_optimization (bool, optional): 
+                Whether to perform gate fusion optimization (default is True).
+            task_from (int): 
+                Task source identifier (default is 4, represented by QPanda/pyqpanda).
+            batch_id (str): 
+                The current batch number information for batch tasks, default to empty
 
         Returns:
-        batch_task_id[str]: batch task id
+        batch_task_id[str]: 
+            batch task id
 
         Note:
-        The function submits a batch of quantum programs for execution on a real quantum chip, 
-        retrieves the results, and returns the probabilities of measurement outcomes for each program.
+            The function submits a batch of quantum programs for execution on a real quantum chip, 
+            retrieves the results, and returns the probabilities of measurement outcomes for each program.
 
         """
 
@@ -1419,22 +1526,31 @@ class QCloud(QCloudService):
         """
         Measure a batch of quantum programs on a real quantum chip.
 
-        Parameters:
-        - prog_array (List[QProg]): List of quantum programs to be executed.
-        - shot (int): Number of shots (measurements) to perform for each program.
-        - chip_id (real_chip_type, optional): ID of the real quantum chip to use (default is real_chip_type.origin_72).
-        - is_amend (bool, optional): Whether to perform amendment on the programs (default is True).
-        - is_mapping (bool, optional): Whether to perform qubit mapping (default is True).
-        - is_optimization (bool, optional): Whether to perform gate fusion optimization (default is True).
-        - task_from (int): Task source identifier (default is 4, represented by QPanda/pyqpanda).
-        - batch_id (str): The current batch number information for batch tasks, default to empty
+        Args:
+            prog_array (List[QProg]): 
+                List of quantum programs to be executed.
+            shot (int): 
+                Number of shots (measurements) to perform for each program.
+            chip_id (real_chip_type, optional): 
+                ID of the real quantum chip to use (default is real_chip_type.origin_72).
+            is_amend (bool, optional): 
+                Whether to perform amendment on the programs (default is True).
+            is_mapping (bool, optional): 
+                Whether to perform qubit mapping (default is True).
+            is_optimization (bool, optional): 
+                Whether to perform gate fusion optimization (default is True).
+            task_from (int): 
+                Task source identifier (default is 4, represented by QPanda/pyqpanda).
+            batch_id (str): 
+                The current batch number information for batch tasks, default to empty
         
         Returns:
-        List[Dict[str, float]]: A list of dictionaries containing the probabilities of measurement outcomes for each program.
+            List[Dict[str, float]]: 
+                A list of dictionaries containing the probabilities of measurement outcomes for each program.
 
         Note:
-        The function submits a batch of quantum programs for execution on a real quantum chip, 
-        retrieves the results, and returns the probabilities of measurement outcomes for each program.
+            The function submits a batch of quantum programs for execution on a real quantum chip, 
+            retrieves the results, and returns the probabilities of measurement outcomes for each program.
 
         """
 
@@ -1500,13 +1616,16 @@ class QCloud(QCloudService):
         """
         Set the noise model for quantum computation.
 
-        Parameters:
-        - model (NoiseModel): The noise model to be set.
-        - single_gate_params (List[float]): List of parameters for single-qubit gates.
-        - single_param_list (List[float]): List of parameters for single-qubit gates.
+        Args:
+            model (NoiseModel): 
+                The noise model to be set.
+            single_gate_params (List[float]): 
+                List of parameters for single-qubit gates.
+            single_param_list (List[float]): 
+                List of parameters for single-qubit gates.
 
         Returns:
-        None
+            None
         """
         super().set_noise_model(model,single_gate_params,single_param_list)
         ...
@@ -1515,11 +1634,12 @@ class QCloud(QCloudService):
         """
         Set the QCloud API endpoint.
 
-        Parameters:
-        - prefix_url (str): The prefix URL of the QCloud API.
+        Args:
+            prefix_url (str): 
+                The prefix URL of the QCloud API.
 
         Returns:
-        None
+            None
         """
         super().set_qcloud_url(prefix_url)
         ...
@@ -1531,13 +1651,17 @@ class QCloud(QCloudService):
         """
         Measure the single amplitude of a quantum state.
 
-        Parameters:
-        - prog (QProg): The quantum program containing the state.
-        - amplitude (str): The amplitude to measure.
-        - task_name (str): Name of the QPanda Experiment task.
+        Args:
+            prog (QProg): 
+                The quantum program containing the state.
+            amplitude (str): 
+                The amplitude to measure.
+            task_name (str): 
+                Name of the QPanda Experiment task.
 
         Returns:
-            Task_id[str]: A task id for current task
+            Task_id[str]: 
+                A task id for current task
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_single_amplitude_pmeasure(amplitude=amplitude)
@@ -1552,13 +1676,17 @@ class QCloud(QCloudService):
         """
         Measure the single amplitude of a quantum state.
 
-        Parameters:
-        - prog (QProg): The quantum program containing the state.
-        - amplitude (str): The amplitude to measure.
-        - task_name (str): Name of the QPanda Experiment task.
+        Args:
+            prog (QProg): 
+                The quantum program containing the state.
+            amplitude (str): 
+                The amplitude to measure.
+            task_name (str): 
+                Name of the QPanda Experiment task.
 
         Returns:
-        complex: The measured amplitude.
+            complex: 
+                The measured amplitude.
         """
         super().build_init_object(prog, task_name)
         task_msg = super().build_single_amplitude_pmeasure(amplitude=amplitude)
@@ -1576,15 +1704,21 @@ class QCloud(QCloudService):
         """
         Apply PEC error mitigation to correct measurement errors.
 
-        Parameters:
-        - prog (QProg): The quantum program to apply error mitigation.
-        - shot (int): Number of shots for measurements.
-        - expectations (List[str]): List of measurement expectations.
-        - chip_id (int): Chip identifier.
-        - task_name (str): Name of the QPanda Experiment task.
+        Args:
+            prog (QProg): 
+                The quantum program to apply error mitigation.
+            shot (int): 
+                Number of shots for measurements.
+            expectations (List[str]): 
+                List of measurement expectations.
+            chip_id (int): 
+                Chip identifier.
+            task_name (str): 
+                Name of the QPanda Experiment task.
 
         Returns:
-        List[float]: List of corrected expectation values.
+            List[float]: 
+                List of corrected expectation values.
         """
         super().build_init_object(prog, task_name)
 
@@ -1608,15 +1742,21 @@ class QCloud(QCloudService):
         """
         Apply readout error mitigation to correct measurement errors.
 
-        Parameters:
-        - prog (QProg): The quantum program to apply error mitigation.
-        - shot (int): Number of shots for measurements.
-        - expectations (List[str]): List of measurement expectations.
-        - chip_id (int): Chip identifier.
-        - task_name (str): Name of the QPanda Experiment task.
+        Args:
+            prog (QProg): 
+                The quantum program to apply error mitigation.
+            shot (int): 
+                Number of shots for measurements.
+            expectations (List[str]): 
+                List of measurement expectations.
+            chip_id (int): 
+                Chip identifier.
+            task_name (str): 
+                Name of the QPanda Experiment task.
 
         Returns:
-            Dict[str, float]: Dictionary of corrected expectation values.
+            Dict[str, float]: 
+                Dictionary of corrected expectation values.
         """
 
         super().build_init_object(prog, task_name)
@@ -1643,16 +1783,23 @@ class QCloud(QCloudService):
         """
         Apply zero-noise extrapolation (ZNE) error mitigation to correct measurement errors.
 
-        Parameters:
-        - prog (QProg): The quantum program to apply error mitigation.
-        - shot (int): Number of shots for measurements.
-        - expectations (List[str]): List of measurement expectations.
-        - noise_strength (List[float]): List of noise strengths.
-        - chip_id (int): Chip identifier.
-        - task_name (str): Name of the QPanda Experiment task.
+        Args:
+            prog (QProg): 
+                The quantum program to apply error mitigation.
+            shot (int): 
+                Number of shots for measurements.
+            expectations (List[str]): 
+                List of measurement expectations.
+            noise_strength (List[float]): 
+                List of noise strengths.
+            chip_id (int): 
+                Chip identifier.
+            task_name (str): 
+                Name of the QPanda Experiment task.
 
         Returns:
-        List[float]: List of corrected expectation values.
+            List[float]: 
+                List of corrected expectation values.
         """
         super().build_init_object(prog, task_name)
 

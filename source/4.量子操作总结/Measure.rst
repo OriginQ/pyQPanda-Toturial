@@ -172,3 +172,153 @@
         '1100': 61, '1101': 71, '1110': 50, '1111': 56}
 
 
+.. _`get_expectation`:
+
+3. **获取哈密顿期望** : get_expectation
+
+    哈密顿期望是指系统处于某个量子态时，哈密顿算符在该量子态下的平均值。它描述了系统在该量子态下的平均能量。哈密顿期望的数学表达式为：
+        ⟨H⟩ψ=⟨ψ|H|ψ⟩
+    其中，⟨ψ| 是波函数的共轭，H 是哈密顿算符，|ψ⟩ 是波函数。这个期望值可以通过对哈密顿算符和波函数进行内积运算来求得。
+
+.. function:: get_expectation(self: pyqpanda.pyQPanda.QuantumMachine, qprog: pyqpanda.pyQPanda.QProg, hamiltonian: List[Tuple[Dict[int, str], float]], qubit_list: pyqpanda.pyQPanda.QVec) -> float
+
+    此函数用于在虚拟机中获取哈密顿期望
+
+    :param self: QuantumMachine，get_expectation是其成员函数
+    :type self: pyqpanda.pyQPanda.QuantumMachine
+    :param qprog: 要运行的量子程序。
+    :type qprog: QProg
+    :param hamiltonian: 选择的哈密顿。
+    :type hamitonian: List[Tuple[Dict[int, str], float]]
+    :param qubit_list: 要测量的qubit的列表。
+    :type qubit_list: pyqpanda.pyQPanda.QVec
+    :return: 哈密顿期望的值
+    :rtype: float
+
+    示例
+
+     .. code-block:: python
+
+        from pyqpanda import *
+
+        # 构建泡利算符
+        # 参考： 8.Operators/index.html
+        p = PauliOperator({"Z0":2})
+        # 获得哈密顿量
+        Hmt = p.to_hamiltonian(False)
+        # 申请量子计算资源
+        qvm= init_quantum_machine(QMachineType.CPU)
+        # 申请量子比特，用于执行线路
+        qvec = qvm.qAlloc_many(1)
+        prog = QProg()
+        prog << H(qvec[0])
+        # 获取哈密顿期望
+        expec =qvm.get_expectation(prog,Hmt,QVec(qvec))
+        # 打印哈密顿期望
+        print(expec)
+
+    执行结果
+
+    .. code-block:: bash
+
+        0.0
+
+.. function:: get_expectation(self: pyqpanda.pyQPanda.QuantumMachine, qprog: pyqpanda.pyQPanda.QProg, hamiltonian: List[Tuple[Dict[int, str], float]], qubit_list: pyqpanda.pyQPanda.QVec, shots: int) -> float
+
+    此函数用于在虚拟机中获取哈密顿期望
+
+    :param self: QuantumMachine，get_expectation是其成员函数
+    :type self: pyqpanda.pyQPanda.QuantumMachine
+    :param qprog: 要运行的量子程序。
+    :type qprog: QProg
+    :param hamiltonian: 选择的哈密顿。
+    :type hamitonian: List[Tuple[Dict[int, str], float]]
+    :param qubit_list: 要测量的qubit的列表。
+    :type qubit_list: pyqpanda.pyQPanda.QVec
+    :param shots: measure shots 
+    :type shots: int
+    :return: 哈密顿期望的值
+    :rtype: float
+
+     示例
+
+     .. code-block:: python
+
+        from pyqpanda import *
+
+        # 构建泡利算符
+        # 参考： 8.Operators/index.html
+        p = PauliOperator({"Z0":2})
+        # 获得哈密顿量
+        Hmt = p.to_hamiltonian(False)
+        # 申请量子计算资源
+        qvm= init_quantum_machine(QMachineType.CPU)
+        # 申请量子比特，用于执行线路
+        qvec = qvm.qAlloc_many(1)
+        prog = QProg()
+        prog << H(qvec[0])
+        # 获取哈密顿期望
+        expec =qvm.get_expectation(prog,Hmt,QVec(qvec),100)
+        # 打印哈密顿期望
+        print(expec)
+
+    执行结果
+
+    .. code-block:: bash
+
+        0.0
+
+.. function:: get_expectation(self, prog: QProg, hamiltonian: List[Tuple[Dict[int,str],float]], qvec: QVec, task_name: str = 'QPanda Experiment')
+
+    此函数用于在云平台中获取哈密顿期望
+
+    :param self: QCloud，get_expectation是其成员函数
+    :type self: QCloud
+    :param qprog: 要运行的量子程序。
+    :type qprog: QProg
+    :param hamiltonian: 选择的哈密顿。
+    :type hamitonian: List[Tuple[Dict[int, str], float]]
+    :param qubit_list: 要测量的qubit的列表。
+    :type qubit_list: pyqpanda.pyQPanda.QVec
+    :param task_name: 提交至云平台的任务的名称
+    :type task_name: str
+
+    示例
+
+     .. code-block:: python
+
+        from pyqpanda import *
+
+        from pyqpanda import *
+        import numpy as np
+
+        # 通过QCloud()创建量子云虚拟机
+        QCM = QCloud()
+
+        # 通过传入当前用户的token来初始化
+        QCM.init_qvm("用户自己的token",True)
+
+        # 构建泡利算符
+        # 参考： 8.Operators/index.html
+
+        # 2倍的"泡利Z0"张乘"泡利Z1" + 3倍的"泡利X1"张乘"泡利Y2"
+        p = PauliOperator({"Z0":2})
+        # 获得哈密顿量
+        Hmt = p.to_hamiltonian(False)
+        qvec = QCM.qAlloc_many(1)
+        prog = QProg()
+        prog << H(qvec[0])
+
+        expec =QCM.get_expectation(prog,Hmt,[0])
+        # 打印哈密顿期望
+        print(expec)
+
+    执行结果
+
+    .. code-block:: bash
+
+        0.0
+
+
+    
+

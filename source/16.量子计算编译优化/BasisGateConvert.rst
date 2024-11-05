@@ -125,7 +125,8 @@ Z旋转门的形式如下：
 我们使用 **transform_to_base_qgate** 进行基础门转换，接口定义如下
 
 transform_to_base_qgate
-=======================
+--------------
+
 
 .. function:: transform_to_base_qgate(qprog: QProg, machine: QuantumMachine, convert_single_gates: List[str], convert_double_gates: List[str]) -> QProg
 
