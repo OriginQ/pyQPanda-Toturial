@@ -5,12 +5,7 @@
 
 PyQPanda
 ====================================
-|build-status|
 
-.. |build-status| image:: https://travis-ci.org/OriginQ/QPanda-2.svg?branch=master
-    :alt: build status
-    :scale: 100%
-    :target: https://travis-ci.org/OriginQ/QPanda-2
 
 **一种功能齐全，运行高效的量子软件开发工具包**
 
