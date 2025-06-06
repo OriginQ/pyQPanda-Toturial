@@ -205,8 +205,8 @@
 
         :param task_id: 要查询的批量任务ID。
         :type task_id: str
-        :return: 包含任务状态和结果的列表。如果批量任务成功完成，结果将包含状态和相应的测量结果或其他相关信息。
-        :rtype: List[Union[int, List[Any]]]
+        :return: 包含任务状态、结果的列表和任务错误信息（如果正常运行则为空）。如果批量任务成功完成，结果将包含状态和相应的测量结果或其他相关信息。
+        :rtype: [int, List[Any], str]
 
 通过量子云平台向本源悟源请求计算任务的完整代码流程如下：
 
@@ -395,7 +395,7 @@
 
             import time
             while(True):
-                state, result = machine.query_batch_task_state_result(batch_id)
+                state, result, error_msg = machine.query_batch_task_state_result(batch_id)
 
                 time.sleep(2)
                 if(state == QCloud.TaskStatus.FINISHED.value):
